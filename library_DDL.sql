@@ -63,34 +63,24 @@ CREATE TABLE `report` (
 
 
 
-DROP TABLE IF EXISTS `top`;
+DROP TABLE IF EXISTS `upper`;
 
-CREATE TABLE `top` (
-  `to_num` int NOT NULL,
-  `to_name` varchar(10) NOT NULL,
-  PRIMARY KEY (`to_num`)
+CREATE TABLE `upper` (
+  `up_num` int NOT NULL,
+  `up_name` varchar(10) NOT NULL,
+  PRIMARY KEY (`up_num`)
 ) ;
 
-DROP TABLE IF EXISTS `mid`;
 
-CREATE TABLE `mid` (
-  `mi_num` int NOT NULL,
-  `mi_name` varchar(10) NOT NULL,
-  `mi_to_num` int NOT NULL,
-  PRIMARY KEY (`mi_num`),
-  KEY `FK_top_TO_mid_1` (`mi_to_num`),
-  CONSTRAINT `FK_top_TO_mid_1` FOREIGN KEY (`mi_to_num`) REFERENCES `top` (`to_num`)
-);
+DROP TABLE IF EXISTS `under`;
 
-DROP TABLE IF EXISTS `bottom`;
-
-CREATE TABLE `bottom` (
-  `bt_num` int NOT NULL,
-  `bt_name` varchar(10) NOT NULL,
-  `bt_mi_num` int NOT NULL,
-  PRIMARY KEY (`bt_num`),
-  KEY `FK_mid_TO_bottom_1` (`bt_mi_num`),
-  CONSTRAINT `FK_mid_TO_bottom_1` FOREIGN KEY (`bt_mi_num`) REFERENCES `mid` (`mi_num`)
+CREATE TABLE `under` (
+  `un_num` int NOT NULL,
+  `un_name` varchar(10) NOT NULL,
+  `un_up_num` int NOT NULL,
+  PRIMARY KEY (`un_num`),
+  KEY `FK_upper_TO_under_1` (`un_up_num`),
+  CONSTRAINT `FK_upper_TO_under_1` FOREIGN KEY (`un_up_num`) REFERENCES `upper` (`up_num`)
 ) ;
 
 DROP TABLE IF EXISTS `book`;
@@ -105,10 +95,10 @@ CREATE TABLE `book` (
   `bo_sale_price` int NOT NULL,
   `bo_thumbnail` longtext NOT NULL,
   `bo_isbn` varchar(13) NOT NULL,
-  `bo_bt_num` int NOT NULL,
+  `bo_un_num` int NOT NULL,
   PRIMARY KEY (`bo_num`),
-  KEY `FK_bottom_TO_book_1` (`bo_bt_num`),
-  CONSTRAINT `FK_bottom_TO_book_1` FOREIGN KEY (`bo_bt_num`) REFERENCES `bottom` (`bt_num`)
+  KEY `FK_under_TO_book_1` (`bo_un_num`),
+  CONSTRAINT `FK_under_TO_book_1` FOREIGN KEY (`bo_un_num`) REFERENCES `under` (`un_num`)
 ) ;
 
 DROP TABLE IF EXISTS `authors`;
