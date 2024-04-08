@@ -106,7 +106,7 @@ DROP TABLE IF EXISTS `authors`;
 CREATE TABLE `authors` (
   `au_num` int NOT NULL AUTO_INCREMENT,
   `au_name` varchar(30) NOT NULL,
-  `au_bo_num` int NOT NULL,
+  `au_bo_num` varchar(30)  NOT NULL,
   PRIMARY KEY (`au_num`),
   KEY `FK_book_TO_authors_1` (`au_bo_num`),
   CONSTRAINT `FK_book_TO_authors_1` FOREIGN KEY (`au_bo_num`) REFERENCES `book` (`bo_num`) ON DELETE CASCADE
@@ -117,7 +117,7 @@ DROP TABLE IF EXISTS `translators`;
 CREATE TABLE `translators` (
   `tr_num` int NOT NULL AUTO_INCREMENT,
   `tr_name` varchar(30) NOT NULL,
-  `tr_bo_num` int NOT NULL,
+  `tr_bo_num` varchar(30)  NOT NULL,
   PRIMARY KEY (`tr_num`),
   KEY `FK_book_TO_translators_1` (`tr_bo_num`),
   CONSTRAINT `FK_book_TO_translators_1` FOREIGN KEY (`tr_bo_num`) REFERENCES `book` (`bo_num`) ON DELETE CASCADE
@@ -133,7 +133,7 @@ CREATE TABLE `loan` (
   `lo_limit` date NOT NULL,
   `lo_state` int NOT NULL,
   `lo_me_id` varchar(12) NOT NULL,
-  `lo_bo_num` int NOT NULL,
+  `lo_bo_num` varchar(30)  NOT NULL,
   PRIMARY KEY (`lo_num`),
   KEY `FK_member_TO_loan_1` (`lo_me_id`),
   KEY `FK_book_TO_loan_1` (`lo_bo_num`),
@@ -147,7 +147,7 @@ DROP TABLE IF EXISTS `reserve`;
 CREATE TABLE `reserve` (
   `re_num` int NOT NULL AUTO_INCREMENT,
   `re_date` date NOT NULL,
-  `re_bo_num` int NOT NULL,
+  `re_bo_num` varchar(30)  NOT NULL,
   `re_me_id` varchar(12) NOT NULL,
   PRIMARY KEY (`re_num`),
   KEY `FK_book_TO_reserve_1` (`re_bo_num`),
@@ -161,7 +161,7 @@ DROP TABLE IF EXISTS `sale`;
 CREATE TABLE `sale` (
   `sa_num` int NOT NULL AUTO_INCREMENT,
   `sa_price` int NOT NULL,
-  `sa_bo_num` int NOT NULL,
+  `sa_bo_num` varchar(30)  NOT NULL,
   `sa_me_id` varchar(12) NOT NULL,
   PRIMARY KEY (`sa_num`),
   KEY `FK_book_TO_sale_1` (`sa_bo_num`),
@@ -177,7 +177,7 @@ CREATE TABLE `review` (
   `rv_content` text NOT NULL,
   `rv_score` int NOT NULL,
   `rv_me_id` varchar(12) NOT NULL,
-  `rv_bo_num` int NOT NULL,
+  `rv_bo_num` varchar(30)  NOT NULL,
   PRIMARY KEY (`rv_num`),
   KEY `FK_member_TO_review_1` (`rv_me_id`),
   KEY `FK_book_TO_review_1` (`rv_bo_num`),
