@@ -96,4 +96,14 @@ public class HomeController {
 		model.addAttribute("url", "/");
 		return "message";
 	}
+	
+	@GetMapping("/find/id")
+	public String findId() {
+		return "/member/findid";
+	}
+	
+	@PostMapping("/find/id")
+	public String findIdPost() {
+		
+	}
 }

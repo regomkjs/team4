@@ -9,6 +9,22 @@
 <!-- jquery validtaion -->	
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
+<style type="text/css">
+
+   .card-1 {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   }
+   
+   .card-1:hover {
+      box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+   }
+   
+   .error {
+   	  font-size: 10pt;
+   	  font-weight: bold;
+   }
+</style>
 </head>
 <body>
 <div class="container col-5 p-5 mt-3 card-1" style="padding: 50px;">
