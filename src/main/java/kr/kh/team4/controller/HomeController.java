@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,6 +60,15 @@ public class HomeController {
 		return map;
 	}
 	
+	@ResponseBody
+	@GetMapping("/nickName/check/dup")
+	public Map<String, Object> nickNameCheckDup(@RequestParam("nickName")String nickName){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = memberService.nickNameCheck(nickName);
+		map.put("result", res);
+		return map;
+	}
+	
 	@GetMapping("/login")
 	public String login(Model model) {
 		return "/member/login";
@@ -75,6 +86,14 @@ public class HomeController {
 			model.addAttribute("msg", "로그인 실패");
 			model.addAttribute("url", "/login");
 		}
+		return "message";
+	}
+	
+	@GetMapping("logout")
+	public String logout(Model model, HttpSession session) {
+		session.removeAttribute("user");
+		model.addAttribute("msg", "로그아웃 했습니다.");
+		model.addAttribute("url", "/");
 		return "message";
 	}
 }
