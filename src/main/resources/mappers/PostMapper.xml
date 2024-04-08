@@ -8,8 +8,17 @@
  	</select>
  	
  	<select id="selectPostList" resultType="PostVO">
- 		select * from post
- 		join category on po_ca_num = ca_num
+ 		select 
+ 			post.*, category.*, count(co_num) as po_co_count,
+			SUM(CASE WHEN he_state = 1 THEN 1 ELSE 0 END) AS po_totalHeart 
+		from 
+			post
+				join 
+			category on po_ca_num = ca_num
+				left join 
+			heart on he_po_num = po_num 
+				left join 
+			comment on co_po_num = po_num 
  		<if test="cri.ca != 0">
  			where po_ca_num = #{cri.ca}
  		</if>

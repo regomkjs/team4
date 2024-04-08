@@ -17,4 +17,8 @@ public class PostVO {
 	private int po_ca_num;
 	
 	private String ca_name;
+	
+	private int po_co_count;
+	
+	private int po_totalHeart;
 }

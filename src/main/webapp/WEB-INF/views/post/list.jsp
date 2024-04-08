@@ -10,36 +10,40 @@
 	<h1>
 		게시글 목록
 	</h1>
-	<table class="table table-hover">
+	<table class="table table-hover text-center">
 		<thead>
 			<tr>
-				<th>번호</th>
-				<th>게시판</th>
+				<th class="col-1">번호</th>
+				<th class="col-2">게시판</th>
 				<th>제목</th>
-				<th>작성자</th>
-				<th>조회수</th>
+				<th class="col-2">작성자</th>
+				<th class="col-1">조회수</th>
+				<th class="col-1">좋아요</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${postList}" var="post" varStatus="vs">
-				<tr>		<!-- pm.cri.perPageNum * (pm.cri.page-1)) == pm.cri.startPage -->
-			  		<td>${(pm.totalCount - (pm.cri.perPageNum * (pm.cri.page-1))) - vs.index}</td>
-			  		<td>${post.ca_name}</td>
-			  		<td> 
-			  			<c:url value="/post/detail" var="detailUrl">
-			  				<c:param name="num">${post.po_num}</c:param>
-			  			</c:url>
-			  			<a href="${detailUrl}">${post.po_title}</a>
-			  		</td>
-			  		<td>
-			  			<a href="#">${post.po_me_id}</a> 
-		  			</td>
-			  		<td>${post.po_view}</td>
-				</tr>
+				<c:if test="${post.po_num > 0}">
+					<tr>		<!-- pm.cri.perPageNum * (pm.cri.page-1)) == pm.cri.startPage -->
+				  		<td>${(pm.totalCount - (pm.cri.perPageNum * (pm.cri.page-1))) - vs.index}</td>
+				  		<td>${post.ca_name}</td>
+				  		<td> 
+				  			<c:url value="/post/detail" var="detailUrl">
+				  				<c:param name="num">${post.po_num}</c:param>
+				  			</c:url>
+				  			<a href="${detailUrl}">${post.po_title}</a> <span class="ml-4">[${post.po_co_count}]</span>
+				  		</td>
+				  		<td>
+				  			<a href="#">${post.po_me_id}</a> 
+			  			</td>
+				  		<td>${post.po_view}</td>
+				  		<td>${post.po_totalHeart}</td>
+					</tr>
+				</c:if>
 			</c:forEach>
 		</tbody>
 	</table>
-	<c:if test="${postList == null || postList.size() == 0}">
+	<c:if test="${pm.totalCount == 0}">
 		<h1 class="text-center">등록된 게시글이 없습니다.</h1>
 	</c:if>
 	<ul class="pagination justify-content-center">
