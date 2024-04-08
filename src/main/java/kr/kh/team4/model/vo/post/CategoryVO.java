@@ -1,4 +1,4 @@
-package kr.kh.team4.model.vo;
+package kr.kh.team4.model.vo.post;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
