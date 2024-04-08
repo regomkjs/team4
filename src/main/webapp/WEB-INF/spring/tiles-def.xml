@@ -4,13 +4,16 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
  
 <tiles-definitions>
-    
-    <!--레이아웃을 적용하는화면-->
+ 	<!-- 도서관 레이아웃 -->
+  	<definition name="/library/*" template="/WEB-INF/views/layout/libraryLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/common/libraryHeader.jsp" />   
+        <put-attribute name="footer" value="/WEB-INF/views/common/libraryFooter.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/library/{1}.jsp" />
+    </definition>
+     <!--레이아웃을 적용하는화면-->
     <definition name="/*/*" template="/WEB-INF/views/layout/baseLayout.jsp">
         <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />   
         <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
     </definition>
- 
-  
 </tiles-definitions>
