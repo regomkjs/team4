@@ -86,7 +86,7 @@ CREATE TABLE `under` (
 DROP TABLE IF EXISTS `book`;
 
 CREATE TABLE `book` (
-  `bo_num` int NOT NULL AUTO_INCREMENT,
+  `bo_num` varchar(30) NOT NULL,
   `bo_title` varchar(100) NOT NULL,
   `bo_contents` longtext NOT NULL,
   `bo_date` date NOT NULL,
