@@ -19,19 +19,61 @@
 			heart on he_po_num = po_num 
 				left join 
 			comment on co_po_num = po_num 
- 		<if test="cri.ca != 0">
- 			where po_ca_num = #{cri.ca}
- 		</if>
- 		order by po_num desc
+		where	
+			<if test='cri.type == "all"'>
+ 				(po_title like concat("%",#{cri.search},"%") or
+ 				po_content like concat("%",#{cri.search},"%") or
+ 				po_me_id like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "writer"'>
+ 				(po_me_id like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "text"'>
+ 				(po_content like concat("%",#{cri.search},"%") or
+ 				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+	 		<if test="cri.ca != 0">
+	 			and po_ca_num = #{cri.ca}
+	 		</if>
+ 		order by 
+ 			<if test='cri.order == "new"'>
+	 			po_num desc
+ 			</if>
+			<if test='cri.order == "view"'>
+	 			po_view desc
+ 			</if>
+ 			<if test='cri.order == "heart"'>
+	 			po_co_count desc
+ 			</if>
  		limit #{cri.pageStart} , #{cri.perPageNum}
  	</select>
  	
  	<select id="totalCountPost" resultType="int">
- 		select count(*) from post
- 		join category on po_ca_num = ca_num
-		<if test="cri.ca != 0">
-	 		where 
- 				po_ca_num = #{cri.ca}
-		</if>
+ 		select 
+ 			count(*)
+		from 
+			post
+				join 
+			category on po_ca_num = ca_num
+				left join 
+			heart on he_po_num = po_num 
+				left join 
+			comment on co_po_num = po_num 
+		where	
+			<if test='cri.type == "all"'>
+ 				(po_title like concat("%",#{cri.search},"%") or
+ 				po_content like concat("%",#{cri.search},"%") or
+ 				po_me_id like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "writer"'>
+ 				(po_me_id like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "text"'>
+ 				(po_content like concat("%",#{cri.search},"%") or
+ 				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+	 		<if test="cri.ca != 0">
+	 			and po_ca_num = #{cri.ca}
+	 		</if>
  	</select>
 </mapper>

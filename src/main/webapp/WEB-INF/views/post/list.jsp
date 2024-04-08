@@ -10,6 +10,24 @@
 	<h1>
 		게시글 목록
 	</h1>
+	<form action="<c:url value="/post/list"/>" method="get" class="input-group" id="searchForm">
+		
+		<div class="input-group mb-1">
+			<select name="type" class="input-group-prepend" >
+				<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
+				<option value="text" <c:if test='${pm.cri.type == "text"}'>selected</c:if>>제목+내용</option>
+				<option value="writer" <c:if test='${pm.cri.type == "writer"}'>selected</c:if>>작성자</option>
+			</select>
+			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
+			<button type="submit" class="input-group-append btn btn-outline-success">검색</button>
+		</div>
+	 	<select class="form-control col-4 offset-8 mt-1 mb-2" name="order">
+	 		<option value="new" <c:if test='${pm.cri.order == "new"}'>selected</c:if>>최신순</option>
+	 		<option value="view" <c:if test='${pm.cri.order == "view"}'>selected</c:if>>조회수순</option>
+	 		<option value="heart" <c:if test='${pm.cri.order == "heart"}'>selected</c:if>>좋아요순</option>
+	 	</select>
+	</form>
+
 	<table class="table table-hover text-center">
 		<thead>
 			<tr>
@@ -83,6 +101,13 @@
 		</c:if>
 	</ul>
 </div>
+
+<script type="text/javascript">
+$("[name=order]").change(function () {
+	$("#searchForm").submit();
+});
+	
+</script>
 
 </body>
 </html>
