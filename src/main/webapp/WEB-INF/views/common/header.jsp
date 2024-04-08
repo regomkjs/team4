@@ -13,7 +13,7 @@
 			<a class="nav-link" href="<c:url value="/library"/>">도서</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="<c:url value="/post/list"/>">게시글</a>
+			<a class="nav-link" href="<c:url value="/post"/>">커뮤니티</a>
 		</li>
 		<c:if test="${user == null}" >
 			<li class="nav-item">
