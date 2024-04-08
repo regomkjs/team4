@@ -161,6 +161,7 @@ DROP TABLE IF EXISTS `sale`;
 CREATE TABLE `sale` (
   `sa_num` int NOT NULL AUTO_INCREMENT,
   `sa_price` int NOT NULL,
+  `sa_date` datetime not null,
   `sa_bo_num` varchar(30)  NOT NULL,
   `sa_me_id` varchar(12) NOT NULL,
   PRIMARY KEY (`sa_num`),
@@ -176,6 +177,7 @@ CREATE TABLE `review` (
   `rv_num` int NOT NULL AUTO_INCREMENT,
   `rv_content` text NOT NULL,
   `rv_score` int NOT NULL,
+  `rv_date` datetime not null,
   `rv_me_id` varchar(12) NOT NULL,
   `rv_bo_num` varchar(30)  NOT NULL,
   PRIMARY KEY (`rv_num`),
