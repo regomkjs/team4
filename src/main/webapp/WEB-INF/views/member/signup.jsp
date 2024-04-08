@@ -6,9 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+<!-- jquery validtaion -->	
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
 </head>
 <body>
 <div class="container col-5 p-5 mt-3 card-1" style="padding: 50px;">
@@ -17,14 +17,13 @@
 		<div class="form-group" style="margin-bottom: 10px">
 			<div class="input-group">
 				<input type="text" class="form-control" id="id" name="me_id" placeholder="아이디">
-				<button class="btn btn-secondary" id="idCheck" type="button">중복 확인</button>
 			</div>
 			<label id="id-error" class="error text-danger" for="id"></label>
+			<label id="id-error2" class="error text-danger"></label>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
 			<div class="input-group">
 				<input type="text" class="form-control" id="nickName" name="me_nick" placeholder="닉네임">
-				<button class="btn btn-secondary" id="nickNameCheck" type="button">중복 확인</button>
 			</div>
 			<label id="nickName-error" class="error text-danger" for="nickName"></label>
 		</div>
@@ -47,14 +46,13 @@
 		<button class="btn btn-outline-success col-12 btn-submit" style="margin-top: 40px">회원가입</button>
 	</form>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+<!-- 유효성 검사 -->
 <script type="text/javascript">
 $("form").validate({
 	rules : {
 		me_nick : {
 			required : true,
-			regex : /^(?=.*[0-9]+)[가-힣][a-zA-Z][a-zA-Z0-9]{2,12}$/
+			regex : /^[가-힣a-zA-Z0-9]{2,12}$/
 		},
 		me_id : {
 			required : true,
@@ -79,7 +77,7 @@ $("form").validate({
 	messages : {
 		me_nick : {
 			required : "필수 항목입니다.",
-			regex : "한글,영어로 이루어진 2~12글자 닉네임을 입력하세요."
+			regex : "한글,영어,숫자로 이루어진 2~12글자 닉네임을 입력하세요."
 		},
 		me_id : {
 			required : "필수 항목입니다.",
@@ -108,33 +106,49 @@ $.validator.addMethod(
 	function (value, element, regexp){
 		var re = new RegExp(regexp);
 		return this.optional(element) || re.test(value);
-	}, 
+	},
+	"정규표현식에 맞지 않습니다."
 )
+</script>
 
-let flag = false;
-$("#idCheck").click(function(){
-	let id = $("[name=me_id]").val();
-	fetch(`<c:url value="/id/check"/>?id=\${id}`)
-	.then(response=>response.text())
-	.then(data => {
-		if(data == "true"){
-			alert("사용 가능한 아이디입니다.");
-			flag = true;
-		}else{
-			alert("이미 사용중인 아이디입니다.");
-		}
-	})
-	.catch(error => console.error("Error : ", error));
-});
-$("[name=me_id]").change(function(){
-	flag = false;
-});
-$(".btn-submit").click(function(){
-	if(!flag){
-		alert("중복 확인을 하세요.");
+<!-- 아이디 중복 검사 -->
+<script type="text/javascript">
+function idCheckDup(){
+	$("#id-error2").text("");
+	$("#id-error2").hide();
+	//입력된 아이디를 가져옴
+	let id = $('[name=me_id]').val();
+	let obj = {
+		id : id
+	}
+	let idRegex = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{5,11}$/;
+	if(!idRegex.test(id)){
 		return false;
 	}
-});
+	let result = false;
+	//서버에 아이디를 전송해서 사용 가능/불가능 처리
+	$.ajax({
+		async : false,
+		url : '<c:url value="/id/check/dup"/>', 
+		type : 'get', 
+		data : obj, 
+		dataType : "json", 
+		success : function (data){
+			result = data.result;
+			if(!result){
+				$("#id-error2").text("이미 사용중인 아이디입니다.");
+				$("#id-error2").show();
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+	return result;
+}
+$('[name=me_id]').on('input',function(){
+	idCheckDup();
+})
 </script>
 </body>
 </html>
