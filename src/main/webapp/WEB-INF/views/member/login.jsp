@@ -15,13 +15,12 @@
 	<form action="<c:url value="/login"/>" method="post">
 		<h2 style="margin-bottom: 50px; font-weight: bold">로그인</h2>
 		<div class="form-group" style="margin-bottom: 10px">
-			<div class="input-group">
-				<input type="text" class="form-control" id="id" name="me_id" placeholder="아이디">
+			<div class="form-group">
+				<input type="text" class="form-control" id="id" name="id" placeholder="아이디">
 			</div>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
-			<input type="password" class="form-control" id="pw" name="me_pw" placeholder="비밀번호">
-			<label id="pw-error" class="error text-danger" for="pw"></label>
+			<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호">
 		</div>
 		<button class="btn btn-outline-success col-12 btn-submit" style="margin-top: 40px">로그인</button>
 	</form>
