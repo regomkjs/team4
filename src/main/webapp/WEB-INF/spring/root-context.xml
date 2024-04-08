@@ -11,6 +11,26 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	
-	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+		<property name="url"
+          value="jdbc:log4jdbc:mysql://localhost:3306/library?useSSL=false&amp;serverTimezone=Asia/Seoul"/>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean>
+	
+	<!-- mapper 정보 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations"
+			value="classpath:mappers/**/*Mapper.xml"/>
+		<property 
+			name="configLocation"
+			value="/WEB-INF/spring/mybatis-config.xml"/>
+	</bean>
+	<!-- dao 패키지 연결 -->
+	<mybatis-spring:scan base-package="kr.kh.team4.dao" />
 		
 </beans>
