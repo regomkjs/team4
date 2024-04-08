@@ -5,6 +5,13 @@
 <!doctype html>
 <html>
 <head>
+<title>
+<c:choose>
+	<c:when test="${title != null }">${title}</c:when>
+	<c:otherwise>스프링</c:otherwise>
+</c:choose>
+</title>
+
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
@@ -16,18 +23,17 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<title>
-<c:choose>
-	<c:when test="${title != null }">${title }</c:when>
-	<c:otherwise>스프링</c:otherwise>
-</c:choose>
-</title>
+
+<!-- 썸머노트 -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
 </head>
 <body>
-    <tiles:insertAttribute name="header"/> 
+    <tiles:insertAttribute name="header"/>
     <div style="min-height: calc(100vh - 290px)">
-	    <tiles:insertAttribute name="body" />                                                 
-    </div>     
+    	<tiles:insertAttribute name="body" />
+    </div>
     <tiles:insertAttribute name="footer" />
 </body>
 </html>
