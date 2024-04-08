@@ -75,8 +75,9 @@ CREATE TABLE `upper` (
 DROP TABLE IF EXISTS `under`;
 
 CREATE TABLE `under` (
-  `un_num` int NOT NULL,
+  `un_num` int NOT NULL  auto_increment,
   `un_name` varchar(10) NOT NULL,
+  `un_code` int NOT NULL,
   `un_up_num` int NOT NULL,
   PRIMARY KEY (`un_num`),
   KEY `FK_upper_TO_under_1` (`un_up_num`),
