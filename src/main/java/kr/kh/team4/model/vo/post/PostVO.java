@@ -15,4 +15,6 @@ public class PostVO {
 	private Date po_datetime; 
 	private String po_me_id; 
 	private int po_ca_num;
+	
+	private String ca_name;
 }

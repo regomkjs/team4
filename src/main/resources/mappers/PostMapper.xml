@@ -3,5 +3,26 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.kh.team4.dao.PostDAO">
+ 	<select id="selectCategoryList" resultType="CategoryVO">
+ 		select * from category 
+ 	</select>
  	
+ 	<select id="selectPostList" resultType="PostVO">
+ 		select * from post
+ 		join category on po_ca_num = ca_num
+ 		<if test="cri.ca != 0">
+ 			where po_ca_num = #{cri.ca}
+ 		</if>
+ 		order by po_num desc
+ 		limit #{cri.pageStart} , #{cri.perPageNum}
+ 	</select>
+ 	
+ 	<select id="totalCountPost" resultType="int">
+ 		select count(*) from post
+ 		join category on po_ca_num = ca_num
+		<if test="cri.ca != 0">
+	 		where 
+ 				po_ca_num = #{cri.ca}
+		</if>
+ 	</select>
 </mapper>
