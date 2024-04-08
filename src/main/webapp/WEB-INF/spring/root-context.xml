@@ -28,6 +28,6 @@
 			value="classpath:mappers/**/*Mapper.xml"></property>
 	</bean>
 	<!-- dao 패키지 연결 -->
-	<mybatis-spring:scan base-package="kr.kh.team4.dao" />	
-	
+	<mybatis-spring:scan base-package="kr.kh.team4.dao" />
+		
 </beans>
