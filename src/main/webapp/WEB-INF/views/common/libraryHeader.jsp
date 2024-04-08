@@ -25,5 +25,17 @@
 				<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
 			</li>
 		</c:if>
+		
+		<li class="nav-item dropdown">
+	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+	        관리자 기능용
+	      </a>
+	      <div class="dropdown-menu">
+	        <a class="dropdown-item" href=
+	        "<c:url value="/library/management"/>">도서 관리</a>
+	        <a class="dropdown-item" href="<c:url value="/library"/>">도서 목록</a>
+	        <a class="dropdown-item" href="#">??</a>
+	      </div>
+    	</li>
 	</ul>
 </nav>
