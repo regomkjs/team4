@@ -71,6 +71,7 @@ public class HomeController {
 	
 	@GetMapping("/login")
 	public String login(Model model) {
+		model.addAttribute("title", "로그인");
 		return "/member/login";
 	}
 	
@@ -98,12 +99,24 @@ public class HomeController {
 	}
 	
 	@GetMapping("/find/id")
-	public String findId() {
+	public String findId(Model model) {
+		model.addAttribute("title", "아이디 찾기");
 		return "/member/findid";
 	}
 	
 	@PostMapping("/find/id")
-	public String findIdPost() {
-		
+	public String findIdPost(Model model) {
+		return "";
+	}
+	
+	@GetMapping("/find/pw")
+	public String findPw(Model model) {
+		model.addAttribute("title", "비밀번호 찾기");
+		return "/member/findpw";
+	}
+	
+	@PostMapping("/find/id")
+	public String findPwPost() {
+		return "";
 	}
 }

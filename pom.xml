@@ -215,6 +215,24 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.15.2</version>
 		</dependency>
+		<!-- 문자 보내기 api 연동 의존성 -->
+		<dependency>
+			<groupId>net.nurigo</groupId>
+			<artifactId>sdk</artifactId>
+			<version>4.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20240303</version>
+		</dependency>
+		<!-- api 연동 -->
+		<dependency>
+		    <groupId>net.nurigo</groupId>
+		    <artifactId>javaSDK</artifactId>
+	    <version>2.2</version>
+ </dependency> 
 	</dependencies>
 	<build>
 		<plugins>
