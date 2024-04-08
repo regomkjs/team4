@@ -1,7 +1,7 @@
 package kr.kh.team4.service;
 
 import kr.kh.team4.model.dto.LoginDTO;
-import kr.kh.team4.model.vo.MemberVO;
+import kr.kh.team4.model.vo.member.MemberVO;
 
 public interface MemberService {
 

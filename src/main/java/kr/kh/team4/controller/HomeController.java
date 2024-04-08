@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.kh.team4.model.dto.LoginDTO;
-import kr.kh.team4.model.vo.MemberVO;
+import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.service.MemberService;
 import lombok.extern.log4j.Log4j;
 

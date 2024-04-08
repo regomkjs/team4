@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import kr.kh.team4.dao.MemberDAO;
 import kr.kh.team4.model.dto.LoginDTO;
-import kr.kh.team4.model.vo.MemberVO;
+import kr.kh.team4.model.vo.member.MemberVO;
 
 @Service
 public class MemberServiceImp implements MemberService {
