@@ -16,7 +16,7 @@ CREATE TABLE `member_state` (
 DROP TABLE IF EXISTS `grade`;
 
 CREATE TABLE `grade` (
-  `gr_num` int NOT NULL,
+  `gr_num` int NOT NULL AUTO_INCREMENT,
   `gr_name` varchar(10) NOT NULL,
   `gr_discount` int NOT NULL DEFAULT '0',
   `gr_loan_condition` int NOT NULL,
