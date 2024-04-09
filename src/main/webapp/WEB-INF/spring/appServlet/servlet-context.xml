@@ -36,16 +36,13 @@
 	    </beans:property>
 	</beans:bean>
 	
-	<!-- 
-	인터셉터 등록
-	<beans:bean id="인터셉터id" class="경로"/>
-	
-	인터셉터 맵핑
+	<!-- 인터셉터 등록 -->
+	<beans:bean id="loginInterceptor" class="kr.kh.team4.interceptor.LoginInterceptor" />
+	<!-- 인터셉터 맵핑 -->
 	<interceptors>
-		<interceptor>
-			<mapping path="적용할 url"/>
-			<beans:ref bean="인터셉터id"/>
+			<interceptor>
+			<mapping path="/login"/>
+			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 	</interceptors>
-	-->
 </beans:beans>
