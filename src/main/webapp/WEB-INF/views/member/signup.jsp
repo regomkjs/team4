@@ -9,6 +9,22 @@
 <!-- jquery validtaion -->	
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
+<style type="text/css">
+
+   .card-1 {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   }
+   
+   .card-1:hover {
+      box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+   }
+   
+   .error {
+   	  font-size: 10pt;
+   	  font-weight: bold;
+   }
+</style>
 </head>
 <body>
 <div class="container col-5 p-5 mt-3 card-1" style="padding: 50px;">
@@ -26,6 +42,7 @@
 				<input type="text" class="form-control" id="nickName" name="me_nick" placeholder="닉네임">
 			</div>
 			<label id="nickName-error" class="error text-danger" for="nickName"></label>
+			<label id="nickName-error2" class="error text-danger"></label>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
 			<input type="password" class="form-control" id="pw" name="me_pw" placeholder="비밀번호">
@@ -148,6 +165,43 @@ function idCheckDup(){
 }
 $('[name=me_id]').on('input',function(){
 	idCheckDup();
+})
+</script>
+<!-- 닉네임 중복 검사 -->
+<script type="text/javascript">
+function nickNameCheckDup(){
+	$("#nickName-error2").text("");
+	$("#nickName-error2").hide();
+	let nickName = $('[name=me_nick]').val();
+	let obj = {
+		nickName : nickName
+	}
+	let nickNameRegex = /^[가-힣a-zA-Z0-9]{2,12}$/;
+	if(!nickNameRegex.test(nickName)){
+		return false;
+	}
+	let result = false;
+	$.ajax({
+		async : false,
+		url : '<c:url value="/nickName/check/dup"/>', 
+		type : 'get', 
+		data : obj, 
+		dataType : "json", 
+		success : function (data){
+			result = data.result;
+			if(!result){
+				$("#nickName-error2").text("이미 사용중인 닉네임입니다.");
+				$("#nickName-error2").show();
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+	return result;
+}
+$('[name=me_nick]').on('input',function(){
+	nickNameCheckDup();
 })
 </script>
 </body>

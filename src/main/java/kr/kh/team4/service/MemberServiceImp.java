@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import kr.kh.team4.dao.MemberDAO;
 import kr.kh.team4.model.dto.LoginDTO;
-import kr.kh.team4.model.vo.MemberVO;
+import kr.kh.team4.model.vo.member.MemberVO;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -26,7 +26,9 @@ public class MemberServiceImp implements MemberService {
 		if( member == null ||
 			!checkString(member.getMe_id()) ||
 			!checkString(member.getMe_pw()) ||
-			!checkString(member.getMe_email())) {
+			!checkString(member.getMe_email()) ||
+			!checkString(member.getMe_nick()) ||
+			!checkString(member.getMe_phone())) {
 			return false;
 		}
 		MemberVO user = memberDao.selectMember(member.getMe_id());
@@ -35,7 +37,12 @@ public class MemberServiceImp implements MemberService {
 		}
 		String encPw = passwordEncoder.encode(member.getMe_pw());
 		member.setMe_pw(encPw);
-		return memberDao.insertMember(member);
+		try {
+			return memberDao.insertMember(member);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -57,5 +64,11 @@ public class MemberServiceImp implements MemberService {
 			return null;
 		}
 		return user;
+	}
+	
+	@Override
+	public boolean nickNameCheck(String nickName) {
+		MemberVO member = memberDao.selectNickName(nickName);
+		return member == null;
 	}
 }

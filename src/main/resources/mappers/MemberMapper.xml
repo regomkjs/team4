@@ -11,4 +11,8 @@
 	<select id="selectMember" resultType="MemberVO">
 		select * from member where me_id = #{me_id}
 	</select>
+	
+	<select id="selectNickName" resultType="MemberVO">
+		select * from member where me_nick = #{me_nick}
+	</select>
 </mapper>
