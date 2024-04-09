@@ -1,5 +1,7 @@
 package kr.kh.team4.service;
 
+import java.util.ArrayList;
+
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import kr.kh.team4.dao.MemberDAO;
 import kr.kh.team4.model.dto.LoginDTO;
+import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 
 @Service
@@ -169,6 +172,32 @@ public class MemberServiceImp implements MemberService {
 		user.setMe_nick(member.getMe_nick());
 		user.setMe_phone(member.getMe_phone());
 		return true;
+	}
+
+	@Override
+	public ArrayList<GradeVO> selectGradeList() {
+		return memberDao.selectGradeList();
+	}
+
+	@Override
+	public boolean insertGrade(GradeVO grade) {
+		if(grade == null) {
+			return false;
+		}
+		return memberDao.insertGrade(grade);
+	}
+
+	@Override
+	public GradeVO selectGrade(int num) {
+		return memberDao.selectGrade(num);
+	}
+
+	@Override
+	public boolean updateGrade(GradeVO grade) {
+		if(grade == null) {
+			return false;
+		}
+		return memberDao.updateGrade(grade);
 	}
 	
 }

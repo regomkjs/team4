@@ -32,4 +32,26 @@
 			me_nick = #{member.me_nick}
 		where me_id = #{member.me_id}
 	</update>
+	
+	<select id="selectGradeList" resultType="GradeVO">
+		select * from grade where gr_num = gr_num
+	</select>
+	
+	<insert id="insertGrade">
+		insert into grade(gr_name,gr_discount,gr_loan_condition,gr_post_condition)
+		value(#{grade.gr_name},#{grade.gr_discount},#{grade.gr_loan_condition},#{grade.gr_post_condition})
+	</insert>
+	
+	<select id="selectGrade" resultType="GradeVO">
+		select * from grade where gr_num = #{gr_num}
+	</select>
+	
+	<update id="updateGrade">
+		update grade set
+			gr_name = #{grade.gr_name},
+			gr_discount = #{grade.gr_discount},
+			gr_loan_condition = #{grade.gr_loan_condition},
+			gr_post_condition = #{grade.gr_post_condition}
+		where gr_num = #{grade.gr_num}
+	</update>
 </mapper>

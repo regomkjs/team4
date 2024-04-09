@@ -1,7 +1,10 @@
 package kr.kh.team4.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Param;
 
+import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 
 public interface MemberDAO {
@@ -17,5 +20,13 @@ public interface MemberDAO {
 	void updatePassword(@Param("id")String id, @Param("pw")String encPw);
 
 	boolean updateMember(@Param("member")MemberVO member);
+
+	ArrayList<GradeVO> selectGradeList();
+
+	boolean insertGrade(@Param("grade")GradeVO grade);
+
+	GradeVO selectGrade(@Param("gr_num")int num);
+
+	boolean updateGrade(@Param("grade")GradeVO grade);
 
 }

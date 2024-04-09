@@ -1,5 +1,6 @@
 package kr.kh.team4.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.kh.team4.model.dto.LoginDTO;
+import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.service.MemberService;
 import lombok.extern.log4j.Log4j;
@@ -154,4 +156,54 @@ public class HomeController {
 		return "message";
 	}
 	
+	@GetMapping("/grade/list")
+	public String grade(Model model, GradeVO grade) {
+		ArrayList<GradeVO> gradeList = memberService.selectGradeList();
+		model.addAttribute("title", "등급 관리");
+		model.addAttribute("gradeList", gradeList);
+		return "/grade/list";
+	}
+	
+	@GetMapping("/grade/insert")
+	public String gradeInsert(Model model) {
+		model.addAttribute("title", "등급 추가");
+		return "/grade/insert";
+	}
+	
+	@PostMapping("/grade/insert")
+	public String gradeInsertPost(Model model, GradeVO grade) {
+		ArrayList<GradeVO> gradeList = memberService.selectGradeList();
+		if(gradeList.size() < 6) {
+			memberService.insertGrade(grade);
+			model.addAttribute("msg", "등급을 추가했습니다.");
+			model.addAttribute("url", "/grade/list");
+		}else {
+			model.addAttribute("msg", "최대 5개 까지만 추가할 수 있습니다.");
+			model.addAttribute("url", "/grade/list");
+		}
+		return "message";
+	}
+	
+	@GetMapping("/grade/update")
+	public String gradeUpdate(Model model, int num) {
+		GradeVO grade = memberService.selectGrade(num);
+		model.addAttribute("grade", grade);
+		model.addAttribute("title", "등급 수정");
+		return "/grade/update";
+	}
+	
+	@PostMapping("/grade/update")
+	public String gradeUpdatePost(Model model, GradeVO grade) {
+
+		boolean res = memberService.updateGrade(grade);
+		
+		if(res) {
+			model.addAttribute("msg", "게시글을 수정했습니다.");
+			model.addAttribute("url", "/grade/list");
+		}else {
+			model.addAttribute("msg", "게시글을 수정하지 못했습니다.");
+			model.addAttribute("url", "/grade/update?num="+grade.getGr_num());
+		}
+		return "message";
+	}
 }
