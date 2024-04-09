@@ -31,8 +31,8 @@
 				<input type="text" class="form-control" id="title" placeholder="제목 입력" name="po_title">
 			</div>
 			<div class="mb-3">
-				<label for="content">내용:</label>
-				<textarea rows="10" name="po_content" id="content" class="form-control"></textarea>
+				<label for="summernote">내용:</label>
+				<textarea rows="10" name="po_content" id="summernote" class="form-control"></textarea>
 			</div>
 			
 			<button type="submit" class="btn btn-primary col-12 insert-btn">등록</button>
@@ -44,7 +44,7 @@
 
 <!-- 썸머노트 -->
 <script>
-$('[name=po_content]').summernote({
+$('#summernote').summernote({
     tabsize: 2,
     height: 200,
     toolbar: [
@@ -61,17 +61,12 @@ $('[name=po_content]').summernote({
 
 <script type="text/javascript">
 const title = document.querySelector("#title");
-const content = document.querySelector("#content");
+const content = $('#summernote').summernote('code');
 
 
-title.addEventListener("keydown",()=>{
-	console.log(title.value);
+window.addEventListener("unload",()=>{
 	localStorage.setItem("title", title.value);
-});
-
-content.addEventListener("keydown",()=>{
-	console.log(content.value);
-	localStorage.setItem("content", content.value);
+	localStorage.setItem("content", content);
 });
 
 window.onload = ()=>{
