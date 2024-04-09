@@ -2,11 +2,14 @@ package kr.kh.team4.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.pagination.PageMaker;
@@ -42,5 +45,23 @@ public class PostController {
 		model.addAttribute("title", "게시글 목록");
 		
 		return "/post/list";
+	}
+	
+	@GetMapping("/post/insert")
+	public String postInsert(Model model, int ca, HttpSession session) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null || 
+				user.getMe_id() == null || 
+				user.getMe_id().length() == 0) {
+			model.addAttribute("msg", "로그인이 필요한 서비스입니다.");
+			model.addAttribute("url", "/login");
+			return "message";
+		}
+		ArrayList<CategoryVO> list = postService.getCategoryList();
+		model.addAttribute("categoryList", list);
+		if(ca != 0) {
+			model.addAttribute("ca_num", ca);
+		}
+		return "/post/insert";
 	}
 }

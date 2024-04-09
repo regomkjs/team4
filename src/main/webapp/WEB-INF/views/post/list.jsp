@@ -101,6 +101,11 @@
 	    	</li>
 		</c:if>
 	</ul>
+	<c:url value="/post/insert" var="insertUrl">
+		<c:param name="ca" value="${pm.cri.ca}"/>
+	</c:url>
+	<a class="btn btn-outline-primary" href="${insertUrl}">글 작성</a>
+	
 </div>
 
 <script type="text/javascript">
