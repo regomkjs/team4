@@ -1,6 +1,8 @@
 package kr.kh.team4.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
@@ -88,5 +92,44 @@ public class PostController {
 			model.addAttribute("url", "/post/insert");
 		}
 		return "message";
+	}
+	
+	@GetMapping("/post/detail")
+	public String postDetail(Model model, int num) {
+		PostVO post = postService.getPost(num);
+		if(post == null || 
+				post.getPo_me_id() == null || post.getPo_me_id().length() == 0 ||
+				post.getPo_title() == null || post.getPo_title().length() == 0 ||
+				post.getPo_content() == null || post.getPo_content().length() == 0) {
+			model.addAttribute("msg", "삭제되거나 없는 게시글입니다.");
+			model.addAttribute("url", "/post/list");
+			return "message";
+		}
+		model.addAttribute("post", post);
+		return "/post/detail";
+	}
+	
+	@ResponseBody
+	@PostMapping("/post/heart")
+	public Map<String, Object> postHeartPost(@RequestParam("po_num")int po_num , HttpSession session) {
+		log.info(po_num);
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		int res = postService.toggleHeart(user, po_num);
+		map.put("result", res);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/post/countHeart")
+	public Map<String, Object> postCountHeartPost(@RequestParam("po_num")int po_num , HttpSession session) {
+		log.info(po_num);
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = postService.searchHeart(user, po_num);
+		int totalCount = postService.totalCountHeart(po_num);
+		map.put("result", res);
+		map.put("totalCountHeart", totalCount);
+		return map;
 	}
 }

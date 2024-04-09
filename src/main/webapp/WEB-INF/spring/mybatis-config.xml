@@ -12,5 +12,6 @@
 		
 		<typeAlias type="kr.kh.team4.model.vo.post.CategoryVO" alias="CategoryVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.PostVO" alias="PostVO"/>
+		<typeAlias type="kr.kh.team4.model.vo.post.HeartVO" alias="HeartVO"/>
 	</typeAliases>
 </configuration>

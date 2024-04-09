@@ -84,4 +84,39 @@
  		values(#{post.po_title}, #{post.po_content}, now(), #{post.po_me_id}, #{post.po_ca_num})
  	</insert>
  	
+ 	
+ 	<select id="selectPost" resultType="PostVO">
+ 		select
+ 			post.*, category.*, count(co_num) as po_co_count,
+			SUM(CASE WHEN he_state = 1 THEN 1 ELSE 0 END) AS po_totalHeart 
+ 		from 
+ 			post 
+	 			join
+			category on po_ca_num = ca_num
+				left join 
+			heart on he_po_num = po_num 
+				left join 
+			comment on co_po_num = po_num 
+ 		where 
+ 			po_num = #{po_num}
+ 		group by 
+ 			po_num
+ 	</select>
+ 	
+ 	<select id="selectHeart" resultType="HeartVO">
+ 		select * from heart where he_me_id = #{user.me_id} and he_po_num = #{po_num}
+ 	</select>
+ 	
+ 	<delete id="deleteHeart">
+ 		delete from heart where he_me_id = #{user.me_id} and he_po_num = #{po_num}
+ 	</delete>
+ 	
+ 	<insert id="insertHeart">
+ 		insert into heart(he_state, he_po_num, he_me_id)
+ 		values (1, #{po_num}, #{user.me_id})
+ 	</insert>
+ 	
+ 	<select id="selectTotalCountHeart" resultType="int">
+ 		select count(*) from heart where he_po_num = #{po_num}
+ 	</select>
 </mapper>

@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.kh.team4.dao.PostDAO;
+import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
+import kr.kh.team4.model.vo.post.HeartVO;
 import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.PostCriteria;
@@ -58,4 +60,53 @@ public class PostServiceImp implements PostService {
 		}
 		return postDAO.insertPost(post);
 	}
+
+
+
+	@Override
+	public PostVO getPost(int po_num) {
+		return postDAO.selectPost(po_num);
+	}
+
+
+
+	@Override
+	public int toggleHeart(MemberVO user, int po_num) {
+		if(user == null || !checkString(user.getMe_id())) {
+			return -1;
+		}
+		HeartVO heart = postDAO.selectHeart(user, po_num);
+		if(heart != null) {
+			postDAO.deleteHeart(user, po_num);
+			return 0; 
+		}
+		else {
+			postDAO.insertHeart(user, po_num);
+			return 1;
+		}
+	}
+
+
+
+	@Override
+	public boolean searchHeart(MemberVO user, int po_num) {
+		if(user == null || !checkString(user.getMe_id())) {
+			return false;
+		}
+		HeartVO heart = postDAO.selectHeart(user, po_num);
+		if(heart == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+
+
+	@Override
+	public int totalCountHeart(int po_num) {
+		return postDAO.selectTotalCountHeart(po_num);
+	}
+
 }
