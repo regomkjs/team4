@@ -60,11 +60,11 @@ $('#summernote').summernote({
 </script>
 
 <script type="text/javascript">
-const title = document.querySelector("#title");
-const content = $('#summernote').summernote('code');
 
 
 window.addEventListener("unload",()=>{
+	const title = document.querySelector("#title");
+	const content = $('#summernote').summernote('code');
 	localStorage.setItem("title", title.value);
 	localStorage.setItem("content", content);
 });
@@ -73,7 +73,7 @@ window.onload = ()=>{
 	if(localStorage.getItem("title") != null || localStorage.getItem("content") != null){
 		if(confirm("최근 작성중인 글을 불러오겠습니까?")){
 			document.querySelector("#title").value = localStorage.getItem("title");
-			document.querySelector("#content").value = localStorage.getItem("content");
+			document.querySelector("#content").innerHtml = localStorage.getItem("content");
 		} else{
 			localStorage.clear();
 		}
