@@ -92,7 +92,7 @@ public class PostController {
 		}
 		else {
 			model.addAttribute("msg", "게시글 등록에 실패했습니다.");
-			model.addAttribute("url", "/post/insert");
+			model.addAttribute("url", "/post/insert?ca="+ post.getPo_ca_num());
 		}
 		return "message";
 	}

@@ -39,20 +39,59 @@
 		</form>
 	</div>
 </div>
+
+
+
+<!-- 썸머노트 -->
 <script>
-	$('[name=po_content]').summernote({
-	    tabsize: 2,
-	    height: 200,
-	    toolbar: [
-	      ['style', ['style']],
-	      ['font', ['bold', 'underline', 'clear']],
-	      ['color', ['color']],
-	      ['para', ['ul', 'ol', 'paragraph']],
-	      ['table', ['table']],
-	      ['insert', ['link', 'picture', 'video']],
-	      ['view', ['fullscreen', 'codeview', 'help']]
-	    ]
-	});
+$('[name=po_content]').summernote({
+    tabsize: 2,
+    height: 200,
+    toolbar: [
+      ['style', ['style']],
+      ['font', ['bold', 'underline', 'clear']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['table', ['table']],
+      ['insert', ['link', 'picture', 'video']],
+      ['view', ['fullscreen', 'codeview', 'help']]
+    ]
+});
+</script>
+
+<script type="text/javascript">
+const title = document.querySelector("#title");
+const content = document.querySelector("#content");
+
+
+title.addEventListener("keydown",()=>{
+	console.log(title.value);
+	localStorage.setItem("title", title.value);
+});
+
+content.addEventListener("keydown",()=>{
+	console.log(content.value);
+	localStorage.setItem("content", content.value);
+});
+
+window.onload = ()=>{
+	if(localStorage.getItem("title") != null || localStorage.getItem("content") != null){
+		if(confirm("최근 작성중인 글을 불러오겠습니까?")){
+			document.querySelector("#title").value = localStorage.getItem("title");
+			document.querySelector("#content").value = localStorage.getItem("content");
+		} else{
+			localStorage.clear();
+		}
+	}
+	
+}
+
+
+$("form").on("submit", function (e) {
+	localStorage.clear();
+	return true;
+});
+
 </script>
 </body>
 </html>

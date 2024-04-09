@@ -48,7 +48,7 @@
 	 			po_view desc , po_num desc
  			</if>
  			<if test='cri.order == "heart"'>
-	 			po_co_count desc , po_num desc
+	 			po_totalHeart desc , po_num desc
  			</if>
  		limit #{cri.pageStart} , #{cri.perPageNum}
  	</select>
