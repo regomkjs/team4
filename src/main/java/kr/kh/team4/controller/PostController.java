@@ -169,6 +169,27 @@ public class PostController {
 		return map;
 	}
 	
+	@ResponseBody
+	@PostMapping("/comment/delete")
+	public Map<String, Object> commentDeletePost(@RequestParam("num")int num, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = postService.deleteComment(num, user);
+		map.put("result", res);
+		return map;
+	}
 	
+	@ResponseBody
+	@PostMapping("/reply/insert")
+	public Map<String, Object> replyInsert(@RequestParam("ori")int ori, 
+				@RequestParam("content") String content, 
+				@RequestParam("po_num")int po_num, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		CommentVO comment = new CommentVO(ori, content, user.getMe_id(), po_num);
+		boolean res = postService.insertComment(comment);
+		map.put("result", res);
+		return map;
+	}
 	
 }

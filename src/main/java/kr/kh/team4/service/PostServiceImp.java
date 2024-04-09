@@ -162,4 +162,27 @@ public class PostServiceImp implements PostService {
 		return postDAO.updateComment(num, content);
 	}
 
+
+
+	@Override
+	public boolean deleteComment(int num, MemberVO user) {
+		if(user == null) {
+			return false;
+		}
+		CommentVO comment = postDAO.selectComment(num);
+		if(comment == null || !comment.getCo_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		if(comment.getCo_ori_num() == num && postDAO.countReply(comment.getCo_ori_num()) > 1) {
+			return postDAO.updateCommentState(num);
+		}
+		else {
+			CommentVO oriComment = postDAO.selectComment(comment.getCo_ori_num());
+			if(oriComment.getCo_state() == 0 &&  postDAO.countReply(comment.getCo_ori_num()) == 2) {
+				postDAO.deleteComment(oriComment.getCo_num());
+			}
+			return postDAO.deleteComment(num);
+		}
+	}
+
 }

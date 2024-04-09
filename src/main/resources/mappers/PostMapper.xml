@@ -10,7 +10,7 @@
  	<select id="selectPostList" resultType="PostVO">
  		select 
  			post.*, category.*, member.me_nick,
- 			count(co_num) as po_co_count,
+ 			SUM(CASE WHEN co_state = 1 THEN 1 ELSE 0 END) as po_co_count,
 			SUM(CASE WHEN he_state = 1 THEN 1 ELSE 0 END) AS po_totalHeart 
 		from 
 			post
@@ -162,5 +162,17 @@
  	<update id="updateComment">
  		update comment set co_content = #{co_content} where co_num = #{co_num}
  	</update>
+ 	
+ 	<update id="updateCommentState">
+ 		update comment set co_state = 0 where co_num = #{co_num}
+ 	</update>
+ 	
+ 	<delete id="deleteComment">
+ 		delete from comment where co_num = #{co_num}
+ 	</delete>
+ 	
+ 	<select id="countReply" resultType="int">
+ 		select count(*) from comment where co_ori_num = #{co_ori_num}
+ 	</select>
  	
 </mapper>

@@ -36,4 +36,6 @@ public interface PostService {
 
 	boolean updateComment(int num, String content, MemberVO user);
 
+	boolean deleteComment(int num, MemberVO user);
+
 }

@@ -45,4 +45,10 @@ public interface PostDAO {
 
 	boolean updateComment(@Param("co_num")int num, @Param("co_content")String content);
 
+	boolean updateCommentState(@Param("co_num")int num);
+
+	boolean deleteComment(@Param("co_num")int num);
+
+	int countReply(@Param("co_ori_num")int co_ori_num);
+
 }
