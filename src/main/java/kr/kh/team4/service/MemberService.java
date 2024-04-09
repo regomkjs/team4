@@ -13,4 +13,8 @@ public interface MemberService {
 
 	boolean nickNameCheck(String nickName);
 
+	MemberVO findId(String email, String phone);
+
+	boolean findPw(String id);
+
 }

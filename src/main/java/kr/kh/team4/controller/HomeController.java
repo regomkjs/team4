@@ -105,8 +105,16 @@ public class HomeController {
 	}
 	
 	@PostMapping("/find/id")
-	public String findIdPost(Model model) {
-		return "";
+	public String findIdPost(Model model,String me_email, String me_phone) {
+		MemberVO member = memberService.findId(me_email, me_phone);
+		if(member != null) {
+			model.addAttribute("msg", "회원의 아이디는 [" + member.getMe_id() + "] 입니다.");
+			model.addAttribute("url", "/login");
+		}else {
+			model.addAttribute("msg", "이메일 또는 전화번호를 잘못 입력했습니다");
+			model.addAttribute("url", "/find/id");
+		}
+		return "message";
 	}
 	
 	@GetMapping("/find/pw")
@@ -115,8 +123,12 @@ public class HomeController {
 		return "/member/findpw";
 	}
 	
-	@PostMapping("/find/id")
-	public String findPwPost() {
-		return "";
+	@ResponseBody
+	@PostMapping("/find/pw")
+	public Map<String, Object> findPwPost(@RequestParam("id") String id){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = memberService.findPw(id);
+		map.put("result", res);
+		return map;
 	}
 }

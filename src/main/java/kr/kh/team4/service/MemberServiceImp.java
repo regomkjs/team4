@@ -1,6 +1,10 @@
 package kr.kh.team4.service;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,41 @@ public class MemberServiceImp implements MemberService {
 	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	private String randomPassword(int size) {
+		String strs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#";
+		String newPw = "";
+		int min = 0, max = strs.length() - 1;
+		while(newPw.length() < size) {
+			int r = (int)(Math.random() * (max-min + 1) + min);
+			newPw += strs.charAt(r);
+		}
+		return newPw;
+	}
+	
+	public boolean mailSend(String to, String title, String content) {
+
+	    String setfrom = "dhtkfkdh@gmail.com";
+	   try{
+	        MimeMessage message = mailSender.createMimeMessage();
+	        MimeMessageHelper messageHelper
+	            = new MimeMessageHelper(message, true, "UTF-8");
+
+	        messageHelper.setFrom(setfrom);// 보내는사람 생략하거나 하면 정상작동을 안함
+	        messageHelper.setTo(to);// 받는사람 이메일
+	        messageHelper.setSubject(title);// 메일제목은 생략이 가능하다
+	        messageHelper.setText(content, true);// 메일 내용
+
+	        mailSender.send(message);
+	        return true;
+	    } catch(Exception e){
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
 	
 	private boolean checkString(String str) {
 		return str != null && str.length() != 0; 
@@ -71,4 +110,33 @@ public class MemberServiceImp implements MemberService {
 		MemberVO member = memberDao.selectNickName(nickName);
 		return member == null;
 	}
+
+	@Override
+	public MemberVO findId(String email, String phone) {
+		MemberVO member = memberDao.selectMemberId(email, phone);
+		if(member == null) {
+			return null;
+		}
+		return member;
+	}
+
+	@Override
+	public boolean findPw(String id) {
+		MemberVO member = memberDao.selectMember(id);
+		if(member == null) {
+			return false;
+		}
+		
+		String newPw = randomPassword(6);
+		
+		String title = "새 비밀번호입니다.";
+		String content = "새 비밀번호는 <b>"+ newPw +"</b> 입니다.";
+		boolean res = mailSend(member.getMe_email(), title, content);
+		
+		String encPw = passwordEncoder.encode(newPw);
+		memberDao.updatePassword(id, encPw);
+		return res;
+	}
+
+	
 }

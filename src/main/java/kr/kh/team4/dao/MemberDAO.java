@@ -12,4 +12,8 @@ public interface MemberDAO {
 
 	MemberVO selectNickName(@Param("me_nick")String nickName);
 
+	MemberVO selectMemberId(@Param("email")String email, @Param("phone")String phone);
+
+	void updatePassword(@Param("id")String id, @Param("pw")String encPw);
+
 }
