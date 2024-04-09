@@ -21,19 +21,9 @@ public class BookDTO {
 	private String[] authors;//저자 리스트
 	private String[] translators;//역자 리스트
 	
-	public String authorsToString(String[] authors) {
-		// String[] -> String 으로 만들어 DB에 저장하거나 출력하는 용도.
-		// ["홍길동","나길동"] -> 홍길동, 나길동 식으로 DB 저장 및 콘솔에 출력되기 위함.
-	    String str_author = "";
-        for (int i = 0; i < authors.length-1; i++) {
-        	str_author += authors[i] + ", ";
-	    }
-	    if (authors.length > 0) str_author += authors[authors.length-1];
-	    return str_author;
-	}
-
 	@Override
 	public String toString() {
-		return "BookDTO [title=" + title + ", datetime=" + datetime + "]";
+		return "BookDTO [title=" + title + ", isbn=" + isbn + "]";
 	}
+	
 }

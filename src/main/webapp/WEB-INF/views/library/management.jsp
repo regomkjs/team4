@@ -129,6 +129,10 @@
 			selectBook.push(book[value]);
 		})
 		console.log(selectBook);
+		if(selectBook.length==0){
+			alert("선택된 책이 없습니다");
+			return;
+		}
 		$.ajax({
 			async : true,
 			url :'<c:url value="/management/insert" />', 
@@ -137,7 +141,11 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function (data){
-				console.log(data);
+				if(data){
+					alert("추가가 되었습니다");
+				}else{
+					alert("추가가 하지 못 했습니다");
+				}
 			}, 
 			error : function(jqXHR, textStatus, errorThrown){
 
@@ -162,17 +170,18 @@
 				book=[]
 				for(let i=0;i<data.documents.length;i++){
 					book.push(data.documents[i]);
+					book[i].isbn=toStringSplit(data.documents[i].isbn);
 					str+=`
 						<tr>
 					    	<td>
 					          <input type="checkbox" data-index="\${i}" class="chkBtn"/>
 					        </td>
-					        <td>\${data.documents[i].title}</td>
-					      	<td>\${data.documents[i].isbn}</td>
-					       	<td>\${data.documents[i].publisher}</td>
-					      	<td>\${data.documents[i].authors}</td>
-					      	<td>\${data.documents[i].translators}</td>
-					      	<td>\${toStringFormatting(data.documents[i].datetime)}</td>
+					        <td>\${book[i].title}</td>
+					      	<td>\${book[i].isbn}</td>
+					       	<td>\${book[i].publisher}</td>
+					      	<td>\${book[i].authors}</td>
+					      	<td>\${book[i].translators}</td>
+					      	<td>\${toStringFormatting(book[i].datetime)}</td>
 					    </tr>	
 					`;
 				}
@@ -184,7 +193,6 @@
 			}
 		});
 	})
-	
 	
 	
 	
@@ -214,6 +222,15 @@
       const month = leftPad(date.getMonth() + 1);
       const day = leftPad(date.getDate());
       return [year, month, day].join('-');
+	}
+	
+	//문자열 자르기
+	function toStringSplit(source){
+		let str=source;
+		if(source.length>20){
+	   		str=source.split(" ",1);
+		}
+	   	return str.toString();
 	}
 	
 	function leftPad(value){
