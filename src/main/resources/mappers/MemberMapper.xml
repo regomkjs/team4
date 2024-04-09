@@ -28,7 +28,8 @@
 		update member set
 			me_pw = #{member.me_pw},
 			me_email = #{member.me_email},
-			me_phone = #{member.me_phone}
+			me_phone = #{member.me_phone},
+			me_nick = #{member.me_nick}
 		where me_id = #{member.me_id}
 	</update>
 </mapper>

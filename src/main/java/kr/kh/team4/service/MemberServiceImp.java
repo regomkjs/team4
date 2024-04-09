@@ -140,13 +140,11 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public boolean updateMember(MemberVO member, MemberVO user) {
-		if(member == null || user == null) {
-			return false;
-		}
-		if(!checkString(member.getMe_email())) {
-			return false;
-		}
-		if(!checkString(member.getMe_phone())) {
+		if( member == null || user == null ||
+			!checkString(member.getMe_id()) ||
+			!checkString(member.getMe_email()) ||
+			!checkString(member.getMe_nick()) ||
+			!checkString(member.getMe_phone())) {
 			return false;
 		}
 		if(!checkString(member.getMe_pw())) {
@@ -157,12 +155,18 @@ public class MemberServiceImp implements MemberService {
 		}
 		
 		member.setMe_id(user.getMe_id());
-		boolean res = memberDao.updateMember(member);
-		if(!res) {
+		try {
+			boolean res = memberDao.updateMember(member);
+			if(!res) {
+				return false;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		user.setMe_pw(member.getMe_pw());
 		user.setMe_email(member.getMe_email());
+		user.setMe_nick(member.getMe_nick());
 		user.setMe_phone(member.getMe_phone());
 		return true;
 	}
