@@ -2,11 +2,12 @@ package kr.kh.team4.model.dto;
 
 import java.sql.Date;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class BookDTO {
 	private String title;//도서명
 	private String contents;//도서내용
@@ -29,5 +30,10 @@ public class BookDTO {
 	    }
 	    if (authors.length > 0) str_author += authors[authors.length-1];
 	    return str_author;
+	}
+
+	@Override
+	public String toString() {
+		return "BookDTO [title=" + title + ", datetime=" + datetime + "]";
 	}
 }
