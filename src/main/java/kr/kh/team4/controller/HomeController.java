@@ -131,4 +131,27 @@ public class HomeController {
 		map.put("result", res);
 		return map;
 	}
+	
+	@GetMapping("/mypage")
+	public String mypage(Model model) {
+		model.addAttribute("title", "내 정보");
+		return "/member/mypage";
+	}
+	
+	@PostMapping("/mypage")
+	public String mypagePost(Model model, MemberVO member, HttpSession session) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = memberService.updateMember(member, user);
+		if(res) {
+			model.addAttribute("msg", "회원 정보를 수정했습니다.");
+			model.addAttribute("url", "/mypage");
+		}else {
+			model.addAttribute("msg", "회원 정보를 수정하지 못했습니다.");
+			model.addAttribute("url", "/mypage");
+		}
+		//세션에 회원 정보 수정
+		session.setAttribute("user", user);
+		return "message";
+	}
+	
 }

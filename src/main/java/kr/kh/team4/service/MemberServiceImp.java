@@ -138,5 +138,33 @@ public class MemberServiceImp implements MemberService {
 		return res;
 	}
 
+	@Override
+	public boolean updateMember(MemberVO member, MemberVO user) {
+		if(member == null || user == null) {
+			return false;
+		}
+		if(!checkString(member.getMe_email())) {
+			return false;
+		}
+		if(!checkString(member.getMe_phone())) {
+			return false;
+		}
+		if(!checkString(member.getMe_pw())) {
+			member.setMe_pw(user.getMe_pw());
+		}else {
+			String encPw = passwordEncoder.encode(member.getMe_pw());
+			member.setMe_pw(encPw);
+		}
+		
+		member.setMe_id(user.getMe_id());
+		boolean res = memberDao.updateMember(member);
+		if(!res) {
+			return false;
+		}
+		user.setMe_pw(member.getMe_pw());
+		user.setMe_email(member.getMe_email());
+		user.setMe_phone(member.getMe_phone());
+		return true;
+	}
 	
 }
