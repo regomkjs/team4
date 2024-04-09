@@ -102,8 +102,10 @@ public class HomeController {
 		return "/member/findid";
 	}
 	
+	/*
 	@PostMapping("/find/id")
 	public String findIdPost() {
 		
 	}
+	*/
 }

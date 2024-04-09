@@ -11,7 +11,7 @@
 		게시글 작성
 	</h1>
 	<div class="container mt-3 mb-3">
-		<form action='<c:url value="/post/list"/>' method="post">
+		<form action='<c:url value="/post/insert"/>' method="post">
 			<div class="mb-3 mt-3">
 				<label for="category">게시판:</label>
 				<select id="category" name="po_ca_num" class="form-control">

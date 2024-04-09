@@ -17,6 +17,15 @@ public class PostServiceImp implements PostService {
 	@Autowired
 	PostDAO postDAO;
 
+	private boolean checkString(String str) {
+		if(str.length() == 0 || str == null) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
 	@Override
 	public ArrayList<CategoryVO> getCategoryList() {
 		return postDAO.selectCategoryList();
@@ -38,5 +47,15 @@ public class PostServiceImp implements PostService {
 		}
 		
 		return postDAO.totalCountPost(cri);
+	}
+
+	@Override
+	public boolean insertPost(PostVO post) {
+		if(post == null||
+				!checkString(post.getPo_title()) ||
+				!checkString(post.getPo_content())) {
+			return false;
+		}
+		return postDAO.insertPost(post);
 	}
 }

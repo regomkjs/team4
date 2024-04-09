@@ -78,4 +78,10 @@
  			 	and po_ca_num = #{cri.ca}
  			</if>
  	</select>
+ 	
+ 	<insert id="insertPost">
+ 		insert into post(po_title, po_content, po_datetime, po_me_id, po_ca_num)
+ 		values(#{post.po_title}, #{post.po_content}, now(), #{post.po_me_id}, #{post.po_ca_num})
+ 	</insert>
+ 	
 </mapper>

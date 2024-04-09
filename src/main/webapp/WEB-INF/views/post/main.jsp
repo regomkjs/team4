@@ -13,6 +13,7 @@
 	
 	<ul>
 		<li><a href='<c:url value="/community"/>'>커뮤니티 관리</a></li>
+		<li><a href='<c:url value="/post/list"/>'>전체 게시글</a></li>
 		<c:forEach items="${categoryList}" var="category">
 			<li>
 				<c:url value="/post/list" var="url">

@@ -15,4 +15,6 @@ public interface PostService {
 
 	int totalCountPost(Criteria cri);
 
+	boolean insertPost(PostVO post);
+
 }
