@@ -9,10 +9,13 @@
  	
  	<select id="selectPostList" resultType="PostVO">
  		select 
- 			post.*, category.*, count(co_num) as po_co_count,
+ 			post.*, category.*, member.me_nick,
+ 			count(co_num) as po_co_count,
 			SUM(CASE WHEN he_state = 1 THEN 1 ELSE 0 END) AS po_totalHeart 
 		from 
 			post
+				join
+			member on po_me_id = me_id
 				join 
 			category on po_ca_num = ca_num
 				left join 
@@ -119,4 +122,45 @@
  	<select id="selectTotalCountHeart" resultType="int">
  		select count(*) from heart where he_po_num = #{po_num}
  	</select>
+ 	
+ 	<update id="updateView">
+ 		update post set po_view = po_view + 1 where po_num = #{po_num}
+ 	</update>
+ 	
+ 	<select id="selectCommentList" resultType="CommentVO">
+ 		select 
+ 			comment.*, member.me_nick 
+		from 
+			comment 
+				join
+			member on me_id = co_me_id
+		where 
+			co_po_num = #{cri.poNum}
+ 		order by 
+ 			co_ori_num asc, co_num asc
+ 		limit 
+ 			#{cri.pageStart}, #{cri.perPageNum}	
+ 	</select>
+ 	
+	<select id="selectTotalCountComment" resultType="int">
+ 		select count(*) from comment where co_po_num = #{cri.poNum} and co_state = 1
+ 	</select>
+ 	
+ 	<insert id="insertComment">
+ 		insert into comment(co_ori_num, co_content, co_datetime, co_state, co_me_id, co_po_num)
+ 		values(#{comment.co_ori_num},#{comment.co_content}, now(), 1,#{comment.co_me_id},#{comment.co_po_num})
+ 	</insert>
+ 	
+ 	<update id="updateOriComment">
+ 		update comment set co_ori_num = co_num where co_ori_num = 0
+ 	</update>
+ 	
+ 	<select id="selectComment" resultType="CommentVO">
+ 		select * from comment where co_num = #{co_num}
+ 	</select>
+ 	
+ 	<update id="updateComment">
+ 		update comment set co_content = #{co_content} where co_num = #{co_num}
+ 	</update>
+ 	
 </mapper>

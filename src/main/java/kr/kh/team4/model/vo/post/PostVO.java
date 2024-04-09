@@ -22,4 +22,6 @@ public class PostVO {
 	private int po_co_count;
 	//좋아요수
 	private int po_totalHeart;
+	//작성자 닉네임
+	private String me_nick;
 }

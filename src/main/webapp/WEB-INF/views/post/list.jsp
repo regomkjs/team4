@@ -53,7 +53,7 @@
 				  			<a href="${detailUrl}">${post.po_title}</a> <span class="ml-4">[${post.po_co_count}]</span>
 				  		</td>
 				  		<td>
-				  			<a href="#">${post.po_me_id}</a> 
+				  			<a href="#">${post.me_nick}</a> 
 			  			</td>
 				  		<td>${post.po_view}</td>
 				  		<td>${post.po_totalHeart}</td>

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
+import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.HeartVO;
 import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.pagination.Criteria;
@@ -29,5 +30,19 @@ public interface PostDAO {
 	void insertHeart(@Param("user")MemberVO user, @Param("po_num")int po_num);
 
 	int selectTotalCountHeart(@Param("po_num")int po_num);
+
+	void updateView(@Param("po_num")int po_num);
+
+	ArrayList<CommentVO> selectCommentList(@Param("cri")Criteria cri);
+
+	int selectTotalCountComment(@Param("cri")Criteria cri);
+
+	boolean insertComment(@Param("comment")CommentVO comment);
+
+	void updateOriComment();
+
+	CommentVO selectComment(@Param("co_num")int num);
+
+	boolean updateComment(@Param("co_num")int num, @Param("co_content")String content);
 
 }

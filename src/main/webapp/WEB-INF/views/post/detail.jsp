@@ -32,8 +32,33 @@
 		<div class="mb-3 mt-3 d-flex justify-content-start">
 			<button class="btn-heart btn btn-outline-danger mr-3">하트</button> <div style="font: bolder; font-size: x-large;" class="text-heart">${post.po_totalHeart}</div> 
 		</div>
+		
+		<div class="mt-3 mb-3 comment-box container">
+			<h4>댓글(<span class="comment-total">2</span>)</h4>
+			<hr>
+			<!-- 댓글 리스트를 보여주는 박스 -->
+			<div class="comment-list">
+				
+			</div>
+			<!-- 댓글 페이지네이션 박스 -->
+			<div class="comment-pagination">
+				<ul class="pagination justify-content-center">
+				
+				</ul>
+			</div>
+			<!-- 댓글 입력 박스 -->
+			<div class="comment-input-box">
+				<div class="input-group">
+					<textarea rows="4" class="form-control comment-content"></textarea>
+					<button type="button" class="btn btn-outline-success col-2 btn-comment-insert">등록</button>
+				</div>
+			</div>
+
+		</div>
 	</div>
 </div>
+
+
 
 
 <!-- 좋아요 구현 스크립트 -->
@@ -114,5 +139,226 @@ function displayHeart(result) {
 getHeart();
 </script>
 
+<!-- 댓글 리스트 출력 스크립트 -->
+<script type="text/javascript">
+let cri = {
+	page : 1,
+	poNum : '${post.po_num}'
+}
+getCommentList(cri)
+function getCommentList(cri) {
+	$.ajax({
+		url : '<c:url value="/comment/list"/>',
+		method : "post",
+		data : JSON.stringify(cri),
+		contentType : "application/json; charset=utf-8",
+		dataType : "json", 
+		success : function(data){
+			console.log(data.pm);
+			console.log(data.list);
+			let commentList = data.list;
+			let str = '';
+			if(commentList == null || commentList.length == 0){
+				str = '<div class="container text-center mb-3 mt-3">아직 등록된 댓글이 없습니다.</div>';
+			}
+			for(comment of commentList){
+				let btns = "";
+				if('${user.me_id}' == comment.co_me_id){
+					btns += 
+					`
+					<div class="btn-comment-group col-2">
+						<button class="btn btn-outline-warning btn-comment-update me-2" data-num="\${comment.co_num}">수정</button>
+						<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
+					</div>
+					`
+				}
+				else if('${user.me_gr_num}' == '0' && '${user}' != null){
+					btns += 
+					`
+					<div class="btn-comment-group col-2 ">
+						<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
+					</div>
+					`
+				}	
+				if(comment.co_num == comment.co_ori_num){
+					str +=
+						`
+						<div class="comment-container">
+							<div class="input-group mb-3 box-comment">
+								<div class="col-2"><h5>\${comment.me_nick}<h5></div>
+								<div class="co_content col-8">\${comment.co_content}</div>
+								\${btns}
+							</div>
+							<span style="font-size: small;" class="me-4">작성일 : \${comment.co_datetime}</span>
+							<a href="javascript:void(0);" class="reply" data-ori="\${comment.co_ori_num}">답글쓰기</a>
+						</div>	
+						<hr>
+							
+						`
+				}
+				else{
+					str +=
+						`
+						<div class="comment-container" style="margin-left: 100px;">
+							<div class="input-group mb-3 box-comment" >
+								<div class="col-2"><h5>\${comment.me_nick}<h5></div>
+								<div class="co_content col-8">\${comment.co_content}</div>
+								\${btns}
+							</div>
+							<span style="font-size: small;" class="">\${comment.co_datetime}</span>
+							<hr>
+						</div>	
+						`
+				}
+				
+			}
+			$(".comment-list").html(str);
+			let pm = data.pm;
+			let pmStr = "";
+			//이전 버튼 활성화 여부
+			if(pm.prev){
+				pmStr += `
+				<li class="page-item">
+					<a class="page-link" href="javascript:void(0);" data-page="\${pm.startPage-1}">이전</a>
+				</li>
+				`;
+			}
+			//숫자 페이지
+			for(let i = pm.startPage; i<= pm.endPage; i++){
+				let active = pm.cri.page == i ? "active" : "";
+				pmStr += `
+			    <li class="page-item \${active}">
+					<a class="page-link" href="javascript:void(0);" data-page="\${i}">\${i}</a>
+				</li>
+				`
+			}
+			//다음 버튼 활성화 여부
+			if(pm.next){
+				pmStr += `
+				<li class="page-item">
+					<a class="page-link" href="javascript:void(0);" data-page="\${pm.endPage + 1}">다음</a>
+				</li>
+				`
+			}
+			$(".comment-pagination>ul").html(pmStr);
+			$('.comment-total').text(pm.totalCount);
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생");
+		}
+	});
+}
+
+$(document).on("click", ".comment-pagination .page-link", function () {
+	cri.page = $(this).data("page");
+	getCommentList(cri);
+})
+
+</script>
+
+<!-- 댓글 작성 스크립트 -->
+<script type="text/javascript">
+//댓글 등록 버튼 클릭 이벤트를 등록
+$(".btn-comment-insert").click(function () {
+	if('${user.me_id}' == ''){
+		if(confirm("로그인이 필요한 서비스 입니다. 로그인으로 이동하시겠습니까?")){
+			location.href = "<c:url value='/login'/>"
+			return;
+		}
+		else{
+			return;
+		}
+	}
+	
+	let content = $(".comment-content").val();
+	let poNum = '${post.po_num}';
+	
+	$.ajax({
+		url : '<c:url value="/comment/insert"/>',
+		method : "post",
+		data : {
+			"content" : content,
+			"po_num" : poNum
+		},
+		success : function (data) {
+			if(data.result){
+				alert("댓글이 등록되었습니다.");
+				cri.page = 1;
+				getCommentList(cri);
+				$(".comment-content").val("");
+			}else{
+				alert("댓글 등록 실패")
+			}
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생");
+		}
+	});		
+});
+</script>
+
+<!-- 댓글 수정 스크립트 -->
+<script type="text/javascript">
+	$(document).on("click",".btn-comment-update",function(){
+		initComment()
+		// 현재 댓글 보여주는 창이 textarea태그로 변경
+		// 기존 댓글 창을 감춤
+		$(this).parents(".box-comment").find(".co_content").hide();
+		let comment = $(this).parents(".box-comment").find(".co_content").text();
+		let textarea =
+		`
+		<textarea rows="3" class="form-control com-input">\${comment}</textarea>
+		`
+		$(this).parents(".box-comment").find(".co_content").after(textarea);
+		// 수정 삭제 버튼 대신 수정 완료 버튼으로 변경
+		$(this).parents(".btn-comment-group").hide();
+		let num = $(this).data("num");
+		let btn = 
+		`
+		<button class="btn btn-outline-success btn-complete" data-num="\${num}" type="button">수정완료</button>
+		`
+		$(this).parent().after(btn);
+	});
+	
+	$(document).on("click",".btn-complete",function(){
+		let num = $(this).data("num");
+		let content = $(".com-input").val();
+		$.ajax({
+			url : '<c:url value="/comment/update"/>',
+			method : "post",
+			data : {
+				"num" : num,
+				"content" : content
+			},
+			success : function (data) {
+				if(data.result){
+					alert("댓글을 수정했습니다.");
+					getCommentList(cri);
+				}
+				else{
+					alert("댓글 수정에 실패했습니다.");
+				}
+			},
+			error : function (a, b, c) {
+				console.error("에러 발생")
+			}
+		});
+	});
+	
+	
+	function initComment() {
+		//감추었던 댓글 내용을 보여줌
+		$(".co_content").show();
+		$(".reply").show();
+		//감추었던 수정 삭제 버튼을 보여줌
+		$(".btn-comment-group").show();
+		//textarea 삭제
+		$(".com-input").remove();
+		$(".reply-box").remove();
+		//수정 버튼 
+		$(".btn-complete").remove();
+	}
+
+</script>
 </body>
 </html>

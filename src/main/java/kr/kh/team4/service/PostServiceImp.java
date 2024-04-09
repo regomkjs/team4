@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import kr.kh.team4.dao.PostDAO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
+import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.HeartVO;
 import kr.kh.team4.model.vo.post.PostVO;
+import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.PostCriteria;
 
@@ -65,6 +67,7 @@ public class PostServiceImp implements PostService {
 
 	@Override
 	public PostVO getPost(int po_num) {
+		postDAO.updateView(po_num);
 		return postDAO.selectPost(po_num);
 	}
 
@@ -107,6 +110,56 @@ public class PostServiceImp implements PostService {
 	@Override
 	public int totalCountHeart(int po_num) {
 		return postDAO.selectTotalCountHeart(po_num);
+	}
+
+
+
+	@Override
+	public ArrayList<CommentVO> getCommentList(Criteria cri) {
+		if(cri == null) {
+			return null;
+		}
+		return postDAO.selectCommentList(cri);
+	}
+
+
+
+	@Override
+	public int getTotalCountComment(Criteria cri) {
+		if(cri == null) {
+			return 0;
+		}
+		return postDAO.selectTotalCountComment(cri);
+	}
+
+
+
+	@Override
+	public boolean insertComment(CommentVO comment) {
+		if(comment == null || 
+				!checkString(comment.getCo_content()) || 
+				!checkString(comment.getCo_me_id())) {
+			return false;
+		}
+		boolean res = postDAO.insertComment(comment);
+		if(res) {
+			postDAO.updateOriComment();
+		}
+		return res;
+	}
+
+
+
+	@Override
+	public boolean updateComment(int num, String content, MemberVO user) {
+		if(user == null || !checkString(content)) {
+			return false;
+		}
+		CommentVO comment = postDAO.selectComment(num);
+		if(comment == null || !comment.getCo_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		return postDAO.updateComment(num, content);
 	}
 
 }
