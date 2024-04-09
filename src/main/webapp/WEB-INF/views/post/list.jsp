@@ -10,8 +10,9 @@
 	<h1>
 		게시글 목록
 	</h1>
+	
 	<form action="<c:url value="/post/list"/>" method="get" class="input-group" id="searchForm">
-		
+		<input name="ca" style="display: none;" value="${pm.cri.ca}">
 		<div class="input-group mb-1">
 			<select name="type" class="input-group-prepend" >
 				<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
