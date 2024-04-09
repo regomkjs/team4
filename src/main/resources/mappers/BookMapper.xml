@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kh.team4.dao.BookDAO">
+	<insert id="insertBook">
+		insert into book(bo_title,bo_contents,bo_date,bo_publisher,bo_price,bo_sale_price,bo_thumbnail,
+		bo_isbn,bo_un_num) 
+		value(#{book.title},#{book.contents},#{book.datetime},#{book.publisher},#{book.price},
+		#{book.sale_price},#{book.thumbnail},#{book.isbn},13)
+	</insert>
+	<select id="getUpperList" resultType="kr.kh.team4.model.vo.book.UpperVO">
+		select * from upper
+	</select>
+	<select id="getUnderList" resultType="kr.kh.team4.model.vo.book.UnderVO">
+		select * from under
+	</select>
+	<select id="selectBookNum" resultType="int">
+		select bo_num from book where bo_isbn=#{isbn}
+	</select>
+	<insert id="insertAuthors">
+		insert into authors value(null,#{authors},#{bo_num})
+	</insert>
+	<insert id="insertTranslators">
+		insert into translators value(null,#{translators},#{bo_num})
+	</insert>
+</mapper>
