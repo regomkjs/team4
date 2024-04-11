@@ -138,6 +138,8 @@ public class MemberServiceImp implements MemberService {
 		
 		String encPw = passwordEncoder.encode(newPw);
 		memberDao.updatePassword(id, encPw);
+		memberDao.updateFailCount(id, 0);
+		memberDao.updateMemberState(id, 2);
 		return res;
 	}
 
@@ -175,7 +177,7 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
-	public ArrayList<GradeVO> selectGradeList() {
+	public ArrayList<GradeVO> getGradeList() {
 		return memberDao.selectGradeList();
 	}
 
@@ -188,7 +190,7 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
-	public GradeVO selectGrade(int num) {
+	public GradeVO getGrade(int num) {
 		return memberDao.selectGrade(num);
 	}
 
@@ -198,6 +200,24 @@ public class MemberServiceImp implements MemberService {
 			return false;
 		}
 		return memberDao.updateGrade(grade);
+	}
+
+	@Override
+	public MemberVO getMember(String id) {
+		if(id == null) {
+			return null;
+		}
+		return memberDao.selectMember(id);
+	}
+
+	@Override
+	public void failCountUp(MemberVO failUser, int failCount) {
+		memberDao.updateFailCount(failUser.getMe_id(), failCount);
+	}
+
+	@Override
+	public void updateMemberState(MemberVO failUser, int num) {
+		memberDao.updateMemberState(failUser.getMe_id(), num);
 	}
 	
 }

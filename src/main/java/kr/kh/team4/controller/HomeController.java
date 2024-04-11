@@ -82,12 +82,35 @@ public class HomeController {
 		MemberVO user = memberService.login(loginDto);
 
 		if(user != null) {
+			if(user.getMe_ms_num() != 2) {
+				model.addAttribute("msg", "현재 계정이 [정지] 상태라서 로그인이 불가능합니다.");
+				model.addAttribute("url", "/login");
+				return "message";
+			}
+			
+			memberService.failCountUp(user, 0);
 			model.addAttribute("user", user);
 			model.addAttribute("msg", "로그인 성공");
 			model.addAttribute("url", "/");
 		}else {
-			model.addAttribute("msg", "로그인 실패");
-			model.addAttribute("url", "/login");
+			MemberVO failUser = memberService.getMember(loginDto.getId());
+			int failCount;
+			if(failUser != null) {
+				failCount = failUser.getMe_fail_count() + 1;
+				memberService.failCountUp(failUser, failCount);
+				model.addAttribute("msg", "로그인에 실패했습니다. 현재 실패횟수는 " + failCount + "번 입니다. 5회 초과시 계정이 정지됩니다.");
+				model.addAttribute("url", "/login");
+			}else {
+				model.addAttribute("msg", "로그인 실패");
+				model.addAttribute("url", "/login");
+				return "message";
+			}
+			if(failUser.getMe_fail_count() >= 5) {
+				int num = 3;
+				memberService.updateMemberState(failUser, num);
+				model.addAttribute("msg", "로그인 5회 초과 실패하여 계정이 정지됩니다. 비밀번호 찾기를 통해 풀고 다시 시도하세요.");
+				model.addAttribute("url", "/login");
+			}
 		}
 		return "message";
 	}
@@ -158,7 +181,7 @@ public class HomeController {
 	
 	@GetMapping("/grade/list")
 	public String grade(Model model, GradeVO grade) {
-		ArrayList<GradeVO> gradeList = memberService.selectGradeList();
+		ArrayList<GradeVO> gradeList = memberService.getGradeList();
 		model.addAttribute("title", "등급 관리");
 		model.addAttribute("gradeList", gradeList);
 		return "/grade/list";
@@ -172,7 +195,7 @@ public class HomeController {
 	
 	@PostMapping("/grade/insert")
 	public String gradeInsertPost(Model model, GradeVO grade) {
-		ArrayList<GradeVO> gradeList = memberService.selectGradeList();
+		ArrayList<GradeVO> gradeList = memberService.getGradeList();
 		if(gradeList.size() < 6) {
 			memberService.insertGrade(grade);
 			model.addAttribute("msg", "등급을 추가했습니다.");
@@ -186,7 +209,7 @@ public class HomeController {
 	
 	@GetMapping("/grade/update")
 	public String gradeUpdate(Model model, int num) {
-		GradeVO grade = memberService.selectGrade(num);
+		GradeVO grade = memberService.getGrade(num);
 		model.addAttribute("grade", grade);
 		model.addAttribute("title", "등급 수정");
 		return "/grade/update";
@@ -198,10 +221,10 @@ public class HomeController {
 		boolean res = memberService.updateGrade(grade);
 		
 		if(res) {
-			model.addAttribute("msg", "게시글을 수정했습니다.");
+			model.addAttribute("msg", "등급을 수정했습니다.");
 			model.addAttribute("url", "/grade/list");
 		}else {
-			model.addAttribute("msg", "게시글을 수정하지 못했습니다.");
+			model.addAttribute("msg", "등급을 수정하지 못했습니다.");
 			model.addAttribute("url", "/grade/update?num="+grade.getGr_num());
 		}
 		return "message";

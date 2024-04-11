@@ -29,4 +29,8 @@ public interface MemberDAO {
 
 	boolean updateGrade(@Param("grade")GradeVO grade);
 
+	void updateFailCount(@Param("me_id")String me_id, @Param("failCount")int failCount);
+
+	void updateMemberState(@Param("me_id")String me_id, @Param("num")int num);
+
 }

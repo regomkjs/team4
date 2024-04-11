@@ -20,7 +20,7 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${gradeList}" var="grade" begin="1" end="5">
-				<tr class="box-grade">
+				<tr class="grade-list">
 					<td class="col-2 grade-item">${grade.gr_name }</td>
 					<td class="col-2 grade-item">${grade.gr_discount }%</td>
 					<td class="col-2 grade-item">${grade.gr_loan_condition }개</td>
@@ -37,4 +37,7 @@
 	<a href="<c:url value="/grade/insert"/>" class="btn btn-outline-success">등급 추가</a>
 </div>
 </body>
+<script type="text/javascript">
+	
+</script>
 </html>

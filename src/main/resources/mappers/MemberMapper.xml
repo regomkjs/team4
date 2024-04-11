@@ -54,4 +54,16 @@
 			gr_post_condition = #{grade.gr_post_condition}
 		where gr_num = #{grade.gr_num}
 	</update>
+	
+	<update id="updateFailCount">
+		update member set
+			me_fail_count = #{failCount}
+		where me_id = #{me_id}
+	</update>
+	
+	<update id="updateMemberState">
+		update member set
+			me_ms_num = #{num}
+		where me_id = #{me_id}
+	</update>
 </mapper>

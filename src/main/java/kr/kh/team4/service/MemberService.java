@@ -22,12 +22,19 @@ public interface MemberService {
 
 	boolean updateMember(MemberVO member, MemberVO user);
 
-	ArrayList<GradeVO> selectGradeList();
+	ArrayList<GradeVO> getGradeList();
 
 	boolean insertGrade(GradeVO grade);
 
-	GradeVO selectGrade(int num);
+	GradeVO getGrade(int num);
 
 	boolean updateGrade(GradeVO grade);
+
+	MemberVO getMember(String id);
+
+	void failCountUp(MemberVO failUser, int failCount);
+
+	void updateMemberState(MemberVO failUser, int num);
+
 
 }
