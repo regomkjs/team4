@@ -10,6 +10,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.pagination.Criteria;
 
 @Service
 public class BookServiceImp implements BookService {
@@ -59,6 +60,47 @@ public class BookServiceImp implements BookService {
 	public ArrayList<UnderVO> getUnderList() {
 		return bookDao.getUnderList();
 	}
+
+	@Override
+	public ArrayList<BookVO> getBookList(Criteria cri) {
+		if(cri==null) {
+			cri=new Criteria();
+		}
+		return bookDao.getBookList(cri);
+	}
+
+	@Override
+	public int getTotalCount(Criteria cri) {
+		if(cri==null) {
+			cri=new Criteria();
+		}
+		return bookDao.getTotalCount(cri);
+	}
+
+	@Override
+	public ArrayList<UnderVO> getUnder(int num) {
+		return bookDao.getUnder(num);
+	}
+
+	@Override
+	public boolean updateBook(int boNum, int caNum, int tyNum) {
+		String bo_code= caNum+""+(tyNum<10?"0"+tyNum:tyNum);
+		ArrayList<BookVO> books=bookDao.selectBookCodeList(bo_code);
+		int i=0;
+		if(books.size()==0) {
+			return bookDao.updateBook(bo_code,boNum);
+		}else {
+			int index=books.indexOf(new BookVO(boNum));
+			String name=books.get(index).getBo_title();
+			for(BookVO tmp:books) {
+				if(tmp.getBo_title().equals(name)&&!tmp.getBo_code().equals("미정")) {
+					i++;
+				}
+			}
+		}
+		return false;
+	}
+
 	
 	
 }

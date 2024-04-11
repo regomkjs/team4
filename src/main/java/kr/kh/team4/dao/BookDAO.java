@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.kh.team4.model.dto.BookDTO;
+import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.pagination.Criteria;
 
 public interface BookDAO {
 
@@ -21,6 +23,12 @@ public interface BookDAO {
 	void insertTranslators(@Param("bo_num") int num, @Param("translators")String translators);
 
 	int selectBookNum(@Param("isbn") String isbn);
+
+	ArrayList<BookVO> getBookList(@Param("cri") Criteria cri);
+
+	int getTotalCount(@Param("cri") Criteria cri);
+
+	ArrayList<UnderVO> getUnder(@Param("num") int num);
 
 
 }

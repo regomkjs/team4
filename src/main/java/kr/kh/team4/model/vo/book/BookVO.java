@@ -18,4 +18,9 @@ public class BookVO {
 	private String bo_thumbnail; 
 	private String bo_isbn; 
 	private int bo_un_num;
+	private String bo_code;
+	
+	private String bo_au_name;
+	private String bo_tr_name;
+	
 }
