@@ -15,6 +15,9 @@
 	<select id="getUnderList" resultType="kr.kh.team4.model.vo.book.UnderVO">
 		select * from under
 	</select>
+	<select id="getUnder" resultType="kr.kh.team4.model.vo.book.UnderVO">
+		select * from under where un_up_num=#{num}
+	</select>
 	<select id="selectBookNum" resultType="int">
 		select bo_num from book where bo_isbn=#{isbn}
 	</select>
@@ -48,7 +51,12 @@
 				bo_publisher like concat('%', #{cri.search}, '%') 
 			</otherwise>
 		</choose>
-		order by case bo_code when "미정" then 1 else 2 end
+		<if test='cri.bo_code==true'>
+			order by bo_title
+		</if>
+		<if test='cri.bo_code==false'>
+			order by case bo_code when "미정" then 1 else 2 end
+		</if>
 		LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
 	<select id="getTotalCount" resultType="int">
