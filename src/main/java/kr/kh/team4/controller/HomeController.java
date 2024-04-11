@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,7 +83,7 @@ public class HomeController {
 		MemberVO user = memberService.login(loginDto);
 
 		if(user != null) {
-			if(user.getMe_ms_num() != 2) {
+			if(user.getMe_ms_num() == 3) {
 				model.addAttribute("msg", "현재 계정이 [정지] 상태라서 로그인이 불가능합니다.");
 				model.addAttribute("url", "/login");
 				return "message";
@@ -129,7 +130,7 @@ public class HomeController {
 		return "/member/findid";
 	}
 	
-	/*
+	
 	@PostMapping("/find/id")
 	public String findIdPost(Model model,String me_email, String me_phone) {
 		MemberVO member = memberService.findId(me_email, me_phone);
@@ -208,6 +209,7 @@ public class HomeController {
 		return "message";
 	}
 	
+	/*
 	@GetMapping("/grade/update")
 	public String gradeUpdate(Model model, int num) {
 		GradeVO grade = memberService.getGrade(num);
@@ -218,7 +220,12 @@ public class HomeController {
 	
 	@PostMapping("/grade/update")
 	public String gradeUpdatePost(Model model, GradeVO grade) {
-
+		ArrayList<GradeVO> gradeList = memberService.getGradeList();
+		for(int i = 1; i < 6; i++) {
+			int gr = gradeList.get(i).getGr_loan_condition();
+			log.info(gr);
+		}
+		
 		boolean res = memberService.updateGrade(grade);
 		
 		if(res) {
@@ -231,4 +238,14 @@ public class HomeController {
 		return "message";
 	}
 	*/
+	
+	@ResponseBody
+	@PostMapping("/grade/update")
+	public Map<String, Object> 메서드명(@RequestBody GradeVO grade){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = memberService.updateGrade(grade);
+		log.info(grade);
+		map.put("result", res);
+		return map;
+	}
 }
