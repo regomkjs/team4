@@ -4,20 +4,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>문자</title>
+    <title>문자 메시지 보내기</title>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<div class="container">
-	<form action="<c:url value="/mail"/>" method="post">
-		<div class="form-group">
-			<input type="text" class="form-control" id="phone" name="phone" placeholder="수신번호">
-		</div>
-		<div class="form-group">
-			<textarea class="form-control" id="content" name="content" placeholder="내용"></textarea>
-		</div>
-		<button type="submit">전송</button>
-	</form>
-</div>
+    <h2>문자 메시지 보내기</h2>
+    <form id="smsForm" action="<c:url value="/mail"/>" method="post">
+        <div>
+            <label for="phone">수신 전화번호:</label>
+            <input type="text" id="phone" name="phone" required>
+        </div>
+        <div>
+            <label for="content">메시지 내용:</label>
+            <textarea id="content" name="content" required></textarea>
+        </div>
+        <button type="submit">문자 보내기</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#smsForm').on('submit', function(e) {
+                e.preventDefault();
+
+                var phone = $('#phone').val();
+                var content = $('#content').val();
+
+                $.ajax({
+                    url: '<c:url value="/mail"/>',
+                    type: 'POST',
+                    data: {
+                        phone: phone,
+                        content: content
+                    },
+                    success: function(response) {
+                        alert('문자 메시지가 성공적으로 전송되었습니다.');
+                        $('#phone').val('');
+                        $('#content').val('');
+                    },
+                    error: function(xhr, status, error) {
+                        alert('문자 메시지 전송에 실패하였습니다: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

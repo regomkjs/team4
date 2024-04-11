@@ -29,9 +29,9 @@ public class MailController {
 	
 	@ResponseBody
 	@PostMapping("/mail")
-	public String main(String[] args, @RequestParam(value="phone",required=false)String phone, @RequestParam(value="content",required=false)String content) {
+	public String main(String[] args, @RequestParam("phone")String phone, @RequestParam("content")String content) {
 	    String api_key = "api";
-	    String api_secret = "secret";
+	    String api_secret = "screct";
 	    Message coolsms = new Message(api_key, api_secret);
 	    
 	    
@@ -39,8 +39,8 @@ public class MailController {
 	    HashMap<String, String> params = new HashMap<String, String>();
 	    params.put("to", phone);	// 수신전화번호
 	    params.put("from", "01050602154");	// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
-	    params.put("type", "SMS");
-	    params.put("text", content);
+	    params.put("type", "SMS");	// 타입
+	    params.put("text", content); //내용
 	    params.put("app_version", "test app 1.2"); // application name and version
 	
 	    try {
@@ -50,6 +50,6 @@ public class MailController {
 	      System.out.println(e.getMessage());
 	      System.out.println(e.getCode());
 	    }
-	    return "/";
+	    return "/main/home";
     }
 }
