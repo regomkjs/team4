@@ -209,39 +209,9 @@ public class HomeController {
 		return "message";
 	}
 	
-	/*
-	@GetMapping("/grade/update")
-	public String gradeUpdate(Model model, int num) {
-		GradeVO grade = memberService.getGrade(num);
-		model.addAttribute("grade", grade);
-		model.addAttribute("title", "등급 수정");
-		return "/grade/update";
-	}
-	
-	@PostMapping("/grade/update")
-	public String gradeUpdatePost(Model model, GradeVO grade) {
-		ArrayList<GradeVO> gradeList = memberService.getGradeList();
-		for(int i = 1; i < 6; i++) {
-			int gr = gradeList.get(i).getGr_loan_condition();
-			log.info(gr);
-		}
-		
-		boolean res = memberService.updateGrade(grade);
-		
-		if(res) {
-			model.addAttribute("msg", "등급을 수정했습니다.");
-			model.addAttribute("url", "/grade/list");
-		}else {
-			model.addAttribute("msg", "등급을 수정하지 못했습니다.");
-			model.addAttribute("url", "/grade/update?num="+grade.getGr_num());
-		}
-		return "message";
-	}
-	*/
-	
 	@ResponseBody
 	@PostMapping("/grade/update")
-	public Map<String, Object> 메서드명(@RequestBody GradeVO grade){
+	public Map<String, Object> gradeUpdate(@RequestBody GradeVO grade){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res = memberService.updateGrade(grade);
 		log.info(grade);
