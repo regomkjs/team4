@@ -3,5 +3,176 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.kh.team4.dao.PostDAO">
+ 	<select id="selectCategoryList" resultType="CategoryVO">
+ 		select * from category 
+ 	</select>
+ 	
+ 	<select id="selectPostList" resultType="PostVO">
+ 		select 
+ 			post.*, category.*, member.me_nick,
+ 			SUM(CASE WHEN co_state = 1 THEN 1 ELSE 0 END) as po_co_count,
+			SUM(CASE WHEN he_state = 1 THEN 1 ELSE 0 END) AS po_totalHeart 
+		from 
+			post
+				join
+			member on po_me_id = me_id
+				join 
+			category on po_ca_num = ca_num
+				left join 
+			heart on he_po_num = po_num 
+				left join 
+			comment on co_po_num = po_num 
+		where
+			<if test='cri.type == "all"'>
+ 				(po_title like concat("%",#{cri.search},"%") or
+ 				po_content like concat("%",#{cri.search},"%") or
+ 				po_me_id like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "writer"'>
+ 				po_me_id like concat("%",#{cri.search},"%")
+ 			</if>
+ 			<if test='cri.type == "text"'>
+ 				(po_content like concat("%",#{cri.search},"%") or
+ 				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test="cri.ca != 0">
+ 			 	and po_ca_num = #{cri.ca}
+ 			</if>
+ 		group by 
+ 			po_num
+ 		order by 
+ 			<if test='cri.order == "new"'>
+	 			po_num desc
+ 			</if>
+			<if test='cri.order == "view"'>
+	 			po_view desc , po_num desc
+ 			</if>
+ 			<if test='cri.order == "heart"'>
+	 			po_totalHeart desc , po_num desc
+ 			</if>
+ 		limit #{cri.pageStart} , #{cri.perPageNum}
+ 	</select>
+ 	
+ 	<select id="totalCountPost" resultType="int">
+ 		select 
+ 			count(*)
+		from 
+			post
+				join 
+			category on po_ca_num = ca_num
+				left join 
+			heart on he_po_num = po_num 
+				left join 
+			comment on co_po_num = po_num 
+		where
+			<if test='cri.type == "all"'>
+ 				(po_title like concat("%",#{cri.search},"%") or
+ 				po_content like concat("%",#{cri.search},"%") or
+ 				po_me_id like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "writer"'>
+ 				po_me_id like concat("%",#{cri.search},"%")
+ 			</if>
+ 			<if test='cri.type == "text"'>
+ 				(po_content like concat("%",#{cri.search},"%") or
+ 				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test="cri.ca != 0">
+ 			 	and po_ca_num = #{cri.ca}
+ 			</if>
+ 	</select>
+ 	
+ 	<insert id="insertPost">
+ 		insert into post(po_title, po_content, po_datetime, po_me_id, po_ca_num)
+ 		values(#{post.po_title}, #{post.po_content}, now(), #{post.po_me_id}, #{post.po_ca_num})
+ 	</insert>
+ 	
+ 	
+ 	<select id="selectPost" resultType="PostVO">
+ 		select
+ 			post.*, category.*, count(co_num) as po_co_count,
+			SUM(CASE WHEN he_state = 1 THEN 1 ELSE 0 END) AS po_totalHeart 
+ 		from 
+ 			post 
+	 			join
+			category on po_ca_num = ca_num
+				left join 
+			heart on he_po_num = po_num 
+				left join 
+			comment on co_po_num = po_num 
+ 		where 
+ 			po_num = #{po_num}
+ 		group by 
+ 			po_num
+ 	</select>
+ 	
+ 	<select id="selectHeart" resultType="HeartVO">
+ 		select * from heart where he_me_id = #{user.me_id} and he_po_num = #{po_num}
+ 	</select>
+ 	
+ 	<delete id="deleteHeart">
+ 		delete from heart where he_me_id = #{user.me_id} and he_po_num = #{po_num}
+ 	</delete>
+ 	
+ 	<insert id="insertHeart">
+ 		insert into heart(he_state, he_po_num, he_me_id)
+ 		values (1, #{po_num}, #{user.me_id})
+ 	</insert>
+ 	
+ 	<select id="selectTotalCountHeart" resultType="int">
+ 		select count(*) from heart where he_po_num = #{po_num}
+ 	</select>
+ 	
+ 	<update id="updateView">
+ 		update post set po_view = po_view + 1 where po_num = #{po_num}
+ 	</update>
+ 	
+ 	<select id="selectCommentList" resultType="CommentVO">
+ 		select 
+ 			comment.*, member.me_nick 
+		from 
+			comment 
+				join
+			member on me_id = co_me_id
+		where 
+			co_po_num = #{cri.poNum}
+ 		order by 
+ 			co_ori_num asc, co_num asc
+ 		limit 
+ 			#{cri.pageStart}, #{cri.perPageNum}	
+ 	</select>
+ 	
+	<select id="selectTotalCountComment" resultType="int">
+ 		select count(*) from comment where co_po_num = #{cri.poNum} and co_state = 1
+ 	</select>
+ 	
+ 	<insert id="insertComment">
+ 		insert into comment(co_ori_num, co_content, co_datetime, co_state, co_me_id, co_po_num)
+ 		values(#{comment.co_ori_num},#{comment.co_content}, now(), 1,#{comment.co_me_id},#{comment.co_po_num})
+ 	</insert>
+ 	
+ 	<update id="updateOriComment">
+ 		update comment set co_ori_num = co_num where co_ori_num = 0
+ 	</update>
+ 	
+ 	<select id="selectComment" resultType="CommentVO">
+ 		select * from comment where co_num = #{co_num}
+ 	</select>
+ 	
+ 	<update id="updateComment">
+ 		update comment set co_content = #{co_content} where co_num = #{co_num}
+ 	</update>
+ 	
+ 	<update id="updateCommentState">
+ 		update comment set co_state = 0 where co_num = #{co_num}
+ 	</update>
+ 	
+ 	<delete id="deleteComment">
+ 		delete from comment where co_num = #{co_num}
+ 	</delete>
+ 	
+ 	<select id="countReply" resultType="int">
+ 		select count(*) from comment where co_ori_num = #{co_ori_num}
+ 	</select>
  	
 </mapper>

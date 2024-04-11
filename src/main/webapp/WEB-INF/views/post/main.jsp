@@ -12,13 +12,16 @@
 	</h1>
 	
 	<ul>
-		<li><a href="#">게시판 추가</a></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li><a href="/post/list/">게시글 상세</a></li>
-		<li></li>
-		<li></li>
+		<li><a href='<c:url value="/community"/>'>커뮤니티 관리</a></li>
+		<li><a href='<c:url value="/post/list"/>'>전체 게시글</a></li>
+		<c:forEach items="${categoryList}" var="category">
+			<li>
+				<c:url value="/post/list" var="url">
+					<c:param name="ca" value="${category.ca_num}"/>
+				</c:url>
+				<a href='${url}'>${category.ca_name}</a>
+			</li>
+		</c:forEach>
 	</ul>
 </div>
 
