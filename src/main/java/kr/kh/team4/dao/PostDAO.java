@@ -51,4 +51,8 @@ public interface PostDAO {
 
 	int countReply(@Param("co_ori_num")int co_ori_num);
 
+	boolean updatePost(@Param("post")PostVO post);
+
+	boolean deletePost(@Param("post")PostVO post);
+
 }

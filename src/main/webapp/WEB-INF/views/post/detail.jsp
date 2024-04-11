@@ -24,13 +24,27 @@
 			<div>${post.po_datetime}</div>
 			<div class="mr-3">조회수 : ${post.po_view}</div> 
 		</div>
-		
+		<div class="mb-3 mt-3">
+			<label for="writer">작성자:</label>
+			<div class="form-control" id="writer">${post.me_nick}</div>
+		</div>
 		<div class="mb-3">
 			<label for="content">내용:</label>
 			<div class="form-control" style="min-height: 250px">${post.po_content}</div>
 		</div>
-		<div class="mb-3 mt-3 d-flex justify-content-start">
-			<button class="btn-heart btn btn-outline-danger mr-3">하트</button> <div style="font: bolder; font-size: x-large;" class="text-heart">${post.po_totalHeart}</div> 
+		<div class="mb-3 mt-3 d-flex">
+			<button class="btn-heart btn btn-outline-danger mr-3">하트</button> <div style="font: bolder; font-size: x-large;" class="text-heart mr-auto">${post.po_totalHeart}</div> 
+			<c:if test="${user.me_id == post.po_me_id}">
+				<c:url value="/post/update" var="updateUrl">
+					<c:param name="num"  value="${post.po_num}"/>
+				</c:url>
+				<a href="${updateUrl}" class="btn btn-success mr-3">수정</a>
+				
+				<c:url value="/post/delete" var="deleteUrl">
+					<c:param name="num"  value="${post.po_num}"/>
+				</c:url>
+				<a href="${deleteUrl}" class="btn btn-danger">삭제</a>
+			</c:if>
 		</div>
 		
 		<div class="mt-3 mb-3 comment-box container">
@@ -154,14 +168,13 @@ function getCommentList(cri) {
 		contentType : "application/json; charset=utf-8",
 		dataType : "json", 
 		success : function(data){
-			console.log(data.pm);
-			console.log(data.list);
 			let commentList = data.list;
 			let str = '';
 			if(commentList == null || commentList.length == 0){
 				str = '<div class="container text-center mb-3 mt-3">아직 등록된 댓글이 없습니다.</div>';
 			}
 			for(comment of commentList){
+				console.log(comment);
 				if(comment.co_state != 1 && comment.co_num == comment.co_ori_num){
 					str +=
 						`
@@ -190,7 +203,9 @@ function getCommentList(cri) {
 						</div>
 						`
 					}	
+					
 					if(comment.co_num == comment.co_ori_num){
+						
 						str +=
 							`
 							<div class="comment-container">

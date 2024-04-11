@@ -38,4 +38,8 @@ public interface PostService {
 
 	boolean deleteComment(int num, MemberVO user);
 
+	boolean updatePost(PostVO post);
+
+	boolean deletePost(PostVO post);
+
 }

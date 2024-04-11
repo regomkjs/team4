@@ -185,4 +185,26 @@ public class PostServiceImp implements PostService {
 		}
 	}
 
+
+
+	@Override
+	public boolean updatePost(PostVO post) {
+		if(post == null || 
+				!checkString(post.getPo_title()) ||
+				!checkString(post.getPo_content())) {
+			return false;
+		}
+		return postDAO.updatePost(post);
+	}
+
+
+
+	@Override
+	public boolean deletePost(PostVO post) {
+		if(post == null) {
+			return false;
+		}
+		return postDAO.deletePost(post);
+	}
+
 }

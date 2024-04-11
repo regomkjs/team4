@@ -28,11 +28,11 @@
 			
 			<div class="mb-3 mt-3">
 				<label for="title">제목:</label>
-				<input type="text" class="form-control" id="title" placeholder="제목 입력" name="po_title">
+				<input type="text" class="form-control" id="title" placeholder="제목 입력" name="po_title" required>
 			</div>
 			<div class="mb-3">
 				<label for="summernote">내용:</label>
-				<textarea rows="10" name="po_content" id="summernote" class="form-control"></textarea>
+				<textarea rows="10" name="po_content" id="summernote" class="form-control" required></textarea>
 			</div>
 			
 			<button type="submit" class="btn btn-primary col-12 insert-btn">등록</button>
@@ -80,7 +80,7 @@ window.onload = ()=>{
 			localStorage.getItem("content") == "<p><br></p>"))){
 		localStorage.clear();
 	} else{
-		if(confirm("최근 작성중인 글을 불러오겠습니까?")){
+		if(confirm("최근 작성중인 글이 있습니다. 글을 불러오겠습니까?")){
 			$("#category").val(localStorage.getItem("category"));
 			document.querySelector("#title").value = localStorage.getItem("title");
 			$('#summernote').summernote('code', localStorage.getItem("content"));
