@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.service.MemberService;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -30,9 +29,9 @@ public class MailController {
 	
 	@ResponseBody
 	@PostMapping("/mail")
-	public void main(String[] args, @RequestParam(value="phone",required=false)String phone, @RequestParam(value="content",required=false)String content) {
-	    String api_key = "api 키";
-	    String api_secret = "secret api키";
+	public String main(String[] args, @RequestParam(value="phone",required=false)String phone, @RequestParam(value="content",required=false)String content) {
+	    String api_key = "api";
+	    String api_secret = "secret";
 	    Message coolsms = new Message(api_key, api_secret);
 	    
 	    
@@ -51,5 +50,6 @@ public class MailController {
 	      System.out.println(e.getMessage());
 	      System.out.println(e.getCode());
 	    }
+	    return "/";
     }
 }
