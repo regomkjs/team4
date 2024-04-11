@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class Criteria {
 	
 	private int page = 1;
-	private int perPageNum = 3;
+	private int perPageNum = 10;
 	
 	private String search = ""; 
 	private String type = "all"; 
