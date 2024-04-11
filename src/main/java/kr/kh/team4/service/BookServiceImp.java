@@ -10,6 +10,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.pagination.Criteria;
 
 @Service
 public class BookServiceImp implements BookService {
@@ -58,6 +59,22 @@ public class BookServiceImp implements BookService {
 	@Override
 	public ArrayList<UnderVO> getUnderList() {
 		return bookDao.getUnderList();
+	}
+
+	@Override
+	public ArrayList<BookVO> getBookList(Criteria cri) {
+		if(cri==null) {
+			cri=new Criteria();
+		}
+		return bookDao.getBookList(cri);
+	}
+
+	@Override
+	public int getTotalCount(Criteria cri) {
+		if(cri==null) {
+			cri=new Criteria();
+		}
+		return bookDao.getTotalCount(cri);
 	}
 	
 	
