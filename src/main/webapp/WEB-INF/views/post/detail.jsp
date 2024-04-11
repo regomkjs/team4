@@ -127,7 +127,7 @@ function displayUpdateHeart(totalCountHeart) {
 function displayHeart(result) {
 	$('.btn-heart').addClass("btn-outline-danger");
 	$('.btn-heart').removeClass("btn-danger");
-	if(result){
+	if(!result){
 		$('.btn-heart').addClass("btn-danger");
 		$('.btn-heart').removeClass("btn-outline-danger");
 	}else{
