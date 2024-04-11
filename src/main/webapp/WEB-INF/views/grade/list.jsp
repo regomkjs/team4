@@ -64,48 +64,38 @@ $(document).on("click", ".btn-complete", function () {
 	
     var grNum = currentRow.find('.gr_num').val();
     
-    <!-- 할인율 조건 -->
-    var currentDiscountInput = currentRow.find('.discount');
+ 	// 할인율 조건
+ 	var currentDiscountInput = currentRow.find('.discount');
     var currentDiscount = parseFloat(currentDiscountInput.val());
+    
+    var discountValid = isConditionValid(
+        parseFloat(currentRow.find('.discount').val()),
+        parseFloat(currentRow.prev('tr').find('.discount').val()),
+        parseFloat(currentRow.next('tr').find('.discount').val())
+    );
 
-    var prevDiscountInput = currentRow.prev('tr').find('.discount');
-    var nextDiscountInput = currentRow.next('tr').find('.discount');
-
-    var prevDiscount = parseFloat(prevDiscountInput.val());
-    var nextDiscount = parseFloat(nextDiscountInput.val());
-
-    if (isNaN(prevDiscount)) { prevDiscount = -Infinity; }
-    if (isNaN(nextDiscount)) { nextDiscount = Infinity; }
-
-	<!-- 대출 조건 -->
-	var currentLoanConditionInput = currentRow.find('.loan');
+    // 대출 조건
+    var currentLoanConditionInput = currentRow.find('.loan');
 	var currentLoanCondition = parseFloat(currentLoanConditionInput.val());
+	
+    var loanValid = isConditionValid(
+        parseFloat(currentRow.find('.loan').val()),
+        parseFloat(currentRow.prev('tr').find('.loan').val()),
+        parseFloat(currentRow.next('tr').find('.loan').val())
+    );
 
-	var prevLoanConditionInput = currentRow.prev('tr').find('.loan');
-	var nextLoanConditionInput = currentRow.next('tr').find('.loan');
-
-    var prevLoanCondition = parseFloat(prevLoanConditionInput.val());
-    var nextLoanCondition = parseFloat(nextLoanConditionInput.val());
-
-    if (isNaN(prevLoanCondition)) { prevLoanCondition = -Infinity; }
-    if (isNaN(nextLoanCondition)) { nextLoanCondition = Infinity; }
-
-    <!-- 게시글 조건 -->
+    // 게시글 조건
     var currentPostConditionInput = currentRow.find('.post');
     var currentPostCondition = parseFloat(currentPostConditionInput.val());
+    
+    var postValid = isConditionValid(
+        parseFloat(currentRow.find('.post').val()),
+        parseFloat(currentRow.prev('tr').find('.post').val()),
+        parseFloat(currentRow.next('tr').find('.post').val())
+    );
 
-    var prevPostConditionInput = currentRow.prev('tr').find('.post');
-    var nextPostConditionInput = currentRow.next('tr').find('.post');
-
-    var prevPostCondition = parseFloat(prevPostConditionInput.val());
-    var nextPostCondition = parseFloat(nextPostConditionInput.val());
-
-    if (isNaN(prevPostCondition)) { prevPostCondition = -Infinity; }
-    if (isNaN(nextPostCondition)) { nextPostCondition = Infinity; }
-
-    if (currentPostCondition <= prevPostCondition || currentPostCondition >= nextPostCondition ||
-   		currentLoanCondition <= prevLoanCondition || currentLoanCondition >= nextLoanCondition	||
-   		currentDiscount <= prevDiscount || currentDiscount >= nextDiscount) {
+    // 유효성 검사
+    if (!discountValid || !loanValid || !postValid) {
         alert("[" + currentRow.find('.name').val() + "] 등급 조건은 이전 값보다 커야 하고 다음 값보다 작아야 합니다.");
         return false;
     }
@@ -140,5 +130,12 @@ $(document).on("click", ".btn-complete", function () {
     $('.btn-complete').remove();
 	$('input').attr('readonly', true);
 });
+
+function isConditionValid(currentVal, prevVal, nextVal) {
+    if (isNaN(prevVal)) { prevVal = -Infinity; }
+    if (isNaN(nextVal)) { nextVal = Infinity; }
+
+    return !(currentVal <= prevVal || currentVal >= nextVal);
+}
 </script>
 </html>
