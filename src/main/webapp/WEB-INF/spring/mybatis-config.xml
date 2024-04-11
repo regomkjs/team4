@@ -6,5 +6,6 @@
 	<typeAliases>
 		<!-- Mapper에서 resultType을 간단히 줄여쓰기 위해 typeAlias를 활용 -->
 		<typeAlias type="kr.kh.team4.model.vo.member.MemberVO" alias="MemberVO"/>
+		<typeAlias type="kr.kh.team4.model.vo.book.BookVO" alias="BookVO"/>
 	</typeAliases>
 </configuration>
