@@ -28,5 +28,7 @@ public interface BookDAO {
 
 	int getTotalCount(@Param("cri") Criteria cri);
 
+	ArrayList<UnderVO> getUnder(@Param("num") int num);
+
 
 }

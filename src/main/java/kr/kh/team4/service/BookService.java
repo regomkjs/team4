@@ -13,12 +13,16 @@ public interface BookService {
 	boolean insertBook(ArrayList<BookDTO> book);
 
 	ArrayList<UpperVO> getUpperList();
-
+	
 	ArrayList<UnderVO> getUnderList();
 
 	ArrayList<BookVO> getBookList(Criteria cri);
 
 	int getTotalCount(Criteria cri);
+
+	ArrayList<UnderVO> getUnder(int num);
+
+	boolean updateBook(int boNum, int caNum, int tyNum);
 
 	
 }
