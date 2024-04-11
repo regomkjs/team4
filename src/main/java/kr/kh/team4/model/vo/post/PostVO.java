@@ -15,4 +15,13 @@ public class PostVO {
 	private Date po_datetime; 
 	private String po_me_id; 
 	private int po_ca_num;
+	
+	//카테고리 이름
+	private String ca_name;
+	//댓글수
+	private int po_co_count;
+	//좋아요수
+	private int po_totalHeart;
+	//작성자 닉네임
+	private String me_nick;
 }

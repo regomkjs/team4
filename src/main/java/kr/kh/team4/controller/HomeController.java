@@ -129,6 +129,7 @@ public class HomeController {
 		return "/member/findid";
 	}
 	
+	/*
 	@PostMapping("/find/id")
 	public String findIdPost(Model model,String me_email, String me_phone) {
 		MemberVO member = memberService.findId(me_email, me_phone);
@@ -229,4 +230,5 @@ public class HomeController {
 		}
 		return "message";
 	}
+	*/
 }
