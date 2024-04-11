@@ -66,6 +66,11 @@
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
 			<div class="input-group">
+				<input type="text" class="form-control" id="grade" name="grade" readonly value="${grade.gr_name }">
+			</div>
+		</div>
+		<div class="form-group" style="margin-bottom: 10px">
+			<div class="input-group">
 				<input type="text" class="form-control" id="nickName" name="me_nick" value="${user.me_nick }">
 			</div>
 			<label id="nickName-error" class="error text-danger" for="nickName"></label>

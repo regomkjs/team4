@@ -66,4 +66,8 @@
 			me_ms_num = #{num}
 		where me_id = #{me_id}
 	</update>
+	
+	<select id="selectGradeName" resultType="MemberVO">
+		select * from member join grade on gr_num = me_gr_num where me_id = #{member.me_id}
+	</select>
 </mapper>
