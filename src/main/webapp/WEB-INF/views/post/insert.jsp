@@ -62,28 +62,38 @@ $('#summernote').summernote({
 <script type="text/javascript">
 
 
-window.addEventListener("unload",()=>{
+window.onunload = ()=>{
+	const writer = '${user.me_nick}';
+	const category = $("#category").val();
 	const title = document.querySelector("#title");
 	const content = $('#summernote').summernote('code');
+	localStorage.setItem("writer", writer);
+	localStorage.setItem("category", category);
 	localStorage.setItem("title", title.value);
 	localStorage.setItem("content", content);
-});
+};
 
 window.onload = ()=>{
-	if(localStorage.getItem("title") != null || localStorage.getItem("content") != null){
+	if(localStorage.getItem("writer") != '${user.me_nick}' ||
+			(localStorage.getItem("title") == "" && 
+			(localStorage.getItem("content") == "" || 
+			localStorage.getItem("content") == "<p><br></p>"))){
+		localStorage.clear();
+	} else{
 		if(confirm("최근 작성중인 글을 불러오겠습니까?")){
+			$("#category").val(localStorage.getItem("category"));
 			document.querySelector("#title").value = localStorage.getItem("title");
-			document.querySelector("#content").innerHtml = localStorage.getItem("content");
+			$('#summernote').summernote('code', localStorage.getItem("content"));
 		} else{
 			localStorage.clear();
 		}
 	}
-	
 }
 
 
 $("form").on("submit", function (e) {
 	localStorage.clear();
+	window.onunload = null;
 	return true;
 });
 
