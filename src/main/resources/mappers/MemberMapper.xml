@@ -15,4 +15,55 @@
 	<select id="selectNickName" resultType="MemberVO">
 		select * from member where me_nick = #{me_nick}
 	</select>
+	
+	<select id="selectMemberId" resultType="MemberVO">
+		select * from member where me_email = #{email} and me_phone = #{phone}
+	</select>
+	
+	<update id="updatePassword">
+		update member set me_pw = #{pw} where me_id = #{id}
+	</update>
+	
+	<update id="updateMember">
+		update member set
+			me_pw = #{member.me_pw},
+			me_email = #{member.me_email},
+			me_phone = #{member.me_phone},
+			me_nick = #{member.me_nick}
+		where me_id = #{member.me_id}
+	</update>
+	
+	<select id="selectGradeList" resultType="GradeVO">
+		select * from grade where gr_num = gr_num
+	</select>
+	
+	<insert id="insertGrade">
+		insert into grade(gr_name,gr_discount,gr_loan_condition,gr_post_condition)
+		value(#{grade.gr_name},#{grade.gr_discount},#{grade.gr_loan_condition},#{grade.gr_post_condition})
+	</insert>
+	
+	<select id="selectGrade" resultType="GradeVO">
+		select * from grade where gr_num = #{gr_num}
+	</select>
+	
+	<update id="updateGrade">
+		update grade set
+			gr_name = #{grade.gr_name},
+			gr_discount = #{grade.gr_discount},
+			gr_loan_condition = #{grade.gr_loan_condition},
+			gr_post_condition = #{grade.gr_post_condition}
+		where gr_num = #{grade.gr_num}
+	</update>
+	
+	<update id="updateFailCount">
+		update member set
+			me_fail_count = #{failCount}
+		where me_id = #{me_id}
+	</update>
+	
+	<update id="updateMemberState">
+		update member set
+			me_ms_num = #{num}
+		where me_id = #{me_id}
+	</update>
 </mapper>
