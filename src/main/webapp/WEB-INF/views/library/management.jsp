@@ -175,7 +175,12 @@ $(document).on("click",".updateBook",function(){
 		type : 'post', 
 		data : {caNum,tyNum,boNum}, 
 		success : function (data){
-		
+			if(data){
+				alert("수정이 되었습니다");
+				displayBookView(cri);
+			}else{
+				alert("잘못된 오류입니다");
+			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown){
 

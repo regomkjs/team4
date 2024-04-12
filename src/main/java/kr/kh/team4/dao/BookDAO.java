@@ -30,5 +30,9 @@ public interface BookDAO {
 
 	ArrayList<UnderVO> getUnder(@Param("num") int num);
 
+	ArrayList<BookVO> selectBookList();
+
+	boolean updateBook(@Param("bo_code")String bo_code,@Param("bo_num") int boNum,@Param("un_num")int un_num);
+
 
 }
