@@ -1,6 +1,8 @@
 package kr.kh.team4.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,10 @@ public class BookServiceImp implements BookService {
 	
 	private boolean checkString(String str) {
 		return str != null && str.length() != 0; 
+	}
+	private String dateFomat(Date date) {
+		SimpleDateFormat fm= new SimpleDateFormat("yy-MM-dd");
+		return fm.format(date);
 	}
 	
 	public String authorsToString(String[] authors) {
@@ -84,21 +90,36 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean updateBook(int boNum, int caNum, int tyNum) {
-		String bo_code= caNum+""+(tyNum<10?"0"+tyNum:tyNum);
-		ArrayList<BookVO> books=bookDao.selectBookCodeList(bo_code);
-		int i=0;
-		if(books.size()==0) {
-			return bookDao.updateBook(bo_code,boNum);
-		}else {
-			int index=books.indexOf(new BookVO(boNum));
-			String name=books.get(index).getBo_title();
-			for(BookVO tmp:books) {
-				if(tmp.getBo_title().equals(name)&&!tmp.getBo_code().equals("미정")) {
-					i++;
-				}
+		ArrayList<BookVO> books=bookDao.selectBookList();
+		int index=books.indexOf(new BookVO(boNum));
+		String name=books.get(index).getBo_title();
+		String date=dateFomat(books.get(index).getBo_date());
+		
+		ArrayList<UnderVO> under=bookDao.getUnder(caNum);
+		int unIndex=under.indexOf(new UnderVO(tyNum));
+		int un_num=under.get(unIndex).getUn_num();
+		
+		String bo_code= caNum+""+(tyNum<10?"0"+tyNum:tyNum)+"-"+date;
+		if(caNum==100) {
+			bo_code="미정";
+			return bookDao.updateBook(bo_code,boNum,un_num);
+		}
+		int i=1;
+		String text=bo_code;
+		for(BookVO tmp:books) {
+			if(tmp.getBo_title().equals(name)&&tmp.getBo_code().equals(text)) {
+				i++;
+				text=bo_code+"-c"+i;
 			}
 		}
-		return false;
+		if(i>1) {
+			bo_code=text;
+		}
+		return bookDao.updateBook(bo_code,boNum,un_num);
+	}
+	@Override
+	public boolean deleteBook(int num) {
+		return bookDao.deleteBook(num);
 	}
 
 	

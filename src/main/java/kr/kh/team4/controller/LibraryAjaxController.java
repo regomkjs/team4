@@ -60,7 +60,15 @@ public class LibraryAjaxController {
 	public Map<String, Object> bookUpdate(int caNum,int tyNum,int boNum){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res=bookService.updateBook(boNum,caNum,tyNum);
+		map.put("res", res);
 		return map;
 	}
-	
+
+	@PostMapping("/management/delete")
+	public Map<String, Object> bookDelete(int num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res=bookService.deleteBook(num);
+		map.put("res", res);
+		return map;
+	}
 }

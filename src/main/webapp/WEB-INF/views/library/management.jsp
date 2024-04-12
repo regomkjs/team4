@@ -81,9 +81,17 @@
 //추가버튼 클릭시
 $(".btn-addBook").click(function() {
 	$(".modal-title").text("도서 추가");
+	bookSearch.target="all";
 	let str="";
 	str+=`
 	<div class="input-group">
+		<select class="bookTarget form-control">
+			<option value="all">전체</option>
+			<option value="title">제목</option>
+			<option value="publisher">출판사</option>
+			<option value="person">저자</option>
+			<option value="isbn">ISBN</option>
+		</select>
 	    <input type="text" class="form-control" placeholder="도서 검색"
 	    name="bookName">
 	    <div class="input-group-append">
@@ -108,11 +116,13 @@ $(".btn-addBook").click(function() {
 			<tbody>
 			</tbody>
 		</table>
+		<div class="kakaoSearchPage"></div>
   	</div>
 	`;
 	$(".modal-body").html(str);
 	str="";
-	str+=`<button type="button" class="btn btn-danger addBook" >가져오기</button>`;
+	str+=`<button type="button" class="btn btn-danger addBook" 
+		data-dismiss="modal">가져오기</button>`;
 	$(".modal-footer").html(str);
 });
 
@@ -135,7 +145,8 @@ $(document).on("click",".updateBook-btn",function() {
 	`;
 	$(".modal-body").html(str);
 	str="";
-	str+=`<button type="button" class="btn btn-danger updateBook" >수정하기</button>`;
+	str+=`<button type="button" class="btn btn-danger updateBook"
+		data-dismiss="modal">수정하기</button>`;
 	$(".modal-footer").html(str);
 });
 
@@ -175,7 +186,12 @@ $(document).on("click",".updateBook",function(){
 		type : 'post', 
 		data : {caNum,tyNum,boNum}, 
 		success : function (data){
-		
+			if(data){
+				alert("수정이 되었습니다");
+				displayBookView(cri);
+			}else{
+				alert("잘못된 오류입니다");
+			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown){
 
@@ -233,8 +249,10 @@ $(document).on("click",".updateBook",function(){
 		let selectBook=[];
 		selectedBook.forEach((value)=>{
 			selectBook.push(book[value]);
-		})
+		});
+		
 		console.log(selectBook);
+		console.log(selectedBook);
 		if(selectBook.length==0){
 			alert("선택된 책이 없습니다");
 			return;
@@ -250,6 +268,7 @@ $(document).on("click",".updateBook",function(){
 				if(data){
 					alert("추가가 되었습니다");
 					displayBookView(cri);
+					$(".modal").click();
 				}else{
 					alert("추가가 하지 못 했습니다");
 				}
@@ -267,20 +286,41 @@ $(document).on("click",".updateBook",function(){
 	});
 	
 	//추가할 책 검색
+	let bookSearch={
+		page:1,
+		end_page:10,
+		search:null,
+		target:"all"
+	};
 	$(document).on("keypress","[name=bookName]",function(key){
 		if(key.keyCode==13){	
 			$('.search-btn2').click();
 		}
 	});
+	$(document).on("change",".bookTarget",function(){
+		bookSearch.target=$(this).val();
+		searchBook(bookSearch);
+	});
 	$(document).on("click",".search-btn2",function() {
-		let search=$("input[name=bookName]").val();	
+		bookSearch.search=$("input[name=bookName]").val();	
+		if(bookSearch.search==null){
+			return;
+		}
+		bookSearch.page=1;
+		searchBook(bookSearch);
+	});
+	
+	function searchBook(bookSearch) {
+		console.log(bookSearch);
 		$.ajax({
 			async : true,
 			url : "https://dapi.kakao.com/v3/search/book", 
 			type : "get", 
 			data :{
-				query:search,
-				size:5}, 
+				query:bookSearch.search,
+				page:bookSearch.page,
+				target:bookSearch.target
+				}, 
 			headers: { "Authorization":"KakaoAK ${api}" },
 			dataType :"json", 
 			success : function (data){
@@ -308,12 +348,31 @@ $(document).on("click",".updateBook",function(){
 				$(".modal-body>.list>table>tbody").html(str);
 				$('input:checkbox').prop('checked',false);
 				selectedBook=[];
+				let pm="";
+				if(bookSearch.page!=1){
+					pm+=`
+					<a class="page" data-page="-1">이전</a>
+					`;
+				}
+				if(!data.meta.is_end&&
+					bookSearch.page!=bookSearch.end_page){
+					pm+=`
+					<a class="page" data-page="1">다음</a>
+					`;
+				}
+				$(".kakaoSearchPage").html(pm);
 			}, 
 			error : function(jqXHR, textStatus, errorThrown){
 
 			}
 		});
-	})
+	}
+	
+	$(document).on('click','.kakaoSearchPage .page',function(){
+		bookSearch.page+=$(this).data('page');
+		searchBook(bookSearch);
+	});
+	
 	
 	//등록된 책 목록 보여주기
 	$("select").change(function() {
@@ -336,6 +395,7 @@ $(document).on("click",".updateBook",function(){
 		}
 		displayBookView(cri);
 	});
+	
 	function displayBookView(cri) {
 		cri.search=$("input[name=search]").val();
 		$.ajax({
@@ -361,7 +421,7 @@ $(document).on("click",".updateBook",function(){
 				       		<div class="updateBook-btn" data-num="\${book.bo_num}"
 				       		data-toggle="modal" data-target="#myModal">수정</div>
 				       		<span>/</span>
-				       		<div data-num="\${book.bo_num}">삭제</div>
+				       		<div class="deleteBook-btn" data-num="\${book.bo_num}">삭제</div>
 				      	  </td>
 				     	</tr>
 					`;
@@ -401,7 +461,7 @@ $(document).on("click",".updateBook",function(){
 	
 	$(document).on('click','.pagination .page-link',function(){
 		cri.page = $(this).data('page');
-		printMember(cri);
+		displayBookView(cri);
 	});
 	
 	displayBookView(cri);
@@ -431,4 +491,28 @@ $(document).on("click",".updateBook",function(){
 	}
 </script>
 
+<!-- 책 삭제 -->
+<script type="text/javascript">
+$(document).on("click",".deleteBook-btn",function(){
+	if(confirm("삭제 하시겠습니까?")){
+		$.ajax({
+			async : true,
+			url : '<c:url value="/management/delete"/>', 
+			type : 'post', 
+			data : {num:$(this).data("num")},
+			dataType : "json", 
+			success : function (data){
+				if(data){
+					alert("삭제가 되었습니다");
+					displayBookView(cri);
+				}else{
+					alert("삭제가 실패됬습니다");
+				}
+			},error : function(jqXHR, textStatus, errorThrown){
+
+			}
+		});
+	}
+});
+</script>
 </body>
