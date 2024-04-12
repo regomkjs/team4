@@ -104,14 +104,16 @@ public class BookServiceImp implements BookService {
 			bo_code="미정";
 			return bookDao.updateBook(bo_code,boNum,un_num);
 		}
-		int i=0;
+		int i=1;
+		String text=bo_code;
 		for(BookVO tmp:books) {
-			if(tmp.getBo_title().equals(name)&&!tmp.getBo_code().equals("미정")) {
+			if(tmp.getBo_title().equals(name)&&tmp.getBo_code().equals(text)) {
 				i++;
+				text=bo_code+"-c"+i;
 			}
 		}
 		if(i>1) {
-			bo_code=bo_code+"-c"+i;
+			bo_code=text;
 		}
 		return bookDao.updateBook(bo_code,boNum,un_num);
 	}
