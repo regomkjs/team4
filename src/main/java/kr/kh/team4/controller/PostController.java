@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.CommentVO;
+import kr.kh.team4.model.vo.post.ItemListVO;
 import kr.kh.team4.model.vo.post.PostVO;
+import kr.kh.team4.model.vo.post.VoteListVO;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.pagination.PostCriteria;
@@ -75,7 +77,10 @@ public class PostController {
 	
 	
 	@PostMapping("/post/insert")
-	public String postInsertPost(Model model, HttpSession session, PostVO post) {
+	public String postInsertPost(Model model, HttpSession session, PostVO post, 
+			VoteListVO votes, ItemListVO items) {
+		log.info(votes);
+		log.info(items);
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user == null || 
 				user.getMe_id() == null || 

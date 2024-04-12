@@ -1,5 +1,6 @@
 package kr.kh.team4.model.vo.post;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lombok.Data;
@@ -13,14 +14,23 @@ public class CommentVO {
 	private int co_num; 
 	private int co_ori_num; 
 	private String co_content; 
-	private Date co_datetime; 
+	private String co_datetime; 
 	private int co_state; 
 	private String co_me_id; 
 	private int co_po_num;
+	/*
+	private String dateString = calDateString(co_datetime);
+	*/
 	
 	//작성자 닉네임
 	private String me_nick;
 	
+	/*
+	public String calDateString(Date co_datetime) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return "" + format.format(co_datetime);
+	}
+	*/
 	
 	public CommentVO(int co_ori_num, String co_content, String co_me_id, int co_po_num) {
 		this.co_ori_num = co_ori_num;

@@ -1,4 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <html>
@@ -6,6 +8,11 @@
 	<title>게시글 상세</title>
 </head>
 <body>
+<c:set var="now" value="<%=new java.util.Date()%>" />
+<c:set var="today">
+	<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
+</c:set>
+<input value="${today}" id="today" readonly style="display: none;">
 <div class="container">
 	<h1>
 		게시글 상세
@@ -21,7 +28,7 @@
 			<div class="form-control" id="title">${post.po_title}</div>
 		</div>
 		<div class="mb-3 mt-3 d-flex justify-content-between form-control">
-			<div>${post.po_datetime}</div>
+			<div id="date-box">${post.po_datetime}</div>
 			<div class="mr-3">조회수 : ${post.po_view}</div> 
 		</div>
 		<div class="mb-3 mt-3">
@@ -71,8 +78,6 @@
 		</div>
 	</div>
 </div>
-
-
 
 
 <!-- 좋아요 구현 스크립트 -->
@@ -155,12 +160,13 @@ getHeart();
 
 <!-- 댓글 리스트 출력 스크립트 -->
 <script type="text/javascript">
+let today = $("#today").val();
 let cri = {
 	page : 1,
 	poNum : '${post.po_num}'
 }
-getCommentList(cri)
-function getCommentList(cri) {
+getCommentList(cri, today)
+function getCommentList(cri, today) {
 	$.ajax({
 		url : '<c:url value="/comment/list"/>',
 		method : "post",
@@ -205,38 +211,76 @@ function getCommentList(cri) {
 					}	
 					
 					if(comment.co_num == comment.co_ori_num){
+						if(today == comment.co_datetime.substring(0,10)){
+							str +=
+								`
+								<div class="comment-container">
+									<div class="input-group mb-3 box-comment">
+										<div class="col-2"><h5>\${comment.me_nick}<h5></div>
+										<div class="co_content col-8">\${comment.co_content}</div>
+										\${btns}
+									</div>
+									<span style="font-size: small;" class="mr-4">작성시간 : \${comment.co_datetime.substring(11,16)}</span>
+									<a href="javascript:void(0);" class="reply" data-ori="\${comment.co_ori_num}">답글쓰기</a>
+								</div>	
+								<hr>
+									
+								`
+						}
+						else{
+							str +=
+								`
+								<div class="comment-container">
+									<div class="input-group mb-3 box-comment">
+										<div class="col-2"><h5>\${comment.me_nick}<h5></div>
+										<div class="co_content col-8">\${comment.co_content}</div>
+										\${btns}
+									</div>
+									<span style="font-size: small;" class="mr-4">작성일 : \${comment.co_datetime.substring(0,10)}</span>
+									<a href="javascript:void(0);" class="reply" data-ori="\${comment.co_ori_num}">답글쓰기</a>
+								</div>	
+								<hr>
+									
+								`
+						}
 						
-						str +=
-							`
-							<div class="comment-container">
-								<div class="input-group mb-3 box-comment">
-									<div class="col-2"><h5>\${comment.me_nick}<h5></div>
-									<div class="co_content col-8">\${comment.co_content}</div>
-									\${btns}
-								</div>
-								<span style="font-size: small;" class="mr-4">작성일 : \${comment.co_datetime}</span>
-								<a href="javascript:void(0);" class="reply" data-ori="\${comment.co_ori_num}">답글쓰기</a>
-							</div>	
-							<hr>
-								
-							`
 					}
 					else{
-						str +=
-							`
-							<div class="comment-container" style="margin-left: 100px;">
-								<div class="input-group mb-3 box-comment" >
-									<div class="col-2"><h5>\${comment.me_nick}<h5></div>
-									<div class="co_content col-8">\${comment.co_content}</div>
-									\${btns}
-								</div>
-								<span style="font-size: small;" class="me-4">작성일 : \${comment.co_datetime}</span>
-								<hr>
-							</div>	
-							`
+						if(today == comment.co_datetime.substring(0,10)){
+							str +=
+								`
+								<div class="comment-container" style="margin-left: 100px;">
+									<div class="input-group mb-3 box-comment">
+										<div class="col-2"><h5>\${comment.me_nick}<h5></div>
+										<div class="co_content col-8">\${comment.co_content}</div>
+										\${btns}
+									</div>
+									<span style="font-size: small;" class="mr-4">작성시간 : \${comment.co_datetime.substring(11,16)}</span>
+									<hr>
+								</div>	
+									
+								`
+						}
+						else{
+							str +=
+								`
+								<div class="comment-container" style="margin-left: 100px;">
+									<div class="input-group mb-3 box-comment">
+										<div class="col-2"><h5>\${comment.me_nick}<h5></div>
+										<div class="co_content col-8">\${comment.co_content}</div>
+										\${btns}
+									</div>
+									<span style="font-size: small;" class="mr-4">작성일 : \${comment.co_datetime.substring(0,10)}</span>
+									<hr>
+								</div>	
+									
+								`
+						}
+					
 					}
 				}
 			}
+			
 			$(".comment-list").html(str);
 			let pm = data.pm;
 			let pmStr = "";
@@ -276,7 +320,7 @@ function getCommentList(cri) {
 
 $(document).on("click", ".comment-pagination .page-link", function () {
 	cri.page = $(this).data("page");
-	getCommentList(cri);
+	getCommentList(cri, today);
 })
 
 </script>
@@ -309,7 +353,7 @@ $(".btn-comment-insert").click(function () {
 			if(data.result){
 				alert("댓글이 등록되었습니다.");
 				cri.page = 1;
-				getCommentList(cri);
+				getCommentList(cri, today);
 				$(".comment-content").val("");
 			}else{
 				alert("댓글 등록 실패")
@@ -358,7 +402,7 @@ $(document).on("click",".btn-complete",function(){
 		success : function (data) {
 			if(data.result){
 				alert("댓글을 수정했습니다.");
-				getCommentList(cri);
+				getCommentList(cri, today);
 			}
 			else{
 				alert("댓글 수정에 실패했습니다.");
@@ -409,7 +453,7 @@ $(document).on("click",".btn-comment-delete",function(){
 		success : function (data) {
 			if(data.result){
 				alert("댓글이 삭제되었습니다.");
-				getCommentList(cri);
+				getCommentList(cri, today);
 			}
 			else{
 				alert("댓글 삭제에 실패했습니다.");
@@ -467,7 +511,7 @@ $(document).on("click",".btn-reply-insert",function(){
 				alert("댓글이 등록되었습니다.");
 				cri.page = 1;
 				initComment();
-				getCommentList(cri);
+				getCommentList(cri, today);
 			}else{
 				alert("댓글 등록 실패")
 			}

@@ -40,7 +40,7 @@ public class MemberServiceImp implements MemberService {
 	
 	public boolean mailSend(String to, String title, String content) {
 
-	    String setfrom = "dhtkfkdh@gmail.com";
+	    String setfrom = "regomkjs2013@gmail.com";
 	   try{
 	        MimeMessage message = mailSender.createMimeMessage();
 	        MimeMessageHelper messageHelper
