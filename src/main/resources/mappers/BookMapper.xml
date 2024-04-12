@@ -7,7 +7,7 @@
 		insert into book(bo_title,bo_contents,bo_date,bo_publisher,bo_price,bo_sale_price,bo_thumbnail,
 		bo_isbn,bo_un_num,bo_code) 
 		value(#{book.title},#{book.contents},#{book.datetime},#{book.publisher},#{book.price},
-		#{book.sale_price},#{book.thumbnail},#{book.isbn},13,"미정")
+		#{book.sale_price},#{book.thumbnail},#{book.isbn},1,"미정")
 	</insert>
 	<select id="getUpperList" resultType="kr.kh.team4.model.vo.book.UpperVO">
 		select * from upper
@@ -16,10 +16,10 @@
 		select * from under
 	</select>
 	<select id="getUnder" resultType="kr.kh.team4.model.vo.book.UnderVO">
-		select * from under where un_up_num=#{num}
+		select * from under where un_up_num=#{num} 
 	</select>
 	<select id="selectBookNum" resultType="int">
-		select bo_num from book where bo_isbn=#{isbn}
+		select bo_num from book where bo_isbn=#{isbn} ORDER BY bo_num DESC LIMIT 1
 	</select>
 	<insert id="insertAuthors">
 		insert into authors value(null,#{authors},#{bo_num})
@@ -52,7 +52,7 @@
 			</otherwise>
 		</choose>
 		<if test='cri.bo_code==true'>
-			order by bo_title
+			order by bo_title, bo_code
 		</if>
 		<if test='cri.bo_code==false'>
 			order by case bo_code when "미정" then 1 else 2 end
@@ -85,7 +85,7 @@
 		order by case bo_code when "미정" then 1 else 2 end
 	</select>
 	<select id="selectBookList" resultType="BookVO">
-		select * from book
+		select * from book order by bo_title,bo_code
 	</select>
 	<update id="updateBook">
 		update book set bo_code=#{bo_code},bo_un_num=#{un_num} where bo_num=#{bo_num}

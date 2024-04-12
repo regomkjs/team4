@@ -121,7 +121,8 @@ $(".btn-addBook").click(function() {
 	`;
 	$(".modal-body").html(str);
 	str="";
-	str+=`<button type="button" class="btn btn-danger addBook" >가져오기</button>`;
+	str+=`<button type="button" class="btn btn-danger addBook" 
+		data-dismiss="modal">가져오기</button>`;
 	$(".modal-footer").html(str);
 });
 
@@ -144,7 +145,8 @@ $(document).on("click",".updateBook-btn",function() {
 	`;
 	$(".modal-body").html(str);
 	str="";
-	str+=`<button type="button" class="btn btn-danger updateBook" >수정하기</button>`;
+	str+=`<button type="button" class="btn btn-danger updateBook"
+		data-dismiss="modal">수정하기</button>`;
 	$(".modal-footer").html(str);
 });
 
@@ -247,8 +249,10 @@ $(document).on("click",".updateBook",function(){
 		let selectBook=[];
 		selectedBook.forEach((value)=>{
 			selectBook.push(book[value]);
-		})
+		});
+		
 		console.log(selectBook);
+		console.log(selectedBook);
 		if(selectBook.length==0){
 			alert("선택된 책이 없습니다");
 			return;
@@ -264,6 +268,7 @@ $(document).on("click",".updateBook",function(){
 				if(data){
 					alert("추가가 되었습니다");
 					displayBookView(cri);
+					$(".modal").click();
 				}else{
 					alert("추가가 하지 못 했습니다");
 				}
@@ -456,7 +461,7 @@ $(document).on("click",".updateBook",function(){
 	
 	$(document).on('click','.pagination .page-link',function(){
 		cri.page = $(this).data('page');
-		printMember(cri);
+		displayBookView(cri);
 	});
 	
 	displayBookView(cri);
