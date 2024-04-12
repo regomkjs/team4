@@ -8,7 +8,9 @@ import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.HeartVO;
+import kr.kh.team4.model.vo.post.ItemVO;
 import kr.kh.team4.model.vo.post.PostVO;
+import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.Criteria;
 
 public interface PostDAO {
@@ -54,5 +56,17 @@ public interface PostDAO {
 	boolean updatePost(@Param("post")PostVO post);
 
 	boolean deletePost(@Param("post")PostVO post);
+
+	void insertVote(@Param("vote")VoteVO vote);
+
+	void insertItem(@Param("item")ItemVO item);
+
+	ArrayList<VoteVO> selectAllVote();
+
+	int countItemByVoNum(@Param("vo_num")int vo_num);
+
+	void deleteVote(@Param("vo_num")int vo_num);
+	
+	
 
 }

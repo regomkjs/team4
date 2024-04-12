@@ -15,5 +15,7 @@
 		<typeAlias type="kr.kh.team4.model.vo.post.PostVO" alias="PostVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.CommentVO" alias="CommentVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.HeartVO" alias="HeartVO"/>
+		<typeAlias type="kr.kh.team4.model.vo.post.VoteVO" alias="VoteVO"/>
+		<typeAlias type="kr.kh.team4.model.vo.post.ItemVO" alias="ItemVO"/>
 	</typeAliases>
 </configuration>

@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.kh.team4.model.dto.ItemListDTO;
+import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.CommentVO;
-import kr.kh.team4.model.vo.post.ItemListVO;
+import kr.kh.team4.model.vo.post.ItemVO;
 import kr.kh.team4.model.vo.post.PostVO;
-import kr.kh.team4.model.vo.post.VoteListVO;
+import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.pagination.PostCriteria;
@@ -57,6 +59,7 @@ public class PostController {
 		return "/post/list";
 	}
 	
+	
 	@GetMapping("/post/insert")
 	public String postInsert(Model model, int ca, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -78,9 +81,7 @@ public class PostController {
 	
 	@PostMapping("/post/insert")
 	public String postInsertPost(Model model, HttpSession session, PostVO post, 
-			VoteListVO votes, ItemListVO items) {
-		log.info(votes);
-		log.info(items);
+			VoteListDTO votes, ItemListDTO items) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user == null || 
 				user.getMe_id() == null || 
@@ -90,7 +91,7 @@ public class PostController {
 			return "message";
 		}
 		post.setPo_me_id(user.getMe_id());
-		boolean res = postService.insertPost(post);
+		boolean res = postService.insertPost(post, votes, items);
 		if(res) {
 			model.addAttribute("msg", "게시글을 등록했습니다.");
 			model.addAttribute("url", "/post/list?ca=" + post.getPo_ca_num());

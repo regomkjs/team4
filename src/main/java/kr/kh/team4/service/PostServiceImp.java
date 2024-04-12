@@ -6,11 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.kh.team4.dao.PostDAO;
+import kr.kh.team4.model.dto.ItemListDTO;
+import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.HeartVO;
+import kr.kh.team4.model.vo.post.ItemVO;
 import kr.kh.team4.model.vo.post.PostVO;
+import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.PostCriteria;
@@ -54,13 +58,39 @@ public class PostServiceImp implements PostService {
 	}
 
 	@Override
-	public boolean insertPost(PostVO post) {
+	public boolean insertPost(PostVO post , VoteListDTO votes, ItemListDTO items) {
 		if(post == null||
 				!checkString(post.getPo_title()) ||
 				!checkString(post.getPo_content())) {
 			return false;
 		}
-		return postDAO.insertPost(post);
+		boolean res =postDAO.insertPost(post);
+		if(!res) {
+			return false;
+		}
+		if(votes.getVo_list().size() == 0 || votes.getVo_list() == null || votes == null ||
+				items.getIt_list().size() == 0 || items.getIt_list() == null  || items == null) {
+			return true;
+		}
+		
+		for(VoteVO vote : votes.getVo_list()) {
+			vote.setVo_po_num(post.getPo_num());
+			postDAO.insertVote(vote);
+			for(ItemVO item : items.getIt_list()) {
+				if(vote.getVo_count() == item.getIt_vo_count()) {
+					item.setIt_vo_num(vote.getVo_num());
+					postDAO.insertItem(item);
+				}
+			}
+		}
+		ArrayList<VoteVO> allVote = postDAO.selectAllVote();
+		for(VoteVO vote : allVote) {
+			int count = postDAO.countItemByVoNum(vote.getVo_num());
+			if(count == 0) {
+				postDAO.deleteVote(vote.getVo_num());
+			}
+		}
+		return true;
 	}
 
 

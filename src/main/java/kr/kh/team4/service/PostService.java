@@ -2,6 +2,8 @@ package kr.kh.team4.service;
 
 import java.util.ArrayList;
 
+import kr.kh.team4.model.dto.ItemListDTO;
+import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.CommentVO;
@@ -18,7 +20,7 @@ public interface PostService {
 
 	int totalCountPost(Criteria cri);
 
-	boolean insertPost(PostVO post);
+	boolean insertPost(PostVO post, VoteListDTO votes, ItemListDTO items);
 
 	PostVO getPost(int po_num);
 

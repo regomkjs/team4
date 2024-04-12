@@ -1,11 +1,15 @@
 package kr.kh.team4.model.vo.post;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class VoteVO {
 	private int vo_num; 
 	private String vo_title; 
