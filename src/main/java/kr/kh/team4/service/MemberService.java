@@ -36,7 +36,4 @@ public interface MemberService {
 
 	void updateMemberState(MemberVO failUser, int num);
 
-	MemberVO getGradeName(MemberVO member);
-
-
 }

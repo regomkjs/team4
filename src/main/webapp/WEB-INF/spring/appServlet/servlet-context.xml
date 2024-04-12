@@ -38,11 +38,21 @@
 	
 	<!-- 인터셉터 등록 -->
 	<beans:bean id="loginInterceptor" class="kr.kh.team4.interceptor.LoginInterceptor" />
+	<!-- GuestInterceptor를 등록 -->
+	<beans:bean id="guestInterceptor" class="kr.kh.team4.interceptor.GuestInterceptor"/>
 	<!-- 인터셉터 맵핑 -->
 	<interceptors>
 			<interceptor>
 			<mapping path="/login"/>
 			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		<!-- GuestInterceptor -->
+		<interceptor>
+			<mapping path="/login"/>
+			<mapping path="/signup"/>
+			<mapping path="/find/pw"/>
+			<mapping path="/find/id"/>
+			<beans:ref bean="guestInterceptor"/>
 		</interceptor>
 	</interceptors>
 </beans:beans>

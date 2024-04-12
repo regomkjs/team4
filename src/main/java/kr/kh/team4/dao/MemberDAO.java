@@ -33,6 +33,4 @@ public interface MemberDAO {
 
 	void updateMemberState(@Param("me_id")String me_id, @Param("num")int num);
 
-	MemberVO selectGradeName(@Param("member")MemberVO member);
-
 }

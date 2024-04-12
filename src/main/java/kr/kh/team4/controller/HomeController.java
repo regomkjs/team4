@@ -168,10 +168,8 @@ public class HomeController {
 	@PostMapping("/mypage")
 	public String mypagePost(Model model, MemberVO member, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		MemberVO gradeName = memberService.getGradeName(member);
 		boolean res = memberService.updateMember(member, user);
 		if(res) {
-			model.addAttribute("grade", gradeName);
 			model.addAttribute("msg", "회원 정보를 수정했습니다.");
 			model.addAttribute("url", "/mypage");
 		}else {

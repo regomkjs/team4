@@ -219,13 +219,5 @@ public class MemberServiceImp implements MemberService {
 	public void updateMemberState(MemberVO failUser, int num) {
 		memberDao.updateMemberState(failUser.getMe_id(), num);
 	}
-
-	@Override
-	public MemberVO getGradeName(MemberVO member) {
-		if(member == null) {
-			return null;
-		}
-		return memberDao.selectGradeName(member);
-	}
 	
 }
