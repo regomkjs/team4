@@ -84,4 +84,10 @@
 		</choose>
 		order by case bo_code when "미정" then 1 else 2 end
 	</select>
+	<select id="selectBookList" resultType="BookVO">
+		select * from book
+	</select>
+	<update id="updateBook">
+		update book set bo_code=#{bo_code},bo_un_num=#{un_num} where bo_num=#{bo_num}
+	</update>
 </mapper>
