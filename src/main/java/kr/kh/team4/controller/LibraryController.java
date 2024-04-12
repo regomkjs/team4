@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.kh.team4.model.vo.book.AuthorsVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.service.BookService;
@@ -41,8 +42,10 @@ public class LibraryController {
 	
 	
 	@GetMapping("/library/management")
-	public String libraryManagement(Model model) {
+	public String libraryManagement(Model model) {	
+		ArrayList<UpperVO> upperList=bookService.getUpperList();
 		model.addAttribute("api",API);
+		model.addAttribute("upList", upperList);
 		return "/library/management";
 	}
 	
