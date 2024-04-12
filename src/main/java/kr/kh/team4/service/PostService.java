@@ -8,6 +8,7 @@ import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MyCommentCriteria;
 import kr.kh.team4.pagination.PostCriteria;
 
 public interface PostService {
@@ -37,5 +38,13 @@ public interface PostService {
 	boolean updateComment(int num, String content, MemberVO user);
 
 	boolean deleteComment(int num, MemberVO user);
+
+	ArrayList<PostVO> getMyPostList(Criteria cri);
+
+	int totalCountMyPost(Criteria cri);
+
+	ArrayList<PostVO> getMyCommentList(Criteria cri);
+
+	int totalCountMyComment(Criteria cri);
 
 }

@@ -20,6 +20,8 @@ import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.pagination.CommentCriteria;
+import kr.kh.team4.pagination.MyCommentCriteria;
+import kr.kh.team4.pagination.MyPostCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.pagination.PostCriteria;
 import kr.kh.team4.service.PostService;
@@ -192,4 +194,30 @@ public class PostController {
 		return map;
 	}
 	
+	@GetMapping("/mypage/post")
+	public String myPost(Model model, MyPostCriteria cri, HttpSession session) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		cri = new MyPostCriteria(user.getMe_id());
+		ArrayList<PostVO> list = postService.getMyPostList(cri);
+		int totalCount = postService.totalCountMyPost(cri);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("postList", list);
+		model.addAttribute("pm", pm);
+		model.addAttribute("title", "내가 쓴 게시글");
+		return "/member/post";
+	}
+	
+
+	@GetMapping("/mypage/comment")
+	public String myComment(Model model, MyCommentCriteria cri, HttpSession session, PostVO post) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		cri = new MyCommentCriteria(post.getPo_num(), user.getMe_id());
+		ArrayList<PostVO> list = postService.getMyCommentList(cri);
+		int totalCount = postService.totalCountMyComment(cri);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("commentList", list);
+		model.addAttribute("pm", pm);
+		model.addAttribute("title", "내가 쓴 댓글");
+		return "/member/comment";
+	}
 }

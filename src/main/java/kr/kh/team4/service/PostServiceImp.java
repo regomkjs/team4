@@ -11,8 +11,8 @@ import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.HeartVO;
 import kr.kh.team4.model.vo.post.PostVO;
-import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MyCommentCriteria;
 import kr.kh.team4.pagination.PostCriteria;
 
 @Service
@@ -183,6 +183,44 @@ public class PostServiceImp implements PostService {
 			}
 			return postDAO.deleteComment(num);
 		}
+	}
+
+	@Override
+	public ArrayList<PostVO> getMyPostList(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria(); 
+		}
+		return postDAO.selectMyPostList(cri);
+	}
+
+	@Override
+	public int totalCountMyPost(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		
+		return postDAO.totalCountMyPost(cri);
+	}
+
+
+
+	@Override
+	public ArrayList<PostVO> getMyCommentList(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		return postDAO.selectMyCommentList(cri);
+	}
+
+
+
+	@Override
+	public int totalCountMyComment(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		
+		return postDAO.totalCountMyComment(cri);
 	}
 
 }

@@ -175,4 +175,90 @@
  		select count(*) from comment where co_ori_num = #{co_ori_num}
  	</select>
  	
+ 	<select id="selectMyPostList" resultType="PostVO">
+ 		select * from post
+ 		join
+ 			member on me_id = po_me_id
+		join 
+			category on po_ca_num = ca_num
+		where me_id = #{cri.me_id}
+			<if test='cri.type == "all"'>
+ 				and (po_title like concat("%",#{cri.search},"%") or
+ 				po_content like concat("%",#{cri.search},"%") or
+ 				po_me_id like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "writer"'>
+ 				and po_me_id like concat("%",#{cri.search},"%")
+ 			</if>
+ 			<if test='cri.type == "text"'>
+ 				and (po_content like concat("%",#{cri.search},"%") or
+ 				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test="cri.ca != 0">
+ 			 	and po_ca_num = #{cri.ca}
+ 			</if>
+ 		group by 
+ 			po_num
+ 		order by 
+	 		po_num desc
+ 		limit #{cri.pageStart} , #{cri.perPageNum}
+ 	</select>
+ 	
+ 	<select id="totalCountMyPost" resultType="int">
+ 		select count(*) from post
+ 		join
+ 			member
+			on
+			me_id = po_me_id
+		where me_id = #{cri.me_id}
+			<if test='cri.type == "all"'>
+ 				and (po_title like concat("%",#{cri.search},"%") or
+ 				po_content like concat("%",#{cri.search},"%") or
+ 				po_me_id like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "writer"'>
+ 				and po_me_id like concat("%",#{cri.search},"%")
+ 			</if>
+ 			<if test='cri.type == "text"'>
+ 				and (po_content like concat("%",#{cri.search},"%") or
+ 				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test="cri.ca != 0">
+ 			 	and po_ca_num = #{cri.ca}
+ 			</if>
+ 	</select>
+ 	
+ 	<select id="selectMyCommentList" resultType="CommentVO">
+ 		select 
+ 			* 
+		from 
+			comment 
+		join
+			member on me_id = co_me_id
+		join
+			post on po_num = co_po_num
+		where 
+			me_id = #{cri.me_id}
+		group by
+			co_num
+ 		order by 
+ 			co_num desc
+ 		limit 
+ 			#{cri.pageStart}, #{cri.perPageNum}	
+ 	</select>
+ 	
+ 	<select id="totalCountMyComment" resultType="int">
+ 		select 
+ 			count(*) 
+		from 
+			comment 
+				join
+			member on me_id = co_me_id
+		where 
+			me_id = #{cri.me_id}
+ 		order by 
+ 			co_num desc
+ 		limit 
+ 			#{cri.pageStart}, #{cri.perPageNum}	
+ 	</select>
 </mapper>

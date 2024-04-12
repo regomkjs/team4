@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 	<title>게시글 상세</title>
@@ -21,7 +22,7 @@
 			<div class="form-control" id="title">${post.po_title}</div>
 		</div>
 		<div class="mb-3 mt-3 d-flex justify-content-between form-control">
-			<div>${post.po_datetime}</div>
+			<div><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${post.po_datetime}"/></div>
 			<div class="mr-3">조회수 : ${post.po_view}</div> 
 		</div>
 		

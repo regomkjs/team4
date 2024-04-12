@@ -21,7 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.kh.team4.model.dto.LoginDTO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.post.PostVO;
+import kr.kh.team4.pagination.MyPostCriteria;
+import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.MemberService;
+import kr.kh.team4.service.PostService;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -30,6 +34,9 @@ public class HomeController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	PostService postService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -218,4 +225,5 @@ public class HomeController {
 		map.put("result", res);
 		return map;
 	}
+	
 }

@@ -20,7 +20,10 @@ public class CommentVO {
 	
 	//작성자 닉네임
 	private String me_nick;
-	
+	//게시글 번호
+	private String po_num;
+	//게시글 제목
+	private String po_title;
 	
 	public CommentVO(int co_ori_num, String co_content, String co_me_id, int co_po_num) {
 		this.co_ori_num = co_ori_num;
