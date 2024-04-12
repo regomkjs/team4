@@ -24,5 +24,7 @@ public interface BookService {
 
 	boolean updateBook(int boNum, int caNum, int tyNum);
 
+	boolean deleteBook(int num);
+
 	
 }
