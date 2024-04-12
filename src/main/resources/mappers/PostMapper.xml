@@ -181,22 +181,23 @@
  			member on me_id = po_me_id
 		join 
 			category on po_ca_num = ca_num
-		where me_id = #{cri.me_id}
+		where 
 			<if test='cri.type == "all"'>
- 				and (po_title like concat("%",#{cri.search},"%") or
+ 				(po_title like concat("%",#{cri.search},"%") or
  				po_content like concat("%",#{cri.search},"%") or
  				po_me_id like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
- 				and po_me_id like concat("%",#{cri.search},"%")
+ 				po_me_id like concat("%",#{cri.search},"%")
  			</if>
  			<if test='cri.type == "text"'>
- 				and (po_content like concat("%",#{cri.search},"%") or
+ 				(po_content like concat("%",#{cri.search},"%") or
  				po_title like concat("%",#{cri.search},"%"))
  			</if>
  			<if test="cri.ca != 0">
- 			 	and po_ca_num = #{cri.ca}
+ 			 	po_ca_num = #{cri.ca}
  			</if>
+ 			and me_id = #{cri.me_id}
  		group by 
  			po_num
  		order by 
@@ -210,22 +211,23 @@
  			member
 			on
 			me_id = po_me_id
-		where me_id = #{cri.me_id}
+		where 
 			<if test='cri.type == "all"'>
- 				and (po_title like concat("%",#{cri.search},"%") or
+ 				(po_title like concat("%",#{cri.search},"%") or
  				po_content like concat("%",#{cri.search},"%") or
  				po_me_id like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
- 				and po_me_id like concat("%",#{cri.search},"%")
+ 				po_me_id like concat("%",#{cri.search},"%")
  			</if>
  			<if test='cri.type == "text"'>
- 				and (po_content like concat("%",#{cri.search},"%") or
+ 				(po_content like concat("%",#{cri.search},"%") or
  				po_title like concat("%",#{cri.search},"%"))
  			</if>
  			<if test="cri.ca != 0">
- 			 	and po_ca_num = #{cri.ca}
+ 			 	po_ca_num = #{cri.ca}
  			</if>
+ 			and me_id = #{cri.me_id}
  	</select>
  	
  	<select id="selectMyCommentList" resultType="CommentVO">

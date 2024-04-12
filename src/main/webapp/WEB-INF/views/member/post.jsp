@@ -14,7 +14,6 @@
 	</h1>
 	
 	<form action="<c:url value="/mypage/post"/>" method="get" class="input-group" id="searchForm">
-		<input name="ca" style="display: none;" value="${pm.cri.ca}">
 		<div class="input-group mb-1">
 			<select name="type" class="input-group-prepend" >
 				<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
@@ -46,6 +45,9 @@
 				  		<td> 
 				  			<c:url value="/post/detail" var="detailUrl">
 				  				<c:param name="num">${post.po_num}</c:param>
+				  				<c:param name="page" value="${pm.cri.page}"/>
+								<c:param name="type" value="${pm.cri.type}"/>
+								<c:param name="search" value="${pm.cri.search}"/>
 				  			</c:url>
 				  			<a href="${detailUrl}">${post.po_title}</a> <span class="ml-4">[${post.po_co_count}]</span>
 				  		</td>
@@ -66,7 +68,6 @@
 		<c:if test="${pm.prev}">
 		    <li class="page-item">
 		    	<c:url value="/mypage/post" var="prev">
-		    		<c:param name="ca" value="${pm.cri.ca}"/>
 		    		<c:param name="type" value="${pm.cri.type}" />
 		    		<c:param name="search" value="${pm.cri.search}" />
 		    		<c:param name="page" value="${pm.startPage - 1}"/>
@@ -76,7 +77,6 @@
 		</c:if>
     	<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
     		<c:url value="/mypage/post" var="url">
-	    		<c:param name="ca" value="${pm.cri.ca}"/>
     			<c:param name="type" value="${pm.cri.type}" />
 	    		<c:param name="search" value="${pm.cri.search}" />
 	    		<c:param name="page" value="${i}"/>
@@ -89,7 +89,6 @@
     	<c:if test="${pm.next}">
 			<li class="page-item">
 		    	<c:url value="/mypage/post" var="next">
-		    		<c:param name="ca" value="${pm.cri.ca}"/>
 		    		<c:param name="type" value="${pm.cri.type}" />
 		    		<c:param name="search" value="${pm.cri.search}" />
 		    		<c:param name="page" value="${pm.endPage + 1}"/>

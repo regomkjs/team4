@@ -22,7 +22,7 @@
 			<div class="form-control" id="title">${post.po_title}</div>
 		</div>
 		<div class="mb-3 mt-3 d-flex justify-content-between form-control">
-			<div><fmt:formatDate pattern="yy/MM/dd hh:mm" value="${post.po_datetime}"/></div>
+			<div><fmt:formatDate pattern="yy년 MM월 dd일 hh:mm" value="${post.po_datetime}"/></div>
 			<div class="mr-3">조회수 : ${post.po_view}</div> 
 		</div>
 		

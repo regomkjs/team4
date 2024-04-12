@@ -95,7 +95,8 @@
 		</div>
 		<button class="btn btn-outline-success col-12 btn-submit" style="margin-top: 40px">내 정보 수정</button>
 		<a href="<c:url value="/mypage/post"/>">내가 쓴 게시글</a>
-		<a href="<c:url value="/mypage/comment"/>">>내가 쓴 댓글</a>
+		<span>|</span>
+		<a href="<c:url value="/mypage/comment"/>">내가 쓴 댓글</a>
 	</form>
 </div>
 <!-- 유효성 검사 -->
