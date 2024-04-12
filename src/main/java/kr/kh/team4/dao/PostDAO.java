@@ -66,6 +66,8 @@ public interface PostDAO {
 	int countItemByVoNum(@Param("vo_num")int vo_num);
 
 	void deleteVote(@Param("vo_num")int vo_num);
+
+	ArrayList<VoteVO> selectVote(@Param("po_num")int po_num);
 	
 	
 

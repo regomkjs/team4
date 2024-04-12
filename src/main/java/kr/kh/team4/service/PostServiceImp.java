@@ -237,4 +237,11 @@ public class PostServiceImp implements PostService {
 		return postDAO.deletePost(post);
 	}
 
+
+
+	@Override
+	public ArrayList<VoteVO> getVoteList(int po_num) {
+		return postDAO.selectVote(po_num);
+	}
+
 }

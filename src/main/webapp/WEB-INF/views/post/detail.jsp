@@ -524,6 +524,31 @@ $(document).on("click",".btn-reply-insert",function(){
 });
 </script>
 
+<!-- 투표 리스트 출력 스크립트 -->
+<script type="text/javascript">
+let po_num = ${post.po_num}
+getVoteList(po_num);
+function getVoteList(po_num) {
+	$.ajax({
+		url : '<c:url value="/vote/list"/>',
+		method : "post",
+		data : {
+			"po_num" : po_num
+		},
+		success : function (data) {
+			let voteList = data.list
+			console.log(data.list);
+			if(voteList.length != 0 && voteList != null){
+				
+			}
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생");
+		}
+	})
+}
+
+</script>
 
 </body>
 </html>

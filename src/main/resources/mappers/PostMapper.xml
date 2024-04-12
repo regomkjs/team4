@@ -211,4 +211,8 @@
  		delete from vote where vo_num = #{vo_num}
  	</delete>
  	
+ 	<select id="selectVote" resultType="VoteVO">
+ 		select * from vote where vo_po_num = #{po_num}
+ 	</select>
+ 	
 </mapper>
