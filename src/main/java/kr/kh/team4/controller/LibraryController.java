@@ -1,28 +1,16 @@
 package kr.kh.team4.controller;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.kh.team4.model.vo.book.AuthorsVO;
-import kr.kh.team4.model.vo.book.UnderVO;
+import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.pagination.BookCriteria;
+import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.service.BookService;
 import lombok.extern.log4j.Log4j;
 
@@ -47,6 +35,20 @@ public class LibraryController {
 		model.addAttribute("api",API);
 		model.addAttribute("upList", upperList);
 		return "/library/management";
+	}
+	
+	@GetMapping("/library/list")
+	public String libraryList(Model model,BookCriteria boCri) {	
+		boCri.setPerPageNum(10);
+		boCri.setBo_code(2);
+		System.out.println(boCri);
+		if(boCri.getSearch()!=null||boCri.getSearch().length()!=0) {			
+			ArrayList<BookVO> bookList=bookService.getBookList(boCri);
+			model.addAttribute("bookList",bookList);
+		}
+		ArrayList<UpperVO> upList=bookService.getUpperList();
+		model.addAttribute("upList",upList);
+		return "/library/list";
 	}
 	
 }

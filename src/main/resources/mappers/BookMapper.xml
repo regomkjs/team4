@@ -51,10 +51,14 @@
 				bo_publisher like concat('%', #{cri.search}, '%') 
 			</otherwise>
 		</choose>
-		<if test='cri.bo_code==true'>
+		<if test='cri.bo_code==1'>
 			order by bo_title, bo_code
 		</if>
-		<if test='cri.bo_code==false'>
+		<if test='cri.bo_code==2'>
+			GROUP BY bo_title
+			order by bo_title, bo_code
+		</if>
+		<if test='cri.bo_code==3'>
 			order by case bo_code when "미정" then 1 else 2 end
 		</if>
 		LIMIT #{cri.pageStart}, #{cri.perPageNum}
@@ -77,6 +81,9 @@
 			</when>
 			<when test='cri.type=="authors"'>
 				au_name like concat('%', #{cri.search}, '%')
+			</when>
+			<when test='cri.type=="code"'>
+				bo_un_num = #{cri.search}
 			</when>
 			<otherwise>
 				bo_publisher like concat('%', #{cri.search}, '%') 
