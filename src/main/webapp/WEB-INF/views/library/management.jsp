@@ -108,6 +108,7 @@ $(".btn-addBook").click(function() {
 			<tbody>
 			</tbody>
 		</table>
+		<div class="kakaoSearchPage"></div>
   	</div>
 	`;
 	$(".modal-body").html(str);
@@ -270,7 +271,7 @@ $(document).on("click",".updateBook",function(){
 			}
 		});
 	});
-	
+
 	//추가할 책 검색
 	$(document).on("keypress","[name=bookName]",function(key){
 		if(key.keyCode==13){	
@@ -279,13 +280,18 @@ $(document).on("click",".updateBook",function(){
 	});
 	$(document).on("click",".search-btn2",function() {
 		let search=$("input[name=bookName]").val();	
+		searchBook(search);
+	});
+	
+	function searchBook(search) {
 		$.ajax({
 			async : true,
 			url : "https://dapi.kakao.com/v3/search/book", 
 			type : "get", 
 			data :{
 				query:search,
-				size:5}, 
+				
+				}, 
 			headers: { "Authorization":"KakaoAK ${api}" },
 			dataType :"json", 
 			success : function (data){
@@ -318,7 +324,8 @@ $(document).on("click",".updateBook",function(){
 
 			}
 		});
-	})
+	}
+	
 	
 	//등록된 책 목록 보여주기
 	$("select").change(function() {
@@ -341,6 +348,7 @@ $(document).on("click",".updateBook",function(){
 		}
 		displayBookView(cri);
 	});
+	
 	function displayBookView(cri) {
 		cri.search=$("input[name=search]").val();
 		$.ajax({
@@ -366,7 +374,7 @@ $(document).on("click",".updateBook",function(){
 				       		<div class="updateBook-btn" data-num="\${book.bo_num}"
 				       		data-toggle="modal" data-target="#myModal">수정</div>
 				       		<span>/</span>
-				       		<div data-num="\${book.bo_num}">삭제</div>
+				       		<div class="deleteBook-btn" data-num="\${book.bo_num}">삭제</div>
 				      	  </td>
 				     	</tr>
 					`;
@@ -436,4 +444,28 @@ $(document).on("click",".updateBook",function(){
 	}
 </script>
 
+<!-- 책 삭제 -->
+<script type="text/javascript">
+$(document).on("click",".deleteBook-btn",function(){
+	if(confirm("삭제 하시겠습니까?")){
+		$.ajax({
+			async : true,
+			url : '<c:url value="/management/delete"/>', 
+			type : 'post', 
+			data : {num:$(this).data("num")},
+			dataType : "json", 
+			success : function (data){
+				if(data){
+					alert("삭제가 되었습니다");
+					displayBookView(cri);
+				}else{
+					alert("삭제가 실패됬습니다");
+				}
+			},error : function(jqXHR, textStatus, errorThrown){
+
+			}
+		});
+	}
+});
+</script>
 </body>
