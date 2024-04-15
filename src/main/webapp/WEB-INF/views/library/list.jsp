@@ -18,21 +18,22 @@
 		</div>
 		<div class="main">
 			<div class="side-bar">
-				<c:forEach items="${upList}" var="category">	
-					<div class="dropdown">
-					  <button type="button" class="btn btn-primary dropdown-toggle list-btn" data-toggle="dropdown"
-					  data-num="${category.up_num}">
-					    ${category.up_name}
-					  </button>
-					  <div class="dropdown-menu type-btn">
-					   
-					  </div>
-					</div>
+				<c:forEach items="${upList}" var="category">
+					<c:if test="${category.up_num != 100 }">
+						<div class="dropdown">
+						  <button type="button" class="btn btn-primary dropdown-toggle list-btn" data-toggle="dropdown"
+						  data-num="${category.up_num}">
+						    ${category.up_name}
+						  </button>
+						  <div class="dropdown-menu type-btn">
+						   
+						  </div>
+						</div>
+					</c:if>	
 				</c:forEach>
 			</div>
 			<div class="book-main">
 				<div class="book-list">
-					
 					
 				</div>
 				<div class="pagination-box">
@@ -82,13 +83,16 @@
 		
 		$(document).on("click",".select-btn",function() {
 			cri.type="code";
-			let num=$(this).val();	
+			cri.search=$(this).attr('value');	
 			displayBookView(cri);
 		});
+		
+	
 	</script>
 	<!--책 목록을 출력-->
 	<script type="text/javascript">
 		function displayBookView(cri){
+			console.log(cri);
 			$.ajax({
 				async : true,
 				url : '<c:url value="/management/list"/>', 
@@ -104,9 +108,9 @@
 								<div class="float-left">
 									<img alt="\${book.bo_title}" src="\${book.bo_thumbnail}"/>
 								</div>
-								<div class="float-right">
+								<a class="float-right" href='<c:url value="/library/detail?num=\${book.bo_num}"/>'>
 									\${book.bo_title}
-								</div>
+								</a>
 							</div>
 						`;
 					}

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import kr.kh.team4.model.vo.book.AuthorsVO;
 import kr.kh.team4.model.vo.book.BookVO;
+import kr.kh.team4.model.vo.book.TranslatorsVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.Criteria;
@@ -51,4 +53,12 @@ public class LibraryController {
 		return "/library/list";
 	}
 	
+	@GetMapping("/library/detail")
+	public String libraryDetail(Model model,int num) {	
+		BookVO book=bookService.getBook(num);
+		ArrayList<BookVO> code=bookService.getBookIsbn(book.getBo_isbn());
+		model.addAttribute("book",book);
+		model.addAttribute("code",code);
+		return "/library/detail";
+	}
 }

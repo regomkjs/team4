@@ -26,5 +26,9 @@ public interface BookService {
 
 	boolean deleteBook(int num);
 
+	BookVO getBook(int num);
+
+	ArrayList<BookVO> getBookIsbn(String bo_isbn);
+
 	
 }

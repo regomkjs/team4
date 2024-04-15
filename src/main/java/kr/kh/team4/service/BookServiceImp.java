@@ -121,6 +121,15 @@ public class BookServiceImp implements BookService {
 	public boolean deleteBook(int num) {
 		return bookDao.deleteBook(num);
 	}
+	
+	@Override
+	public BookVO getBook(int num) {
+		return bookDao.getBook(num);
+	}
+	@Override
+	public ArrayList<BookVO> getBookIsbn(String bo_isbn) {
+		return bookDao.getBookIsbn(bo_isbn);
+	}
 
 	
 	
