@@ -144,7 +144,7 @@ $(document).on("change",".category",function(){
 	let num=$(this).val();
 	$.ajax({
 		async : true,
-		url : '<c:url value="/management/category" />', 
+		url : '<c:url value="/management/manager/category" />', 
 		type : 'post', 
 		data : {num}, 
 		success : function (data){
@@ -172,7 +172,7 @@ $(document).on("click",".updateBook",function(){
 	}
 	$.ajax({
 		async : true,
-		url : '<c:url value="/management/update" />', 
+		url : '<c:url value="/management/manager/update" />', 
 		type : 'post', 
 		data : {caNum,tyNum,boNum}, 
 		success : function (data){
@@ -243,7 +243,7 @@ $(document).on("click",".updateBook",function(){
 		}
 		$.ajax({
 			async : true,
-			url :'<c:url value="/management/insert" />', 
+			url :'<c:url value="/management/manager/insert" />', 
 			type : 'post' ,
 			data : JSON.stringify(selectBook),
 			contentType : "application/json; charset=utf-8",
@@ -390,7 +390,7 @@ $(document).on("click",".updateBook",function(){
 		cri.search=$("input[name=search]").val();
 		$.ajax({
 			async : true,
-			url : '<c:url value="/management/list"/>', 
+			url : '<c:url value="/management/manager/list"/>', 
 			type : 'post', 
 			data : JSON.stringify(cri),
 			contentType : "application/json; charset=utf-8",
@@ -487,7 +487,7 @@ $(document).on("click",".deleteBook-btn",function(){
 	if(confirm("삭제 하시겠습니까?")){
 		$.ajax({
 			async : true,
-			url : '<c:url value="/management/delete"/>', 
+			url : '<c:url value="/management/manager/delete"/>', 
 			type : 'post', 
 			data : {num:$(this).data("num")},
 			dataType : "json", 

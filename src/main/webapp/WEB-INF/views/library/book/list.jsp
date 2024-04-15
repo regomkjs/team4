@@ -63,7 +63,7 @@
 		$(".list-btn").click(function() {
 			$.ajax({
 				async : true,
-				url : '<c:url value="/management/category" />', 
+				url : '<c:url value="/management/manager/category" />', 
 				type : 'post', 
 				data : {num:$(this).data("num")}, 
 				success : function (data){
@@ -95,7 +95,7 @@
 			console.log(cri);
 			$.ajax({
 				async : true,
-				url : '<c:url value="/management/list"/>', 
+				url : '<c:url value="/management/manager/list"/>', 
 				type : 'post', 
 				data : JSON.stringify(cri),
 				contentType : "application/json; charset=utf-8",
@@ -108,7 +108,7 @@
 								<div class="float-left">
 									<img alt="\${book.bo_title}" src="\${book.bo_thumbnail}"/>
 								</div>
-								<a class="float-right" href='<c:url value="/library/detail?num=\${book.bo_num}"/>'>
+								<a class="float-right" href='<c:url value="/library/book/detail?num=\${book.bo_num}"/>'>
 									\${book.bo_title}
 								</a>
 							</div>
