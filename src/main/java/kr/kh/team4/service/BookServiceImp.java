@@ -21,7 +21,7 @@ public class BookServiceImp implements BookService {
 	BookDAO bookDao;
 	
 	private boolean checkString(String str) {
-		return str != null && str.length() != 0; 
+		return str == null && str.length() == 0; 
 	}
 	private String dateFomat(Date date) {
 		SimpleDateFormat fm= new SimpleDateFormat("yy-MM-dd");
@@ -120,6 +120,28 @@ public class BookServiceImp implements BookService {
 	@Override
 	public boolean deleteBook(int num) {
 		return bookDao.deleteBook(num);
+	}
+	
+	@Override
+	public BookVO getBook(int num) {
+		return bookDao.getBook(num);
+	}
+	@Override
+	public ArrayList<BookVO> getBookIsbn(String bo_isbn) {
+		return bookDao.getBookIsbn(bo_isbn);
+	}
+	@Override
+	public boolean insertUpper(int caNum, String caName) {
+		if(checkString(caName)) {
+			return false;
+		}
+		ArrayList<UpperVO> upList=bookDao.getUpperList();
+		for(UpperVO tmp:upList) {
+			if(tmp.getUp_num()==caNum||tmp.getUp_name().equals(caName)) {
+				return false;
+			}
+		}
+		return bookDao.insertUpper(caNum,caName);
 	}
 
 	
