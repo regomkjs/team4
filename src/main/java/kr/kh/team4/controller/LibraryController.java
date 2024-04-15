@@ -27,19 +27,19 @@ public class LibraryController {
 	@GetMapping("/library")
 	public String home(Model model) {
 		
-		return "/library/home";
+		return "/library/book/home";
 	}
 	
 	
-	@GetMapping("/library/management")
+	@GetMapping("/library/management/manager")
 	public String libraryManagement(Model model) {	
 		ArrayList<UpperVO> upperList=bookService.getUpperList();
 		model.addAttribute("api",API);
 		model.addAttribute("upList", upperList);
-		return "/library/management";
+		return "/library/management/manager";
 	}
 	
-	@GetMapping("/library/list")
+	@GetMapping("/library/book/list")
 	public String libraryList(Model model,BookCriteria boCri) {	
 		boCri.setPerPageNum(10);
 		boCri.setBo_code(2);
@@ -50,15 +50,22 @@ public class LibraryController {
 		}
 		ArrayList<UpperVO> upList=bookService.getUpperList();
 		model.addAttribute("upList",upList);
-		return "/library/list";
+		return "/library/book/list";
 	}
 	
-	@GetMapping("/library/detail")
+	@GetMapping("/library/book/detail")
 	public String libraryDetail(Model model,int num) {	
 		BookVO book=bookService.getBook(num);
 		ArrayList<BookVO> code=bookService.getBookIsbn(book.getBo_isbn());
 		model.addAttribute("book",book);
 		model.addAttribute("code",code);
-		return "/library/detail";
+		return "/library/book/detail";
+	}
+	
+	@GetMapping("/library/management/bookCategory")
+	public String managementBookCatgory(Model model) {
+		ArrayList<UpperVO> upList=bookService.getUpperList();
+		model.addAttribute("upList",upList);
+		return "/library/management/bookCategory";
 	}
 }

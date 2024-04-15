@@ -32,8 +32,11 @@
 	      </a>
 	      <div class="dropdown-menu">
 	        <a class="dropdown-item" href=
-	        "<c:url value="/library/management"/>">도서 관리</a>
-	        <a class="dropdown-item" href="<c:url value="/library/list"/>">도서 목록</a>
+	        "<c:url value="/library/management/manager"/>">도서 관리</a>
+	        <a class="dropdown-item" href="<c:url value="/library/book/list"/>">도서 목록</a>
+	        <a class="dropdown-item" href="<c:url value="/library/management/bookCategory"/>">도서 카테고리 관리</a>
+	        <a class="dropdown-item" href="#">??</a>
+	        <a class="dropdown-item" href="#">??</a>
 	        <a class="dropdown-item" href="#">??</a>
 	      </div>
     	</li>

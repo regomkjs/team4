@@ -30,5 +30,7 @@ public interface BookService {
 
 	ArrayList<BookVO> getBookIsbn(String bo_isbn);
 
+	boolean insertUpper(int caNum, String caName);
+
 	
 }

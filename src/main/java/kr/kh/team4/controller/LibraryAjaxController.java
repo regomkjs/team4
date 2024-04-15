@@ -26,7 +26,7 @@ public class LibraryAjaxController {
 	BookService bookService;
 	
 	@ResponseBody
-	@PostMapping("/management/insert")
+	@PostMapping("/management/manager/insert")
 	public Map<String, Object> insertBook(@RequestBody ArrayList<BookDTO> book){
 		Map<String, Object> map = new HashMap<String, Object>();
 		System.out.println(book.size());
@@ -35,7 +35,7 @@ public class LibraryAjaxController {
 		return map;
 	}
 	
-	@PostMapping("/management/list")
+	@PostMapping("/management/manager/list")
 	public Map<String, Object> managerBookList(@RequestBody BookCriteria cri){
 		Map<String, Object> map = new HashMap<String, Object>();
 		cri.setPerPageNum(10);
@@ -48,7 +48,7 @@ public class LibraryAjaxController {
 		return map;
 	}
 	
-	@PostMapping("/management/category")
+	@PostMapping("/management/manager/category")
 	public Map<String, Object> categoryType(int num){
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<UnderVO> list=bookService.getUnder(num);
@@ -56,7 +56,7 @@ public class LibraryAjaxController {
 		return map;
 	}
 	
-	@PostMapping("/management/update")
+	@PostMapping("/management/manager/update")
 	public Map<String, Object> bookUpdate(int caNum,int tyNum,int boNum){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res=bookService.updateBook(boNum,caNum,tyNum);
@@ -64,10 +64,18 @@ public class LibraryAjaxController {
 		return map;
 	}
 
-	@PostMapping("/management/delete")
+	@PostMapping("/management/manager/delete")
 	public Map<String, Object> bookDelete(int num){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res=bookService.deleteBook(num);
+		map.put("res", res);
+		return map;
+	}
+	
+	@PostMapping("/management/bookCategory/insert")
+	public Map<String, Object> CategoryInsert(int caNum,String caName){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res=bookService.insertUpper(caNum,caName);
 		map.put("res", res);
 		return map;
 	}

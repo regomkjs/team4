@@ -16,7 +16,7 @@
 		select * from under
 	</select>
 	<select id="getUnder" resultType="kr.kh.team4.model.vo.book.UnderVO">
-		select * from under where un_up_num=#{num} 
+		select * from under where un_up_num=#{num} order by un_code
 	</select>
 	<select id="selectBookNum" resultType="int">
 		select bo_num from book where bo_isbn=#{isbn} ORDER BY bo_num DESC LIMIT 1
@@ -128,4 +128,7 @@
 	<select id="getBookIsbn" resultType="BookVO">
 		select * from book where bo_isbn=#{bo_isbn}
 	</select>
+	<insert id="insertUpper">
+		insert into upper value(#{up_num},#{up_name})
+	</insert>
 </mapper>
