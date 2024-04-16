@@ -39,8 +39,8 @@
 		<tbody>
 			<c:forEach items="${postList}" var="post" varStatus="vs">
 				<c:if test="${post.po_num > 0}">
-					<tr>		<!-- pm.cri.perPageNum * (pm.cri.page-1)) == pm.cri.startPage -->
-				  		<td>${(pm.totalCount - (pm.cri.perPageNum * (pm.cri.page-1))) - vs.index}</td>
+					<tr>
+				  		<td>${pm.totalCount - vs.index - pm.cri.pageStart}</td>
 				  		<td>${post.ca_name}</td>
 				  		<td> 
 				  			<c:url value="/post/detail" var="detailUrl">

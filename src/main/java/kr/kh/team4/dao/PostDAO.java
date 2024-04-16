@@ -51,12 +51,12 @@ public interface PostDAO {
 
 	int countReply(@Param("co_ori_num")int co_ori_num);
 
-	ArrayList<PostVO> selectMyPostList(@Param("cri")Criteria cri);
+	ArrayList<PostVO> selectMyPostList(@Param("cri")Criteria cri, @Param("me_id")String id);
 
-	int totalCountMyPost(@Param("cri")Criteria cri);
+	int totalCountMyPost(@Param("cri")Criteria cri, @Param("me_id")String id);
 
-	ArrayList<PostVO> selectMyCommentList(@Param("cri")Criteria cri);
+	ArrayList<PostVO> selectMyCommentList(@Param("cri")Criteria cri, @Param("me_id")String id);
 
-	int totalCountMyComment(@Param("cri")Criteria cri);
+	int totalCountMyComment(@Param("cri")Criteria cri, @Param("me_id")String id);
 
 }

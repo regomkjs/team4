@@ -186,41 +186,51 @@ public class PostServiceImp implements PostService {
 	}
 
 	@Override
-	public ArrayList<PostVO> getMyPostList(Criteria cri) {
+	public ArrayList<PostVO> getMyPostList(Criteria cri, MemberVO user) {
 		if(cri == null) {
 			cri = new Criteria(); 
 		}
-		return postDAO.selectMyPostList(cri);
+		if(user == null) {
+			return null;
+		}
+		return postDAO.selectMyPostList(cri, user.getMe_id());
 	}
 
 	@Override
-	public int totalCountMyPost(Criteria cri) {
+	public int totalCountMyPost(Criteria cri, MemberVO user) {
 		if(cri == null) {
 			cri = new Criteria();
 		}
-		
-		return postDAO.totalCountMyPost(cri);
-	}
-
-
-
-	@Override
-	public ArrayList<PostVO> getMyCommentList(Criteria cri) {
-		if(cri == null) {
-			cri = new Criteria();
+		if(user == null) {
+			return 0;
 		}
-		return postDAO.selectMyCommentList(cri);
+		return postDAO.totalCountMyPost(cri, user.getMe_id());
 	}
 
 
 
 	@Override
-	public int totalCountMyComment(Criteria cri) {
+	public ArrayList<PostVO> getMyCommentList(Criteria cri, MemberVO user) {
 		if(cri == null) {
 			cri = new Criteria();
 		}
-		
-		return postDAO.totalCountMyComment(cri);
+		if(user == null) {
+			return null;
+		}
+		return postDAO.selectMyCommentList(cri, user.getMe_id());
+	}
+
+
+
+	@Override
+	public int totalCountMyComment(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return 0;
+		}
+		return postDAO.totalCountMyComment(cri, user.getMe_id());
 	}
 
 }

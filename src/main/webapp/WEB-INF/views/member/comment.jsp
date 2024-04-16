@@ -8,29 +8,19 @@
 <title>내가 쓴 댓글</title>
 </head>
 <body>
+<div class="container">
 	<h1>
 	내가 쓴 댓글
 	</h1>
-	
 	<form action="<c:url value="/mypage/comment"/>" method="get" class="input-group" id="searchForm">
 		<input name="poNum" style="display: none;" value="${pm.cri.poNum}">
-		<div class="input-group mb-1">
-			<select name="type" class="input-group-prepend" >
-				<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
-				<option value="text" <c:if test='${pm.cri.type == "text"}'>selected</c:if>>제목+내용</option>
-				<option value="writer" <c:if test='${pm.cri.type == "writer"}'>selected</c:if>>작성자</option>
-			</select>
-			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
-			<button type="submit" class="input-group-append btn btn-outline-success">검색</button>
-		</div>
 	</form>
-
 	<table class="table table-hover text-center">
 		<thead>
 			<tr>
-				<th class="col-3">번호</th>
-				<th class="col-3">게시글</th>
-				<th>댓글 내용</th>
+				<th class="col-2">번호</th>
+				<th class="col-4">게시글</th>
+				<th class="col-3">댓글 내용</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -58,8 +48,6 @@
 		    <li class="page-item">
 		    	<c:url value="/mypage/comment" var="prev">
 		    		<c:param name="poNum" value="${pm.cri.poNum}"/>
-		    		<c:param name="type" value="${pm.cri.type}" />
-		    		<c:param name="search" value="${pm.cri.search}" />
 		    		<c:param name="page" value="${pm.startPage - 1}"/>
 		    	</c:url>
 		    	<a class="page-link" href="${prev}">이전</a>
@@ -68,8 +56,6 @@
     	<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
     		<c:url value="/mypage/comment" var="url">
 	    		<c:param name="poNum" value="${pm.cri.poNum}"/>
-    			<c:param name="type" value="${pm.cri.type}" />
-	    		<c:param name="search" value="${pm.cri.search}" />
 	    		<c:param name="page" value="${i}"/>
 	    	</c:url>
 	    	<c:set var="active" value="${pm.cri.page == i ? 'active' : '' }"/>
@@ -81,8 +67,6 @@
 			<li class="page-item">
 		    	<c:url value="/mypage/comment" var="next">
 		    		<c:param name="poNum" value="${pm.cri.poNum}"/>
-		    		<c:param name="type" value="${pm.cri.type}" />
-		    		<c:param name="search" value="${pm.cri.search}" />
 		    		<c:param name="page" value="${pm.endPage + 1}"/>
 		    	</c:url>
 		    	<a class="page-link" href="${next}">다음</a>

@@ -197,23 +197,24 @@ public class PostController {
 	@GetMapping("/mypage/post")
 	public String myPost(Model model, MyPostCriteria cri, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		cri = new MyPostCriteria(user.getMe_id());
-		ArrayList<PostVO> list = postService.getMyPostList(cri);
-		int totalCount = postService.totalCountMyPost(cri);
+		ArrayList<PostVO> list = postService.getMyPostList(cri, user);
+		
+		int totalCount = postService.totalCountMyPost(cri, user);
 		PageMaker pm = new PageMaker(5, cri, totalCount);
 		model.addAttribute("postList", list);
 		model.addAttribute("pm", pm);
 		model.addAttribute("title", "내가 쓴 게시글");
+		
 		return "/member/post";
 	}
 	
 
 	@GetMapping("/mypage/comment")
-	public String myComment(Model model, MyCommentCriteria cri, HttpSession session, PostVO post) {
+	public String myComment(Model model, MyCommentCriteria cri, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		cri = new MyCommentCriteria(post.getPo_num(), user.getMe_id());
-		ArrayList<PostVO> list = postService.getMyCommentList(cri);
-		int totalCount = postService.totalCountMyComment(cri);
+		
+		ArrayList<PostVO> list = postService.getMyCommentList(cri, user);
+		int totalCount = postService.totalCountMyComment(cri, user);
 		PageMaker pm = new PageMaker(5, cri, totalCount);
 		model.addAttribute("commentList", list);
 		model.addAttribute("pm", pm);

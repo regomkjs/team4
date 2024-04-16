@@ -39,12 +39,12 @@ public interface PostService {
 
 	boolean deleteComment(int num, MemberVO user);
 
-	ArrayList<PostVO> getMyPostList(Criteria cri);
+	ArrayList<PostVO> getMyPostList(Criteria cri, MemberVO user);
 
-	int totalCountMyPost(Criteria cri);
+	int totalCountMyPost(Criteria cri, MemberVO user);
 
-	ArrayList<PostVO> getMyCommentList(Criteria cri);
+	ArrayList<PostVO> getMyCommentList(Criteria cri, MemberVO user);
 
-	int totalCountMyComment(Criteria cri);
+	int totalCountMyComment(Criteria cri, MemberVO user);
 
 }
