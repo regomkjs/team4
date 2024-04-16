@@ -273,7 +273,6 @@ $(document).ready(function() {
 <script type="text/javascript">
 $(document).on("click", ".btn-delete", function () {
     let row = $(this).closest('tr');
-    console.log(row);
     let gr_num = row.find($('[name="gr_num"]')).val();
     let obj = {
     		gr_num
