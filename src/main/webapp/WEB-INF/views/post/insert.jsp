@@ -115,11 +115,12 @@ $(document).on("click",'#btn-vote',function () {
 	
 	let str =
 		`
-			<div id="vote-box" class="mb-3" data-count="\${count}">
+			<div id="vote-box" class="mb-3 vote-box" data-count="\${count}">
 				<div class="d-flex ">
-					<lable for="vo_dup" class="ml-auto" style="font-size: small;">다중선택 허용: </lable>
+					<label for="vo_dup" class="ml-auto" style="font-size: small;">다중선택 허용: </label>
 					<input id="vo_dup" name="vo_list[\${count}].vo_dup" type="checkbox" class="ml-2 mr-2">
-					<span class="badge bg-success mb-1"><a href="javascript:void(0);" style="color: white; text-decoration: none;" id="btn-item" data-count="\${count}">항목 추가</a></span>
+					<span class="badge bg-success mb-1 mr-4"><a href="javascript:void(0);" style="color: white; text-decoration: none;" id="btn-item" data-count="\${count}">항목추가</a></span>
+					<span class="badge bg-danger mb-1"><a href="javascript:void(0);" style="color: white; text-decoration: none;" id="btn-delete-vote" data-count="\${count}">X</a></span>
 				</div>	
 				<div class="container" style="border: 1px solid #aaaaaa; border-radius: 5px;">
 					<input name="vo_list[\${count}].vo_count" type="text" style="display: none;" value="\${count}" readonly>
@@ -133,7 +134,7 @@ $(document).on("click",'#btn-vote',function () {
 						<div class="input-group-prepend">
 					    	<span class="input-group-text">투표기한</span>
 					    </div>
-					    <input type="datetime-local" name="vo_list[\${count}].vo_date" class="form-control">
+					    <input type="datetime-local" name="vo_list[\${count}].vo_date" class="form-control" required>
 					</div>
 					<div id="item-box" style="border: 1px solid #aaaaaa; border-radius: 5px;" class="container mb-1"><div id="item-flag"></div></div>
 				</div>
@@ -150,12 +151,13 @@ $(document).on("click","#btn-item", function (e){
 	console.log(vo_count);
 	let str2 = 
 		`
-			<div class="mb-1 input-group mt-1">
+			<div class="mb-1 input-group mt-1 item-box">
 				<input name="it_list[\${count2}].it_vo_count"  type="text" style="display: none;" value="\${vo_count}" readonly>
 				<div class="input-group-prepend">
 			    	<span class="input-group-text">항목</span>
 			    </div>
-				<input id="it_name" name="it_list[\${count2}].it_name" type="text" class="form-control">
+				<input id="it_name" name="it_list[\${count2}].it_name" type="text" class="input-group form-control" required>
+				<button class="btn btn-danger input-group-append btn-delete-item" type="button">삭제</button>
 			</div>
 		`
 	$(this).parents("#vote-box").find("#item-flag").before(str2);
@@ -163,6 +165,19 @@ $(document).on("click","#btn-item", function (e){
 })
 
 </script>
+
+<!-- 투표, 항목 삭제 스크립트 -->
+<script type="text/javascript">
+$(document).on("click","#btn-delete-vote", function () {
+	$(this).parents(".vote-box").remove()
+})
+
+$(document).on("click",".btn-delete-item", function () {
+	$(this).parents(".item-box").remove()
+})
+</script>
+
+
 
 </body>
 </html>
