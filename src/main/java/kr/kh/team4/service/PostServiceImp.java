@@ -236,6 +236,7 @@ public class PostServiceImp implements PostService {
 			return 0;
 		}
 		return postDAO.totalCountMyPost(cri, user.getMe_id());
+	}
 
 	@Override
 	public ArrayList<PostVO> getMyCommentList(Criteria cri, MemberVO user) {
@@ -246,6 +247,7 @@ public class PostServiceImp implements PostService {
 			return null;
 		}
 		return postDAO.selectMyCommentList(cri, user.getMe_id());
+	}
 
 	@Override
 	public int totalCountMyComment(Criteria cri, MemberVO user) {
@@ -256,7 +258,8 @@ public class PostServiceImp implements PostService {
 			return 0;
 		}
 		return postDAO.totalCountMyComment(cri, user.getMe_id());	
-
+	}
+	
 	@Override
 	public boolean updatePost(PostVO post) {
 		if(post == null || 
