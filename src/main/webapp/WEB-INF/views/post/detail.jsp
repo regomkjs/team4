@@ -656,5 +656,11 @@ $(document).on("click",".select-item", function(){
 
 </script>
 
+<!-- 투표 상태 변경 스크립트 -->
+<script type="text/javascript">
+
+</script>
+
+
 </body>
 </html>
