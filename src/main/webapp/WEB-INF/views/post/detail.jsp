@@ -644,7 +644,7 @@ $(document).on("click",".select-item", function(){
 				alert("투표 수정");
 				break;
 			}
-			getChooseByPost()
+			getChooseByPost();
 		},
 		error : function (a,b,c) {
 			console.error("에러 발생1");
