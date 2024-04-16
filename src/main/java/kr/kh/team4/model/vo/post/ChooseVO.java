@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChooseVO {
 	private int ch_num; 
+	private int ch_state;
 	private int ch_it_num; 
 	private String ch_me_id;
 }

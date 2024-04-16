@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.post.ChooseVO;
 import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.CommentCriteria;
@@ -112,12 +113,75 @@ public class PostAjaxController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/vote/list")
-	public  Map<String, Object> voteListPost(@RequestParam("po_num")int po_num){
+	@PostMapping("/choose/post")
+	public Map<String, Object> choosePostPost(@RequestParam("po_num")int po_num,  HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<VoteVO> list = postService.getVoteList(po_num);
-		map.put("list", list);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<ChooseVO> list = postService.getChooseList(po_num, user);
+		log.info(list);
+		map.put("chooseList", list);
 		return map;
 	}
+	
+	
+	@ResponseBody
+	@PostMapping("/select/item")
+	public Map<String, Object> selectItemPost(HttpSession session, 
+				@RequestParam("it_num")int it_num, @RequestParam("vo_dup")boolean vo_dup){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		int res;
+		if(user == null || user.getMe_id() == null || user.getMe_id().length() == 0) {
+			res = 0;
+			map.put("result", res);
+			return map;
+		}
+		//중복가능
+		if(vo_dup) {
+			//이 항목을 선택한 기록이 있는지
+			boolean isSelectedItem = postService.isSelectedItem(it_num, user.getMe_id());
+			if(isSelectedItem) {
+				//있다면 취소
+				if(postService.deleteChoose(it_num, user.getMe_id())){
+					res = 2;
+				} else {res = 0;}
+			} 
+			else {
+				//없다면 생성
+				if(postService.insertChoose(it_num, user.getMe_id())) {
+					res = 1;
+				} else {res = 0;}
+			}
+		} 
+		//중복불가
+		else {
+			boolean anotherSelectedItem = postService.anotherSelectedItem(it_num, user.getMe_id());
+			//항목을 선택한 기록이 있는지
+			if(anotherSelectedItem) {
+				boolean isSelectedItem = postService.isSelectedItem(it_num, user.getMe_id());
+				if(isSelectedItem) {
+					//기존과 같은 항목 == 취소
+					if(postService.deleteChoose(it_num, user.getMe_id())) {
+						res = 2;
+					} else {res = 0;}
+				}
+				else {
+					//다른 항목 == 기존 항목 대체
+					if(postService.updateChoose(it_num, user.getMe_id())) {
+						res = 3;
+					} else {res = 0;}
+				}
+			}
+			//선택한 기록이 없다면
+			else {
+				if(postService.insertChoose(it_num, user.getMe_id())) {
+					res = 1;
+				} else {res = 0;}
+			}
+		}
+		map.put("result", res);
+		return map;
+	}
+	
 	
 }

@@ -310,7 +310,27 @@
  	</select>
  	
  	<select id="selectItem" resultType="ItemVO">
- 		select * from item where it_vo_num = #{vo_num}
+ 		select * from item join vote on vo_num = it_vo_num where it_vo_num = #{vo_num}
  	</select>
  	
+ 	<select id="selectPostItem" resultType="ItemVO">
+ 		select * from item join vote on vo_num = it_vo_num where vo_po_num = #{po_num}
+ 	</select>
+ 	
+ 	<select id="selectChoose" resultType="ChooseVO">
+ 		select * from choose where ch_it_num = #{it_num} and ch_me_id = #{me_id}
+ 	</select>
+ 	
+ 	<insert id="insertChoose">
+ 		insert into choose(ch_state, ch_it_num, ch_me_id)
+ 		values(1, #{it_num}, #{me_id})
+ 	</insert>
+ 	
+ 	<delete id="deleteChoose">
+ 		delete from choose where ch_it_num = #{it_num} and ch_me_id = #{me_id}
+ 	</delete>
+ 	
+ 	<select id="selectTmpItem" resultType="ItemVO">
+ 		select * from item where it_num = #{it_num}
+ 	</select>
 </mapper>

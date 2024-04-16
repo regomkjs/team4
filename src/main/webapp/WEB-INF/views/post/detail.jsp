@@ -12,7 +12,11 @@
 <c:set var="today">
 	<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
 </c:set>
+<c:set var="time">
+	<fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss" />
+</c:set>
 <input value="${today}" id="today" readonly style="display: none;">
+<input value="${time}" id="time" readonly style="display: none;">
 <div class="container">
 	<h1>
 		게시글 상세
@@ -37,37 +41,40 @@
 		</div>
 		<c:if test="${voteList.size() != 0 && voteList != null}">
 			<c:forEach items="${voteList}" var="vote">
-				<c:if test="${vote.vo_dup}">
-					<div class="d-flex" style="margin-bottom: 0">
-						<label class="ml-auto" style="font-size: small; color: gray;">다중선택 허용</label>
-					</div>	
-				</c:if>
-				<div class="mb-3" style="border: 1px solid #aaaaaa; border-radius: 5px;">
-					<div class="container">
-						<c:if test="${vote.vo_title != null && vote.vo_title.length() != 0}">
-							<div class="input-group">
-								<div class="input-group-prepend">
-									<label for="vote-title" class="input-group-text">투표명</label>				
+				<div class="vote-box">
+					<c:if test="${vote.vo_dup}">
+						<div class="d-flex" style="margin-bottom: 0">
+							<label class="ml-auto" style="font-size: small; color: gray;">다중선택 허용</label>
+							<input value="${vote.vo_dup}" id="vo_dup" readonly style="display: none;">
+						</div>	
+					</c:if>
+					<div class="mb-3" style="border: 1px solid #aaaaaa; border-radius: 5px;">
+						<div class="container">
+							<c:if test="${vote.vo_title != null && vote.vo_title.length() != 0}">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<label for="vote-title" class="input-group-text">투표명</label>				
+									</div>
+									<div id="vote-title" class="input-group form-control">${vote.vo_title}</div>
 								</div>
-								<div id="vote-title" class="input-group form-control">${vote.vo_title}</div>
+							</c:if>
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<label for="vote-date" class="input-group-text">투표기한</label>				
+								</div>
+								<div id="vote-date" class="input-group form-control">${vote.vo_date}</div>
 							</div>
-						</c:if>
-						<div class="input-group mb-2">
-							<div class="input-group-prepend">
-								<label for="vote-date" class="input-group-text">투표기한</label>				
+							<div class="select-list">
+								<c:forEach items="${itemList}" var="item">
+									<c:if test="${vote.vo_num == item.it_vo_num}">
+										<button class="select-item form-control btn btn-outline-secondary mb-1 ${item.it_num}" value="${item.it_num}" id="${item.it_num}" name="${item.it_num}" type="button" data-dup="${item.vo_dup}">${item.it_name}</button>
+									</c:if>
+								</c:forEach>
 							</div>
-							<div id="vote-date" class="input-group form-control">${vote.vo_date}</div>
+							<c:if test="${post.po_me_id == user.me_id}">
+								<button class="btn btn-outline-success form-control mt-2 mb-2" type="button">투표 마감</button>
+							</c:if>
 						</div>
-						<div>
-							<c:forEach items="${itemList}" var="item">
-								<c:if test="${vote.vo_num == item.it_vo_num}">
-									<button class="form-control btn btn-outline-secondary mb-1">${item.it_name}</button>
-								</c:if>
-							</c:forEach>
-						</div>
-						<c:if test="${post.po_me_id == user.me_id}">
-							<button class="btn btn-outline-success form-control mt-2 mb-2">투표 마감</button>
-						</c:if>
 					</div>
 				</div>
 			</c:forEach>
@@ -563,29 +570,89 @@ $(document).on("click",".btn-reply-insert",function(){
 });
 </script>
 
-<!-- 투표 리스트 출력 스크립트 -->
+<!-- 투표 항목 선택 스크립트 -->
 <script type="text/javascript">
-let po_num = ${post.po_num}
-getVoteList(po_num);
-function getVoteList(po_num) {
+getChooseByPost();
+
+function getChooseByPost() {
+	let po_num = ${post.po_num}
 	$.ajax({
-		url : '<c:url value="/vote/list"/>',
+		url : '<c:url value="/choose/post"/>',
 		method : "post",
 		data : {
 			"po_num" : po_num
 		},
 		success : function (data) {
-			let voteList = data.list
-			console.log(data.list);
-			if(voteList.length != 0 && voteList != null){
-				
-			}
+			console.log(data.chooseList)
+			refreshSelectItem();
+			selectedItem(data.chooseList);
 		},
 		error : function (a,b,c) {
-			console.error("에러 발생");
+			console.error("에러 발생2");
 		}
 	})
 }
+
+function refreshSelectItem() {
+	$(".select-item").removeClass("btn-secondary");
+	$(".select-item").addClass("btn-outline-secondary");
+}
+
+function selectedItem(chooseList) {
+	for(choose of chooseList){
+		if(choose != null){
+			console.log(choose.ch_it_num);
+			$('A element: contains("${choose.ch_it_num}")').addClass("btn-secondary");
+			$('A element: contains("${choose.ch_it_num}")').removeClass("btn-outline-secondary");
+		}
+	}
+}
+
+
+$(document).on("click",".select-item", function(){
+	if('${user.me_id}' == ''){
+		if(confirm("로그인이 필요한 서비스 입니다. 로그인으로 이동하시겠습니까?")){
+			location.href = "<c:url value='/login'/>"
+			return;
+		}
+		else{
+			return;
+		}
+	}
+	
+	let it_num = $(this).val();
+	let vo_dup = $(this).data("dup");
+	$.ajax({
+		url : '<c:url value="/select/item"/>',
+		method : "post",
+		data : {
+			"it_num" : it_num,
+			"vo_dup" : vo_dup
+		},
+		success : function (data) {
+			switch (data.result) {
+			case 0:
+				alert("투표 실패");
+				break;
+			case 1:
+				alert("투표 완료");
+				break;
+			case 2:
+				alert("투표 취소");
+				break;
+			case 3:
+				alert("투표 수정");
+				break;
+			}
+			getChooseByPost()
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생1");
+		}
+	})
+})
+
+
 
 </script>
 

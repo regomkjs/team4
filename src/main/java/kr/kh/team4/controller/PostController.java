@@ -16,11 +16,9 @@ import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.ItemVO;
 import kr.kh.team4.model.vo.post.PostVO;
-
-import kr.kh.team4.pagination.CommentCriteria;
+import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.MyCommentCriteria;
 import kr.kh.team4.pagination.MyPostCriteria;
-
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.pagination.PostCriteria;
 import kr.kh.team4.service.PostService;
