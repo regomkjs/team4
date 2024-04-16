@@ -21,7 +21,7 @@ public class BookServiceImp implements BookService {
 	BookDAO bookDao;
 	
 	private boolean checkString(String str) {
-		return str != null && str.length() != 0; 
+		return str == null && str.length() == 0; 
 	}
 	private String dateFomat(Date date) {
 		SimpleDateFormat fm= new SimpleDateFormat("yy-MM-dd");
@@ -104,14 +104,16 @@ public class BookServiceImp implements BookService {
 			bo_code="미정";
 			return bookDao.updateBook(bo_code,boNum,un_num);
 		}
-		int i=0;
+		int i=1;
+		String text=bo_code;
 		for(BookVO tmp:books) {
-			if(tmp.getBo_title().equals(name)&&!tmp.getBo_code().equals("미정")) {
+			if(tmp.getBo_title().equals(name)&&tmp.getBo_code().equals(text)) {
 				i++;
+				text=bo_code+"-c"+i;
 			}
 		}
 		if(i>1) {
-			bo_code=bo_code+"-c"+i;
+			bo_code=text;
 		}
 		return bookDao.updateBook(bo_code,boNum,un_num);
 	}
@@ -119,6 +121,28 @@ public class BookServiceImp implements BookService {
 	@Override
 	public boolean deleteBook(int num) {
 		return bookDao.deleteBook(num);
+	}
+	
+	@Override
+	public BookVO getBook(int num) {
+		return bookDao.getBook(num);
+	}
+	@Override
+	public ArrayList<BookVO> getBookIsbn(String bo_isbn) {
+		return bookDao.getBookIsbn(bo_isbn);
+	}
+	@Override
+	public boolean insertUpper(int caNum, String caName) {
+		if(checkString(caName)) {
+			return false;
+		}
+		ArrayList<UpperVO> upList=bookDao.getUpperList();
+		for(UpperVO tmp:upList) {
+			if(tmp.getUp_num()==caNum||tmp.getUp_name().equals(caName)) {
+				return false;
+			}
+		}
+		return bookDao.insertUpper(caNum,caName);
 	}
 
 	

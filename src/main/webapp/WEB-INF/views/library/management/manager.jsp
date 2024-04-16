@@ -4,86 +4,84 @@
 
 <body>
 <div class="container mt-5">
-  <div class="search input-group">
-  	<select  class="form-control">
-  		<option value="all">전체</option>
-  		<option value="title">도서명</option>
-  		<option value="authors">저자</option>
-  		<option value="publisher">출판사</option>
-  	</select>
-    <input type="text" class="form-control" placeholder="Search"
-    name="search">
-    <div class="input-group-append">
-      <button class="btn btn-success list-btn" type="button">검색</button>
-    </div>
-  </div>
-  <div class="insert">
-    <button type="button" class="btn btn-primary btn-addBook" 
-    data-toggle="modal" data-target="#myModal">추가</button>
-  </div>
-  <div class="main">
-	  <div class="list">
-	    <table class="table table-bordered">
-	      <thead>
-	        <tr>
-	          <th>도서명</th>
-	          <th class="order-by">도서코드</th>
-	          <th>표준번호</th>
-	          <th>출판사</th>
-	          <th>저자</th>
-	          <th>역자</th>
-	          <th></th>
-	        </tr>
-	      </thead>
-	      <tbody>
-	        <tr>
-	          <td></td>
-	          <td></td>
-	      	  <td></td>
-	      	  <td></td>
-	      	  <td></td>
-	      	  <td></td>
-	      	  <td>
-	       		<a>수정</a><span>/</span><a>삭제</a>
-	      	  </td>
-	     	</tr>
-	   	  </tbody>
-	    </table>
-	  </div>
-	  <div class="pagination-box">
-	 	<ul class="pagination justify-content-center pagination-sm""></ul>
-	  </div>
-  </div>
-  <!-- The Modal -->
-  <div class="modal fade " id="myModal">
-    <div class="modal-dialog modal-xl ">
-      <div class="modal-content modal-dialog modal-xl">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title"></h4>
-          <button type="button" class="close" data-dismiss="modal">×</button>
-        </div>
-        <!-- Modal body -->
-        <div class="modal-body">
+	<div class="search input-group">
+	  	<select  class="form-control" name="type">
+	  		<option value="all">전체</option>
+	  		<option value="title">도서명</option>
+	  		<option value="authors">저자</option>
+	  		<option value="publisher">출판사</option>
+	  	</select>
+	    <input type="text" class="form-control" placeholder="Search"
+	    name="search">
+	    <div class="input-group-append">
+	      <button class="btn btn-success list-btn" type="button">검색</button>
+	    </div>
+	</div>
+	<div class="insert">
+	    <button type="button" class="btn btn-primary btn-addBook" 
+	    data-toggle="modal" data-target="#myModal">추가</button>
+	</div>
+	<div class="main">
+		<div class="list">
+		    <table class="table table-bordered">
+		    	<thead>
+		        	<tr>
+			          	<th>도서명</th>
+			          	<th class="order-by">도서코드</th>
+			          	<th>표준번호</th>
+			          	<th>출판사</th>
+			          	<th>저자</th>
+			          	<th>역자</th>
+			          	<th></th>
+		        	</tr>
+		      	</thead>
+		      	<tbody>
+		        	
+		   	  	</tbody>
+		    </table>
+		</div>
+		<div class="pagination-box">
+		  	<ul class="pagination justify-content-center pagination-sm"></ul>
+		</div>
+	</div>
+  	<!-- The Modal -->
+	<div class="modal fade " id="myModal">
+		<div class="modal-dialog modal-xl ">
+      		<div class="modal-content modal-dialog modal-xl">
+        	<!-- Modal Header -->
+        		<div class="modal-header">
+          			<h4 class="modal-title"></h4>
+          			<button type="button" class="close" data-dismiss="modal">×</button>
+        		</div>
+        		<!-- Modal body -->
+        		<div class="modal-body">
 
-        </div>
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
+		        </div>
+        		<!-- Modal footer -->
+        		<div class="modal-footer">
+          			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        		</div>
+      		</div>
+    	</div>
+	</div>
 </div>
-
 <!-- 모달 창 변경, 책 수정 -->
 <script type="text/javascript">
 
 //추가버튼 클릭시
 $(".btn-addBook").click(function() {
 	$(".modal-title").text("도서 추가");
+	bookSearch.target="all";
 	let str="";
 	str+=`
 	<div class="input-group">
+		<select class="bookTarget form-control">
+			<option value="all">전체</option>
+			<option value="title">제목</option>
+			<option value="publisher">출판사</option>
+			<option value="person">저자</option>
+			<option value="isbn">ISBN</option>
+		</select>
 	    <input type="text" class="form-control" placeholder="도서 검색"
 	    name="bookName">
 	    <div class="input-group-append">
@@ -113,7 +111,8 @@ $(".btn-addBook").click(function() {
 	`;
 	$(".modal-body").html(str);
 	str="";
-	str+=`<button type="button" class="btn btn-danger addBook" >가져오기</button>`;
+	str+=`<button type="button" class="btn btn-danger addBook" 
+		data-dismiss="modal">가져오기</button>`;
 	$(".modal-footer").html(str);
 });
 
@@ -136,7 +135,8 @@ $(document).on("click",".updateBook-btn",function() {
 	`;
 	$(".modal-body").html(str);
 	str="";
-	str+=`<button type="button" class="btn btn-danger updateBook" >수정하기</button>`;
+	str+=`<button type="button" class="btn btn-danger updateBook"
+		data-dismiss="modal">수정하기</button>`;
 	$(".modal-footer").html(str);
 });
 
@@ -144,7 +144,7 @@ $(document).on("change",".category",function(){
 	let num=$(this).val();
 	$.ajax({
 		async : true,
-		url : '<c:url value="/management/category" />', 
+		url : '<c:url value="/management/manager/category" />', 
 		type : 'post', 
 		data : {num}, 
 		success : function (data){
@@ -172,7 +172,7 @@ $(document).on("click",".updateBook",function(){
 	}
 	$.ajax({
 		async : true,
-		url : '<c:url value="/management/update" />', 
+		url : '<c:url value="/management/manager/update" />', 
 		type : 'post', 
 		data : {caNum,tyNum,boNum}, 
 		success : function (data){
@@ -194,13 +194,7 @@ $(document).on("click",".updateBook",function(){
 <script type="text/javascript">
 	let book=new Array();
 	let selectedBook= [];
-	let cri={
-		search:null,
-		type:'all',
-		page:1,
-		bo_code:true
-	}
-	
+
 	//체크박스 클릭
 	$(document).on('change','.chkBtn',function(){
 		var checked = $(this).is(':checked');
@@ -239,15 +233,17 @@ $(document).on("click",".updateBook",function(){
 		let selectBook=[];
 		selectedBook.forEach((value)=>{
 			selectBook.push(book[value]);
-		})
+		});
+		
 		console.log(selectBook);
+		console.log(selectedBook);
 		if(selectBook.length==0){
 			alert("선택된 책이 없습니다");
 			return;
 		}
 		$.ajax({
 			async : true,
-			url :'<c:url value="/management/insert" />', 
+			url :'<c:url value="/management/manager/insert" />', 
 			type : 'post' ,
 			data : JSON.stringify(selectBook),
 			contentType : "application/json; charset=utf-8",
@@ -271,26 +267,42 @@ $(document).on("click",".updateBook",function(){
 			}
 		});
 	});
-
+	
 	//추가할 책 검색
+	let bookSearch={
+		page:1,
+		end_page:10,
+		search:null,
+		target:"all"
+	};
 	$(document).on("keypress","[name=bookName]",function(key){
 		if(key.keyCode==13){	
 			$('.search-btn2').click();
 		}
 	});
+	$(document).on("change",".bookTarget",function(){
+		bookSearch.target=$(this).val();
+		searchBook(bookSearch);
+	});
 	$(document).on("click",".search-btn2",function() {
-		let search=$("input[name=bookName]").val();	
-		searchBook(search);
+		bookSearch.search=$("input[name=bookName]").val();	
+		if(bookSearch.search==null){
+			return;
+		}
+		bookSearch.page=1;
+		searchBook(bookSearch);
 	});
 	
-	function searchBook(search) {
+	function searchBook(bookSearch) {
+		console.log(bookSearch);
 		$.ajax({
 			async : true,
 			url : "https://dapi.kakao.com/v3/search/book", 
 			type : "get", 
 			data :{
-				query:search,
-				
+				query:bookSearch.search,
+				page:bookSearch.page,
+				target:bookSearch.target
 				}, 
 			headers: { "Authorization":"KakaoAK ${api}" },
 			dataType :"json", 
@@ -319,6 +331,19 @@ $(document).on("click",".updateBook",function(){
 				$(".modal-body>.list>table>tbody").html(str);
 				$('input:checkbox').prop('checked',false);
 				selectedBook=[];
+				let pm="";
+				if(bookSearch.page!=1){
+					pm+=`
+					<a class="page" data-page="-1">이전</a>
+					`;
+				}
+				if(!data.meta.is_end&&
+					bookSearch.page!=bookSearch.end_page){
+					pm+=`
+					<a class="page" data-page="1">다음</a>
+					`;
+				}
+				$(".kakaoSearchPage").html(pm);
 			}, 
 			error : function(jqXHR, textStatus, errorThrown){
 
@@ -326,9 +351,20 @@ $(document).on("click",".updateBook",function(){
 		});
 	}
 	
+	$(document).on('click','.kakaoSearchPage .page',function(){
+		bookSearch.page+=$(this).data('page');
+		searchBook(bookSearch);
+	});
 	
+	let cri={
+		search:null,
+		type:'all',
+		page:1,
+		bo_code:1
+	}
+		
 	//등록된 책 목록 보여주기
-	$("select").change(function() {
+	$('[name=type]').change(function() {
 		cri.type=$(this).val();
 	});
 	$(".list-btn").click(function() {
@@ -340,11 +376,12 @@ $(document).on("click",".updateBook",function(){
 		}
 	});
 	$(".order-by").click(function() {
-		cri.bo_code=!cri.bo_code;
-		if(cri.bo_code){
+		if(cri.bo_code==3){
 			$(this).text("도서 번호");
+			cri.bo_code=1
 		}else{
 			$(this).text("미정 도서");
+			cri.bo_code=3
 		}
 		displayBookView(cri);
 	});
@@ -353,7 +390,7 @@ $(document).on("click",".updateBook",function(){
 		cri.search=$("input[name=search]").val();
 		$.ajax({
 			async : true,
-			url : '<c:url value="/management/list"/>', 
+			url : '<c:url value="/management/manager/list"/>', 
 			type : 'post', 
 			data : JSON.stringify(cri),
 			contentType : "application/json; charset=utf-8",
@@ -414,7 +451,7 @@ $(document).on("click",".updateBook",function(){
 	
 	$(document).on('click','.pagination .page-link',function(){
 		cri.page = $(this).data('page');
-		printMember(cri);
+		displayBookView(cri);
 	});
 	
 	displayBookView(cri);
@@ -450,7 +487,7 @@ $(document).on("click",".deleteBook-btn",function(){
 	if(confirm("삭제 하시겠습니까?")){
 		$.ajax({
 			async : true,
-			url : '<c:url value="/management/delete"/>', 
+			url : '<c:url value="/management/manager/delete"/>', 
 			type : 'post', 
 			data : {num:$(this).data("num")},
 			dataType : "json", 
