@@ -196,24 +196,17 @@ public class HomeController {
 		return "/grade/list";
 	}
 	
-	@GetMapping("/grade/insert")
-	public String gradeInsert(Model model) {
-		model.addAttribute("title", "등급 추가");
-		return "/grade/insert";
-	}
-	
+	@ResponseBody
 	@PostMapping("/grade/insert")
-	public String gradeInsertPost(Model model, GradeVO grade) {
+	public Map<String, Object> gradeInsertPost(Model model, @RequestBody GradeVO grade) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<GradeVO> gradeList = memberService.getGradeList();
 		if(gradeList.size() < 6) {
-			memberService.insertGrade(grade);
-			model.addAttribute("msg", "등급을 추가했습니다.");
-			model.addAttribute("url", "/grade/list");
-		}else {
-			model.addAttribute("msg", "최대 5개 까지만 추가할 수 있습니다.");
-			model.addAttribute("url", "/grade/list");
+			boolean res = memberService.insertGrade(grade);
+			map.put("result", res);
+			return map;
 		}
-		return "message";
+		return map;
 	}
 	
 	@ResponseBody
@@ -221,7 +214,6 @@ public class HomeController {
 	public Map<String, Object> gradeUpdate(@RequestBody GradeVO grade){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res = memberService.updateGrade(grade);
-		log.info(grade);
 		map.put("result", res);
 		return map;
 	}
