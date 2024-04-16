@@ -656,7 +656,9 @@ $(document).on("click",".select-item", function(){
 
 </script>
 
-<!-- 투표 상태 변경 스크립트 -->
+
+
+<!-- 투표 상태 변경 스크립트(투표완료, 기한만료) -->
 <script type="text/javascript">
 
 </script>
