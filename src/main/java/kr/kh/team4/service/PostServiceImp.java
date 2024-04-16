@@ -10,6 +10,7 @@ import kr.kh.team4.model.dto.ItemListDTO;
 import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
+import kr.kh.team4.model.vo.post.ChooseVO;
 import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.HeartVO;
 import kr.kh.team4.model.vo.post.ItemVO;
@@ -314,6 +315,74 @@ public class PostServiceImp implements PostService {
 			}
 		}
 		return itemList;
+	}
+
+
+
+	@Override
+	public ArrayList<ChooseVO> getChooseList(int po_num, MemberVO user) {
+		if(user == null || !checkString(user.getMe_id())) {
+			return new ArrayList<ChooseVO>();
+		}
+		ArrayList<ItemVO> itemList = postDAO.selectPostItem(po_num);
+		ArrayList<ChooseVO> chooseList = new ArrayList<ChooseVO>();
+		for(ItemVO item : itemList) {
+			ChooseVO choose = postDAO.selectChoose(item.getIt_num(), user.getMe_id());
+			chooseList.add(choose);
+		}
+		return chooseList;
+	}
+
+
+
+	@Override
+	public boolean isSelectedItem(int it_num, String me_id) {
+		ChooseVO choose = postDAO.selectChoose(it_num, me_id);
+		if(choose == null) {
+			return false;
+		}
+		return true;
+	}
+
+
+
+	@Override
+	public boolean insertChoose(int it_num, String me_id) {
+		return postDAO.insertChoose(it_num, me_id);
+	}
+
+
+
+	@Override
+	public boolean deleteChoose(int it_num, String me_id) {
+		return postDAO.deleteChoose(it_num, me_id);
+	}
+
+
+
+	@Override
+	public boolean anotherSelectedItem(int it_num, String me_id) {
+		ItemVO tmp = postDAO.selectTmpItem(it_num);
+		ArrayList<ItemVO> itemList = postDAO.selectItem(tmp.getIt_vo_num());
+		boolean res = false;
+		for(ItemVO item : itemList) {
+			if(isSelectedItem(item.getIt_num(), me_id)) {
+				res = true;
+			}
+		}
+		return res;
+	}
+
+
+
+	@Override
+	public boolean updateChoose(int it_num, String me_id) {
+		ItemVO tmp = postDAO.selectTmpItem(it_num);
+		ArrayList<ItemVO> itemList = postDAO.selectItem(tmp.getIt_vo_num());
+		for(ItemVO item : itemList) {
+			postDAO.deleteChoose(item.getIt_num(), me_id);
+		}
+		return postDAO.insertChoose(it_num, me_id);
 	}
 
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
+import kr.kh.team4.model.vo.post.ChooseVO;
 import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.HeartVO;
 import kr.kh.team4.model.vo.post.ItemVO;
@@ -78,6 +79,18 @@ public interface PostDAO {
 	ArrayList<VoteVO> selectVote(@Param("po_num")int po_num);
 
 	ArrayList<ItemVO> selectItem(@Param("vo_num")int vo_num);
+
+	ArrayList<ItemVO> selectPostItem(@Param("po_num")int po_num);
+
+	ChooseVO selectChoose(@Param("it_num")int it_num, @Param("me_id")String me_id);
+
+	boolean insertChoose(@Param("it_num")int it_num, @Param("me_id")String me_id);
+
+	boolean deleteChoose(@Param("it_num")int it_num, @Param("me_id")String me_id);
+
+	ItemVO selectTmpItem(@Param("it_num")int it_num);
+
+	
 	
 	
 

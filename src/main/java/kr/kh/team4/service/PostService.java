@@ -6,6 +6,7 @@ import kr.kh.team4.model.dto.ItemListDTO;
 import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
+import kr.kh.team4.model.vo.post.ChooseVO;
 import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.ItemVO;
 import kr.kh.team4.model.vo.post.PostVO;
@@ -58,5 +59,17 @@ public interface PostService {
 	ArrayList<VoteVO> getVoteList(int po_num);
 
 	ArrayList<ItemVO> getItemList(ArrayList<VoteVO> voteList);
+
+	ArrayList<ChooseVO> getChooseList(int po_num, MemberVO user);
+
+	boolean isSelectedItem(int it_num, String me_id);
+
+	boolean insertChoose(int it_num, String me_id);
+
+	boolean deleteChoose(int it_num, String me_id);
+
+	boolean anotherSelectedItem(int it_num, String me_id);
+
+	boolean updateChoose(int it_num, String me_id);
 
 }
