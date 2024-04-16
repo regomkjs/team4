@@ -33,7 +33,7 @@
 					    <a class="dropdown-item" href="<c:url value="/mypage"/>">내 정보</a>
 					    <a class="dropdown-item" href="<c:url value="/mypage/post"/>">내가 쓴 게시글</a>
 					    <a class="dropdown-item" href="<c:url value="/mypage/comment"/>">내가 쓴 댓글</a>
-					  </div>
+				  	</div>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
