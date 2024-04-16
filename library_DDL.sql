@@ -266,8 +266,10 @@ DROP TABLE IF EXISTS `vote`;
 
 CREATE TABLE `vote` (
   `vo_num` int NOT NULL AUTO_INCREMENT,
+  `vo_title` varchar(30) default "",
+  `vo_dup` int not null,
   `vo_state` int NOT NULL,
-  `vo_date` date NOT NULL,
+  `vo_date` datetime NOT NULL,
   `vo_po_num` int NOT NULL,
   PRIMARY KEY (`vo_num`),
   KEY `FK_post_TO_vote_1` (`vo_po_num`),

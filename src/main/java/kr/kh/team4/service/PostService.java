@@ -2,10 +2,13 @@ package kr.kh.team4.service;
 
 import java.util.ArrayList;
 
+import kr.kh.team4.model.dto.ItemListDTO;
+import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.model.vo.post.PostVO;
+import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.MyCommentCriteria;
@@ -19,7 +22,7 @@ public interface PostService {
 
 	int totalCountPost(Criteria cri);
 
-	boolean insertPost(PostVO post);
+	boolean insertPost(PostVO post, VoteListDTO votes, ItemListDTO items);
 
 	PostVO getPost(int po_num);
 
@@ -46,5 +49,11 @@ public interface PostService {
 	ArrayList<PostVO> getMyCommentList(Criteria cri, MemberVO user);
 
 	int totalCountMyComment(Criteria cri, MemberVO user);
+	
+	boolean updatePost(PostVO post);
+
+	boolean deletePost(PostVO post);
+
+	ArrayList<VoteVO> getVoteList(int po_num);
 
 }
