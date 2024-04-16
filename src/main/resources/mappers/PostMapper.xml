@@ -309,4 +309,8 @@
  		select * from vote where vo_po_num = #{po_num}
  	</select>
  	
+ 	<select id="selectItem" resultType="ItemVO">
+ 		select * from item where it_vo_num = #{vo_num}
+ 	</select>
+ 	
 </mapper>

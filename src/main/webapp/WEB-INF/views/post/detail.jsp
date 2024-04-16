@@ -35,6 +35,45 @@
 			<label for="writer">작성자:</label>
 			<div class="form-control" id="writer">${post.me_nick}</div>
 		</div>
+		<c:if test="${voteList.size() != 0 && voteList != null}">
+			<c:forEach items="${voteList}" var="vote">
+				<c:if test="${vote.vo_dup}">
+					<div class="d-flex" style="margin-bottom: 0">
+						<label class="ml-auto" style="font-size: small; color: gray;">다중선택 허용</label>
+					</div>	
+				</c:if>
+				<div class="mb-3" style="border: 1px solid #aaaaaa; border-radius: 5px;">
+					<div class="container">
+						<c:if test="${vote.vo_title != null && vote.vo_title.length() != 0}">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<label for="vote-title" class="input-group-text">투표명</label>				
+								</div>
+								<div id="vote-title" class="input-group form-control">${vote.vo_title}</div>
+							</div>
+						</c:if>
+						<div class="input-group mb-2">
+							<div class="input-group-prepend">
+								<label for="vote-date" class="input-group-text">투표기한</label>				
+							</div>
+							<div id="vote-date" class="input-group form-control">${vote.vo_date}</div>
+						</div>
+						<div>
+							<c:forEach items="${itemList}" var="item">
+								<c:if test="${vote.vo_num == item.it_vo_num}">
+									<button class="form-control btn btn-outline-secondary mb-1">${item.it_name}</button>
+								</c:if>
+							</c:forEach>
+						</div>
+						<c:if test="${post.po_me_id == user.me_id}">
+							<button class="btn btn-outline-success form-control mt-2 mb-2">투표 마감</button>
+						</c:if>
+					</div>
+				</div>
+			</c:forEach>
+			
+		</c:if>
+		
 		<div class="mb-3">
 			<label for="content">내용:</label>
 			<div class="form-control" style="min-height: 250px">${post.po_content}</div>
@@ -146,7 +185,7 @@ function displayUpdateHeart(totalCountHeart) {
 function displayHeart(result) {
 	$('.btn-heart').addClass("btn-outline-danger");
 	$('.btn-heart').removeClass("btn-danger");
-	if(!result){
+	if(result){
 		$('.btn-heart').addClass("btn-danger");
 		$('.btn-heart').removeClass("btn-outline-danger");
 	}else{
