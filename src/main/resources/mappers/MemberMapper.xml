@@ -66,4 +66,5 @@
 			me_ms_num = #{num}
 		where me_id = #{me_id}
 	</update>
+	
 </mapper>

@@ -60,11 +60,13 @@
 	<form action="<c:url value="/mypage"/>" method="post">
 		<h2 style="margin-bottom: 50px; font-weight: bold">내 정보</h2>
 		<div class="form-group" style="margin-bottom: 10px">
+			<label for="id">아이디</label>
 			<div class="input-group">
 				<input type="text" class="form-control" id="id" name="me_id" readonly value="${user.me_id }">
 			</div>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
+			<label for="nick">닉네임</label>
 			<div class="input-group">
 				<input type="text" class="form-control" id="nickName" name="me_nick" value="${user.me_nick }">
 			</div>
@@ -72,18 +74,22 @@
 			<label id="nickName-error2" class="error text-danger"></label>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
+			<label for="pw">비밀번호</label>
 			<input type="password" class="form-control" id="pw" name="me_pw" placeholder="비밀번호">
 			<label id="pw-error" class="error text-danger" for="pw"></label>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
+			<label for="pw2">비밀번호 확인</label>
 			<input type="password" class="form-control" id="pw2" name="me_pw2" placeholder="비밀번호 확인">
 			<label id="pw2-error" class="error text-danger" for="pw2"></label>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
+			<label for="email">이메일</label>
 			<input type="text" class="form-control" id="email" name="me_email" value="${user.me_email }">
 			<label id="email-error" class="error text-danger" for="email"></label>
 		</div>
 		<div class="form-group">
+			<label for="phone">전화번호</label>
 			<input type="text" class="form-control" id="phone" name="me_phone" value="${user.me_phone }">
 			<label id="phone-error" class="error text-danger" for="phone"></label>
 		</div>

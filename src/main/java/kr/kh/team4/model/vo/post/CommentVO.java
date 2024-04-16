@@ -24,6 +24,10 @@ public class CommentVO {
 	
 	//작성자 닉네임
 	private String me_nick;
+	//게시글 번호
+	private String po_num;
+	//게시글 제목
+	private String po_title;
 	
 	/*
 	public String calDateString(Date co_datetime) {

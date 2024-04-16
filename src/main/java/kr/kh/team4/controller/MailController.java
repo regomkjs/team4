@@ -29,9 +29,9 @@ public class MailController {
 	
 	@ResponseBody
 	@PostMapping("/mail")
-	public String main(String[] args, @RequestParam("phone")String phone, @RequestParam("content")String content) {
-	    String api_key = "api";
-	    String api_secret = "screct";
+	public String mail(String[] args, @RequestParam("phone")String phone, @RequestParam("content")String content) {
+	    String api_key = "NCSJAUZLM1DHEWEW";
+	    String api_secret = "RM7CHJOAGAI3S9CBNC92JDBHOPO8LTFV";
 	    Message coolsms = new Message(api_key, api_secret);
 	    
 	    
@@ -52,4 +52,5 @@ public class MailController {
 	    }
 	    return "/main/home";
     }
+	
 }

@@ -17,10 +17,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	    Object handler, 
 	    ModelAndView modelAndView)
 	    throws Exception {
-		MemberVO user = (MemberVO)modelAndView.getModel().get("user");//1
+		MemberVO user = (MemberVO)modelAndView.getModel().get("user");
 		
 		if(user != null) {
 			request.getSession().setAttribute("user", user);
+			
 		}
 	}
 	

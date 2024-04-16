@@ -17,6 +17,7 @@ import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MyCommentCriteria;
 import kr.kh.team4.pagination.PostCriteria;
 
 @Service
@@ -215,8 +216,50 @@ public class PostServiceImp implements PostService {
 		}
 	}
 
+	@Override
+	public ArrayList<PostVO> getMyPostList(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria(); 
+		}
+		if(user == null) {
+			return null;
+		}
+		return postDAO.selectMyPostList(cri, user.getMe_id());
+	}
 
+	@Override
+	public int totalCountMyPost(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return 0;
+		}
+		return postDAO.totalCountMyPost(cri, user.getMe_id());
+	}
 
+	@Override
+	public ArrayList<PostVO> getMyCommentList(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return null;
+		}
+		return postDAO.selectMyCommentList(cri, user.getMe_id());
+	}
+
+	@Override
+	public int totalCountMyComment(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return 0;
+		}
+		return postDAO.totalCountMyComment(cri, user.getMe_id());	
+	}
+	
 	@Override
 	public boolean updatePost(PostVO post) {
 		if(post == null || 
@@ -227,8 +270,6 @@ public class PostServiceImp implements PostService {
 		return postDAO.updatePost(post);
 	}
 
-
-
 	@Override
 	public boolean deletePost(PostVO post) {
 		if(post == null) {
@@ -236,8 +277,6 @@ public class PostServiceImp implements PostService {
 		}
 		return postDAO.deletePost(post);
 	}
-
-
 
 	@Override
 	public ArrayList<VoteVO> getVoteList(int po_num) {

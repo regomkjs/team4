@@ -103,30 +103,5 @@ $.validator.addMethod(
 	"정규표현식에 맞지 않습니다."
 )
 </script>
-<script type="text/javascript">
-$(".btn-submit").click(function() {
-	let obj = {
-		email : $('[name=me_email]').val(),
-		phone : $('[name=me_phone]').val()
-	}
-	$.ajax({
-		async : true,
-		url : '<c:url value="/find/id"/>', 
-		type : 'post', 
-		data : obj, 
-		dataType : "json", 
-		success : function (data){
-			if(data.result){
-				alert("새 비번이 이메일로 전송됐습니다.")
-			}else{
-				alert("가입된 회원이 아니거나 이메일이 잘못됐습니다.")
-			}
-		}, 
-		error : function(jqXHR, textStatus, errorThrown){
-
-		}
-	});
-});
-</script>
 </body>
 </html>

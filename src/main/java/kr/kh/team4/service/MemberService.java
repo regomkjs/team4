@@ -36,5 +36,4 @@ public interface MemberService {
 
 	void updateMemberState(MemberVO failUser, int num);
 
-
 }

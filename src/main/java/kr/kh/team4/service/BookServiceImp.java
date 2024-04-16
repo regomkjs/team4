@@ -117,6 +117,7 @@ public class BookServiceImp implements BookService {
 		}
 		return bookDao.updateBook(bo_code,boNum,un_num);
 	}
+	
 	@Override
 	public boolean deleteBook(int num) {
 		return bookDao.deleteBook(num);
