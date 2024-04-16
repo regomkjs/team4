@@ -333,4 +333,12 @@
  	<select id="selectTmpItem" resultType="ItemVO">
  		select * from item where it_num = #{it_num}
  	</select>
+ 	
+ 	<update id="increaseCount">
+ 		update item set it_count = it_count + 1 where it_num = #{it_num}
+ 	</update>
+ 	
+ 	<update id="decreaseCount">
+ 		update item set it_count = it_count - 1 where it_num = #{it_num}
+ 	</update>
 </mapper>

@@ -348,14 +348,22 @@ public class PostServiceImp implements PostService {
 
 	@Override
 	public boolean insertChoose(int it_num, String me_id) {
-		return postDAO.insertChoose(it_num, me_id);
+		boolean res = postDAO.insertChoose(it_num, me_id);
+		if(res) {
+			postDAO.increaseCount(it_num);
+		}
+		return res;
 	}
 
 
 
 	@Override
 	public boolean deleteChoose(int it_num, String me_id) {
-		return postDAO.deleteChoose(it_num, me_id);
+		boolean res = postDAO.deleteChoose(it_num, me_id);
+		if (res) {
+			postDAO.decreaseCount(it_num);
+		}
+		return res;
 	}
 
 
@@ -380,9 +388,11 @@ public class PostServiceImp implements PostService {
 		ItemVO tmp = postDAO.selectTmpItem(it_num);
 		ArrayList<ItemVO> itemList = postDAO.selectItem(tmp.getIt_vo_num());
 		for(ItemVO item : itemList) {
-			postDAO.deleteChoose(item.getIt_num(), me_id);
+			if(postDAO.deleteChoose(item.getIt_num(), me_id)) {
+				postDAO.decreaseCount(item.getIt_num());
+			}
 		}
-		return postDAO.insertChoose(it_num, me_id);
+		return insertChoose(it_num, me_id);
 	}
 
 }

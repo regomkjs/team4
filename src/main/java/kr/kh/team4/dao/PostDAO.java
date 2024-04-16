@@ -90,6 +90,10 @@ public interface PostDAO {
 
 	ItemVO selectTmpItem(@Param("it_num")int it_num);
 
+	void increaseCount(@Param("it_num")int it_num);
+
+	void decreaseCount(@Param("it_num")int it_num);
+
 	
 	
 	
