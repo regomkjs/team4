@@ -65,9 +65,9 @@
 								<div id="vote-date" class="input-group form-control">${vote.vo_date}</div>
 							</div>
 							<div class="select-list">
-								<c:forEach items="${itemList}" var="item">
+								<c:forEach items="${itemList}" var="item" varStatus="vs">
 									<c:if test="${vote.vo_num == item.it_vo_num}">
-										<button class="select-item form-control btn btn-outline-secondary mb-1 ${item.it_num}" value="${item.it_num}" id="${item.it_num}" name="${item.it_num}" type="button" data-dup="${item.vo_dup}">${item.it_name}</button>
+										<button class="select-item form-control btn btn-outline-secondary mb-1 ${item.it_num}" value="${item.it_num}" id="${vs.index}" name="${item.it_num}" type="button" data-dup="${item.vo_dup}">${item.it_name}</button>
 									</c:if>
 								</c:forEach>
 							</div>
@@ -583,7 +583,6 @@ function getChooseByPost() {
 			"po_num" : po_num
 		},
 		success : function (data) {
-			console.log(data.chooseList)
 			refreshSelectItem();
 			selectedItem(data.chooseList);
 		},
@@ -601,9 +600,8 @@ function refreshSelectItem() {
 function selectedItem(chooseList) {
 	for(choose of chooseList){
 		if(choose != null){
-			console.log(choose.ch_it_num);
-			$('A element: contains("${choose.ch_it_num}")').addClass("btn-secondary");
-			$('A element: contains("${choose.ch_it_num}")').removeClass("btn-outline-secondary");
+			document.getElementsByClassName("select-item")[chooseList.indexOf(choose)].classList.add("btn-secondary");
+			document.getElementsByClassName("select-item")[chooseList.indexOf(choose)].classList.remove("btn-outline-secondary");
 		}
 	}
 }
