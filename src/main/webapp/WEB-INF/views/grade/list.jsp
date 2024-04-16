@@ -22,7 +22,7 @@
 			<c:forEach items="${gradeList}" var="grade" begin="1" end="5">
 				<tr class="grade-list">
 					<td class="col-2 grade-item">
-						<input type="hidden" class="gr_num edit-input" value="${grade.gr_num }">
+						<input type="hidden" name="gr_num" class="gr_num edit-input" value="${grade.gr_num }">
 						<input type="text" readonly value="${grade.gr_name }" style="width: 170px" maxlength="10" class="name edit-input">
 					</td>
 					<td class="col-2 grade-item">
@@ -271,6 +271,31 @@ $(document).ready(function() {
 </script>
 <!-- 등급 삭제 -->
 <script type="text/javascript">
-
+$(document).on("click", ".btn-delete", function () {
+    let row = $(this).closest('tr');
+    console.log(row);
+    let gr_num = row.find($('[name="gr_num"]')).val();
+    let obj = {
+    		gr_num
+    }
+	$.ajax({
+		async : true,
+		url : '<c:url value="/grade/delete"/>', 
+		type : 'post', 
+		data : obj, 
+		dataType : "json", 
+		success : function (data){
+			if(data.result){
+				alert("등급을 삭제했습니다.");
+				row.remove();
+			}else{
+				alert("등급을 삭제하지 못했습니다." + error);
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+			alert("해당 등급에 해당하는 회원이 존재해서 삭제하지 못합니다.")
+		}
+	});
+});
 </script>
 </html>

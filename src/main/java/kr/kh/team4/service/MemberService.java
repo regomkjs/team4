@@ -36,4 +36,6 @@ public interface MemberService {
 
 	void updateMemberState(MemberVO failUser, int num);
 
+	boolean deleteGrade(int gr_num);
+
 }

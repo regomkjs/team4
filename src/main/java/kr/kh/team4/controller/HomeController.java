@@ -61,24 +61,6 @@ public class HomeController {
 		return "message";
 	}
 	
-	@ResponseBody
-	@GetMapping("/id/check/dup")
-	public Map<String, Object> idCheckDup(@RequestParam("id")String id){
-		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res = memberService.idCheck(id);
-		map.put("result", res);
-		return map;
-	}
-	
-	@ResponseBody
-	@GetMapping("/nickName/check/dup")
-	public Map<String, Object> nickNameCheckDup(@RequestParam("nickName")String nickName){
-		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res = memberService.nickNameCheck(nickName);
-		map.put("result", res);
-		return map;
-	}
-	
 	@GetMapping("/login")
 	public String login(Model model) {
 		model.addAttribute("title", "로그인");
@@ -157,15 +139,6 @@ public class HomeController {
 		return "/member/findpw";
 	}
 	
-	@ResponseBody
-	@PostMapping("/find/pw")
-	public Map<String, Object> findPwPost(@RequestParam("id") String id){
-		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res = memberService.findPw(id);
-		map.put("result", res);
-		return map;
-	}
-	
 	@GetMapping("/mypage")
 	public String mypage(Model model) {
 		model.addAttribute("title", "내 정보");
@@ -194,28 +167,6 @@ public class HomeController {
 		model.addAttribute("title", "등급 관리");
 		model.addAttribute("gradeList", gradeList);
 		return "/grade/list";
-	}
-	
-	@ResponseBody
-	@PostMapping("/grade/insert")
-	public Map<String, Object> gradeInsertPost(Model model, @RequestBody GradeVO grade) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<GradeVO> gradeList = memberService.getGradeList();
-		if(gradeList.size() < 6) {
-			boolean res = memberService.insertGrade(grade);
-			map.put("result", res);
-			return map;
-		}
-		return map;
-	}
-	
-	@ResponseBody
-	@PostMapping("/grade/update")
-	public Map<String, Object> gradeUpdate(@RequestBody GradeVO grade){
-		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res = memberService.updateGrade(grade);
-		map.put("result", res);
-		return map;
 	}
 	
 }
