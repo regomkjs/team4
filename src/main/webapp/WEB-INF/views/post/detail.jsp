@@ -50,19 +50,21 @@
 					</c:if>
 					<div class="mb-3" style="border: 1px solid #aaaaaa; border-radius: 5px;">
 						<div class="container">
-							<c:if test="${vote.vo_title != null && vote.vo_title.length() != 0}">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<label for="vote-title" class="input-group-text">투표명</label>				
+							<div class="mt-1">
+								<c:if test="${vote.vo_title != null && vote.vo_title.length() != 0}">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<label for="vote-title" class="input-group-text">투표명</label>				
+										</div>
+										<div id="vote-title" class="input-group form-control">${vote.vo_title}</div>
 									</div>
-									<div id="vote-title" class="input-group form-control">${vote.vo_title}</div>
+								</c:if>
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<label for="vote-date" class="input-group-text">투표기한</label>				
+									</div>
+									<div id="vote-date" class="input-group form-control">${vote.vo_date}</div>
 								</div>
-							</c:if>
-							<div class="input-group mb-2">
-								<div class="input-group-prepend">
-									<label for="vote-date" class="input-group-text">투표기한</label>				
-								</div>
-								<div id="vote-date" class="input-group form-control">${vote.vo_date}</div>
 							</div>
 							<div class="select-list">
 								<c:forEach items="${itemList}" var="item" varStatus="vs">
@@ -147,13 +149,13 @@ $(".btn-heart").on("click", function(){
 		},
 		success : function (data) {
 			switch (data.result) {
-			case "1":
+			case 1:
 				alert("게시글을 추천했습니다.");
 				break;
-			case "0":
+			case 0:
 				alert("추천을 취소했습니다.");
 				break;
-			case "-1":
+			case -1:
 				alert("에러 발생")
 				break;
 			}
