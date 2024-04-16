@@ -25,5 +25,28 @@
 				</ul>
 			</div>
 		</div>
+		<button class="btn btn-outline-primary loan-btn">대출</button>
 	</div>
 </body>
+<script type="text/javascript">
+$('.loan-btn').click(function () {
+	$.ajax({
+		async : true,
+		url : '<c:url value="/loan/book">/', 
+		type : 'post', 
+		data : JSON.stringify(객체), 
+		contentType : "application/json; charset=utf-8",
+		dataType : "json", 
+		success : function (data){
+			if(data.result){
+				alert("대출했습니다.")
+			}else{
+				alert("이미 대출된 책입니다.")
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+});
+</script>
