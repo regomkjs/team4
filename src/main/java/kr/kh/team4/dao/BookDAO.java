@@ -36,5 +36,11 @@ public interface BookDAO {
 
 	boolean deleteBook(@Param("bo_num")int num);
 
+	BookVO getBook(@Param("bo_num")int num);
+
+	ArrayList<BookVO> getBookIsbn(@Param("bo_isbn")String bo_isbn);
+
+	boolean insertUpper(@Param("up_num")int caNum,@Param("up_name") String caName);
+
 
 }
