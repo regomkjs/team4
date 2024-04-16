@@ -26,9 +26,14 @@ public class PostServiceImp implements PostService {
 	PostDAO postDAO;
 
 	private boolean checkString(String str) {
-		if(str.length() == 0 || str == null) {
+		try {
+			if(str.length() == 0 || str == null) {
+				return false;
+			}
+		} catch (Exception e) {
 			return false;
 		}
+		
 		return true;
 	}
 	
@@ -68,15 +73,26 @@ public class PostServiceImp implements PostService {
 		if(!res) {
 			return false;
 		}
-		if(votes.getVo_list().size() == 0 || votes.getVo_list() == null || votes == null ||
-				items.getIt_list().size() == 0 || items.getIt_list() == null  || items == null) {
-			return true;
+		try {
+			if(votes.getVo_list().size() == 0 || votes.getVo_list() == null || votes == null ||
+					items.getIt_list().size() == 0 || items.getIt_list() == null  || items == null) {
+				return true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		for(VoteVO vote : votes.getVo_list()) {
+			if(vote == null || !checkString(vote.getVo_date())) {
+				continue;
+			}
 			vote.setVo_po_num(post.getPo_num());
 			postDAO.insertVote(vote);
 			for(ItemVO item : items.getIt_list()) {
+				if(!checkString(item.getIt_name()) || item == null) {
+					continue;
+				}
 				if(vote.getVo_count() == item.getIt_vo_count()) {
 					item.setIt_vo_num(vote.getVo_num());
 					postDAO.insertItem(item);
@@ -127,7 +143,7 @@ public class PostServiceImp implements PostService {
 			return false;
 		}
 		HeartVO heart = postDAO.selectHeart(user, po_num);
-		if(heart == null) {
+		if(heart != null) {
 			return true;
 		}
 		else {
@@ -242,6 +258,23 @@ public class PostServiceImp implements PostService {
 	@Override
 	public ArrayList<VoteVO> getVoteList(int po_num) {
 		return postDAO.selectVote(po_num);
+	}
+
+
+
+	@Override
+	public ArrayList<ItemVO> getItemList(ArrayList<VoteVO> voteList) {
+		if(voteList.size() == 0 || voteList == null) {
+			return null;
+		}
+		ArrayList<ItemVO> itemList = new ArrayList<ItemVO>();
+		for(VoteVO vote : voteList) {
+			ArrayList<ItemVO> items = postDAO.selectItem(vote.getVo_num());
+			if(items.size() !=0 && items !=null) {
+				itemList.addAll(items);
+			}
+		}
+		return itemList;
 	}
 
 }

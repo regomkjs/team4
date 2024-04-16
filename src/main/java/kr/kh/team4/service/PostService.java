@@ -7,6 +7,7 @@ import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.CommentVO;
+import kr.kh.team4.model.vo.post.ItemVO;
 import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.CommentCriteria;
@@ -46,5 +47,7 @@ public interface PostService {
 	boolean deletePost(PostVO post);
 
 	ArrayList<VoteVO> getVoteList(int po_num);
+
+	ArrayList<ItemVO> getItemList(ArrayList<VoteVO> voteList);
 
 }

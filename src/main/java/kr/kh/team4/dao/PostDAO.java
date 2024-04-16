@@ -68,6 +68,8 @@ public interface PostDAO {
 	void deleteVote(@Param("vo_num")int vo_num);
 
 	ArrayList<VoteVO> selectVote(@Param("po_num")int po_num);
+
+	ArrayList<ItemVO> selectItem(@Param("vo_num")int vo_num);
 	
 	
 

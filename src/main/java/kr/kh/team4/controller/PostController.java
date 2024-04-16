@@ -14,7 +14,9 @@ import kr.kh.team4.model.dto.ItemListDTO;
 import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
+import kr.kh.team4.model.vo.post.ItemVO;
 import kr.kh.team4.model.vo.post.PostVO;
+import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.pagination.PostCriteria;
 import kr.kh.team4.service.PostService;
@@ -104,6 +106,14 @@ public class PostController {
 			model.addAttribute("msg", "삭제되거나 없는 게시글입니다.");
 			model.addAttribute("url", "/post/list");
 			return "message";
+		}
+		ArrayList<VoteVO> voteList = postService.getVoteList(post.getPo_num());
+		if(voteList.size() != 0 && voteList != null) {
+			ArrayList<ItemVO> itemList = postService.getItemList(voteList);
+			if(itemList.size() != 0 && itemList !=null) {
+				model.addAttribute("voteList", voteList);
+				model.addAttribute("itemList", itemList);
+			}
 		}
 		model.addAttribute("post", post);
 		return "/post/detail";
