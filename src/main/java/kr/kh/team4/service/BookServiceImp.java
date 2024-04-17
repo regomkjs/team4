@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kr.kh.team4.dao.BookDAO;
 import kr.kh.team4.model.dto.BookDTO;
+import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.UnderVO;
@@ -145,6 +146,30 @@ public class BookServiceImp implements BookService {
 			}
 		}
 		return bookDao.insertUpper(caNum,caName);
+	}
+	
+	@Override
+	public boolean deleteUpper(int caNum) {
+		return bookDao.deleteUpper(caNum);
+	}
+	
+	@Override
+	public boolean insertUnder(UnderDTO underDto) {
+		if(underDto==null||checkString(underDto.getUnName())) {
+			return false;
+		}
+		ArrayList<UnderVO> underList=bookDao.getUnder(underDto.getUn_upNum());
+		for(UnderVO tmp:underList) {
+			if(tmp.getUn_code()==underDto.getUnCode()||
+				tmp.getUn_name().equals(underDto.getUnName())) {
+				return false;
+			}
+		}
+		return bookDao.insertUnder(underDto);
+	}
+	@Override
+	public boolean deleteUnder(int num) {
+		return bookDao.deleteUnder(num);
 	}
 
 	@Override
