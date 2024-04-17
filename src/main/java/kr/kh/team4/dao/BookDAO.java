@@ -42,7 +42,5 @@ public interface BookDAO {
 
 	boolean insertUpper(@Param("up_num")int caNum,@Param("up_name") String caName);
 
-	boolean deleteUpper(@Param("up_num")int caNum);
-
 
 }

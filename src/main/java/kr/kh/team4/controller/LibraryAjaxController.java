@@ -79,12 +79,4 @@ public class LibraryAjaxController {
 		map.put("res", res);
 		return map;
 	}
-	
-	@PostMapping("/management/bookCategory/delete")
-	public Map<String, Object> CategoryDelete(int caNum){
-		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res=bookService.deleteUpper(caNum);
-		map.put("res", res);
-		return map;
-	}
 }

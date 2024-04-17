@@ -144,11 +144,6 @@ public class BookServiceImp implements BookService {
 		}
 		return bookDao.insertUpper(caNum,caName);
 	}
-	
-	@Override
-	public boolean deleteUpper(int caNum) {
-		return bookDao.deleteUpper(caNum);
-	}
 
 	
 	

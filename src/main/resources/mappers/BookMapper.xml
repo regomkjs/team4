@@ -131,7 +131,4 @@
 	<insert id="insertUpper">
 		insert into upper value(#{up_num},#{up_name})
 	</insert>
-	<delete id="deleteUpper">
-		delete from upper where up_num=#{up_num}
-	</delete>
 </mapper>
