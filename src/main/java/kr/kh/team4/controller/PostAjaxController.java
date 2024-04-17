@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.post.ChooseVO;
 import kr.kh.team4.model.vo.post.CommentVO;
+import kr.kh.team4.model.vo.post.ItemVO;
+import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.PageMaker;
@@ -113,7 +115,7 @@ public class PostAjaxController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/choose/post")
+	@PostMapping("/vote/chooselist")
 	public Map<String, Object> choosePostPost(@RequestParam("po_num")int po_num,  HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -176,6 +178,30 @@ public class PostAjaxController {
 				if(postService.insertChoose(it_num, user.getMe_id())) {
 					res = 1;
 				} else {res = 0;}
+			}
+		}
+		map.put("result", res);
+		return map;
+	}
+	
+	
+	@ResponseBody
+	@PostMapping("/vote/close")
+	public Map<String, Object> voteClosePost(@RequestBody VoteVO vote, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		PostVO post = postService.getPost(vote.getVo_po_num());
+		boolean res;
+		if(!post.getPo_me_id().equals(user.getMe_id())) {
+			res = false;
+		}
+		else {
+			res = postService.updateVoteState(vote);
+			if(res) {
+				int totalVoteMember = postService.countTotalVoteMember(vote.getVo_num());
+				ArrayList<ItemVO> itemList = postService.getItemList(vote.getVo_num());
+				map.put("itemList", itemList);
+				map.put("totalVoteMember", totalVoteMember);
 			}
 		}
 		map.put("result", res);

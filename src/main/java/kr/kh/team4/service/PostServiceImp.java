@@ -395,4 +395,28 @@ public class PostServiceImp implements PostService {
 		return insertChoose(it_num, me_id);
 	}
 
+
+
+	@Override
+	public boolean updateVoteState(VoteVO vote) {
+		if(vote == null) {
+			return false;
+		}
+		return postDAO.updateVoteState(vote.getVo_num());
+	}
+
+
+
+	@Override
+	public ArrayList<ItemVO> getItemList(int vo_num) {
+		return postDAO.selectItem(vo_num);
+	}
+
+
+
+	@Override
+	public int countTotalVoteMember(int vo_num) {
+		return postDAO.countTotalVoteMember(vo_num);
+	}
+
 }

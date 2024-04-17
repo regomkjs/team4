@@ -72,4 +72,10 @@ public interface PostService {
 
 	boolean updateChoose(int it_num, String me_id);
 
+	boolean updateVoteState(VoteVO vote);
+
+	ArrayList<ItemVO> getItemList(int vo_num);
+
+	int countTotalVoteMember(int vo_num);
+
 }

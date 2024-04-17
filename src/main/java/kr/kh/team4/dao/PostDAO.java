@@ -94,6 +94,10 @@ public interface PostDAO {
 
 	void decreaseCount(@Param("it_num")int it_num);
 
+	boolean updateVoteState(@Param("vo_num")int vo_num);
+
+	int countTotalVoteMember(@Param("vo_num")int vo_num);
+
 	
 	
 	
