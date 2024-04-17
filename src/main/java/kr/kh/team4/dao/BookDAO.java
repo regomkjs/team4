@@ -44,9 +44,12 @@ public interface BookDAO {
 
 	boolean insertUpper(@Param("up_num")int caNum,@Param("up_name") String caName);
 
-	boolean insertLoan(@Param("loan")LoanVO loan);
+	boolean insertLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
 
-	boolean insertLoan(@Param("user")MemberVO user, @Param("book")BookVO book);
+	LoanVO selectLoan(@Param("bo_num")int num);
 
+	boolean updateLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+
+	ArrayList<LoanVO> selectLoanList(@Param("bo_isbn")String bo_isbn);
 
 }

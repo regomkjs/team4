@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.maven.lifecycle.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -149,18 +148,47 @@ public class BookServiceImp implements BookService {
 	}
 
 	@Override
-	public boolean insertLoan(LoanVO loan, MemberVO user, BookVO book) {
-		if(	loan == null || 
-				loan.getLo_date() == null || 
-				loan.getLo_me_id() == null ||
-				loan.getLo_limit() == null) {
-				return false;
-		}
+	public boolean loanBook(MemberVO user, BookVO book) {
 		if(user == null) {
 			return false;
 		}
-
-		return bookDao.insertLoan(user, book);
+		if(book == null) {
+			return false;
+		}
+		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		try {
+			if(loan.getLo_state() == 1) {
+				return false;
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		return bookDao.insertLoan(user.getMe_id(), book.getBo_num());
+	}
+	
+	@Override
+	public LoanVO getLoan(int num) {
+		return bookDao.selectLoan(num);
+	}
+	@Override
+	public boolean extendBook(MemberVO user, BookVO book) {
+		if(user == null) {
+			return false;
+		}
+		if(book == null) {
+			return false;
+		}
+		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		
+		if(!loan.getLo_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		
+		return bookDao.updateLoan(user.getMe_id(), book.getBo_num());
+	}
+	@Override
+	public ArrayList<LoanVO> getLoanList(String bo_isbn) {
+		return bookDao.selectLoanList(bo_isbn);
 	}
 	
 }

@@ -34,7 +34,12 @@ public interface BookService {
 
 	boolean insertUpper(int caNum, String caName);
 
-	boolean insertLoan(LoanVO loan, MemberVO user, BookVO book);
+	boolean loanBook(MemberVO user, BookVO book);
 
+	LoanVO getLoan(int num);
+
+	boolean extendBook(MemberVO user, BookVO book);
+
+	ArrayList<LoanVO> getLoanList(String bo_isbn);
 	
 }

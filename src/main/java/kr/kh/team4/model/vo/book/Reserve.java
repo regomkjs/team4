@@ -11,6 +11,7 @@ public class Reserve {
 	private int re_num; 
 	private Date re_date; 
 	private String re_bo_num;
+	private int re_state;
 	private String re_me_id;
 
 }

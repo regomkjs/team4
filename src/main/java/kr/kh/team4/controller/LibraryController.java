@@ -62,9 +62,13 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/library/book/detail")
-	public String libraryDetail(Model model,int num) {	
+	public String libraryDetail(Model model,int num,HttpSession session) {	
 		BookVO book=bookService.getBook(num);
 		ArrayList<BookVO> code=bookService.getBookIsbn(book.getBo_isbn());
+		ArrayList<LoanVO> loanList = bookService.getLoanList(book.getBo_isbn());
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		model.addAttribute("user", user);
+		model.addAttribute("loanList", loanList);
 		model.addAttribute("book",book);
 		model.addAttribute("code",code);
 		return "/library/book/detail";
@@ -77,14 +81,4 @@ public class LibraryController {
 		return "/library/management/bookCategory";
 	}
 	
-	@PostMapping("/loan/book")
-	public String loanBook(Model model, LoanVO loan, HttpSession session, int num){
-		MemberVO user = (MemberVO)session.getAttribute("user");
-		BookVO book = bookService.getBook(num);
-		boolean res = bookService.insertLoan(loan, user, book);
-		model.addAttribute("book", book);
-		model.addAttribute("user", user);
-		model.addAttribute("res", res);
-		return "/library/book/detail";
-	}
 }

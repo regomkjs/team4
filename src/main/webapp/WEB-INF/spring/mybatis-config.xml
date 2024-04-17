@@ -10,7 +10,7 @@
 		<typeAlias type="kr.kh.team4.model.vo.member.GradeVO" alias="GradeVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.member.ReportVO" alias="ReportVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.member.MemberStateVO" alias="MemberStateVO"/>
-		
+		<typeAlias type="kr.kh.team4.model.vo.book.LoanVO" alias="LoanVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.CategoryVO" alias="CategoryVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.PostVO" alias="PostVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.CommentVO" alias="CommentVO"/>
@@ -18,5 +18,7 @@
 		<typeAlias type="kr.kh.team4.model.vo.post.VoteVO" alias="VoteVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.ItemVO" alias="ItemVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.ChooseVO" alias="ChooseVO"/>
+		
+		
 	</typeAliases>
 </configuration>
