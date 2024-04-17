@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.kh.team4.model.dto.BookDTO;
+import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
@@ -84,6 +85,22 @@ public class LibraryAjaxController {
 	public Map<String, Object> CategoryDelete(int caNum){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res=bookService.deleteUpper(caNum);
+		map.put("res", res);
+		return map;
+	}
+	
+	@PostMapping("/management/bookType/insert")
+	public Map<String, Object> TypeInsert(@RequestBody UnderDTO underDto){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res=bookService.insertUnder(underDto);
+		map.put("res", res);
+		return map;
+	}
+	
+	@PostMapping("/management/bookType/delete")
+	public Map<String, Object> TypeDelete(int num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res=bookService.deleteUnder(num);
 		map.put("res", res);
 		return map;
 	}

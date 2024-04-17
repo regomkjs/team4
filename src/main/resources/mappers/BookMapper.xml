@@ -134,4 +134,11 @@
 	<delete id="deleteUpper">
 		delete from upper where up_num=#{up_num}
 	</delete>
+	<insert id="insertUnder">
+		insert into under(un_name,un_code,un_up_num)
+		value(#{under.unName},#{under.unCode},#{under.un_upNum})
+	</insert>
+	<delete id="deleteUnder">
+		delete from under where un_num=#{un_num}
+	</delete>
 </mapper>
