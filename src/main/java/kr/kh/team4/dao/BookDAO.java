@@ -6,8 +6,10 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.vo.book.BookVO;
+import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
 
 public interface BookDAO {
@@ -41,6 +43,10 @@ public interface BookDAO {
 	ArrayList<BookVO> getBookIsbn(@Param("bo_isbn")String bo_isbn);
 
 	boolean insertUpper(@Param("up_num")int caNum,@Param("up_name") String caName);
+
+	boolean insertLoan(@Param("loan")LoanVO loan);
+
+	boolean insertLoan(@Param("user")MemberVO user, @Param("book")BookVO book);
 
 
 }

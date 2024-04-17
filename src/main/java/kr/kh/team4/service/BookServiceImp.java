@@ -4,14 +4,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.apache.maven.lifecycle.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.kh.team4.dao.BookDAO;
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.vo.book.BookVO;
+import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
 
 @Service
@@ -145,6 +148,19 @@ public class BookServiceImp implements BookService {
 		return bookDao.insertUpper(caNum,caName);
 	}
 
-	
+	@Override
+	public boolean insertLoan(LoanVO loan, MemberVO user, BookVO book) {
+		if(	loan == null || 
+				loan.getLo_date() == null || 
+				loan.getLo_me_id() == null ||
+				loan.getLo_limit() == null) {
+				return false;
+		}
+		if(user == null) {
+			return false;
+		}
+
+		return bookDao.insertLoan(user, book);
+	}
 	
 }

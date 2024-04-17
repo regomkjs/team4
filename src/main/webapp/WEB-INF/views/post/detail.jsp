@@ -602,8 +602,8 @@ function selectedItem(chooseList) {
 	for(choose of chooseList){
 		if(choose != null){
 			console.log(choose.ch_it_num);
-			$('A element: contains("${choose.ch_it_num}")').addClass("btn-secondary");
-			$('A element: contains("${choose.ch_it_num}")').removeClass("btn-outline-secondary");
+			$('A element: contains(`${choose.ch_it_num}`)').addClass("btn-secondary");
+			$('A element: contains(`${choose.ch_it_num}`)').removeClass("btn-outline-secondary");
 		}
 	}
 }

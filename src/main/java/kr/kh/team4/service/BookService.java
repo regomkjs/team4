@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.vo.book.BookVO;
+import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
 
 public interface BookService {
@@ -31,6 +33,8 @@ public interface BookService {
 	ArrayList<BookVO> getBookIsbn(String bo_isbn);
 
 	boolean insertUpper(int caNum, String caName);
+
+	boolean insertLoan(LoanVO loan, MemberVO user, BookVO book);
 
 	
 }

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.vo.book.BookVO;
-import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.PageMaker;
@@ -79,13 +78,5 @@ public class LibraryAjaxController {
 		map.put("res", res);
 		return map;
 	}
-	
-	@ResponseBody
-	@PostMapping("/loan/book")
-	public Map<String, Object> loanBook(@RequestBody LoanVO loan){
-		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res = insertLoan(loan);
-		map.put("result", res);
-		return map;
-	}
+
 }

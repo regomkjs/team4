@@ -25,11 +25,8 @@
 				</ul>
 			</div>
 		</div>
-		<button class="btn btn-outline-primary loan-btn">대출</button>
+		<form action="<c:url value="/loan/book"/>" method="post">
+			<button class="btn btn-outline-primary loan-btn">대출</button>
+		</form>
 	</div>
 </body>
-<script type="text/javascript">
-$('.loan-btn').click(function () {
-alert(1);
-});
-</script>
