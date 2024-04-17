@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.kh.team4.model.dto.BookDTO;
+import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
@@ -41,6 +42,12 @@ public interface BookDAO {
 	ArrayList<BookVO> getBookIsbn(@Param("bo_isbn")String bo_isbn);
 
 	boolean insertUpper(@Param("up_num")int caNum,@Param("up_name") String caName);
+
+	boolean deleteUpper(@Param("up_num")int caNum);
+
+	boolean insertUnder(@Param("under") UnderDTO underDto);
+
+	boolean deleteUnder(@Param("un_num")int num);
 
 
 }
