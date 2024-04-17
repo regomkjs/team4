@@ -118,7 +118,6 @@ public class PostAjaxController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		ArrayList<ChooseVO> list = postService.getChooseList(po_num, user);
-		log.info(list);
 		map.put("chooseList", list);
 		return map;
 	}
@@ -130,7 +129,7 @@ public class PostAjaxController {
 				@RequestParam("it_num")int it_num, @RequestParam("vo_dup")boolean vo_dup){
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		int res;
+		int res; //오류: 0, 생성:1, 삭제:2, 수정(삭제후 생성):3
 		if(user == null || user.getMe_id() == null || user.getMe_id().length() == 0) {
 			res = 0;
 			map.put("result", res);

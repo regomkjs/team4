@@ -41,7 +41,7 @@
 		</div>
 		<c:if test="${voteList.size() != 0 && voteList != null}">
 			<c:forEach items="${voteList}" var="vote">
-				<div class="vote-box">
+				<div class="vote-box" data-num="${vote.vo_num}">
 					<c:if test="${vote.vo_dup}">
 						<div class="d-flex" style="margin-bottom: 0">
 							<label class="ml-auto" style="font-size: small; color: gray;">다중선택 허용</label>
@@ -74,7 +74,7 @@
 								</c:forEach>
 							</div>
 							<c:if test="${post.po_me_id == user.me_id}">
-								<button class="btn btn-outline-success form-control mt-2 mb-2" type="button">투표 마감</button>
+								<button class="btn btn-outline-success form-control mt-2 mb-2 btn-close-vote" type="button">투표 마감</button>
 							</c:if>
 						</div>
 					</div>
@@ -656,11 +656,30 @@ $(document).on("click",".select-item", function(){
 
 </script>
 
-
-
 <!-- 투표 상태 변경 스크립트(투표완료, 기한만료) -->
 <script type="text/javascript">
+let time = $('#time').val();
 
+$(document).on("click",".btn-close-vote",function(){
+	let vo_num = $(this).parents(".vote-box").data("num");
+	let vote-box = $(this).parents(".vote-box");
+	let vote = {
+			"vo_num" : vo_num
+	}
+	$.ajax({
+		url : '<c:url value="/comment/list"/>',
+		method : "post",
+		data : JSON.stringify(vote),
+		contentType : "application/json; charset=utf-8",
+		dataType : "json", 
+		success : function(data){
+			
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생");
+		}
+	});
+})
 </script>
 
 
