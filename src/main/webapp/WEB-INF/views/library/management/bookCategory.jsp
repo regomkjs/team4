@@ -139,21 +139,20 @@
 		$(".modal-footer").html(str);
 	});
 	
-	//카테고리 삭제(미완)
-	$(document).on("click",".category-add-btn",function(){
+	//카테고리 삭제
+	$(document).on("click",".category-delete-btn",function(){
 		$.ajax({
 			async : true,
-			url : '<c:url value="/management/bookCategory/insert" />', 
+			url : '<c:url value="/management/bookCategory/delete"/>', 
 			type : 'post', 
 			data : {
-				caNum:$("input[name=caNum]").val(),
-				caName:$("input[name=caName]").val()
+				caNum:$(".category").val(),
 			}, 
 			success : function (data){
 				if(data.res){
-					alert("등록이 되었습니다");
+					alert("삭제가 되었습니다");
 				}else{
-					alert("등록이 실패했습니다");
+					alert("삭제에 실패했습니다");
 				}
 				location.reload();
 			}, 

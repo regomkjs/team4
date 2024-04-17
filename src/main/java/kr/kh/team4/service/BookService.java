@@ -32,5 +32,7 @@ public interface BookService {
 
 	boolean insertUpper(int caNum, String caName);
 
+	boolean deleteUpper(int caNum);
+
 	
 }
