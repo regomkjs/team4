@@ -219,5 +219,13 @@ public class MemberServiceImp implements MemberService {
 	public void updateMemberState(MemberVO failUser, int num) {
 		memberDao.updateMemberState(failUser.getMe_id(), num);
 	}
+
+	@Override
+	public boolean deleteGrade(int gr_num) {
+		if(gr_num == 0) {
+			return false;
+		}
+		return memberDao.deleteGrade(gr_num);
+	}
 	
 }

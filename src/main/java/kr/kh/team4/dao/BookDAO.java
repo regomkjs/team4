@@ -7,8 +7,11 @@ import org.apache.ibatis.annotations.Param;
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
+import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
 
 public interface BookDAO {
@@ -43,11 +46,25 @@ public interface BookDAO {
 
 	boolean insertUpper(@Param("up_num")int caNum,@Param("up_name") String caName);
 
+	boolean insertLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+
+	LoanVO selectLoan(@Param("bo_num")int num);
+
+	boolean updateLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+
+	ArrayList<LoanVO> selectLoanList(@Param("bo_isbn")String bo_isbn);
+	
 	boolean deleteUpper(@Param("up_num")int caNum);
 
 	boolean insertUnder(@Param("under") UnderDTO underDto);
 
 	boolean deleteUnder(@Param("un_num")int num);
+
+	boolean insertReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+
+	ArrayList<ReserveVO> selectReserveList(@Param("bo_isbn")String bo_isbn);
+
+	ReserveVO selectReserve(@Param("bo_num")int bo_num);
 
 
 }
