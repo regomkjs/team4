@@ -106,7 +106,9 @@ $(".btn-addBook").click(function() {
 			<tbody>
 			</tbody>
 		</table>
-		<div class="kakaoSearchPage"></div>
+		<div class="kakaoSearchPage">
+			<ul class="pagination justify-content-center pagination-sm""></ul>
+		</div>
   	</div>
 	`;
 	$(".modal-body").html(str);
@@ -271,10 +273,14 @@ $(document).on("click",".updateBook",function(){
 	//추가할 책 검색
 	let bookSearch={
 		page:1,
-		end_page:10,
 		search:null,
 		target:"all"
 	};
+	let bookCri={
+		endPage:0,
+		startPage:1,
+		perPage:10
+	}
 	$(document).on("keypress","[name=bookName]",function(key){
 		if(key.keyCode==13){	
 			$('.search-btn2').click();
@@ -331,19 +337,30 @@ $(document).on("click",".updateBook",function(){
 				$(".modal-body>.list>table>tbody").html(str);
 				$('input:checkbox').prop('checked',false);
 				selectedBook=[];
+				//페이지네이션
 				let pm="";
-				if(bookSearch.page!=1){
+				if(bookSearch.page>10){
 					pm+=`
-					<a class="page" data-page="-1">이전</a>
+					<li class="page-item"><a class="page-link search-page" data-page="\${bookCri.startPage-1}">이전</a></li>
 					`;
 				}
-				if(!data.meta.is_end&&
-					bookSearch.page!=bookSearch.end_page){
+				
+				bookCri.endPage=Math.ceil(data.meta.total_count/10);
+				if(bookCri.perPage>bookCri.endPage){
+					bookCri.perPage=bookCri.endPage;
+				}
+				for(let i=bookCri.startPage;i<=bookCri.perPage;i++){
+					let active = bookSearch.page == i ? 'active' : '';
 					pm+=`
-					<a class="page" data-page="1">다음</a>
+					<li class="page-item \${active}"><a class="page-link search-page" data-page="\${i}">\${i}</a></li>
 					`;
 				}
-				$(".kakaoSearchPage").html(pm);
+				if(bookCri.perPage!=bookCri.endPage){
+					pm+=`
+					<li class="page-item"><a class="page-link search-page" data-page="\${bookCri.perPage+1}">다음</a></li>
+					`;
+				}
+				$(".kakaoSearchPage>.pagination").html(pm);
 			}, 
 			error : function(jqXHR, textStatus, errorThrown){
 
@@ -351,8 +368,15 @@ $(document).on("click",".updateBook",function(){
 		});
 	}
 	
-	$(document).on('click','.kakaoSearchPage .page',function(){
-		bookSearch.page+=$(this).data('page');
+	$(document).on('click',".search-page",function(){
+		bookSearch.page=$(this).data('page');
+		if(bookSearch.page>bookCri.perPage){
+			bookCri.startPage+=10;
+			bookCri.perPage+=10;
+		}else if(bookSearch.page<bookCri.startPage){
+			bookCri.startPage-=10;
+			bookCri.perPage-=10;
+		}
 		searchBook(bookSearch);
 	});
 	
@@ -422,7 +446,7 @@ $(document).on("click",".updateBook",function(){
 				if(pm.prev){
 					pmStr += `
 					<li class="page-item">
-						<a class="page-link" href="javascript:void(0);" data-page="\${pm.startPage-1}">이전</a>
+						<a class="page-link display-page" href="javascript:void(0);" data-page="\${pm.startPage-1}">이전</a>
 					</li>
 					`;
 				}
@@ -430,14 +454,14 @@ $(document).on("click",".updateBook",function(){
 					let active = pm.cri.page == i ? "active" :"";
 					pmStr += `
 					<li class="page-item \${active}">
-						<a class="page-link" href="javascript:void(0);" data-page="\${i}">\${i}</a>
+						<a class="page-link display-page" href="javascript:void(0);" data-page="\${i}">\${i}</a>
 					</li>
 					`
 				}
 				if(pm.next){
 					pmStr += `
 					<li class="page-item">
-						<a class="page-link" href="javascript:void(0);" data-page="\${pm.endPage+1}">다음</a>
+						<a class="page-link display-page" href="javascript:void(0);" data-page="\${pm.endPage+1}">다음</a>
 					</li>
 					`;
 				}
@@ -449,7 +473,7 @@ $(document).on("click",".updateBook",function(){
 		});
 	}
 	
-	$(document).on('click','.pagination .page-link',function(){
+	$(document).on('click',".display-page",function(){
 		cri.page = $(this).data('page');
 		displayBookView(cri);
 	});

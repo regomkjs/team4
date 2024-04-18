@@ -150,6 +150,7 @@ CREATE TABLE `reserve` (
   `re_num` int NOT NULL AUTO_INCREMENT,
   `re_date` date NOT NULL,
   `re_bo_num` int  NOT NULL,
+  `re_state` int NOT NULL,
   `re_me_id` varchar(12) NOT NULL,
   PRIMARY KEY (`re_num`),
   KEY `FK_book_TO_reserve_1` (`re_bo_num`),
