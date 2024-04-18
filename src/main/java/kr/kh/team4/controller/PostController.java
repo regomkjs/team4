@@ -150,7 +150,8 @@ public class PostController {
 	}
 	
 	@PostMapping("/post/update")
-	public String postUpdatePost(Model model, HttpSession session, PostVO post) {
+	public String postUpdatePost(Model model, HttpSession session, PostVO post, 
+				VoteListDTO votes, ItemListDTO items) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user == null || 
 				user.getMe_id() == null || 
@@ -165,7 +166,7 @@ public class PostController {
 			model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
 			return "message";
 		}
-		boolean res = postService.updatePost(post);
+		boolean res = postService.updatePost(post, votes, items);
 		if(res) {
 			model.addAttribute("msg", "게시글이 수정되었습니다.");
 		}

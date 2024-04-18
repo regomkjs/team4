@@ -52,7 +52,7 @@ public interface PostService {
 
 	int totalCountMyComment(Criteria cri, MemberVO user);
 	
-	boolean updatePost(PostVO post);
+	boolean updatePost(PostVO post, VoteListDTO votes, ItemListDTO items);
 
 	boolean deletePost(PostVO post);
 

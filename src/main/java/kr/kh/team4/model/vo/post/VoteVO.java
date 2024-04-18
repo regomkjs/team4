@@ -29,5 +29,20 @@ public class VoteVO {
 		this.vo_num = vo_num;
 		this.vo_po_num = vo_po_num;
 	}
-	
+
+	//contains를 위한 equals
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VoteVO other = (VoteVO) obj;
+		if (vo_num != other.vo_num)
+			return false;
+		return true;
+	}
+
 }

@@ -39,6 +39,58 @@ public class PostServiceImp implements PostService {
 		return true;
 	}
 	
+	private void clearVote() {
+		ArrayList<VoteVO> allVote = postDAO.selectAllVote();
+		for(VoteVO vote : allVote) {
+			int count = postDAO.countItemByVoNum(vote.getVo_num());
+			if(count == 0) {
+				postDAO.deleteVote(vote.getVo_num());
+			}
+		}
+	}
+	
+	private void makeNewVote(int po_num,VoteListDTO votes, ItemListDTO items) {
+		try {
+			if(votes.getVo_list().size() == 0 || votes.getVo_list() == null || votes == null ||
+					items.getIt_list().size() == 0 || items.getIt_list() == null  || items == null) {
+				return;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		for(VoteVO vote : votes.getVo_list()) {
+			if(vote == null || !checkString(vote.getVo_date())) {
+				continue;
+			}
+			vote.setVo_po_num(po_num);
+			postDAO.insertVote(vote);
+			for(ItemVO item : items.getIt_list()) {
+				if(!checkString(item.getIt_name()) || item == null) {
+					continue;
+				}
+				if(vote.getVo_count() == item.getIt_vo_count()) {
+					item.setIt_vo_num(vote.getVo_num());
+					postDAO.insertItem(item);
+				}
+			}
+		}
+		clearVote();
+	}
+	
+	private void resetVote(VoteVO vote) {
+		ArrayList<ItemVO> itemList = postDAO.selectItemList(vote.getVo_num());
+		if(itemList.size()==0 || itemList == null) {
+			return;
+		}
+		for(ItemVO item : itemList) {
+			postDAO.updateItemCount(item.getIt_num());
+			postDAO.deleteChooseByItNum(item.getIt_num());
+		}
+	}
+	
+	
 	
 	
 	@Override
@@ -75,39 +127,7 @@ public class PostServiceImp implements PostService {
 		if(!res) {
 			return false;
 		}
-		try {
-			if(votes.getVo_list().size() == 0 || votes.getVo_list() == null || votes == null ||
-					items.getIt_list().size() == 0 || items.getIt_list() == null  || items == null) {
-				return true;
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		for(VoteVO vote : votes.getVo_list()) {
-			if(vote == null || !checkString(vote.getVo_date())) {
-				continue;
-			}
-			vote.setVo_po_num(post.getPo_num());
-			postDAO.insertVote(vote);
-			for(ItemVO item : items.getIt_list()) {
-				if(!checkString(item.getIt_name()) || item == null) {
-					continue;
-				}
-				if(vote.getVo_count() == item.getIt_vo_count()) {
-					item.setIt_vo_num(vote.getVo_num());
-					postDAO.insertItem(item);
-				}
-			}
-		}
-		ArrayList<VoteVO> allVote = postDAO.selectAllVote();
-		for(VoteVO vote : allVote) {
-			int count = postDAO.countItemByVoNum(vote.getVo_num());
-			if(count == 0) {
-				postDAO.deleteVote(vote.getVo_num());
-			}
-		}
+		makeNewVote(post.getPo_num(), votes, items);
 		return true;
 	}
 
@@ -278,13 +298,81 @@ public class PostServiceImp implements PostService {
 	}
 	
 	@Override
-	public boolean updatePost(PostVO post) {
+	public boolean updatePost(PostVO post,  VoteListDTO votes, ItemListDTO items) {
 		if(post == null || 
 				!checkString(post.getPo_title()) ||
 				!checkString(post.getPo_content())) {
 			return false;
 		}
-		return postDAO.updatePost(post);
+		boolean res = postDAO.updatePost(post);
+		ArrayList<VoteVO> voteList = postDAO.selectVoteList(post.getPo_num());
+		if(voteList.size() == 0 || voteList == null) {
+			makeNewVote(post.getPo_num(), votes, items);
+			return res;
+		}
+		for(VoteVO vote : votes.getVo_list()) {
+			if(vote == null || !checkString(vote.getVo_date())) {
+				continue;
+			}
+			vote.setVo_po_num(post.getPo_num());
+			if(voteList.contains(vote)) {
+				VoteVO tmpVote = voteList.get(voteList.indexOf(vote));
+				if(!tmpVote.getVo_title().equals(vote.getVo_title())) {
+					resetVote(vote);
+				}
+				postDAO.updateVote(vote);
+			}
+			else {
+				postDAO.insertVote(vote);
+			}
+			ArrayList<ItemVO> itemList = postDAO.selectItemList(vote.getVo_num());
+			if(itemList.size() == 0 || itemList == null) {
+				for(ItemVO item : items.getIt_list()) {
+					if(!checkString(item.getIt_name()) || item == null) {
+						continue;
+					}
+					if(vote.getVo_count() == item.getIt_vo_count()) {
+						item.setIt_vo_num(vote.getVo_num());
+						postDAO.insertItem(item);
+					}
+				}
+			}
+			else {
+				for(ItemVO item : items.getIt_list()) {
+					if(!checkString(item.getIt_name()) || item == null) {
+						continue;
+					}
+					if(vote.getVo_count() == item.getIt_vo_count()) {
+						item.setIt_vo_num(vote.getVo_num());
+						if(itemList.contains(item)) {
+							ItemVO tmpItem = itemList.get(itemList.indexOf(item));
+							if(!tmpItem.getIt_name().equals(item.getIt_name())) {
+								resetVote(vote);
+								postDAO.updateItem(item);
+							}
+						}
+						else {
+							resetVote(vote);
+							postDAO.insertItem(item);
+						}
+					}
+				}
+				
+				for(ItemVO item : itemList) {
+					if(!items.getIt_list().contains(item) && item.getIt_vo_num() == vote.getVo_num()) {
+						resetVote(vote);
+						postDAO.deleteItem(item.getIt_num());
+					}
+				}
+			}
+		}
+		for(VoteVO vote : voteList) {
+			if(!votes.getVo_list().contains(vote) && vote.getVo_state() != 0) {
+				postDAO.deleteVote(vote.getVo_num());
+			}
+		}
+		clearVote();
+		return res;
 	}
 
 	@Override

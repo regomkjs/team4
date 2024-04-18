@@ -101,15 +101,8 @@ $("form").on("submit", function (e) {
 <!-- 투표, 항목생성 스크립트 -->
 <script type="text/javascript">
 
-
-$(document).on("click", "#vo_dup", function () {
-	let log = $(this).is(":checked")
-	$(this).val(log)
-})
-
-
-
 let count = 0;
+let count2 = 0;
 
 $(document).on("click",'#btn-vote',function () {
 	
@@ -144,7 +137,7 @@ $(document).on("click",'#btn-vote',function () {
 	count++;
 })
 
-let count2 = 0;
+
 
 $(document).on("click","#btn-item", function (e){
 	let vo_count = $(this).data("count");

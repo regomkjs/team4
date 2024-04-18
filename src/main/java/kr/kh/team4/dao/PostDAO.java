@@ -102,6 +102,16 @@ public interface PostDAO {
 
 	ItemVO selectItem(@Param("it_num")int it_num);
 
+	void deleteItem(@Param("it_num")int it_num);
+
+	void updateVote(@Param("vote")VoteVO vote);
+
+	void updateItem(@Param("item")ItemVO item);
+
+	void deleteChooseByItNum(@Param("it_num")int it_num);
+
+	void updateItemCount(@Param("it_num")int it_num);
+
 	
 	
 	

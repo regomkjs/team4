@@ -62,7 +62,6 @@ public class PostAjaxController {
 		ArrayList<CommentVO> list = postService.getCommentList(cri);
 		int totalCount = postService.getTotalCountComment(cri);
 		PageMaker pm = new PageMaker(5,cri, totalCount);
-		log.info(list);
 		map.put("list", list);
 		map.put("pm", pm);
 		return map;
@@ -210,6 +209,27 @@ public class PostAjaxController {
 			}
 		}
 		map.put("result", res);
+		return map;
+	}
+	
+	
+	
+	@ResponseBody
+	@PostMapping("/vote/list")
+	public  Map<String, Object> voteListPost(@RequestParam("po_num")int po_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<VoteVO> voteList = postService.getVoteList(po_num);
+		for(VoteVO vote : voteList) {
+			int count = postService.countTotalVoteMember(vote.getVo_num());
+			vote.setVo_totalMember(count);
+		}
+		if(voteList.size() != 0 && voteList != null) {
+			ArrayList<ItemVO> itemList = postService.getItemList(voteList);
+			if(itemList.size() != 0 && itemList !=null) {
+				map.put("voteList", voteList);
+				map.put("itemList", itemList);
+			}
+		}
 		return map;
 	}
 	

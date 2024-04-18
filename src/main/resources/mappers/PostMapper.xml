@@ -368,4 +368,36 @@
  	<select id="selectItem" resultType="ItemVO">
  		select * from item where it_num = #{it_num}
  	</select>
+ 	
+ 	<delete id="deleteItem">
+ 		delete from item where it_num = #{it_num}
+ 	</delete>
+ 	
+ 	<update id="updateVote">
+ 		update 
+ 			vote 
+		set 
+			vo_title = #{vote.vo_title}, 
+			vo_dup  = #{vote.vo_dup}, 
+			vo_date = #{vote.vo_date} 
+		where 
+			vo_num = #{vote.vo_num}
+ 	</update>
+ 	
+ 	<update id="updateItem">
+ 		update
+ 			item
+		set
+			it_name = #{item.it_name}
+		where
+			it_num = #{item.it_num}
+ 	</update>
+ 	
+ 	<delete id="deleteChooseByItNum">
+ 		delete from choose where ch_it_num = #{it_num}
+ 	</delete>
+ 	
+ 	<update id="updateItemCount">
+ 		update item set it_count = 0 where it_num = #{it_num}
+ 	</update>
 </mapper>
