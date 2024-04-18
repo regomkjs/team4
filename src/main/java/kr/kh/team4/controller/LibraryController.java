@@ -84,4 +84,9 @@ public class LibraryController {
 		return "/library/book/bookSaleList";
 	}
 
+	@GetMapping("/library/book/sale")
+	public String Sale(Model model) {
+		
+		return "/library/book/bookSale";
+	}
 }
