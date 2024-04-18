@@ -1,6 +1,9 @@
 package kr.kh.team4.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -195,6 +198,7 @@ public class BookServiceImp implements BookService {
 	public LoanVO getLoan(int num) {
 		return bookDao.selectLoan(num);
 	}
+	
 	@Override
 	public boolean extendBook(MemberVO user, BookVO book) {
 		if(user == null) {
@@ -208,9 +212,16 @@ public class BookServiceImp implements BookService {
 		if(!loan.getLo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
-		
+		Date today = new Date();
+		Date limit = loan.getLo_limit();
+		long difference = Math.abs(limit.getTime() - today.getTime());
+        long differenceDays = difference / (24 * 60 * 60 * 1000);
+        if(differenceDays > 3) {
+        	return false;
+        }
 		return bookDao.updateLoan(user.getMe_id(), book.getBo_num());
 	}
+	
 	@Override
 	public ArrayList<LoanVO> getLoanList(String bo_isbn) {
 		return bookDao.selectLoanList(bo_isbn);

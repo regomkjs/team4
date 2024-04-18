@@ -101,6 +101,7 @@ public class LibraryAjaxController {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		boolean res = bookService.extendBook(user, book);
 		map.put("result", res);
+		return map;
 	}
 	
 	@PostMapping("/management/bookCategory/delete")
