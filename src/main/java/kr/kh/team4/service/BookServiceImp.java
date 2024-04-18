@@ -254,7 +254,10 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		ReserveVO reserve = bookDao.selectReserve(book.getBo_num());
-		//중복된경우..
+		//중복된경우
+		if(reserve != null) {
+			return false;
+		}
 		return bookDao.insertReserve(user.getMe_id(), book.getBo_num());
 	}
 	

@@ -162,7 +162,7 @@
 	
 	<insert id="insertReserve">
 		insert into reserve(re_date, re_state, re_bo_num, re_me_id)
-		value(now(), 1, #{bo_num}, #{me_id})
+		select date_add(lo_limit,interval 3 day), 1, #{bo_num}, #{me_id} from loan where lo_bo_num = #{bo_num}
 	</insert>
 	
 	<select id="selectReserveList" resultType="ReserveVO">

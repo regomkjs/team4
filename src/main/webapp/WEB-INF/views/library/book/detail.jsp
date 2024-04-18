@@ -151,13 +151,12 @@ $(document).on('click', '.reserve-btn', function () {
 		success : function (data){
 			if(data.result){
 				alert("${book.bo_title}책을 예약했습니다.");
-				
 			}else{
 				alert("예약을 못했습니다.")
 			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown){
-			
+			alert("이미 예약한 책입니다.")
 		}
 	});
 });
