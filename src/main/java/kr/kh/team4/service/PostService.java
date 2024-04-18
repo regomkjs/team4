@@ -78,4 +78,8 @@ public interface PostService {
 
 	int countTotalVoteMember(int vo_num);
 
+	VoteVO getVote(int vo_num);
+
+	ItemVO getItem(int it_num);
+
 }

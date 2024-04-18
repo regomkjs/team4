@@ -305,11 +305,11 @@
  		delete from vote where vo_num = #{vo_num}
  	</delete>
  	
- 	<select id="selectVote" resultType="VoteVO">
+ 	<select id="selectVoteList" resultType="VoteVO">
  		select * from vote where vo_po_num = #{po_num}
  	</select>
  	
- 	<select id="selectItem" resultType="ItemVO">
+ 	<select id="selectItemList" resultType="ItemVO">
  		select * from item join vote on vo_num = it_vo_num where it_vo_num = #{vo_num}
  	</select>
  	
@@ -359,5 +359,13 @@
 				it_vo_num = #{vo_num}
 			group by
 				ch_me_id) as a
+ 	</select>
+ 	
+ 	<select id="selectVote" resultType="VoteVO">
+ 		select * from vote where vo_num = #{vo_num}
+ 	</select>
+ 	
+ 	<select id="selectItem" resultType="ItemVO">
+ 		select * from item where it_num = #{it_num}
  	</select>
 </mapper>

@@ -180,6 +180,9 @@ public class PostAjaxController {
 				} else {res = 0;}
 			}
 		}
+		ItemVO item = postService.getItem(it_num);
+		int totalMember = postService.countTotalVoteMember(item.getIt_vo_num());
+		map.put("totalMember", totalMember);
 		map.put("result", res);
 		return map;
 	}
@@ -199,9 +202,11 @@ public class PostAjaxController {
 			res = postService.updateVoteState(vote);
 			if(res) {
 				int totalVoteMember = postService.countTotalVoteMember(vote.getVo_num());
+				VoteVO tmp = postService.getVote(vote.getVo_num());
+				tmp.setVo_totalMember(totalVoteMember);
 				ArrayList<ItemVO> itemList = postService.getItemList(vote.getVo_num());
 				map.put("itemList", itemList);
-				map.put("totalVoteMember", totalVoteMember);
+				map.put("vote", tmp);
 			}
 		}
 		map.put("result", res);
