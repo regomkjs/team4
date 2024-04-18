@@ -76,9 +76,9 @@ public interface PostDAO {
 
 	void deleteVote(@Param("vo_num")int vo_num);
 
-	ArrayList<VoteVO> selectVote(@Param("po_num")int po_num);
+	ArrayList<VoteVO> selectVoteList(@Param("po_num")int po_num);
 
-	ArrayList<ItemVO> selectItem(@Param("vo_num")int vo_num);
+	ArrayList<ItemVO> selectItemList(@Param("vo_num")int vo_num);
 
 	ArrayList<ItemVO> selectPostItem(@Param("po_num")int po_num);
 
@@ -93,6 +93,14 @@ public interface PostDAO {
 	void increaseCount(@Param("it_num")int it_num);
 
 	void decreaseCount(@Param("it_num")int it_num);
+
+	boolean updateVoteState(@Param("vo_num")int vo_num);
+
+	int countTotalVoteMember(@Param("vo_num")int vo_num);
+
+	VoteVO selectVote(@Param("vo_num")int vo_num);
+
+	ItemVO selectItem(@Param("it_num")int it_num);
 
 	
 	

@@ -21,5 +21,13 @@ public class VoteVO {
 	//화면에서 받을때 item 구분을 위한 카운트
 	private int vo_count;
 	
+	//투표 총 참여자 수
+	private int vo_totalMember;
+	
+	// vote/close ajax를 위한 생성자 
+	public VoteVO(int vo_num, int vo_po_num) {
+		this.vo_num = vo_num;
+		this.vo_po_num = vo_po_num;
+	}
 	
 }

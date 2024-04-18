@@ -33,4 +33,6 @@ public interface MemberDAO {
 
 	void updateMemberState(@Param("me_id")String me_id, @Param("num")int num);
 
+	boolean deleteGrade(@Param("gr_num")int gr_num);
+
 }

@@ -110,6 +110,10 @@ public class PostController {
 			return "message";
 		}
 		ArrayList<VoteVO> voteList = postService.getVoteList(post.getPo_num());
+		for(VoteVO vote : voteList) {
+			int count = postService.countTotalVoteMember(vote.getVo_num());
+			vote.setVo_totalMember(count);
+		}
 		if(voteList.size() != 0 && voteList != null) {
 			ArrayList<ItemVO> itemList = postService.getItemList(voteList);
 			if(itemList.size() != 0 && itemList !=null) {

@@ -305,11 +305,11 @@
  		delete from vote where vo_num = #{vo_num}
  	</delete>
  	
- 	<select id="selectVote" resultType="VoteVO">
+ 	<select id="selectVoteList" resultType="VoteVO">
  		select * from vote where vo_po_num = #{po_num}
  	</select>
  	
- 	<select id="selectItem" resultType="ItemVO">
+ 	<select id="selectItemList" resultType="ItemVO">
  		select * from item join vote on vo_num = it_vo_num where it_vo_num = #{vo_num}
  	</select>
  	
@@ -341,4 +341,31 @@
  	<update id="decreaseCount">
  		update item set it_count = it_count - 1 where it_num = #{it_num}
  	</update>
+ 	
+ 	<update id="updateVoteState">
+ 		update vote set vo_state = 0 where vo_num = #{vo_num}
+ 	</update>
+ 	
+ 	<select id="countTotalVoteMember" resultType="int">
+ 		select 
+			count(a.ch_me_id)
+		from (
+			select 
+				ch_me_id 
+			from item 
+				left join 
+			choose on it_num = ch_it_num 
+		    where 
+				it_vo_num = #{vo_num}
+			group by
+				ch_me_id) as a
+ 	</select>
+ 	
+ 	<select id="selectVote" resultType="VoteVO">
+ 		select * from vote where vo_num = #{vo_num}
+ 	</select>
+ 	
+ 	<select id="selectItem" resultType="ItemVO">
+ 		select * from item where it_num = #{it_num}
+ 	</select>
 </mapper>
