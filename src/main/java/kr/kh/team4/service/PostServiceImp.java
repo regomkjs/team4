@@ -297,7 +297,7 @@ public class PostServiceImp implements PostService {
 
 	@Override
 	public ArrayList<VoteVO> getVoteList(int po_num) {
-		return postDAO.selectVote(po_num);
+		return postDAO.selectVoteList(po_num);
 	}
 
 
@@ -309,7 +309,7 @@ public class PostServiceImp implements PostService {
 		}
 		ArrayList<ItemVO> itemList = new ArrayList<ItemVO>();
 		for(VoteVO vote : voteList) {
-			ArrayList<ItemVO> items = postDAO.selectItem(vote.getVo_num());
+			ArrayList<ItemVO> items = postDAO.selectItemList(vote.getVo_num());
 			if(items.size() !=0 && items !=null) {
 				itemList.addAll(items);
 			}
@@ -371,7 +371,7 @@ public class PostServiceImp implements PostService {
 	@Override
 	public boolean anotherSelectedItem(int it_num, String me_id) {
 		ItemVO tmp = postDAO.selectTmpItem(it_num);
-		ArrayList<ItemVO> itemList = postDAO.selectItem(tmp.getIt_vo_num());
+		ArrayList<ItemVO> itemList = postDAO.selectItemList(tmp.getIt_vo_num());
 		boolean res = false;
 		for(ItemVO item : itemList) {
 			if(isSelectedItem(item.getIt_num(), me_id)) {
@@ -386,13 +386,51 @@ public class PostServiceImp implements PostService {
 	@Override
 	public boolean updateChoose(int it_num, String me_id) {
 		ItemVO tmp = postDAO.selectTmpItem(it_num);
-		ArrayList<ItemVO> itemList = postDAO.selectItem(tmp.getIt_vo_num());
+		ArrayList<ItemVO> itemList = postDAO.selectItemList(tmp.getIt_vo_num());
 		for(ItemVO item : itemList) {
 			if(postDAO.deleteChoose(item.getIt_num(), me_id)) {
 				postDAO.decreaseCount(item.getIt_num());
 			}
 		}
 		return insertChoose(it_num, me_id);
+	}
+
+
+
+	@Override
+	public boolean updateVoteState(VoteVO vote) {
+		if(vote == null) {
+			return false;
+		}
+		return postDAO.updateVoteState(vote.getVo_num());
+	}
+
+
+
+	@Override
+	public ArrayList<ItemVO> getItemList(int vo_num) {
+		return postDAO.selectItemList(vo_num);
+	}
+
+
+
+	@Override
+	public int countTotalVoteMember(int vo_num) {
+		return postDAO.countTotalVoteMember(vo_num);
+	}
+
+
+
+	@Override
+	public VoteVO getVote(int vo_num) {
+		return postDAO.selectVote(vo_num);
+	}
+
+
+
+	@Override
+	public ItemVO getItem(int it_num) {
+		return postDAO.selectItem(it_num);
 	}
 
 }

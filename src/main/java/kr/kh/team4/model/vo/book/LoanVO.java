@@ -15,4 +15,9 @@ public class LoanVO {
 	private int lo_state; 
 	private String lo_me_id;
 	private String lo_bo_num;
+	
+	//책 번호
+	private int bo_num;
+	//책 고유번호
+	private String bo_isbn;
 }

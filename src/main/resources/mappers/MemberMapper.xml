@@ -67,4 +67,7 @@
 		where me_id = #{me_id}
 	</update>
 	
+	<delete id="deleteGrade">
+		delete from grade where gr_num = #{gr_num}
+	</delete>
 </mapper>

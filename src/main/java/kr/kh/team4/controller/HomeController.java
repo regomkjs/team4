@@ -61,24 +61,6 @@ public class HomeController {
 		return "message";
 	}
 	
-	@ResponseBody
-	@GetMapping("/id/check/dup")
-	public Map<String, Object> idCheckDup(@RequestParam("id")String id){
-		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res = memberService.idCheck(id);
-		map.put("result", res);
-		return map;
-	}
-	
-	@ResponseBody
-	@GetMapping("/nickName/check/dup")
-	public Map<String, Object> nickNameCheckDup(@RequestParam("nickName")String nickName){
-		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res = memberService.nickNameCheck(nickName);
-		map.put("result", res);
-		return map;
-	}
-	
 	@GetMapping("/login")
 	public String login(Model model) {
 		model.addAttribute("title", "로그인");
@@ -157,15 +139,6 @@ public class HomeController {
 		return "/member/findpw";
 	}
 	
-	@ResponseBody
-	@PostMapping("/find/pw")
-	public Map<String, Object> findPwPost(@RequestParam("id") String id){
-		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res = memberService.findPw(id);
-		map.put("result", res);
-		return map;
-	}
-	
 	@GetMapping("/mypage")
 	public String mypage(Model model) {
 		model.addAttribute("title", "내 정보");
@@ -194,36 +167,6 @@ public class HomeController {
 		model.addAttribute("title", "등급 관리");
 		model.addAttribute("gradeList", gradeList);
 		return "/grade/list";
-	}
-	
-	@GetMapping("/grade/insert")
-	public String gradeInsert(Model model) {
-		model.addAttribute("title", "등급 추가");
-		return "/grade/insert";
-	}
-	
-	@PostMapping("/grade/insert")
-	public String gradeInsertPost(Model model, GradeVO grade) {
-		ArrayList<GradeVO> gradeList = memberService.getGradeList();
-		if(gradeList.size() < 6) {
-			memberService.insertGrade(grade);
-			model.addAttribute("msg", "등급을 추가했습니다.");
-			model.addAttribute("url", "/grade/list");
-		}else {
-			model.addAttribute("msg", "최대 5개 까지만 추가할 수 있습니다.");
-			model.addAttribute("url", "/grade/list");
-		}
-		return "message";
-	}
-	
-	@ResponseBody
-	@PostMapping("/grade/update")
-	public Map<String, Object> gradeUpdate(@RequestBody GradeVO grade){
-		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res = memberService.updateGrade(grade);
-		log.info(grade);
-		map.put("result", res);
-		return map;
 	}
 	
 }

@@ -1,6 +1,9 @@
 package kr.kh.team4.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,8 +14,11 @@ import kr.kh.team4.dao.BookDAO;
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
+import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
 
 @Service
@@ -170,6 +176,94 @@ public class BookServiceImp implements BookService {
 		return bookDao.deleteUnder(num);
 	}
 
+	@Override
+	public boolean loanBook(MemberVO user, BookVO book) {
+		if(user == null) {
+			return false;
+		}
+		if(book == null) {
+			return false;
+		}
+		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		try {
+			if(loan.getLo_state() == 1) {
+				return false;
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		return bookDao.insertLoan(user.getMe_id(), book.getBo_num());
+	}
 	
+	@Override
+	public LoanVO getLoan(int num) {
+		return bookDao.selectLoan(num);
+	}
+	
+	@Override
+	public boolean extendBook(MemberVO user, BookVO book) {
+		if(user == null) {
+			return false;
+		}
+		if(book == null) {
+			return false;
+		}
+		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		//대출한 회원과 로그인한 회원이 다를경우
+		if(!loan.getLo_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		Date today = new Date();
+		Date limit = loan.getLo_limit();
+		long difference = Math.abs(limit.getTime() - today.getTime());
+        long differenceDays = difference / (24 * 60 * 60 * 1000);
+        //반납만기일까지 3일이 넘는 경우
+        if(differenceDays > 3) {
+        	return false;
+        }
+        
+        ReserveVO reserve = bookDao.selectReserve(book.getBo_num());
+        //예약 된 경우
+        if(reserve != null) {
+        	return false;
+        }
+        
+		return bookDao.updateLoan(user.getMe_id(), book.getBo_num());
+	}
+	
+	@Override
+	public ArrayList<LoanVO> getLoanList(String bo_isbn) {
+		return bookDao.selectLoanList(bo_isbn);
+	}
+	
+	@Override
+	public boolean reserveBook(MemberVO user, BookVO book) {
+		if(user == null) {
+			return false;
+		}
+		if(book == null) {
+			return false;
+		}
+		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		//대출이 안 된 경우
+		if(loan.getLo_state() != 1) {
+			return false;
+		}
+		//대출한 사람과 로그인한 사람이 같은 경우
+		if(loan.getLo_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		ReserveVO reserve = bookDao.selectReserve(book.getBo_num());
+		//중복된경우
+		if(reserve != null) {
+			return false;
+		}
+		return bookDao.insertReserve(user.getMe_id(), book.getBo_num());
+	}
+	
+	@Override
+	public ArrayList<ReserveVO> getReserveList(String bo_isbn) {
+		return bookDao.selectReserveList(bo_isbn);
+	}
 	
 }
