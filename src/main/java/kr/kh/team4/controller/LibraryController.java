@@ -68,4 +68,10 @@ public class LibraryController {
 		model.addAttribute("upList",upList);
 		return "/library/management/bookCategory";
 	}
+	
+	@GetMapping("/library/bookSale/list")
+	public String bookSale(Model model) {
+		model.addAttribute("api",API);
+		return "/library/book/bookSaleList";
+	}
 }
