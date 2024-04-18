@@ -385,6 +385,7 @@ public class PostServiceImp implements PostService {
 
 	@Override
 	public ArrayList<VoteVO> getVoteList(int po_num) {
+		postDAO.timeLimitVote();
 		return postDAO.selectVoteList(po_num);
 	}
 
@@ -511,6 +512,7 @@ public class PostServiceImp implements PostService {
 
 	@Override
 	public VoteVO getVote(int vo_num) {
+		postDAO.timeLimitVote();
 		return postDAO.selectVote(vo_num);
 	}
 

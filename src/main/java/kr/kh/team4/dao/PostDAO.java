@@ -112,6 +112,8 @@ public interface PostDAO {
 
 	void updateItemCount(@Param("it_num")int it_num);
 
+	void timeLimitVote();
+
 	
 	
 	

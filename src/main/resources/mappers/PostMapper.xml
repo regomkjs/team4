@@ -400,4 +400,8 @@
  	<update id="updateItemCount">
  		update item set it_count = 0 where it_num = #{it_num}
  	</update>
+ 	
+ 	<update id="timeLimitVote">
+ 		update vote set vo_state = 0 where vo_date &lt; now()
+ 	</update>
 </mapper>
