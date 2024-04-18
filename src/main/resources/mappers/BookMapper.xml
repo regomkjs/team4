@@ -133,11 +133,12 @@
 	</insert>
 	
 	<insert id="insertLoan">
-		insert into loan(lo_date, lo_return, lo_limit, lo_state, lo_me_id, lo_bo_num) value(now(), null, date_add(now(),interval 7 day), 1, #{me_id}, #{bo_num});
+		insert into loan(lo_date, lo_return, lo_limit, lo_state, lo_me_id, lo_bo_num) 
+		value(now(), null, date_add(now(),interval 7 day), 1, #{me_id}, #{bo_num})
 	</insert>
 	
 	<select id="selectLoan" resultType="LoanVO">
-		select * from loan join book on bo_num = lo_bo_num where bo_num = #{bo_num};
+		select * from loan join book on bo_num = lo_bo_num where bo_num = #{bo_num}
 	</select>
 	
 	<update id="updateLoan">
@@ -158,4 +159,17 @@
 	<delete id="deleteUnder">
 		delete from under where un_num=#{un_num}
 	</delete>
+	
+	<insert id="insertReserve">
+		insert into reserve(re_date, re_state, re_bo_num, re_me_id)
+		value(now(), 1, #{bo_num}, #{me_id})
+	</insert>
+	
+	<select id="selectReserveList" resultType="ReserveVO">
+		select * from reserve join book on bo_num = re_bo_num where bo_isbn = #{bo_isbn}
+	</select>
+	
+	<select id="selectReserve" resultType="ReserveVO">
+		select * from reserve join book on bo_num = re_bo_num where bo_num = #{bo_num}
+	</select>
 </mapper>

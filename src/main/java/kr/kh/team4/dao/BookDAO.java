@@ -8,6 +8,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
@@ -58,6 +59,12 @@ public interface BookDAO {
 	boolean insertUnder(@Param("under") UnderDTO underDto);
 
 	boolean deleteUnder(@Param("un_num")int num);
+
+	boolean insertReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+
+	ArrayList<ReserveVO> selectReserveList(@Param("bo_isbn")String bo_isbn);
+
+	ReserveVO selectReserve(@Param("bo_num")int bo_num);
 
 
 }

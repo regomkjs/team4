@@ -15,6 +15,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
@@ -208,7 +209,7 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
-		
+		//대출한 회원과 로그인한 회원이 다를경우
 		if(!loan.getLo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
@@ -216,15 +217,50 @@ public class BookServiceImp implements BookService {
 		Date limit = loan.getLo_limit();
 		long difference = Math.abs(limit.getTime() - today.getTime());
         long differenceDays = difference / (24 * 60 * 60 * 1000);
+        //반납만기일까지 3일이 넘는 경우
         if(differenceDays > 3) {
         	return false;
         }
+        
+        ReserveVO reserve = bookDao.selectReserve(book.getBo_num());
+        //예약 된 경우
+        if(reserve != null) {
+        	return false;
+        }
+        
 		return bookDao.updateLoan(user.getMe_id(), book.getBo_num());
 	}
 	
 	@Override
 	public ArrayList<LoanVO> getLoanList(String bo_isbn) {
 		return bookDao.selectLoanList(bo_isbn);
+	}
+	
+	@Override
+	public boolean reserveBook(MemberVO user, BookVO book) {
+		if(user == null) {
+			return false;
+		}
+		if(book == null) {
+			return false;
+		}
+		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		//대출이 안 된 경우
+		if(loan.getLo_state() != 1) {
+			return false;
+		}
+		//대출한 사람과 로그인한 사람이 같은 경우
+		if(loan.getLo_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		ReserveVO reserve = bookDao.selectReserve(book.getBo_num());
+		//중복된경우..
+		return bookDao.insertReserve(user.getMe_id(), book.getBo_num());
+	}
+	
+	@Override
+	public ArrayList<ReserveVO> getReserveList(String bo_isbn) {
+		return bookDao.selectReserveList(bo_isbn);
 	}
 	
 }

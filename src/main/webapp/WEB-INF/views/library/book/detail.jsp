@@ -122,7 +122,7 @@ $(document).on('click', '.extend-btn', function () {
 			if(data.result){
 				alert("1주일 연장되었습니다.")
 			}else{
-				alert("본인이 대출한 책이 아니거나 만기일까지 3일 넘게 남았습니다.")
+				alert("예약 돼 있거나 만기일까지 3일 넘게 남았습니다.")
 			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown){
@@ -133,5 +133,43 @@ $(document).on('click', '.extend-btn', function () {
 </script>
 <!-- 예약 -->
 <script type="text/javascript">
+$(document).on('click', '.reserve-btn', function () {
+	if(!checkLogin()){
+		return;
+	}
+	let bookNum = $(this).data('bo-num');
+	let book ={
+			bo_num : bookNum
+	}
+	$.ajax({	
+		async : true,
+		url : '<c:url value="/reserve/book"/>', 
+		type : 'post',
+		data : JSON.stringify(book), 
+		contentType : "application/json; charset=utf-8",
+		dataType : "json", 
+		success : function (data){
+			if(data.result){
+				alert("${book.bo_title}책을 예약했습니다.");
+				
+			}else{
+				alert("예약을 못했습니다.")
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+			
+		}
+	});
+});
+
+function checkLogin(){
+	if('${user.me_id}' != ''){
+		return true;
+	}
 	
+	if(confirm("로그인이 필요한 기능입니다. \n로그인 페이지로 이동하겠습니까?")){
+		location.href = '<c:url value="/login"/>';
+	}
+	return false;
+}
 </script>

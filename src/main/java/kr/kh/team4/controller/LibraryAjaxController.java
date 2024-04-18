@@ -127,4 +127,14 @@ public class LibraryAjaxController {
 		map.put("res", res);
 		return map;
 	}
+	
+	@ResponseBody
+	@PostMapping("/reserve/book")
+	public Map<String, Object> reserveBook(@RequestBody BookVO book, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = bookService.reserveBook(user, book);
+		map.put("result", res);
+		return map;
+	}
 }

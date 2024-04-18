@@ -1,8 +1,6 @@
 package kr.kh.team4.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,17 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.kh.team4.model.vo.book.AuthorsVO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
-import kr.kh.team4.model.vo.book.TranslatorsVO;
+import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
-import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.service.BookService;
 import lombok.extern.log4j.Log4j;
 
@@ -66,9 +60,11 @@ public class LibraryController {
 		BookVO book=bookService.getBook(num);
 		ArrayList<BookVO> code=bookService.getBookIsbn(book.getBo_isbn());
 		ArrayList<LoanVO> loanList = bookService.getLoanList(book.getBo_isbn());
+		ArrayList<ReserveVO> reserveList = bookService.getReserveList(book.getBo_isbn());
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		model.addAttribute("user", user);
 		model.addAttribute("loanList", loanList);
+		model.addAttribute("reserveList", reserveList);
 		model.addAttribute("book",book);
 		model.addAttribute("code",code);
 		return "/library/book/detail";
