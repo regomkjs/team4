@@ -21,4 +21,20 @@ public class ItemVO {
 	
 	//화면에서 받아올때 vote와의 상관관계를 나타내기위한 카운트
 	private int it_vo_count;
+	
+	//contains를 위한 equals
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItemVO other = (ItemVO) obj;
+		if (it_num != other.it_num)
+			return false;
+		return true;
+	}
+	
 }
