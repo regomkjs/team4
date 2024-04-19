@@ -71,11 +71,9 @@ public class LibraryController {
 		BookVO book=bookService.getBook(num);
 		ArrayList<BookVO> code=bookService.getBookIsbn(book.getBo_isbn());
 		ArrayList<LoanVO> loanList = bookService.getLoanList(book.getBo_isbn());
-		ArrayList<ReserveVO> reserveList = bookService.getReserveList(book.getBo_isbn());
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		model.addAttribute("user", user);
 		model.addAttribute("loanList", loanList);
-		model.addAttribute("reserveList", reserveList);
 		model.addAttribute("book",book);
 		model.addAttribute("code",code);
 		return "/library/book/detail";

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
+import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
@@ -148,6 +149,13 @@ public class LibraryAjaxController {
 		return map;
 	}
 	
-
-	
+	@ResponseBody
+	@PostMapping("/return/book")
+	public Map<String, Object> returnBook(@RequestBody BookVO book, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = bookService.returnBook(user, book);
+		map.put("result", res);
+		return map;
+	}
 }

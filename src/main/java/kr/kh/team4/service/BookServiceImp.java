@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.kh.team4.dao.BookDAO;
+import kr.kh.team4.dao.MemberDAO;
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
@@ -25,6 +26,8 @@ public class BookServiceImp implements BookService {
 	@Autowired
 	BookDAO bookDao;
 
+	@Autowired
+	MemberDAO memberDao;
 	private boolean checkString(String str) {
 		return str == null && str.length() == 0;
 	}
@@ -179,10 +182,7 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean loanBook(MemberVO user, BookVO book) {
-		if (user == null) {
-			return false;
-		}
-		if (book == null) {
+		if(user == null || book == null) {
 			return false;
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
@@ -190,10 +190,17 @@ public class BookServiceImp implements BookService {
 			if (loan.getLo_state() == 1) {
 				return false;
 			}
-		} catch (NullPointerException e) {
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return bookDao.insertLoan(user.getMe_id(), book.getBo_num());
+		
+		boolean res = bookDao.insertLoan(user.getMe_id(), book.getBo_num());
+		if(res) {
+			memberDao.updateLoanCount(user);
+		}else {
+			return false;
+		}
+		return true; 
 	}
 
 	@Override
@@ -203,10 +210,7 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean extendBook(MemberVO user, BookVO book) {
-		if (user == null) {
-			return false;
-		}
-		if (book == null) {
+		if(user == null || book == null) {
 			return false;
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
@@ -214,21 +218,22 @@ public class BookServiceImp implements BookService {
 		if (!loan.getLo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
+		
 		Date today = new Date();
 		Date limit = loan.getLo_limit();
 		long difference = Math.abs(limit.getTime() - today.getTime());
-		long differenceDays = difference / (24 * 60 * 60 * 1000);
-		// 반납만기일까지 3일이 넘는 경우
-		if (differenceDays > 3) {
-			return false;
-		}
-
-		ReserveVO reserve = bookDao.selectReserve(book.getBo_num());
-		// 예약 된 경우
-		if (reserve != null) {
-			return false;
-		}
-
+        long differenceDays = difference / (24 * 60 * 60 * 1000);
+        //반납만기일까지 3일이 넘는 경우
+        if(differenceDays > 3) {
+        	return false;
+        }
+        
+        ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
+        //예약 된 경우
+        if(list != null) {
+        	return false;
+        }
+        
 		return bookDao.updateLoan(user.getMe_id(), book.getBo_num());
 	}
 
@@ -239,11 +244,15 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean reserveBook(MemberVO user, BookVO book) {
-		if (user == null) {
+		if(user == null || book == null) {
 			return false;
 		}
-		if (book == null) {
-			return false;
+		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
+		//중복된경우
+		for(ReserveVO reserve : list) {
+			if(reserve.getRe_me_id().equals(user.getMe_id())) {
+				return false;
+			}
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
 		// 대출이 안 된 경우
@@ -254,19 +263,18 @@ public class BookServiceImp implements BookService {
 		if (loan.getLo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
-		ReserveVO reserve = bookDao.selectReserve(book.getBo_num());
-		// 중복된경우
-		if (reserve != null) {
-			return false;
-		}
 		return bookDao.insertReserve(user.getMe_id(), book.getBo_num());
 	}
 
 	@Override
-	public ArrayList<ReserveVO> getReserveList(String bo_isbn) {
-		return bookDao.selectReserveList(bo_isbn);
+	public boolean returnBook(MemberVO user, BookVO book) {
+		if(user == null || book == null) {
+			return false;
+		}
+		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		if(!loan.getLo_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		return bookDao.deleteLoan(user.getMe_id(), book.getBo_num());
 	}
-
-
-
 }
