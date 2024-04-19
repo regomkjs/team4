@@ -288,7 +288,9 @@ $(document).on("click",".updateBook",function(){
 	});
 	$(document).on("change",".bookTarget",function(){
 		bookSearch.target=$(this).val();
-		searchBook(bookSearch);
+		bookCri.endPage=0;
+		bookCri.startPage=1;
+		bookCri.perPage=10;
 	});
 	$(document).on("click",".search-btn2",function() {
 		bookSearch.search=$("input[name=bookName]").val();	
@@ -344,7 +346,6 @@ $(document).on("click",".updateBook",function(){
 					<li class="page-item"><a class="page-link search-page" data-page="\${bookCri.startPage-1}">이전</a></li>
 					`;
 				}
-				
 				bookCri.endPage=Math.ceil(data.meta.total_count/10);
 				if(bookCri.perPage>bookCri.endPage){
 					bookCri.perPage=bookCri.endPage;
