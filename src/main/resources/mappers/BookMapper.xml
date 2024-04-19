@@ -172,4 +172,8 @@
 	<delete id="deleteLoan">
 		delete from loan where lo_me_id = #{me_id} and lo_bo_num = #{bo_num}
 	</delete>
+	
+	<select id="selectReserveList" resultType="ReserveVO">
+		select * from reserve where re_bo_num = #{bo_num}
+	</select>
 </mapper>

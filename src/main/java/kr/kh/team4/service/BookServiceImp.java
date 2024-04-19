@@ -177,10 +177,7 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean loanBook(MemberVO user, BookVO book) {
-		if(user == null) {
-			return false;
-		}
-		if(book == null) {
+		if(user == null || book == null) {
 			return false;
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
@@ -208,10 +205,7 @@ public class BookServiceImp implements BookService {
 	
 	@Override
 	public boolean extendBook(MemberVO user, BookVO book) {
-		if(user == null) {
-			return false;
-		}
-		if(book == null) {
+		if(user == null || book == null) {
 			return false;
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
@@ -245,11 +239,15 @@ public class BookServiceImp implements BookService {
 	
 	@Override
 	public boolean reserveBook(MemberVO user, BookVO book) {
-		if(user == null) {
+		if(user == null || book == null) {
 			return false;
 		}
-		if(book == null) {
-			return false;
+		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
+		//중복된경우
+		for(ReserveVO reserve : list) {
+			if(reserve.getRe_me_id().equals(user.getMe_id())) {
+				return false;
+			}
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
 		//대출이 안 된 경우
@@ -260,7 +258,6 @@ public class BookServiceImp implements BookService {
 		if(loan.getLo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
-	    //중복된경우(??)
 		return bookDao.insertReserve(user.getMe_id(), book.getBo_num());
 	}
 

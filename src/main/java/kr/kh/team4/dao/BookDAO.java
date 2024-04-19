@@ -66,5 +66,7 @@ public interface BookDAO {
 
 	boolean deleteLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
 
+	ArrayList<ReserveVO> selectReserveList(@Param("bo_num")int bo_num);
+
 
 }
