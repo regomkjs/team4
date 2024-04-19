@@ -348,7 +348,7 @@ function displayReviewList(list){
 		str += 
 		`
 			<div class="box-review input-group">
-				<div class="col-3">\${item.rv_me_id}</div>
+				<div class="col-3">\${item.me_nick}</div>
 				<div class="col-3">\${stars}</div>
 				<div class="col-6 clearfix input-group">
 					<span class="text-review">\${item.rv_content}</span>
@@ -419,10 +419,10 @@ $(".btn-review-insert").click(function () {
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function (data){
-			console.log(data.result)
 			if(data.result){
 				alert('댓글을 등록했습니다.');
 				$('.textarea-review').val('');
+				$('input[name="reviewStar"]:checked').prop('checked', false);
 				cri.page = 1;
 				getReviewList(cri);
 			}else{
@@ -476,5 +476,8 @@ $(document).on('click', '.btn-review-del', function(){
 		}
 	});
 });
+</script>
+<!-- 리뷰 수정 -->
+<script type="text/javascript">
 
 </script>
