@@ -9,10 +9,12 @@ import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
+import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.ReviewCriteria;
 
 public interface BookDAO {
 
@@ -65,6 +67,12 @@ public interface BookDAO {
 	boolean deleteLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
 
 	ArrayList<ReserveVO> selectReserveList(@Param("bo_num")int bo_num);
+
+	ArrayList<ReviewVO> selectReviewList(@Param("cri")ReviewCriteria cri);
+
+	int selectTotalCountReview(@Param("cri")ReviewCriteria cri);
+
+	boolean insertReview(@Param("review")ReviewVO review);
 
 
 }

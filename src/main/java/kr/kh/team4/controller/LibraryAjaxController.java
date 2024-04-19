@@ -9,17 +9,20 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
-import kr.kh.team4.model.vo.book.ReserveVO;
+import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.PageMaker;
+import kr.kh.team4.pagination.ReviewCriteria;
 import kr.kh.team4.service.BookService;
 
 
@@ -144,6 +147,29 @@ public class LibraryAjaxController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		boolean res = bookService.returnBook(user, book);
+		map.put("result", res);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/review/list")
+	public Map<String, Object> reviewListPost(@RequestBody ReviewCriteria cri){
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<ReviewVO> list = bookService.getReviewList(cri);
+		int totalCount = bookService.getTotalCountReview(cri);
+		PageMaker pm = new PageMaker(5,cri, totalCount);
+		map.put("list", list);
+		map.put("pm", pm);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/review/insert")
+	public Map<String, Object> reviewInsert(@RequestBody ReviewVO review, 
+			HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = bookService.insertReview(review, user);
 		map.put("result", res);
 		return map;
 	}

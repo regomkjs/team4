@@ -14,10 +14,12 @@ import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
+import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.ReviewCriteria;
 
 @Service
 public class BookServiceImp implements BookService {
@@ -182,7 +184,7 @@ public class BookServiceImp implements BookService {
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
 		try {
-			if(loan.getLo_state() == 1) {
+			if(loan != null) {
 				return false;
 			}
 		}catch(Exception e) {
@@ -209,6 +211,9 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		if(loan == null) {
+			return false;
+		}
 		//대출한 회원과 로그인한 회원이 다를경우
 		if(!loan.getLo_me_id().equals(user.getMe_id())) {
 			return false;
@@ -251,7 +256,7 @@ public class BookServiceImp implements BookService {
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
 		//대출이 안 된 경우
-		if(loan.getLo_state() != 1) {
+		if(loan == null) {
 			return false;
 		}
 		//대출한 사람과 로그인한 사람이 같은 경우
@@ -267,10 +272,39 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		if(loan == null) {
+			return false;
+		}
+		
 		if(!loan.getLo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
 		return bookDao.deleteLoan(user.getMe_id(), book.getBo_num());
+	}
+	@Override
+	public ArrayList<ReviewVO> getReviewList(ReviewCriteria cri) {
+		if(cri == null) {
+			return null;
+		}
+		return bookDao.selectReviewList(cri);
+	}
+	@Override
+	public int getTotalCountReview(ReviewCriteria cri) {
+		if(cri == null) {
+			return 0;
+		}
+		return bookDao.selectTotalCountReview(cri);
+	}
+	@Override
+	public boolean insertReview(ReviewVO review, MemberVO user) {
+		if(review == null) {
+			return false;
+		}
+		if(user == null) {
+			return false;
+		}
+		review.setRv_me_id(user.getMe_id());
+		return bookDao.insertReview(review);
 	}
 	
 }

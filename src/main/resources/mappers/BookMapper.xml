@@ -172,4 +172,28 @@
 	<select id="selectReserveList" resultType="ReserveVO">
 		select * from reserve where re_bo_num = #{bo_num}
 	</select>
+	
+	<select id="selectReviewList" resultType="ReviewVO">
+		select 
+ 			review.*, member.me_nick 
+		from 
+			review 
+				join
+			member on me_id = rv_me_id
+		where 
+			rv_bo_num = #{cri.search}
+ 		order by 
+ 			rv_num desc
+ 		limit 
+ 			#{cri.pageStart}, #{cri.perPageNum}	
+	</select>
+	
+	<select id="selectTotalCountReview" resultType="int">
+		select count(*) from review where rv_bo_num = #{cri.search}
+	</select>
+	
+	<insert id="insertReview">
+		insert into review(rv_content, rv_score, rv_date, rv_me_id, rv_bo_num)
+		value(#{review.rv_content}, #{review.rv_score}, now(), #{review.rv_me_id}, #{review.rv_bo_num})
+	</insert>
 </mapper>
