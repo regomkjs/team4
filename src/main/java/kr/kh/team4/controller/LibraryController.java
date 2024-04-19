@@ -1,9 +1,20 @@
 package kr.kh.team4.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -82,4 +93,51 @@ public class LibraryController {
 		return "/library/book/bookSaleList";
 	}
 
+	@GetMapping("/library/book/sale")
+	public String Sale(Model model) {
+		
+		return "/library/book/bookSale";
+	}
+	
+	@GetMapping("/library/bookSale/search")
+	public String bookSaleSearch(Model model){
+		try {
+			StringBuilder urlBuilder = new StringBuilder("http://www.aladin.co.kr/ttb/api/ItemSearch.aspx"); /* URL */
+			urlBuilder.append("?" + URLEncoder.encode("ttbkey", "UTF-8") + "=ttbquddjcho1722001"); /* Service Key */
+			urlBuilder.append("&" + URLEncoder.encode("Query", "UTF-8") + "=" + URLEncoder.encode("aladdin", "UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("Output", "UTF-8") + "=" + URLEncoder.encode("js", "UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("Version", "UTF-8") + "=" + 20131101);
+			URL url = new URL(urlBuilder.toString());
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+		
+			conn.setRequestProperty("Content-type", "application/json");
+			System.out.println("Response code: " + conn.getResponseCode());
+			BufferedReader rd;
+			if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			} else {
+				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+			}
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = rd.readLine()) != null) {
+				sb.append(line);
+			}
+			rd.close();
+	        conn.disconnect();
+	      
+			// 1. 문자열 형태의 JSON을 파싱하기 위한 JSONParser 객체 생성.
+	        JSONParser parser = new JSONParser();
+	        // 2. 문자열을 JSON 형태로 JSONObject 객체에 저장. 	
+	        JSONObject obj = (JSONObject)parser.parse(sb.toString());
+	        // 3. 필요한 리스트 데이터 부분만 가져와 JSONArray로 저장.
+	        JSONArray dataArr = (JSONArray) obj.get("item");
+	        //JSONObject dataArr = (JSONObject) obj.get("item");
+	        model.addAttribute("list",dataArr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "/library/book/bookSaleSearch";
+	}
 }
