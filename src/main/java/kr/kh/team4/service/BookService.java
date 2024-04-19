@@ -65,5 +65,7 @@ public interface BookService {
 
 	boolean deleteReview(ReviewVO review, MemberVO user);
 
+	boolean updateReview(ReviewVO review, MemberVO user);
+
 	
 }

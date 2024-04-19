@@ -182,4 +182,14 @@ public class LibraryAjaxController {
 		map.put("result", res);
 		return map;
 	}
+	
+	@PostMapping("/review/update")
+	public Map<String, Object> reviewUpdate(@RequestBody ReviewVO review, 
+			HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = bookService.updateReview(review,user);
+		map.put("result", res);
+		return map;
+	}
 }

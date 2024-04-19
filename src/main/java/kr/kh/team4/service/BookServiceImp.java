@@ -318,5 +318,20 @@ public class BookServiceImp implements BookService {
 		
 		return bookDao.deleteReview(review.getRv_num());
 	}
+	@Override
+	public boolean updateReview(ReviewVO review, MemberVO user) {
+		if(review == null || !checkString(review.getRv_content())) {
+			return false;
+		}
+		if(user == null ) {
+			return false;
+		}
+		
+		ReviewVO dbReview = bookDao.selectReview(review.getRv_num());
+		if( dbReview == null ||
+			!dbReview.getRv_me_id().equals(user.getMe_id()))
+			return false;
+		return bookDao.updateComment(review);
+	}
 	
 }

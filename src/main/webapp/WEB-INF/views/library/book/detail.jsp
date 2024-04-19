@@ -402,7 +402,6 @@ $(".btn-review-insert").click(function () {
 			rv_score : $('input[name="reviewStar"]:checked').val(),
 			rv_bo_num : '${book.bo_num}'
 	}
-	console.log(review);
 	if(review.rv_content.length == 0){
 		alert('리뷰 내용을 작성하세요.');
 		return;
@@ -420,13 +419,13 @@ $(".btn-review-insert").click(function () {
 		dataType : "json",
 		success : function (data){
 			if(data.result){
-				alert('댓글을 등록했습니다.');
+				alert('리뷰를 등록했습니다.');
 				$('.textarea-review').val('');
 				$('input[name="reviewStar"]:checked').prop('checked', false);
 				cri.page = 1;
 				getReviewList(cri);
 			}else{
-				alert('댓글을 등록하지 못했습니다.');
+				alert('리뷰를 등록하지 못했습니다.');
 			}
 		},
 		error : function(xhr, textStatus, errorThrown){
@@ -465,10 +464,10 @@ $(document).on('click', '.btn-review-del', function(){
 		dataType : "json",
 		success : function (data){
 			if(data.result){
-				alert('댓글을 삭제했습니다.');
+				alert('리뷰를 삭제했습니다.');
 				getReviewList(cri);
 			}else{
-				alert('댓글을 삭제하지 못했습니다.');
+				alert('리뷰를 삭제하지 못했습니다.');
 			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown){
@@ -479,5 +478,83 @@ $(document).on('click', '.btn-review-del', function(){
 </script>
 <!-- 리뷰 수정 -->
 <script type="text/javascript">
+$(document).on('click', '.btn-review-update', function() {
+	initReview();
+	let contentBox =  $(this).parents(".box-review").find(".text-review");
+	let starBox =  $(this).closest('.box-review').find(".star-rating");
+	let currentScore = 5
+	let star = starBox.val();
+	let content = contentBox.text();
+	let str = 
+	`
+	<div class="input-group mb-3" id="myform">
+		<fieldset>
+	        <input type="radio" name="reviewStar" value="5" id="rate1" ${currentScore == 5 ? 'checked' : ''}><label for="rate1">★</label>
+	        <input type="radio" name="reviewStar" value="4" id="rate2" ${currentScore == 4 ? 'checked' : ''}><label for="rate2">★</label>
+	        <input type="radio" name="reviewStar" value="3" id="rate3" ${currentScore == 3 ? 'checked' : ''}><label for="rate3">★</label>
+	        <input type="radio" name="reviewStar" value="2" id="rate4" ${currentScore == 2 ? 'checked' : ''}><label for="rate4">★</label>
+	        <input type="radio" name="reviewStar" value="1" id="rate5" ${currentScore == 1 ? 'checked' : ''}><label for="rate5">★</label>
+    	</fieldset>
+	</div>
+	<textarea class="form-control con-input">\${content}</textarea>
+	`
+	contentBox.after(str);
+    contentBox.hide();
+    starBox.hide();
 
+	$(this).parents(".box-review").find(".box-btn").hide();
+
+	let rv_num = $(this).data("num");
+
+	str = 
+	`
+	<button class="btn btn-outline-success btn-complete" data-num="\${rv_num}">수정완료</button>
+	`;
+	$(this).parents(".box-review").find(".box-btn").after(str);
+});
+
+$(document).on('click', '.btn-complete', function() {
+
+	let review = {
+			rv_content : $('.box-review').find('textarea').val(),
+			rv_score : $('input[name="reviewStar"]:checked').val(),
+			rv_num : $(this).data("num")
+	}
+	if(review.rv_content.length == 0){
+		alert('리뷰 내용을 작성하세요.');
+		return;
+	}
+	if(review.rv_score == null){
+		alert('별점을 선택하세요.');
+		return;
+	}
+	$.ajax({
+		async : true,
+		url : '<c:url value="/review/update"/>', 
+		type : 'post',
+		data : JSON.stringify(review),
+		contentType : "application/json; charset=utf-8",
+		dataType : "json",
+		success : function (data){
+			if(data.result){
+				alert('리뷰를 수정했습니다.');
+				getReviewList(cri);
+			}else{
+				alert('리뷰를 수정하지 못했습니다.');
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+});
+
+function initReview() {
+	$(".btn-complete").remove();
+	$('.box-review').find('textarea').remove();
+	$('.box-review').find('#myform').remove();
+	$('.box-btn').show();
+	$('.text-review').show();
+	$('.star-rating').show();
+}
 </script>
