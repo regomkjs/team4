@@ -165,11 +165,11 @@
 		select date_add(lo_limit,interval 3 day), 1, #{bo_num}, #{me_id} from loan where lo_bo_num = #{bo_num}
 	</insert>
 	
-	<select id="selectReserveList" resultType="ReserveVO">
-		select * from reserve join book on bo_num = re_bo_num where bo_isbn = #{bo_isbn}
-	</select>
-	
 	<select id="selectReserve" resultType="ReserveVO">
 		select * from reserve join book on bo_num = re_bo_num where bo_num = #{bo_num}
 	</select>
+
+	<delete id="deleteLoan">
+		delete from loan where lo_me_id = #{me_id} and lo_bo_num = #{bo_num}
+	</delete>
 </mapper>

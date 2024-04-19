@@ -70,4 +70,8 @@
 	<delete id="deleteGrade">
 		delete from grade where gr_num = #{gr_num}
 	</delete>
+	
+	<update id="updateLoanCount">
+		update member set me_loan_count = #{member.me_loan_count} + 1 where me_id = #{member.me_id}
+	</update>
 </mapper>

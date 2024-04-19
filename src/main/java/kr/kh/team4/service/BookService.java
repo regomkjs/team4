@@ -52,7 +52,7 @@ public interface BookService {
 
 	boolean reserveBook(MemberVO user, BookVO book);
 
-	ArrayList<ReserveVO> getReserveList(String bo_isbn);
+	boolean returnBook(MemberVO user, BookVO book);
 
 	
 }
