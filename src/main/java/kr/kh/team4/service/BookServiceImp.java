@@ -223,9 +223,9 @@ public class BookServiceImp implements BookService {
         	return false;
         }
         
-        ReserveVO reserve = bookDao.selectReserve(book.getBo_num());
+        ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
         //예약 된 경우
-        if(reserve != null) {
+        if(list != null) {
         	return false;
         }
         
