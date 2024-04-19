@@ -523,4 +523,9 @@ public class PostServiceImp implements PostService {
 		return postDAO.selectItem(it_num);
 	}
 
+	@Override
+	public boolean insertCategory(String ca_name) {
+		return postDAO.insertCategory(ca_name);
+	}
+
 }

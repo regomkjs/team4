@@ -114,6 +114,8 @@ public interface PostDAO {
 
 	void timeLimitVote();
 
+	boolean insertCategory(@Param("ca_name")String ca_name);
+
 	
 	
 	

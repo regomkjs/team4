@@ -404,4 +404,9 @@
  	<update id="timeLimitVote">
  		update vote set vo_state = 0 where vo_date &lt; now()
  	</update>
+ 	
+ 	<insert id="insertCategory">
+ 		insert into category(ca_name)
+ 		values(#{ca_name})
+ 	</insert>
 </mapper>
