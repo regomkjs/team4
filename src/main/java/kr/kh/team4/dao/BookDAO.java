@@ -74,5 +74,9 @@ public interface BookDAO {
 
 	boolean insertReview(@Param("review")ReviewVO review);
 
+	ReviewVO selectReview(@Param("rv_num")int rv_num);
+
+	boolean deleteReview(@Param("rv_num")int rv_num);
+
 
 }

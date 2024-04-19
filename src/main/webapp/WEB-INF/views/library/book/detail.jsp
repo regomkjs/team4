@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <style>
@@ -334,8 +335,8 @@ function displayReviewList(list){
 	for(item of list){
 		let boxBtns =
 			`<span class="box-btn float-right">
-				<button class="btn btn-outline-warning btn-review-update" data-num="\${item.rv_bo_num}">수정</button>
-				<button class="btn btn-outline-danger btn-review-del" data-num="\${item.rv_bo_num}">삭제</button>
+				<button class="btn btn-outline-warning btn-review-update" data-num="\${item.rv_num}">수정</button>
+				<button class="btn btn-outline-danger btn-review-del" data-num="\${item.rv_num}">삭제</button>
 			</span>`;
 		let btns = '${user.me_id}' == item.rv_me_id ? boxBtns : '';
 		 // 별 표시
@@ -353,6 +354,7 @@ function displayReviewList(list){
 					<span class="text-review">\${item.rv_content}</span>
 					\${btns}
 				</div>
+				<span style="font-size: small;" class="mr-4">작성시간 : \${moment(item.rv_date).format('YY/MM/DD HH:mm')}<br />
 			</div>
 		`
 	}
@@ -443,4 +445,36 @@ function checkLogin(){
 	}
 	return false;
 }
+</script>
+<!-- 리뷰 삭제 -->
+<script type="text/javascript">
+//댓글 삭제 버튼 클릭시 alert(1)이 실행되도록 작성
+$(document).on('click', '.btn-review-del', function(){
+	//서버로 보낼 데이터 생성
+	let review = {
+			rv_num : $(this).data('num')
+	}
+	console.log(review)
+	//서버로 데이터를 전송
+	$.ajax({
+		async : true,
+		url : '<c:url value="/review/delete"/>', 
+		type : 'post',
+		data : JSON.stringify(review),
+		contentType : "application/json; charset=utf-8",
+		dataType : "json",
+		success : function (data){
+			if(data.result){
+				alert('댓글을 삭제했습니다.');
+				getReviewList(cri);
+			}else{
+				alert('댓글을 삭제하지 못했습니다.');
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+});
+
 </script>

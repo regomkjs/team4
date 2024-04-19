@@ -196,4 +196,12 @@
 		insert into review(rv_content, rv_score, rv_date, rv_me_id, rv_bo_num)
 		value(#{review.rv_content}, #{review.rv_score}, now(), #{review.rv_me_id}, #{review.rv_bo_num})
 	</insert>
+	
+	<select id="selectReview" resultType="ReviewVO">
+		select * from review where rv_num = #{rv_num}
+	</select>
+	
+	<delete id="deleteReview">
+		delete from review where rv_num = #{rv_num}
+	</delete>
 </mapper>

@@ -15,4 +15,6 @@ public class ReviewVO {
 	private String rv_me_id; 
 	private int rv_bo_num;
 	
+	//회원 닉네임
+	private String me_nick;
 }

@@ -306,5 +306,17 @@ public class BookServiceImp implements BookService {
 		review.setRv_me_id(user.getMe_id());
 		return bookDao.insertReview(review);
 	}
+	@Override
+	public boolean deleteReview(ReviewVO review, MemberVO user) {
+		if(review == null || user == null) {
+			return false;
+		}
+		ReviewVO dbReview = bookDao.selectReview(review.getRv_num());
+		if( dbReview == null ||
+			!dbReview.getRv_me_id().equals(user.getMe_id()))
+			return false;
+		
+		return bookDao.deleteReview(review.getRv_num());
+	}
 	
 }

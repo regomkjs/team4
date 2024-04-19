@@ -163,13 +163,22 @@ public class LibraryAjaxController {
 		return map;
 	}
 	
-	@ResponseBody
 	@PostMapping("/review/insert")
 	public Map<String, Object> reviewInsert(@RequestBody ReviewVO review, 
 			HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		boolean res = bookService.insertReview(review, user);
+		map.put("result", res);
+		return map;
+	}
+	
+	@PostMapping("/review/delete")
+	public Map<String, Object> reviewDelete(@RequestBody ReviewVO review, 
+			HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = bookService.deleteReview(review,user);
 		map.put("result", res);
 		return map;
 	}
