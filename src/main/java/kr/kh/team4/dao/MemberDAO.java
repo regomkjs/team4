@@ -35,4 +35,6 @@ public interface MemberDAO {
 
 	boolean deleteGrade(@Param("gr_num")int gr_num);
 
+	void updateLoanCount(@Param("member")MemberVO member);
+
 }

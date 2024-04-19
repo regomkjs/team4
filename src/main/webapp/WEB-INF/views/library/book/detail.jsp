@@ -122,7 +122,7 @@ $(document).on('click', '.extend-btn', function () {
 			if(data.result){
 				alert("1주일 연장되었습니다.")
 			}else{
-				alert("예약 돼 있거나 만기일까지 3일 넘게 남았습니다.")
+				alert("예약돼 있거나 만기일까지 3일 넘게 남았습니다.")
 			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown){
@@ -171,4 +171,32 @@ function checkLogin(){
 	}
 	return false;
 }
+</script>
+<!-- 반납 -->
+<script type="text/javascript">
+$(document).on('click', '.return-btn', function () {
+	let bookNum = $(this).data('bo-num');
+	let book ={
+			bo_num : bookNum
+	}
+	$.ajax({	
+		async : true,
+		url : '<c:url value="/return/book"/>', 
+		type : 'post',
+		data : JSON.stringify(book), 
+		contentType : "application/json; charset=utf-8",
+		dataType : "json", 
+		success : function (data){
+			if(data.result){
+				alert("${book.bo_title}책을 반납했습니다.");
+				
+			}else{
+				alert("반납 실패.")
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+			
+		}
+	});
+});
 </script>

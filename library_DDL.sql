@@ -37,6 +37,7 @@ CREATE TABLE `member` (
   `me_block` date DEFAULT NULL,
   `me_loan_block` date DEFAULT NULL,
   `me_count` int NOT NULL DEFAULT '0',
+  `me_loan_count` int NOT NULL DEFAULT '0',
   `me_ms_num` int NOT NULL,
   `me_gr_num` int NOT NULL,
   PRIMARY KEY (`me_id`),
