@@ -82,4 +82,6 @@ public interface PostService {
 
 	ItemVO getItem(int it_num);
 
+	boolean insertCategory(String ca_name);
+
 }
