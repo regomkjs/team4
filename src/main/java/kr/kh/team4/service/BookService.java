@@ -1,5 +1,6 @@
 package kr.kh.team4.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import kr.kh.team4.model.dto.BookDTO;
@@ -52,7 +53,7 @@ public interface BookService {
 
 	boolean reserveBook(MemberVO user, BookVO book);
 
-	ArrayList<ReserveVO> getReserveList(String bo_isbn);
+	boolean returnBook(MemberVO user, BookVO book);
 
 	
 }

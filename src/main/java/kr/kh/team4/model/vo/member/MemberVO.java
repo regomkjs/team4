@@ -17,7 +17,8 @@ public class MemberVO {
 	private int me_fail_count; 
 	private Date me_block; 
 	private Date me_loan_block; 
-	private int me_count; 
+	private int me_count;
+	private int me_loan_count;
 	private int me_ms_num; 
 	private int me_gr_num;
 }
