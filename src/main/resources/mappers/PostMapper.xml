@@ -10,20 +10,27 @@
  	<select id="selectPostList" resultType="PostVO">
  		select 
  			post.*, category.*, member.me_nick,
- 			(select 
- 				count(*) 
-			from 
-				comment 
-			where 
-				comment.co_po_num = post.po_num		
-			) as po_co_count,
- 			(select
- 				count(*)
-			from
-				heart
-			where 
-				heart.he_po_num = post.po_num
-			) as po_totalHeart 
+				(select 
+					count(*) 
+				from 
+					comment 
+				where 
+					comment.co_po_num = post.po_num) 
+			as po_co_count,
+	 			(select
+	 				count(*)
+				from
+					heart
+				where 
+					heart.he_po_num = post.po_num) 
+			as po_totalHeart,
+				(select
+					count(*)
+				from
+					vote
+				where
+					vote.vo_po_num = post.po_num and vote.vo_state = 1)
+			as po_votePost
 		from 
 			post
 				join

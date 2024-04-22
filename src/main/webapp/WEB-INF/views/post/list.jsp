@@ -50,7 +50,15 @@
 				  			<c:url value="/post/detail" var="detailUrl">
 				  				<c:param name="num">${post.po_num}</c:param>
 				  			</c:url>
-				  			<a href="${detailUrl}">${post.po_title}</a> <span class="ml-4">[${post.po_co_count}]</span>
+				  			
+				  			<a href="${detailUrl}">${post.po_title}</a> 
+				  			<c:if test="${post.po_votePost}">
+				  				<span class="ml-1" style="font-size: x-small;">(투표중)</span>
+				  				<span class="ml-4">[${post.po_co_count}]</span>
+				  			</c:if>
+				  			<c:if test="${!post.po_votePost}">
+				  				<span class="ml-4">[${post.po_co_count}]</span>
+				  			</c:if>
 				  		</td>
 				  		<td>
 				  			<a href="#">${post.me_nick}</a> 
