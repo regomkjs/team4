@@ -111,10 +111,8 @@ public class LibraryController {
 			urlBuilder.append("&" + URLEncoder.encode("Version", "UTF-8") + "=" + 20131101);
 			URL url = new URL(urlBuilder.toString());
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			
+			conn.setRequestMethod("GET");		
 			conn.setRequestProperty("Content-type", "application/json");
-			System.out.println("Response code: " + conn.getResponseCode());
 			BufferedReader rd;
 			if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
 				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -136,9 +134,8 @@ public class LibraryController {
 	        // 3. 필요한 리스트 데이터 부분만 가져와 JSONArray로 저장.
 	        JSONArray dataArr = (JSONArray) obj.get("item");
 	        //JSONObject dataArr = (JSONObject) obj.get("item");
-	        model.addAttribute("list",dataArr);
-	        System.out.println(obj);
-	        Criteria cri=new Criteria(page, 10);
+	        model.addAttribute("obj",obj);
+	        
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

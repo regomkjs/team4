@@ -11,8 +11,8 @@
 		  		<option value="Author">저자</option>
 		  		<option value="Publisher">출판사</option>
 		  	</select>
-		    <input type="text" class="form-control" placeholder="도서 검색"
-		    name="search">
+		    <input type="text" class="form-control" name="search" >
+		    <input type="text" name="page" value="1" style="display: none">
 		    <div class="input-group-append">
 		      <button class="btn btn-success search-btn" type="submit">검색</button>
 		    </div>
@@ -25,6 +25,7 @@
 			
 			<div class="book-main">
 				<div class="book-list">
+				<!-- 
 					<c:forEach items="${list}" var="book">
 						<div class="book-item">
 							<div class="book-img">
@@ -42,15 +43,11 @@
 							</div>
 						</div>
 					</c:forEach>
-					
+					 -->
 				</div>
 				<div class="pagination-box">
 					<ul class="pagination justify-content-center pagination-sm"">
-						<li class="page-item"><a class="page-link" data-page="${cri.startPage-1}">이전</a></li>
-	
-						<li class="page-item \${active}"><a class="page-link" data-page="\${i}">\${i}</a></li>
-	
-						<li class="page-item"><a class="page-link" data-page="${cri.perPage+1}">다음</a></li>
+					
 					</ul>
 				</div>
 			</div>
@@ -58,10 +55,11 @@
 	</div>
 	<!-- 구매,장바구니 -->
 	<script type="text/javascript">
-	let books=${list};
+	let bookObj=${obj};
 	let basket=[];
+	let books=bookObj.item;
+	console.log(bookObj);//
 	$(document).on("click",".basket-btn",function(){
-		console.log(books);//
 		let isbn=$(this).data("isbn");
 		for(let i=0;i<books.length;i++){
 			console.log(books[i].isbn13==isbn);//
@@ -106,5 +104,55 @@
 		document.cookie = cookie_name + '=' + cookie_value;
 	}
 	
+	</script>
+	<!-- 화면 출력 -->
+	<script type="text/javascript">
+		//bookObj
+		function displayListView() {
+			let str="";
+			for(book of bookObj.item){
+				str+=`
+					<div class="book-item">
+						<div class="book-img">
+							<img alt="\${book.title}" src="\${book.cover}"/>
+						</div>
+						<div class="book-content">
+							<ul>
+								<li>\${book.title} </li>
+								<li>\${book.author} | \${book.publisher}</li>
+								<li>\${book.pubDate}</li>
+								<li>판매가: \${book.priceStandard}원</li>
+							</ul>
+							<button class="btn btn-outline-warning basket-btn" data-isbn="\${book.isbn13}">장바구니</button>
+							<a class="btn btn-outline-warning purchase-btn" data-isbn="\${book.isbn13}">구매</a>
+						</div>
+					</div>
+				`;	
+			}
+			$(".book-list").html(str);
+			$("input[name=search]").val(bookObj.query);
+		}
+		let cri={
+			page:bookObj.startIndex
+		}
+		
+		function displayPageView() {
+			let str="";
+			if(){
+				str+=`
+				<li class="page-item"><a class="page-link" data-page="${cri.startPage-1}">이전</a></li>
+				`;
+			}
+			for(){
+				<li class="page-item \${active}"><a class="page-link" data-page="\${i}">\${i}</a></li>
+			}
+			if(){
+				str+=`
+				<li class="page-item"><a class="page-link" data-page="${cri.startPage-1}">이전</a></li>
+				`;
+			}
+		}
+		
+		displayListView();
 	</script>
 </body>

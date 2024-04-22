@@ -14,6 +14,7 @@
 		  	
 		    <input type="text" class="form-control" placeholder="도서 검색"
 		    name="search">
+		     <input type="text" name="page" value="1" style="display: none">
 		    <div class="input-group-append">
 		      <button class="btn btn-success search-btn" type="submit">검색</button>
 		    </div>
@@ -108,7 +109,6 @@
 		BookList();
 	});
 	</script>
-
 	<!-- 구매,장바구니 -->
 	<script type="text/javascript">
 	let basket=[];
@@ -164,18 +164,7 @@
 		document.cookie = cookie_name + '=' + cookie_value;
 	}
 	
-	</script>
-	<!-- 검색 -->
-	<script type="text/javascript">
-	$(".search-btn").click(function() {
-		console.log($("input[name=search]").val());
-		return;
-		
-		
-		$(".page").html(html);
-	});
-	</script>
-	
+	</script>	
 	<script type="text/javascript">
 	function displayView(data) {
 		let str="";
