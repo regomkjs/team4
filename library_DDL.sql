@@ -52,9 +52,10 @@ DROP TABLE IF EXISTS `report`;
 
 CREATE TABLE `report` (
   `rp_num` int NOT NULL AUTO_INCREMENT,
-  `rp_note` text NOT NULL,
+  `rp_note` text,
   `rp_type` varchar(15) NOT NULL,
-  `rp_target` varchar(12) NOT NULL,
+  `rp_target` varchar(15) NOT NULL,
+  `rp_writer` varchar(12) NOT NULL,
   `rp_me_id` varchar(12) NOT NULL,
   PRIMARY KEY (`rp_num`),
   KEY `FK_member_TO_report_1` (`rp_me_id`),
