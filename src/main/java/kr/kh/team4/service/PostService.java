@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import kr.kh.team4.model.dto.ItemListDTO;
 import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.ChooseVO;
 import kr.kh.team4.model.vo.post.CommentVO;
@@ -93,5 +94,7 @@ public interface PostService {
 	boolean getReportByTarget(String target, String me_id);
 
 	boolean insertReport(String note, String type, String target, String writer, String me_id);
+
+	ArrayList<ReportVO> getReportList();
 
 }

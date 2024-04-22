@@ -566,4 +566,27 @@ public class PostServiceImp implements PostService {
 		return postDAO.insertReport(note, type, target, writer, me_id);
 	}
 
+	@Override
+	public ArrayList<ReportVO> getReportList() {
+		ArrayList<ReportVO> reportList = postDAO.selectReportList();
+		if(reportList == null || reportList.size()==0) {
+			return null;
+		}
+		for(ReportVO report : reportList) {
+			String[] tmp = report.getRp_target().split("_");
+			if(tmp[0].equals("po")) {
+				int num = Integer.parseInt(tmp[1]);
+				PostVO post = postDAO.selectPost(num);
+				report.setRp_post(post);
+			}
+			else {
+				int num = Integer.parseInt(tmp[1]);
+				CommentVO comment = postDAO.selectComment(num);
+				PostVO post = postDAO.selectPost(comment.getCo_po_num());
+				report.setRp_post(post);
+			}
+		}
+		return reportList;
+	}
+
 }
