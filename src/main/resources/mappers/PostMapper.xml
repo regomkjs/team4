@@ -10,18 +10,27 @@
  	<select id="selectPostList" resultType="PostVO">
  		select 
  			post.*, category.*, member.me_nick,
- 			SUM(CASE WHEN co_state = 1 THEN 1 ELSE 0 END) as po_co_count,
-			SUM(CASE WHEN he_state = 1 THEN 1 ELSE 0 END) AS po_totalHeart 
+ 			(select 
+ 				count(*) 
+			from 
+				comment 
+			where 
+				comment.co_po_num = post.po_num		
+			) as po_co_count,
+ 			(select
+ 				count(*)
+			from
+				heart
+			where 
+				heart.he_po_num = post.po_num
+			) as po_totalHeart 
 		from 
 			post
 				join
 			member on po_me_id = me_id
 				join 
 			category on po_ca_num = ca_num
-				left join 
-			heart on he_po_num = po_num 
-				left join 
-			comment on co_po_num = po_num 
+				
 		where
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
@@ -38,8 +47,7 @@
  			<if test="cri.ca != 0">
  			 	and po_ca_num = #{cri.ca}
  			</if>
- 		group by 
- 			po_num
+ 		
  		order by 
  			<if test='cri.order == "new"'>
 	 			po_num desc
