@@ -233,5 +233,16 @@ public class PostAjaxController {
 		return map;
 	}
 	
+	@ResponseBody
+	@PostMapping("/report/insert")
+	public  Map<String, Object> reportInsertPost(){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		
+		
+		
+		
+		return map;
+	}
 	
 }
