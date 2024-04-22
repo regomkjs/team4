@@ -26,6 +26,7 @@ import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
+import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.service.BookService;
 import lombok.extern.log4j.Log4j;
 
@@ -100,17 +101,18 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/library/bookSale/search")
-	public String bookSaleSearch(Model model){
+	public String bookSaleSearch(Model model,String search,String type,int page){
 		try {
 			StringBuilder urlBuilder = new StringBuilder("http://www.aladin.co.kr/ttb/api/ItemSearch.aspx"); /* URL */
 			urlBuilder.append("?" + URLEncoder.encode("ttbkey", "UTF-8") + "=ttbquddjcho1722001"); /* Service Key */
-			urlBuilder.append("&" + URLEncoder.encode("Query", "UTF-8") + "=" + URLEncoder.encode("aladdin", "UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("Query", "UTF-8") + "=" + URLEncoder.encode(search, "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("Output", "UTF-8") + "=" + URLEncoder.encode("js", "UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("Start", "UTF-8") + "=" + page);
 			urlBuilder.append("&" + URLEncoder.encode("Version", "UTF-8") + "=" + 20131101);
 			URL url = new URL(urlBuilder.toString());
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
-		
+			
 			conn.setRequestProperty("Content-type", "application/json");
 			System.out.println("Response code: " + conn.getResponseCode());
 			BufferedReader rd;
@@ -135,6 +137,8 @@ public class LibraryController {
 	        JSONArray dataArr = (JSONArray) obj.get("item");
 	        //JSONObject dataArr = (JSONObject) obj.get("item");
 	        model.addAttribute("list",dataArr);
+	        System.out.println(obj);
+	        Criteria cri=new Criteria(page, 10);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

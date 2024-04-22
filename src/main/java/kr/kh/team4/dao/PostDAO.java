@@ -112,9 +112,17 @@ public interface PostDAO {
 
 	void updateItemCount(@Param("it_num")int it_num);
 
+	void deleteVoteNotEnd(@Param("po_num")int po_num);
+
 	void timeLimitVote();
 
 	boolean insertCategory(@Param("ca_name")String ca_name);
+
+	CategoryVO selectCategory(@Param("ca_num")int ca_num);
+
+	boolean updateCategory(@Param("category")CategoryVO category);
+
+	boolean deleteCategory(@Param("ca_num")int ca_num);
 
 	
 	

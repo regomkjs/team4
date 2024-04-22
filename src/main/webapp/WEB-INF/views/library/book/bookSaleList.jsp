@@ -11,6 +11,7 @@
 		  		<option value="Author">저자</option>
 		  		<option value="Publisher">출판사</option>
 		  	</select>
+		  	
 		    <input type="text" class="form-control" placeholder="도서 검색"
 		    name="search">
 		    <div class="input-group-append">
@@ -163,6 +164,16 @@
 		document.cookie = cookie_name + '=' + cookie_value;
 	}
 	
+	</script>
+	<!-- 검색 -->
+	<script type="text/javascript">
+	$(".search-btn").click(function() {
+		console.log($("input[name=search]").val());
+		return;
+		
+		
+		$(".page").html(html);
+	});
 	</script>
 	
 	<script type="text/javascript">

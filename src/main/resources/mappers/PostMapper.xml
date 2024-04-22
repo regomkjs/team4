@@ -409,4 +409,20 @@
  		insert into category(ca_name)
  		values(#{ca_name})
  	</insert>
+ 	
+ 	<select id="selectCategory" resultType="CategoryVO">
+ 		select * from category where ca_num = #{ca_num}
+ 	</select>
+ 	
+ 	<update id="updateCategory">
+ 		update category set ca_name = #{category.ca_name} where ca_num = #{category.ca_num}
+ 	</update>
+ 	
+ 	<delete id="deleteVoteNotEnd">
+ 		delete from vote where vo_po_num = #{po_num} and vo_state = 1
+ 	</delete>
+ 	
+ 	<delete id="deleteCategory">
+ 		delete from category where ca_num = #{ca_num}
+ 	</delete>
 </mapper>

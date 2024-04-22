@@ -25,16 +25,40 @@
 			
 			<div class="book-main">
 				<div class="book-list">
-					${list}
+					<c:forEach items="${list}" var="book">
+						<div class="book-item">
+							<div class="book-img">
+								<img alt="${book.title}" src="${book.cover}"/>
+							</div>
+							<div class="book-content">
+								<ul>
+									<li>${book.title} </li>
+									<li>${book.author} | ${book.publisher}</li>
+									<li>${book.pubDate}</li>
+									<li>판매가: ${book.priceStandard}원</li>
+								</ul>
+								<button class="btn btn-outline-warning basket-btn" data-isbn="${book.isbn13}">장바구니</button>
+								<a class="btn btn-outline-warning purchase-btn" data-isbn="${book.isbn13}">구매</a>
+							</div>
+						</div>
+					</c:forEach>
+					
 				</div>
 				<div class="pagination-box">
-					<ul class="pagination justify-content-center pagination-sm""></ul>
+					<ul class="pagination justify-content-center pagination-sm"">
+						<li class="page-item"><a class="page-link" data-page="${cri.startPage-1}">이전</a></li>
+	
+						<li class="page-item \${active}"><a class="page-link" data-page="\${i}">\${i}</a></li>
+	
+						<li class="page-item"><a class="page-link" data-page="${cri.perPage+1}">다음</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 구매,장바구니 -->
 	<script type="text/javascript">
+	let books=${list};
 	let basket=[];
 	$(document).on("click",".basket-btn",function(){
 		console.log(books);//

@@ -82,4 +82,64 @@ public class CommunityController {
 	}
 	
 	
+	@ResponseBody
+	@PostMapping("/category/update")
+	public Map<String, Object> categoryUpdatePost(HttpSession session, 
+				@RequestParam("ca_name")String ca_name, @RequestParam("ca_num")int ca_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		String errorMessage = "";
+		if(user == null) {
+			errorMessage = "세션이 만료되었습니다.";
+			map.put("errorMessage", errorMessage);
+			return map;
+		}
+		if(user.getMe_gr_num() == 0) {
+			errorMessage = "운영자만 접근할 수 있습니다.";
+			map.put("errorMessage", errorMessage);
+			return map;
+		}
+		CategoryVO category = postService.getCategory(ca_num);
+		if(category == null) {
+			errorMessage = "수정될 게시판이 없습니다.";
+			map.put("errorMessage", errorMessage);
+			return map;
+		}
+		if(category.getCa_name().equals(ca_name)) {
+			errorMessage = "기존과 같은 게시판 명입니다.";
+			map.put("errorMessage", errorMessage);
+			return map;
+		}
+		ArrayList<CategoryVO> categoryList = postService.getCategoryList();
+		for(CategoryVO tmp : categoryList) {
+			if(tmp.getCa_name().equals(ca_name)) {
+				errorMessage = "이미 있는 게시판 명으로 수정할 수 없습니다.";
+				map.put("errorMessage", errorMessage);
+				return map;
+			}
+		}
+		category.setCa_name(ca_name);
+		boolean res = postService.updateCategory(category);
+		map.put("result", res);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/category/delete")
+	public Map<String, Object> categoryDeletePost(HttpSession session, @RequestParam("ca_num")int ca_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res;
+		if(user == null) {
+			res = false;
+			map.put("result", res);
+		}
+		if(user.getMe_gr_num() == 0) {
+			res = false;
+			map.put("result", res);
+		}
+		res = postService.deleteCategory(ca_num);
+		map.put("result", res);
+		return map;
+	}
 }	
