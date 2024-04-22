@@ -79,20 +79,29 @@ window.onload = ()=>{
 			(localStorage.getItem("title") == "" && 
 			(localStorage.getItem("content") == "" || 
 			localStorage.getItem("content") == "<p><br></p>"))){
-		localStorage.clear();
+		localStorage.removeItem("category");
+		localStorage.removeItem("title");
+		localStorage.removeItem("writer");
+		localStorage.removeItem("content");
 	} else{
 		if(confirm("최근 작성중인 글이 있습니다. 글을 불러오겠습니까?")){
 			$("#category").val(localStorage.getItem("category"));
 			document.querySelector("#title").value = localStorage.getItem("title");
 			$('#summernote').summernote('code', localStorage.getItem("content"));
 		} else{
-			localStorage.clear();
+			localStorage.removeItem("category");
+			localStorage.removeItem("title");
+			localStorage.removeItem("writer");
+			localStorage.removeItem("content");
 		}
 	}
 }
 
 $("form").on("submit", function (e) {
-	localStorage.clear();
+	localStorage.removeItem("category");
+	localStorage.removeItem("title");
+	localStorage.removeItem("writer");
+	localStorage.removeItem("content");
 	window.onunload = null;
 	return true;
 });

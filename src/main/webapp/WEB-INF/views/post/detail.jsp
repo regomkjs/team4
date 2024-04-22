@@ -6,6 +6,7 @@
 <html>
 <head>
 	<title>게시글 상세</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 </head>
 <body>
 <c:set var="now" value="<%=new java.util.Date()%>" />
@@ -22,8 +23,24 @@
 		게시글 상세
 	</h1>
 	<div class="container mt-3 mb-3">
+		
 		<div class="mb-3 mt-3">
-			<label for="category">게시판:</label>
+			<div class="d-flex">
+				<label for="category" style="margin-top: 10px">게시판:</label>
+				<div class="ml-auto mb-2">
+					<c:if test="${user.me_id == post.po_me_id}">
+						<c:url value="/post/update" var="updateUrl">
+							<c:param name="num"  value="${post.po_num}"/>
+						</c:url>
+						<a href="${updateUrl}" class="btn btn-success mr-3">수정</a>
+						
+						<c:url value="/post/delete" var="deleteUrl">
+							<c:param name="num"  value="${post.po_num}"/>
+						</c:url>
+						<a href="${deleteUrl}" class="btn btn-danger">삭제</a>
+					</c:if>
+				</div>
+			</div>
 			<div class="form-control" id="category">${post.ca_name}</div>
 		</div>
 		
@@ -113,26 +130,22 @@
 					</div>
 				</c:if>
 			</c:forEach>
-			
 		</c:if>
-		
 		<div class="mb-3">
 			<label for="content">내용:</label>
 			<div class="form-control" style="min-height: 250px">${post.po_content}</div>
 		</div>
-		<div class="mb-3 mt-3 d-flex">
-			<button class="btn-heart btn btn-outline-danger mr-3">하트</button> <div style="font: bolder; font-size: x-large;" class="text-heart mr-auto">${post.po_totalHeart}</div> 
-			<c:if test="${user.me_id == post.po_me_id}">
-				<c:url value="/post/update" var="updateUrl">
-					<c:param name="num"  value="${post.po_num}"/>
-				</c:url>
-				<a href="${updateUrl}" class="btn btn-success mr-3">수정</a>
-				
-				<c:url value="/post/delete" var="deleteUrl">
-					<c:param name="num"  value="${post.po_num}"/>
-				</c:url>
-				<a href="${deleteUrl}" class="btn btn-danger">삭제</a>
-			</c:if>
+		<div class="mb-3 mt-3 d-flex justify-content-between">
+			<div class="d-flex">
+				<i class="bi-heart btn-heart mr-2" style="font-size:1.7rem; color: red; cursor: pointer;"></i>
+				<div style="font: bolder; font-size: x-large;" class="text-heart">${post.po_totalHeart}</div> 
+			</div>
+			
+			<div>
+				<c:if test="${user.me_id != post.po_me_id && post.po_me_id != 'admin123'}">
+					<a href="#" class="btn btn-danger btn-report" data-toggle="modal" data-target="#reportModal" class="reportModal" data-writer="${post.me_nick}" data-what="po" data-num="${post.po_num}">신고</a>
+				</c:if>
+			</div>
 		</div>
 		
 		<div class="mt-3 mb-3 comment-box container">
@@ -159,6 +172,37 @@
 		</div>
 	</div>
 </div>
+
+
+<!-- 신고 Modal -->
+<div class="modal fade" id="reportModal">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable">
+		<div class="modal-content">
+   
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">신고</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="report-container">
+					
+				</div>
+			
+			
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary btn-reporting" data-dismiss="modal">신고하기</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
 
 
 <!-- 좋아요 구현 스크립트 -->
@@ -225,14 +269,15 @@ function displayUpdateHeart(totalCountHeart) {
 }
 
 function displayHeart(result) {
-	$('.btn-heart').addClass("btn-outline-danger");
-	$('.btn-heart').removeClass("btn-danger");
+	$('.btn-heart').addClass("bi-heart");
+	$('.btn-heart').removeClass("bi-heart-fill");
 	if(result){
-		$('.btn-heart').addClass("btn-danger");
-		$('.btn-heart').removeClass("btn-outline-danger");
+		$('.btn-heart').addClass("bi-heart-fill");
+		$('.btn-heart').removeClass("bi-heart");
+	
 	}else{
-		$('.btn-heart').addClass("btn-outline-danger");
-		$('.btn-heart').removeClass("btn-danger");
+		$('.btn-heart').addClass("bi-heart");
+		$('.btn-heart').removeClass("bi-heart-fill");
 	}
 	
 }
@@ -261,7 +306,6 @@ function getCommentList(cri, today) {
 				str = '<div class="container text-center mb-3 mt-3">아직 등록된 댓글이 없습니다.</div>';
 			}
 			for(comment of commentList){
-				console.log(comment);
 				if(comment.co_state != 1 && comment.co_num == comment.co_ori_num){
 					str +=
 						`
@@ -291,74 +335,61 @@ function getCommentList(cri, today) {
 						`
 					}	
 					
+					
+					
 					if(comment.co_num == comment.co_ori_num){
-						if(today == comment.co_datetime.substring(0,10)){
-							str +=
-								`
-								<div class="comment-container">
+						str +=
+						`
+							<div class="comment-container">
 									<div class="input-group mb-3 box-comment">
-										<div class="col-2"><h5>\${comment.me_nick}<h5></div>
-										<div class="co_content col-8">\${comment.co_content}</div>
-										\${btns}
-									</div>
-									<span style="font-size: small;" class="mr-4">작성시간 : \${comment.co_datetime.substring(11,16)}</span>
-									<a href="javascript:void(0);" class="reply" data-ori="\${comment.co_ori_num}">답글쓰기</a>
-								</div>	
-								<hr>
-									
-								`
-						}
-						else{
-							str +=
-								`
-								<div class="comment-container">
-									<div class="input-group mb-3 box-comment">
-										<div class="col-2"><h5>\${comment.me_nick}<h5></div>
-										<div class="co_content col-8">\${comment.co_content}</div>
-										\${btns}
-									</div>
-									<span style="font-size: small;" class="mr-4">작성일 : \${comment.co_datetime.substring(0,10)}</span>
-									<a href="javascript:void(0);" class="reply" data-ori="\${comment.co_ori_num}">답글쓰기</a>
-								</div>	
-								<hr>
-									
-								`
-						}
-						
+										<div class="col-2"><h5>\${comment.me_nick}<h5>
+						`
 					}
 					else{
-						if(today == comment.co_datetime.substring(0,10)){
-							str +=
-								`
-								<div class="comment-container" style="margin-left: 100px;">
+						str +=
+						`
+							<div class="comment-container" style="margin-left: 100px;">
 									<div class="input-group mb-3 box-comment">
-										<div class="col-2"><h5>\${comment.me_nick}<h5></div>
-										<div class="co_content col-8">\${comment.co_content}</div>
-										\${btns}
-									</div>
-									<span style="font-size: small;" class="mr-4">작성시간 : \${comment.co_datetime.substring(11,16)}</span>
-									<hr>
-								</div>	
-									
-								`
-						}
-						else{
-							str +=
-								`
-								<div class="comment-container" style="margin-left: 100px;">
-									<div class="input-group mb-3 box-comment">
-										<div class="col-2"><h5>\${comment.me_nick}<h5></div>
-										<div class="co_content col-8">\${comment.co_content}</div>
-										\${btns}
-									</div>
-									<span style="font-size: small;" class="mr-4">작성일 : \${comment.co_datetime.substring(0,10)}</span>
-									<hr>
-								</div>	
-									
-								`
-						}
-					
+										<div class="col-2"><h5>\${comment.me_nick}<h5>
+						`
 					}
+					
+					if(comment.co_me_id != '${user.me_id}' && comment.co_me_id != 'admin123'){
+						str +=
+						`
+							<a href="#" class="btn btn-danger btn-report" data-toggle="modal" data-target="#reportModal" class="reportModal" data-writer="\${comment.me_nick}" data-what="co" data-num="\${comment.co_num}">신고</a>						
+						`
+					}
+					str +=
+					`
+							</div>
+							<div class="co_content col-8">\${comment.co_content}</div>
+							\${btns}
+						</div>
+					`
+					if(today == comment.co_datetime.substring(0,10)){
+						str +=
+						`
+							<span style="font-size: small;" class="mr-4">작성시간 : \${comment.co_datetime.substring(11,16)}</span>
+						`
+					}
+					else{
+						str +=
+						`
+							<span style="font-size: small;" class="mr-4">작성일 : \${comment.co_datetime.substring(0,10)}</span>
+						`
+					}
+					if(comment.co_num == comment.co_ori_num){
+						str +=
+						`
+							<a href="javascript:void(0);" class="reply" data-ori="\${comment.co_ori_num}">답글쓰기</a>
+						`
+					}
+					str +=
+					`
+							<hr>
+						</div>				
+					`
 				}
 			}
 			
@@ -778,6 +809,97 @@ $(document).on("click",".btn-close-vote",function(){
 })
 </script>
 
+<!-- 신고 스크립트 -->
+<script type="text/javascript">
+$(document).on("click",".btn-report",function(){
+	if('${user.me_id}' == ''){
+		if(confirm("로그인이 필요한 서비스 입니다. 로그인으로 이동하시겠습니까?")){
+			location.href = "<c:url value='/login'/>"
+			return;
+		}
+		else{
+			return;
+		}
+	}
+	
+	let who = $(this).data("writer");
+	let what = $(this).data("what");
+	let num = $(this).data("num");
+	let str ="";
+	str += 
+	`
+		<div>
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<label class="input-group-text ">닉네임</label>
+				</div>
+				<input type="text" class="report-nick input-group form-control" value="\${who}" readonly>
+			</div>
+			<input hidden type="text" value="\${what+'_'+num}" class="report-target">
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<label class="input-group-text ">신고 항목</label>
+				</div>
+				<select class="form-control report-type">
+					<option>부적절한 닉네임</option>
+					<option>욕설 사용</option>
+					<option>광고성 글 작성</option>
+					<option>게시판에 맞지 않는 내용</option>
+				</select>
+			</div>
+			<label>신고 내용:</label>
+			<textarea class="form-control report-note mb-2" placeholder="신고 이유를 자세하게 적어주세요."></textarea>
+			
+		</div>
+	`
+	$(".report-container").html(str);
+	
+})
+
+$(document).on("click",".btn-reporting",function(){
+	if('${user.me_id}' == ''){
+		if(confirm("세션이 만료되었습니다. 로그인으로 이동하시겠습니까?")){
+			location.href = "<c:url value='/login'/>"
+			return;
+		}
+		else{
+			return;
+		}
+	}
+	
+	let who = $(this).parents(".modal-content").find(".report-nick").val()
+	let what = $(this).parents(".modal-content").find(".report-target").val()
+	let type = $(this).parents(".modal-content").find(".report-type").val()
+	let note = $(this).parents(".modal-content").find(".report-note").val()
+	if(note == null){
+		note = "";
+	}
+	
+	console.log(who);
+	console.log(what);
+	console.log(type);
+	console.log(note);
+	
+	$.ajax({
+		url : '<c:url value="/report/insert"/>',
+		method : "post",
+		data : {
+			"who" : who,
+			"what" : what,
+			"type" : type,
+			"note" : note
+		},
+		success : function (data) {
+			
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생2");
+		}
+	});
+	
+})
+
+</script>
 
 </body>
 </html>
