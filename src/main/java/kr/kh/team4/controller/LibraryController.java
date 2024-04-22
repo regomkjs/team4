@@ -29,7 +29,8 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @Controller
 public class LibraryController {
-	private static String API="431afaf3fc91157f82c7d1868604f275";
+	private static String kakaoAPI="431afaf3fc91157f82c7d1868604f275";
+	private static String aladinAPI="ttbquddjcho1722001";
 	
 	@Autowired
 	BookService bookService;
@@ -44,7 +45,7 @@ public class LibraryController {
 	@GetMapping("/library/management/manager")
 	public String libraryManagement(Model model) {	
 		ArrayList<UpperVO> upperList=bookService.getUpperList();
-		model.addAttribute("api",API);
+		model.addAttribute("api",kakaoAPI);
 		model.addAttribute("upList", upperList);
 		return "/library/management/manager";
 	}
@@ -86,7 +87,7 @@ public class LibraryController {
 
 	@GetMapping("/library/bookSale/list")
 	public String bookSale(Model model) {
-		model.addAttribute("api",API);
+		model.addAttribute("api",aladinAPI);
 		return "/library/book/bookSaleList";
 	}
 
@@ -100,7 +101,7 @@ public class LibraryController {
 	public String bookSaleSearch(Model model,Criteria cri){
 		try {
 			StringBuilder urlBuilder = new StringBuilder("http://www.aladin.co.kr/ttb/api/ItemSearch.aspx"); /* URL */
-			urlBuilder.append("?" + URLEncoder.encode("ttbkey", "UTF-8") + "=ttbquddjcho1722001"); /* Service Key */
+			urlBuilder.append("?" + URLEncoder.encode("ttbkey", "UTF-8") +"="+aladinAPI); /* Service Key */
 			urlBuilder.append("&" + URLEncoder.encode("Query", "UTF-8") + "=" + URLEncoder.encode(cri.getSearch(), "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("QueryType", "UTF-8") + "=" + URLEncoder.encode(cri.getType(), "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("Output", "UTF-8") + "=" + URLEncoder.encode("js", "UTF-8"));
@@ -128,7 +129,6 @@ public class LibraryController {
 	        // 2. 문자열을 JSON 형태로 JSONObject 객체에 저장. 	
 	        JSONObject obj = (JSONObject)parser.parse(sb.toString());
 	        int total= Integer.parseInt(obj.get("totalResults").toString());
-	        System.out.println(total);
 	        PageMaker pm=new PageMaker(10, cri,total);
 	        model.addAttribute("obj",obj);       
 	        model.addAttribute("pm",pm);       
@@ -136,5 +136,41 @@ public class LibraryController {
 			e.printStackTrace();
 		}
 		return "/library/book/bookSaleSearch";
+	}
+	
+	@GetMapping("/library/bookSale/detail")
+	public String bookSaleDetail(Model model,String isbn){
+		try {
+			StringBuilder urlBuilder = new StringBuilder("http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx"); /* URL */
+			urlBuilder.append("?" + URLEncoder.encode("ttbkey", "UTF-8") + "="+aladinAPI); /* Service Key */		
+			urlBuilder.append("&" + URLEncoder.encode("ItemIdType", "UTF-8") + "=" + URLEncoder.encode("ISBN13", "UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("ItemId", "UTF-8") + "=" + isbn);
+			urlBuilder.append("&" + URLEncoder.encode("Output", "UTF-8") + "=" + URLEncoder.encode("js", "UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("OptResult", "UTF-8") + "=" + URLEncoder.encode("ratingInfo", "UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("Version", "UTF-8") + "=" + 20131101);
+			URL url = new URL(urlBuilder.toString());
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");		
+			conn.setRequestProperty("Content-type", "application/json");
+			BufferedReader rd;
+			if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			} else {
+				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+			}
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = rd.readLine()) != null) {
+				sb.append(line);
+			}
+			rd.close();
+	        conn.disconnect();
+	        JSONParser parser = new JSONParser();
+	        JSONObject obj = (JSONObject)parser.parse(sb.toString());
+	        model.addAttribute("book",obj);           
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "/library/book/bookSaleDetail";
 	}
 }

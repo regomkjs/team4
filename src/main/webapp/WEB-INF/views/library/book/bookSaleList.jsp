@@ -48,7 +48,7 @@
 	<!-- 도서 리스트 출력 -->
 	<script type="text/javascript">
 	let APIdata={
-		TTBKey:"ttbquddjcho1722001",
+		TTBKey:"${api}",
 		QueryType:"ItemNewAll",
 		SearchTarget:"Book",
 		Start:1,
@@ -173,11 +173,14 @@
 			str+=`
 			<div class="book-item">
 				<div class="book-img">
-					<img alt="\${book.title}" src="\${book.cover}"/>
+					<a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
+						<img alt="\${book.title}" src="\${book.cover}"/>
+					</a>
 				</div>
 				<div class="book-content">
 					<ul>
-						<li>\${book.title} </li>
+						<li><a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
+							\${book.title} </a></li>
 						<li>\${book.author} | \${book.publisher}</li>
 						<li>\${book.pubDate}</li>
 						<li>판매가: \${book.priceStandard}원</li>

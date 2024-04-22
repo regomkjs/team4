@@ -25,25 +25,7 @@
 			
 			<div class="book-main">
 				<div class="book-list">
-				<!-- 
-					<c:forEach items="${list}" var="book">
-						<div class="book-item">
-							<div class="book-img">
-								<img alt="${book.title}" src="${book.cover}"/>
-							</div>
-							<div class="book-content">
-								<ul>
-									<li>${book.title} </li>
-									<li>${book.author} | ${book.publisher}</li>
-									<li>${book.pubDate}</li>
-									<li>판매가: ${book.priceStandard}원</li>
-								</ul>
-								<button class="btn btn-outline-warning basket-btn" data-isbn="${book.isbn13}">장바구니</button>
-								<a class="btn btn-outline-warning purchase-btn" data-isbn="${book.isbn13}">구매</a>
-							</div>
-						</div>
-					</c:forEach>
-					 -->
+				
 				</div>
 				<div class="pagination-box">
 					<ul class="pagination justify-content-center pagination-sm"">
@@ -149,11 +131,17 @@
 				str+=`
 					<div class="book-item">
 						<div class="book-img">
-							<img alt="\${book.title}" src="\${book.cover}"/>
+							<a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
+								<img alt="\${book.title}" src="\${book.cover}"/>
+							</a>
 						</div>
 						<div class="book-content">
 							<ul>
-								<li>\${book.title} </li>
+								<li>
+									<a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
+									\${book.title} 
+									</a>
+								</li>
 								<li>\${book.author} | \${book.publisher}</li>
 								<li>\${book.pubDate}</li>
 								<li>판매가: \${book.priceStandard}원</li>
@@ -165,6 +153,7 @@
 				`;	
 			}
 			$(".book-list").html(str);
+			$("input[name=search]").val(bookObj.query);
 		}
 		displayListView();
 	</script>
