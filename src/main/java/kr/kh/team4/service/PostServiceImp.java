@@ -310,6 +310,10 @@ public class PostServiceImp implements PostService {
 			makeNewVote(post.getPo_num(), votes, items);
 			return res;
 		}
+		if(votes.getVo_list() == null) {
+			postDAO.deleteVoteNotEnd(post.getPo_num());
+			return res;
+		}
 		for(VoteVO vote : votes.getVo_list()) {
 			if(vote == null || !checkString(vote.getVo_date())) {
 				continue;
@@ -526,6 +530,25 @@ public class PostServiceImp implements PostService {
 	@Override
 	public boolean insertCategory(String ca_name) {
 		return postDAO.insertCategory(ca_name);
+	}
+
+	@Override
+	public CategoryVO getCategory(int ca_num) {
+		return postDAO.selectCategory(ca_num);
+	}
+
+	@Override
+	public boolean updateCategory(CategoryVO category) {
+		if(category == null || !checkString(category.getCa_name())) {
+			return false;
+		}
+		
+		return postDAO.updateCategory(category);
+	}
+
+	@Override
+	public boolean deleteCategory(int ca_num) {
+		return postDAO.deleteCategory(ca_num);
 	}
 
 }
