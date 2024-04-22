@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.service.PostService;
 import lombok.extern.log4j.Log4j;
@@ -142,4 +143,15 @@ public class CommunityController {
 		map.put("result", res);
 		return map;
 	}
+	
+	@ResponseBody
+	@PostMapping("/report/list")
+	public Map<String, Object> reportListPost(){
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<ReportVO> reportList = postService.getReportList();
+		map.put("reportList", reportList);
+		return map;
+	}
+	
+	
 }	

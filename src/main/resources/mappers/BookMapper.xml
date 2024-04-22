@@ -68,7 +68,17 @@
 	</select>
 	
 	<select id="getTotalCount" resultType="int">
-		select count(*) from book 
+		select 
+		
+		<choose>
+			<when test='cri.bo_code==2'>
+				count(DISTINCT bo_isbn)
+			</when>
+			<otherwise>
+				count(*) 
+			</otherwise>
+		</choose>
+		from book 
 		join authors 
 			on bo_num=au_bo_num 
 		join translators 
@@ -95,7 +105,6 @@
 		</choose>
 		<choose>
 			<when test='cri.bo_code==2'>
-				GROUP BY bo_title
 				order by bo_title, bo_code
 			</when>
 			<otherwise>

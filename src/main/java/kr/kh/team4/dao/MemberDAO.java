@@ -37,4 +37,6 @@ public interface MemberDAO {
 
 	void updateLoanCount(@Param("member")MemberVO member);
 
+	MemberVO selectMemberByNick(@Param("me_nick")String me_nick);
+
 }
