@@ -238,7 +238,7 @@ public class PostAjaxController {
 	
 	@ResponseBody
 	@PostMapping("/report/insert")
-	public  Map<String, Object> reportInsertPost(@RequestParam("writer")String writer,@RequestParam("target")String target,
+	public Map<String, Object> reportInsertPost(@RequestParam("writer")String writer,@RequestParam("target")String target,
 				@RequestParam("type")String type,@RequestParam("note")String note, HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -272,5 +272,6 @@ public class PostAjaxController {
 		map.put("result", res);
 		return map;
 	}
+	
 	
 }

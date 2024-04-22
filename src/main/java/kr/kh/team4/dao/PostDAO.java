@@ -45,13 +45,13 @@ public interface PostDAO {
 
 	void updateOriComment();
 
-	CommentVO selectComment(@Param("co_num")int num);
+	CommentVO selectComment(@Param("co_num")int co_num);
 
-	boolean updateComment(@Param("co_num")int num, @Param("co_content")String content);
+	boolean updateComment(@Param("co_num")int co_num, @Param("co_content")String content);
 
-	boolean updateCommentState(@Param("co_num")int num);
+	boolean updateCommentState(@Param("co_num")int co_num);
 
-	boolean deleteComment(@Param("co_num")int num);
+	boolean deleteComment(@Param("co_num")int co_num);
 
 	int countReply(@Param("co_ori_num")int co_ori_num);
 
@@ -128,6 +128,8 @@ public interface PostDAO {
 	ReportVO selectReportByTarget(@Param("target")String target, @Param("me_id")String me_id);
 
 	boolean insertReport(@Param("note")String note, @Param("type")String type, @Param("target")String target,  @Param("writer")String writer, @Param("me_id")String me_id);
+
+	ArrayList<ReportVO> selectReportList();
 
 	
 	
