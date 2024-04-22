@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `report`;
 
 CREATE TABLE `report` (
   `rp_num` int NOT NULL AUTO_INCREMENT,
-  `rp_note` text,
+  `rp_note` text NOT NULL,
   `rp_type` varchar(15) NOT NULL,
   `rp_target` varchar(15) NOT NULL,
   `rp_writer` varchar(12) NOT NULL,
