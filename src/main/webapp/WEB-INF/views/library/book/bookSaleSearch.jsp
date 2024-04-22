@@ -47,7 +47,36 @@
 				</div>
 				<div class="pagination-box">
 					<ul class="pagination justify-content-center pagination-sm"">
-					
+						<c:if test="${pm.prev}">
+							<c:url value="/library/bookSale/search" var="url">
+								<c:param name="page" value="${pm.startPage - 1}"/>
+								<c:param name="type" value="${pm.cri.type}"/>
+								<c:param name="search" value="${pm.cri.search}"/>
+							</c:url>
+							<li class="page-item">
+								<a class="page-link" href="${url}">이전</a>
+							</li>
+						</c:if>
+						<c:forEach begin="${pm.startPage }" end="${pm.endPage}" var="i">
+							<c:url value="/library/bookSale/search" var="url">
+								<c:param name="page" value="${i}"/>
+								<c:param name="type" value="${pm.cri.type}"/>
+								<c:param name="search" value="${pm.cri.search}"/>
+							</c:url>
+							<li class="page-item <c:if test="${pm.cri.page == i}">active</c:if>">
+								<a class="page-link" href="${url}">${i}</a>
+							</li>
+						</c:forEach>
+						<c:if test="${pm.next}">
+							<c:url value="/library/bookSale/search" var="url">
+								<c:param name="page" value="${pm.endPage + 1}"/>
+								<c:param name="type" value="${pm.cri.type}"/>
+								<c:param name="search" value="${pm.cri.search}"/>
+							</c:url>
+							<li class="page-item">
+								<a class="page-link" href="${url}">다음</a>
+							</li>
+						</c:if>
 					</ul>
 				</div>
 			</div>
@@ -78,6 +107,12 @@
 		}
 		str+=`</ul></div>`;
 		$(".basket").html(str);
+	});
+	
+	$(".basket").click(function() {
+		let basketJson=JSON.stringify(basket);
+		localStorage.setItem('basket',basketJson);
+		location.href = '<c:url value="/library/book/sale" />';	
 	});
 	
 	$(document).on("click",".purchase-btn",function(){
@@ -130,29 +165,7 @@
 				`;	
 			}
 			$(".book-list").html(str);
-			$("input[name=search]").val(bookObj.query);
 		}
-		let cri={
-			page:bookObj.startIndex
-		}
-		
-		function displayPageView() {
-			let str="";
-			if(){
-				str+=`
-				<li class="page-item"><a class="page-link" data-page="${cri.startPage-1}">이전</a></li>
-				`;
-			}
-			for(){
-				<li class="page-item \${active}"><a class="page-link" data-page="\${i}">\${i}</a></li>
-			}
-			if(){
-				str+=`
-				<li class="page-item"><a class="page-link" data-page="${cri.startPage-1}">이전</a></li>
-				`;
-			}
-		}
-		
 		displayListView();
 	</script>
 </body>

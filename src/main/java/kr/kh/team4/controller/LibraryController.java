@@ -2,17 +2,13 @@ package kr.kh.team4.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +18,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
-import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.BookService;
 import lombok.extern.log4j.Log4j;
 
@@ -101,13 +97,14 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/library/bookSale/search")
-	public String bookSaleSearch(Model model,String search,String type,int page){
+	public String bookSaleSearch(Model model,Criteria cri){
 		try {
 			StringBuilder urlBuilder = new StringBuilder("http://www.aladin.co.kr/ttb/api/ItemSearch.aspx"); /* URL */
 			urlBuilder.append("?" + URLEncoder.encode("ttbkey", "UTF-8") + "=ttbquddjcho1722001"); /* Service Key */
-			urlBuilder.append("&" + URLEncoder.encode("Query", "UTF-8") + "=" + URLEncoder.encode(search, "UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("Query", "UTF-8") + "=" + URLEncoder.encode(cri.getSearch(), "UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("QueryType", "UTF-8") + "=" + URLEncoder.encode(cri.getType(), "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("Output", "UTF-8") + "=" + URLEncoder.encode("js", "UTF-8"));
-			urlBuilder.append("&" + URLEncoder.encode("Start", "UTF-8") + "=" + page);
+			urlBuilder.append("&" + URLEncoder.encode("Start", "UTF-8") + "=" + cri.getPage());
 			urlBuilder.append("&" + URLEncoder.encode("Version", "UTF-8") + "=" + 20131101);
 			URL url = new URL(urlBuilder.toString());
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -126,16 +123,15 @@ public class LibraryController {
 			}
 			rd.close();
 	        conn.disconnect();
-	      
 			// 1. 문자열 형태의 JSON을 파싱하기 위한 JSONParser 객체 생성.
 	        JSONParser parser = new JSONParser();
 	        // 2. 문자열을 JSON 형태로 JSONObject 객체에 저장. 	
 	        JSONObject obj = (JSONObject)parser.parse(sb.toString());
-	        // 3. 필요한 리스트 데이터 부분만 가져와 JSONArray로 저장.
-	        JSONArray dataArr = (JSONArray) obj.get("item");
-	        //JSONObject dataArr = (JSONObject) obj.get("item");
-	        model.addAttribute("obj",obj);
-	        
+	        int total= Integer.parseInt(obj.get("totalResults").toString());
+	        System.out.println(total);
+	        PageMaker pm=new PageMaker(10, cri,total);
+	        model.addAttribute("obj",obj);       
+	        model.addAttribute("pm",pm);       
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
