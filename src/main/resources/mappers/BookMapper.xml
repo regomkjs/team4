@@ -213,4 +213,8 @@
 		where
 			rv_num = #{review.rv_num}
 	</update>
+	
+	<select id="selectAvgReview" resultType="ReviewVO">
+		select avg(rv_score) as avgScore from review where rv_bo_num = #{bo_num}
+	</select>
 </mapper>

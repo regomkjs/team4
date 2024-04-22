@@ -2,6 +2,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
 ol.colorlist {
 	list-style: none !important;
@@ -76,6 +77,9 @@ ol.colorlist {
 				<h5>${book.bo_title}</h5>
 				<p>
 					출판사:<span>${book.bo_publisher}</span>
+				</p>
+				<p>
+					평점:<span style="font-weight: bold; font-size: 30px">${review.avgScore}</span>
 				</p>
 				<p>
 					저자:<span>${book.bo_au_name}</span>
@@ -356,6 +360,7 @@ function displayReviewList(list){
 				</div>
 				<span style="font-size: small;" class="mr-4">작성시간 : \${moment(item.rv_date).format('YY/MM/DD HH:mm')}<br />
 			</div>
+				<i class="bi bi-hand-thumbs-up" style="font-size : 2rem;"></i>
 		`
 	}
 	$('.box-review-list').html(str);

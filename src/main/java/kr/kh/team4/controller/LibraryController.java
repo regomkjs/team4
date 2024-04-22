@@ -2,10 +2,7 @@ package kr.kh.team4.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -22,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
-import kr.kh.team4.model.vo.book.ReserveVO;
+import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
@@ -72,8 +69,10 @@ public class LibraryController {
 		BookVO book=bookService.getBook(num);
 		ArrayList<BookVO> code=bookService.getBookIsbn(book.getBo_isbn());
 		ArrayList<LoanVO> loanList = bookService.getLoanList(book.getBo_isbn());
+		ReviewVO avgReview = bookService.getAvgReview(book.getBo_num());
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		model.addAttribute("user", user);
+		model.addAttribute("review", avgReview);
 		model.addAttribute("loanList", loanList);
 		model.addAttribute("book",book);
 		model.addAttribute("code",code);

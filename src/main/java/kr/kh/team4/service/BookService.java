@@ -68,5 +68,7 @@ public interface BookService {
 
 	boolean updateReview(ReviewVO review, MemberVO user);
 
+	ReviewVO getAvgReview(int bo_num);
+
 	
 }

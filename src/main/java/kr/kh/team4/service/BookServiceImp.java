@@ -339,5 +339,10 @@ public class BookServiceImp implements BookService {
 		}
 		return bookDao.updateReview(review);
 	}
+
+	@Override
+	public ReviewVO getAvgReview(int bo_num) {
+		return bookDao.selectAvgReview(bo_num);
+	}
 	
 }

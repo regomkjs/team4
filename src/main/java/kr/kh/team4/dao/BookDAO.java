@@ -80,5 +80,7 @@ public interface BookDAO {
 
 	boolean updateReview(@Param("review")ReviewVO review);
 
+	ReviewVO selectAvgReview(@Param("bo_num")int bo_num);
+
 
 }
