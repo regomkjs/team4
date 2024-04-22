@@ -8,10 +8,13 @@ import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
+import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.ReviewCriteria;
 
 public interface BookService {
 
@@ -54,6 +57,16 @@ public interface BookService {
 	boolean reserveBook(MemberVO user, BookVO book);
 
 	boolean returnBook(MemberVO user, BookVO book);
+
+	ArrayList<ReviewVO> getReviewList(ReviewCriteria cri);
+
+	int getTotalCountReview(ReviewCriteria cri);
+
+	boolean insertReview(ReviewVO review, MemberVO user);
+
+	boolean deleteReview(ReviewVO review, MemberVO user);
+
+	boolean updateReview(ReviewVO review, MemberVO user);
 
 	
 }

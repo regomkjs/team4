@@ -121,6 +121,7 @@ public class PostController {
 				model.addAttribute("itemList", itemList);
 			}
 		}
+		model.addAttribute("title", "게시글 상세");
 		model.addAttribute("post", post);
 		return "/post/detail";
 	}
@@ -145,6 +146,7 @@ public class PostController {
 		}
 		ArrayList<CategoryVO> list = postService.getCategoryList();
 		model.addAttribute("categoryList", list);
+		model.addAttribute("title", "게시글 수정");
 		model.addAttribute("post", post);
 		return "/post/update";
 	}
@@ -237,4 +239,6 @@ public class PostController {
 		model.addAttribute("title", "내가 쓴 댓글");
 		return "/member/comment";
 	}
+	
+	
 }
