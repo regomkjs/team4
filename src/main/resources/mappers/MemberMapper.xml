@@ -74,4 +74,8 @@
 	<update id="updateLoanCount">
 		update member set me_loan_count = #{member.me_loan_count} + 1 where me_id = #{member.me_id}
 	</update>
+	
+	<select id="selectMemberByNick" resultType="MemberVO">
+		select * from member where me_nick = #{me_nick}
+	</select>
 </mapper>

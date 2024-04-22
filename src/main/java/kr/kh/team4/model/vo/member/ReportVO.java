@@ -11,5 +11,7 @@ public class ReportVO {
 	private String rp_note; 
 	private String rp_type; 
 	private String rp_target; 
+	private String re_writer;
 	private String rp_me_id;
+	
 }

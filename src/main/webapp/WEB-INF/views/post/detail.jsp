@@ -149,7 +149,7 @@
 		</div>
 		
 		<div class="mt-3 mb-3 comment-box container">
-			<h4>댓글(<span class="comment-total">2</span>)</h4>
+			<h4>댓글(<span class="comment-total">0</span>)</h4>
 			<hr>
 			<!-- 댓글 리스트를 보여주는 박스 -->
 			<div class="comment-list">
@@ -867,16 +867,16 @@ $(document).on("click",".btn-reporting",function(){
 		}
 	}
 	
-	let who = $(this).parents(".modal-content").find(".report-nick").val()
-	let what = $(this).parents(".modal-content").find(".report-target").val()
+	let writer = $(this).parents(".modal-content").find(".report-nick").val()
+	let target = $(this).parents(".modal-content").find(".report-target").val()
 	let type = $(this).parents(".modal-content").find(".report-type").val()
 	let note = $(this).parents(".modal-content").find(".report-note").val()
 	if(note == null){
 		note = "";
 	}
 	
-	console.log(who);
-	console.log(what);
+	console.log(writer);
+	console.log(target);
 	console.log(type);
 	console.log(note);
 	
@@ -884,13 +884,16 @@ $(document).on("click",".btn-reporting",function(){
 		url : '<c:url value="/report/insert"/>',
 		method : "post",
 		data : {
-			"who" : who,
-			"what" : what,
+			"writer" : writer,
+			"target" : target,
 			"type" : type,
 			"note" : note
 		},
+		dataType : "json", 
 		success : function (data) {
-			
+			let result = data.result;
+			let message = data.message;
+			alert(message);
 		},
 		error : function (a,b,c) {
 			console.error("에러 발생2");

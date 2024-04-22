@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.ChooseVO;
 import kr.kh.team4.model.vo.post.CommentVO;
@@ -123,6 +124,10 @@ public interface PostDAO {
 	boolean updateCategory(@Param("category")CategoryVO category);
 
 	boolean deleteCategory(@Param("ca_num")int ca_num);
+
+	ReportVO selectReportByTarget(@Param("target")String target, @Param("me_id")String me_id);
+
+	boolean insertReport(@Param("note")String note, @Param("type")String type, @Param("target")String target,  @Param("writer")String writer, @Param("me_id")String me_id);
 
 	
 	

@@ -440,4 +440,13 @@
  	<delete id="deleteCategory">
  		delete from category where ca_num = #{ca_num}
  	</delete>
+ 	
+ 	<select id="selectReportByTarget" resultType="ReportVO">
+ 		select * from report where rp_target = #{target} and rp_me_id = #{me_id}
+ 	</select>
+ 	
+ 	<insert id="insertReport">
+ 		insert into report(rp_note, rp_type, rp_target, rp_writer, rp_me_id)
+ 		values(#{note},#{type},#{target},#{writer},#{me_id})
+ 	</insert>
 </mapper>

@@ -9,6 +9,7 @@ import kr.kh.team4.dao.PostDAO;
 import kr.kh.team4.model.dto.ItemListDTO;
 import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.ChooseVO;
 import kr.kh.team4.model.vo.post.CommentVO;
@@ -549,6 +550,20 @@ public class PostServiceImp implements PostService {
 	@Override
 	public boolean deleteCategory(int ca_num) {
 		return postDAO.deleteCategory(ca_num);
+	}
+
+	@Override
+	public boolean getReportByTarget(String target, String me_id) {
+		ReportVO report = postDAO.selectReportByTarget(target, me_id);
+		if(report == null) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean insertReport(String note, String type, String target, String writer, String me_id) {
+		return postDAO.insertReport(note, type, target, writer, me_id);
 	}
 
 }

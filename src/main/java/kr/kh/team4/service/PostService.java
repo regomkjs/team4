@@ -90,4 +90,8 @@ public interface PostService {
 
 	boolean deleteCategory(int ca_num);
 
+	boolean getReportByTarget(String target, String me_id);
+
+	boolean insertReport(String note, String type, String target, String writer, String me_id);
+
 }
