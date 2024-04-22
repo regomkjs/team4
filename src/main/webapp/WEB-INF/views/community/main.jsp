@@ -109,6 +109,7 @@
 
 <!-- 게시판 관리 스크립트 -->
 <script type="text/javascript">
+// 버튼 초기화
 function initCategory(){
 	$(".category-input-box").attr("hidden", true);
 	$(".category-input-box").find("input").val("");
@@ -205,7 +206,8 @@ $(document).on("click",".category-update-btn",function(){
 	container.attr("hidden",true);
 	let ca_num = $(this).data("num");
 	let inputBox = $(this).parents(".category-box").find("input").val();
-	let str = 
+	let str = "";
+	str +=
 	`
 		<div class="input-update-box input-group mb-1">
 			<input class="form-control input-update-name" value="\${inputBox}">
@@ -215,8 +217,58 @@ $(document).on("click",".category-update-btn",function(){
 	container.before(str);
 })
 
-//게시판 삭제
+$(document).on("click",".update-submit-btn",function(){
+	let ca_name = $(this).parents('.input-update-box').find('.input-update-name').val();
+	let ca_num = $(this).data("num");
+	$.ajax({
+		url : '<c:url value="/category/update"/>',
+		method : "post",
+		data : {
+			"ca_name" : ca_name,
+			"ca_num" : ca_num
+		},
+		dataType : "json", 
+		success : function (data) {
+			if(data.result){
+				alert("게시판이 수정 되었습니다.");
+				getCategoryList();
+			}
+			else{
+				alert(data.errorMessage);
+			}
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생");
+		}
+	})
+})
 
+//게시판 삭제
+$(document).on("click",".category-delete-btn",function(){
+	let ca_num = $(this).data("num");
+	if(confirm("게시판을 삭제할 경우 해당 게시판 내 게시글이 모두 삭제되게 됩니다. 삭제 하시겠습니까?")){
+		$.ajax({
+			url : '<c:url value="/category/delete"/>',
+			method : "post",
+			data : {
+				"ca_num" : ca_num
+			},
+			success : function (data) {
+				if(data.result){
+					alert("게시판이 삭제 되었습니다.");
+					getCategoryList();
+				}
+				else{
+					alert("게시판 삭제에 실패했습니다.");
+				}
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		})
+	}
+	
+})
 
 </script>
 

@@ -84,4 +84,10 @@ public interface PostService {
 
 	boolean insertCategory(String ca_name);
 
+	CategoryVO getCategory(int ca_num);
+
+	boolean updateCategory(CategoryVO category);
+
+	boolean deleteCategory(int ca_num);
+
 }
