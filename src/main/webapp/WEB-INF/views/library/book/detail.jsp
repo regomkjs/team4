@@ -150,7 +150,7 @@ ol.colorlist {
 							for="rate5">★</label>
 					</fieldset>
 					<textarea class="form-control textarea-review" id="reviewContents"></textarea>
-					<button class="btn btn-outline-success btn-review-insert">댓글 등록</button>
+					<button class="btn btn-outline-success btn-review-insert">리뷰 등록</button>
 				</div>
 				<hr>
 			</div>
@@ -447,9 +447,8 @@ function checkLogin(){
 </script>
 <!-- 리뷰 삭제 -->
 <script type="text/javascript">
-//댓글 삭제 버튼 클릭시 alert(1)이 실행되도록 작성
 $(document).on('click', '.btn-review-del', function(){
-	//서버로 보낼 데이터 생성
+
 	let review = {
 			rv_num : $(this).data('num')
 	}
@@ -482,30 +481,29 @@ $(document).on('click', '.btn-review-update', function() {
 	initReview();
 	let contentBox =  $(this).parents(".box-review").find(".text-review");
 	let starBox =  $(this).closest('.box-review').find(".star-rating");
-	let currentScore = 5
-	let star = starBox.val();
 	let content = contentBox.text();
 	let str = 
 	`
 	<div class="input-group mb-3" id="myform">
 		<fieldset>
-	        <input type="radio" name="reviewStar" value="5" id="rate1" ${currentScore == 5 ? 'checked' : ''}><label for="rate1">★</label>
-	        <input type="radio" name="reviewStar" value="4" id="rate2" ${currentScore == 4 ? 'checked' : ''}><label for="rate2">★</label>
-	        <input type="radio" name="reviewStar" value="3" id="rate3" ${currentScore == 3 ? 'checked' : ''}><label for="rate3">★</label>
-	        <input type="radio" name="reviewStar" value="2" id="rate4" ${currentScore == 2 ? 'checked' : ''}><label for="rate4">★</label>
-	        <input type="radio" name="reviewStar" value="1" id="rate5" ${currentScore == 1 ? 'checked' : ''}><label for="rate5">★</label>
+	        <input type="radio" name="reviewStar" value="5" id="rate1"}><label for="rate1">★</label>
+	        <input type="radio" name="reviewStar" value="4" id="rate2"}><label for="rate2">★</label>
+	        <input type="radio" name="reviewStar" value="3" id="rate3"}><label for="rate3">★</label>
+	        <input type="radio" name="reviewStar" value="2" id="rate4"}><label for="rate4">★</label>
+	        <input type="radio" name="reviewStar" value="1" id="rate5"}><label for="rate5">★</label>
     	</fieldset>
 	</div>
 	<textarea class="form-control con-input">\${content}</textarea>
 	`
 	contentBox.after(str);
-    contentBox.hide();
+	contentBox.hide();
     starBox.hide();
+    
 
 	$(this).parents(".box-review").find(".box-btn").hide();
 
 	let rv_num = $(this).data("num");
-
+	
 	str = 
 	`
 	<button class="btn btn-outline-success btn-complete" data-num="\${rv_num}">수정완료</button>
@@ -514,12 +512,12 @@ $(document).on('click', '.btn-review-update', function() {
 });
 
 $(document).on('click', '.btn-complete', function() {
-
 	let review = {
 			rv_content : $('.box-review').find('textarea').val(),
 			rv_score : $('input[name="reviewStar"]:checked').val(),
 			rv_num : $(this).data("num")
 	}
+	
 	if(review.rv_content.length == 0){
 		alert('리뷰 내용을 작성하세요.');
 		return;
