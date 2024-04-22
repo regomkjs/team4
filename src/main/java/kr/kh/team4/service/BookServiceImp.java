@@ -325,7 +325,7 @@ public class BookServiceImp implements BookService {
 	}
 	@Override
 	public boolean updateReview(ReviewVO review, MemberVO user) {
-		if(review == null || !checkString(review.getRv_content())) {
+		if(review == null || review.getRv_content() == null) {
 			return false;
 		}
 		if(user == null ) {
@@ -334,9 +334,10 @@ public class BookServiceImp implements BookService {
 		
 		ReviewVO dbReview = bookDao.selectReview(review.getRv_num());
 		if( dbReview == null ||
-			!dbReview.getRv_me_id().equals(user.getMe_id()))
+			!dbReview.getRv_me_id().equals(user.getMe_id())) {
 			return false;
-		return bookDao.updateComment(review);
+		}
+		return bookDao.updateReview(review);
 	}
 	
 }
