@@ -184,7 +184,14 @@
  	</update>
  	
  	<select id="selectComment" resultType="CommentVO">
- 		select * from comment where co_num = #{co_num}
+ 		select 
+ 			comment.*,  member.me_nick  
+		from 
+			comment 
+				join
+			member on me_id = co_me_id
+		where 
+			co_num = #{co_num}
  	</select>
  	
  	<update id="updateComment">
@@ -478,6 +485,21 @@
  	</insert>
  	
  	<select id="selectReportList" resultType="ReportVO">
- 		select * from report
+ 		select report.*, member.me_nick as rp_me_nick,
+ 				(select 
+ 					me_nick 
+				from 
+					member
+						join
+					report on me_id = rp_me_id
+				where 
+					member.me_id = report.rp_writer) 
+ 			as rp_writer_nick
+		from
+			report
+				join
+			member on me_id = rp_me_id
  	</select>
+ 	
+ 
 </mapper>

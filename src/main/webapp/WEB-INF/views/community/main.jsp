@@ -289,6 +289,18 @@ function getReportList() {
 			let reportList = data.reportList;
 			let str ="";
 			console.log(reportList);
+			str += 
+			`
+				<h3>신고 리스트</h3>
+				
+			`
+			
+		
+			str += 
+			`
+				
+			`
+
 		},
 		error : function (a,b,c) {
 			console.error("에러 발생");
