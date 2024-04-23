@@ -23,6 +23,11 @@ public class BookVO {
 	private String bo_au_name;
 	private String bo_tr_name;
 	
+	//대출일
+	private Date lo_date;
+	//반납일
+	private Date lo_limit;
+	
 	public BookVO(int bo_num) {
 		this.bo_num = bo_num;
 	}

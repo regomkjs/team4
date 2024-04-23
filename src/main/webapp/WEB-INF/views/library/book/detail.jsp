@@ -110,10 +110,12 @@ ol.colorlist {
 								test="${loan.lo_state == 1 && loan.lo_me_id == user.me_id && loan.lo_bo_num == co.bo_num}">
 								<button class="btn btn-outline-primary extend-btn"
 									data-bo-num="${co.bo_num}">대출 연장</button>
-								<button class="btn btn-outline-dark return-btn"
-									data-bo-num="${co.bo_num}">반납</button>
 							</c:if>
 						</c:forEach>
+						<c:if test="${user.me_ms_num == 1}">
+							<button class="btn btn-outline-dark return-btn"
+								data-bo-num="${co.bo_num}">반납</button>
+						</c:if>
 					</c:forEach>
 				</ul>
 			</div>
@@ -122,7 +124,7 @@ ol.colorlist {
 					<li>책을 대출할 시 만기일은 대출한 날로부터 1주일 후로 지정됩니다.</li>
 					<li>연장은 만기일까지 3일 남았을 때부터 누를 수 있습니다.</li>
 					<li>책이 예약된 경우 연장을 할 수 없습니다.</li>
-					<li>...</li>
+					<li style="color:red; font-weight: bold;">※ 예약은 약속입니다. : 필요한 도서만 예약하고, 예약도서는 꼭 대출해 주시기 바랍니다.</li>
 				</ol>
 			</div>
 			<div class="container-review mt-3 mb-3">

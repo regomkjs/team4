@@ -78,4 +78,45 @@
 	<select id="selectMemberByNick" resultType="MemberVO">
 		select * from member where me_nick = #{me_nick}
 	</select>
+	
+	<select id="selectMyLoanBook" resultType="BookVO">
+		select * from book 
+		join 
+			loan on lo_bo_num = bo_num
+		where
+			lo_me_id = #{user.me_id}
+			<if test='cri.type=="all"'>
+				and (bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%'))
+			</if>
+			<if test='cri.type=="title"'>
+				bo_title like concat('%', #{cri.search}, '%') 
+			</if>
+			<if test='cri.type=="publisher"'>
+				bo_publisher like concat('%', #{cri.search}, '%') 
+			</if>
+			group by
+				bo_num
+			order by
+				lo_limit asc
+			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="selectTotalCountMyLoanBook" resultType="int">
+		select count(*) from book 
+		join 
+			loan on lo_bo_num = bo_num
+		where
+			lo_me_id = #{user.me_id}
+			<if test='cri.type=="all"'>
+				and (bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%'))
+			</if>
+			<if test='cri.type=="title"'>
+				bo_title like concat('%', #{cri.search}, '%') 
+			</if>
+			<if test='cri.type=="publisher"'>
+				bo_publisher like concat('%', #{cri.search}, '%') 
+			</if>
+	</select>
 </mapper>

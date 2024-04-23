@@ -33,6 +33,7 @@
 					    <a class="dropdown-item" href="<c:url value="/mypage"/>">내 정보</a>
 					    <a class="dropdown-item" href="<c:url value="/mypage/post"/>">내가 쓴 게시글</a>
 					    <a class="dropdown-item" href="<c:url value="/mypage/comment"/>">내가 쓴 댓글</a>
+					    <a class="dropdown-item" href="<c:url value="/mypage/loan"/>">내가 대출한 도서</a>
 				  	</div>
 				</li>
 				<li class="nav-item">
@@ -42,6 +43,9 @@
 			<c:when test="${user.me_ms_num == 1}">
 				<li class="nav-item">
 					<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<c:url value="/loan/list"/>">대출 관리</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
