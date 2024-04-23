@@ -340,12 +340,20 @@ function getReportList(cri) {
 			let reportList = data.reportList;
 			let pm = data.pm;
 			let str ="";
-			console.log(reportList);
-			
-			//선택된 체크박스 개수
-			let checkedCount = $(".check-report:checked").length;
-			//전체 체크박스 개수
-			let count = $(".check-report").length
+			if(reportList == null){
+				str +=
+				`
+					<h3>신고 리스트</h3>
+					<hr>
+					<h4 class="text-center">신고된 경우가 없습니다.</h4>
+				`
+				
+				$(".report-container").html(str);
+				
+				let pmStr = "";
+				$(".report-pagination>ul").html(pmStr);
+				return;
+			}
 			
 			let ok = true;
 			for(report of reportList){
@@ -355,7 +363,12 @@ function getReportList(cri) {
 			}
 			str += 
 			`
-				<h3>신고 리스트</h3>
+				<div class="d-flex">
+					<h3>신고 리스트</h3>
+					<div class="mb-1 ml-auto">
+						<a href="#" class="btn btn-success btn-sm report-delete-btn">신고반려 : \${reportArr.length}개</a>
+					</div>			
+				</div>
 				<table class="table table-hover text-center">
 					<thead>
 						<tr>
@@ -373,7 +386,6 @@ function getReportList(cri) {
 							<th><input type="checkbox" class="check-report-all"></th>
 				`
 			}
-			
 			str += 
 			`
 							<th>글 작성자</th>
@@ -381,11 +393,9 @@ function getReportList(cri) {
 							<th>신고항목</th>
 							<th>신고자</th>
 							<th></th>
-							
 						</tr>
 					</thead>
 					<tbody>
-				
 			`
 			for(report of reportList){
 				if(reportArr.includes(report.rp_num)){
@@ -464,9 +474,6 @@ function getReportList(cri) {
 							<input hidden class="report-comment-id" value="\${report.rp_comment.co_me_id}">
 						`
 					}
-					
-					
-									
 					str +=				
 					`
 								</span>
@@ -475,17 +482,12 @@ function getReportList(cri) {
 					`
 				}
 			}
-			
-			
-			
 			str += 
 			`
 					</tbody>
 				</table>
 			`
 			$(".report-container").html(str);
-			
-			
 			let pmStr = "";
 			//이전 버튼 활성화 여부
 			if(pm.prev){
@@ -516,8 +518,6 @@ function getReportList(cri) {
 				`
 			}
 			$(".report-pagination>ul").html(pmStr);
-			
-			
 		},
 		error : function (a,b,c) {
 			console.error("에러 발생");
@@ -554,6 +554,7 @@ $(document).on("change", ".check-report-all",function(){
 			}
 		}
 	}
+	getReportList(cri);
 })
 
 
@@ -576,9 +577,11 @@ $(document).on("change", ".check-report",function(){
 		if(count == checkedCount){
 			$(".check-report-all").prop("checked", true);
 		}
+		getReportList(cri);
 		return
 	}
 	$(".check-report-all").prop("checked", false);
+	getReportList(cri);
 })
 
 $(document).on("click",".reportDetailModal",function(){
@@ -660,6 +663,30 @@ $(document).on("click",".reportDetailModal",function(){
 })
 
 
+$(document).on("click",".report-delete-btn",function(){
+	if(reportArr.length == 0){
+		alert("선택한 신고내역이 없습니다.");
+		return;
+	}
+	if(confirm("신고내역 "+reportArr.length+"개를 반려하시겠습니까?")){
+		$.ajax({
+			url : '<c:url value="/report/delete"/>',
+			method : "post",
+			data : JSON.stringify(reportArr),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function (data) {
+				alert("신고내역 "+data.count+"개가 반려됐습니다.");
+				reportArr.splice(0)
+				getReportList(cri);
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		})
+		
+	}
+})
 
 </script>
 

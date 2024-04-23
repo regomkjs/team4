@@ -133,6 +133,8 @@ public interface PostDAO {
 
 	int totalCountReport();
 
+	boolean deleteReport(@Param("rp_num")int rp_num);
+
 	
 	
 

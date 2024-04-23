@@ -99,4 +99,6 @@ public interface PostService {
 
 	int getTotalCountReport();
 
+	int deleteReportList(int[] reportArr);
+
 }

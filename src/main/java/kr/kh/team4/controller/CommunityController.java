@@ -159,5 +159,12 @@ public class CommunityController {
 		return map;
 	}
 	
-	
+	@ResponseBody
+	@PostMapping("/report/delete")
+	public Map<String, Object> reportListPost(@RequestBody int[] reportArr){
+		Map<String, Object> map = new HashMap<String, Object>();
+		int count = postService.deleteReportList(reportArr);
+		map.put("count", count);
+		return map;
+	}
 }	

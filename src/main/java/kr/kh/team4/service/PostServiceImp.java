@@ -597,4 +597,16 @@ public class PostServiceImp implements PostService {
 		return postDAO.totalCountReport();
 	}
 
+	@Override
+	public int deleteReportList(int[] reportArr) {
+		int count = 0;
+		for(int rp_num : reportArr) {
+			boolean res = postDAO.deleteReport(rp_num);
+			if(res) {
+				count++;
+			}
+		}
+		return count;
+	}
+
 }

@@ -23,4 +23,5 @@ public class ReportVO {
 	private PostVO rp_post;
 	//신고 위치의 댓글
 	private CommentVO rp_comment;
+
 }

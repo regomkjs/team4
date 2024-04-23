@@ -506,4 +506,8 @@
  	<select id="totalCountReport" resultType="int">
  		select count(*) from report
  	</select>
+ 	
+ 	<delete id="deleteReport">
+ 		delete from report where rp_num = #{rp_num}
+ 	</delete>
 </mapper>
