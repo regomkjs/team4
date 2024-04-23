@@ -2,6 +2,7 @@ package kr.kh.team4.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Member;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.BookService;
+import kr.kh.team4.service.MemberService;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -31,9 +34,13 @@ import lombok.extern.log4j.Log4j;
 public class LibraryController {
 	private static String kakaoAPI="431afaf3fc91157f82c7d1868604f275";
 	private static String aladinAPI="ttbquddjcho1722001";
+	private static String imp="imp20747315";
 	
 	@Autowired
 	BookService bookService;
+	
+	@Autowired
+	MemberService memberService;
 	
 	@GetMapping("/library")
 	public String home(Model model) {
@@ -92,8 +99,12 @@ public class LibraryController {
 	}
 
 	@GetMapping("/library/book/sale")
-	public String Sale(Model model) {
-		
+	public String Sale(Model model,HttpSession session) {
+		MemberVO user=(MemberVO)session.getAttribute("user");
+		GradeVO grade=memberService.getGrade(user.getMe_gr_num());
+		model.addAttribute("imp",imp);
+		model.addAttribute("user",user);
+		model.addAttribute("grade",grade);
 		return "/library/book/bookSale";
 	}
 	
