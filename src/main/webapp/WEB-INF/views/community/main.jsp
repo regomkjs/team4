@@ -343,8 +343,6 @@ function getReportList(cri) {
 			if(reportList == null){
 				str +=
 				`
-					<h3>신고 리스트</h3>
-					<hr>
 					<h4 class="text-center">신고된 경우가 없습니다.</h4>
 				`
 				
@@ -364,7 +362,6 @@ function getReportList(cri) {
 			str += 
 			`
 				<div class="d-flex">
-					<h3>신고 리스트</h3>
 					<div class="mb-1 ml-auto">
 						<a href="#" class="btn btn-success btn-sm report-delete-btn">신고반려 : \${reportArr.length}개</a>
 					</div>			
