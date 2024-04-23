@@ -96,6 +96,10 @@ public interface PostService {
 
 	boolean insertReport(String note, String type, String target, String writer, String me_id);
 
-	ArrayList<ReportVO> getReportList();
+	ArrayList<ReportVO> getReportList(Criteria cri);
+
+	int getTotalCountReport();
+
+	int deleteReportList(int[] reportArr);
 
 }

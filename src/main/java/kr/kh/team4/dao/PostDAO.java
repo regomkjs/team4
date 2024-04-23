@@ -129,9 +129,12 @@ public interface PostDAO {
 
 	boolean insertReport(@Param("note")String note, @Param("type")String type, @Param("target")String target,  @Param("writer")String writer, @Param("me_id")String me_id);
 
-	ArrayList<ReportVO> selectReportList();
+	ArrayList<ReportVO> selectReportList(@Param("cri")Criteria cri);
 
-	
+	int totalCountReport();
+
+	boolean deleteReport(@Param("rp_num")int rp_num);
+
 	
 	
 
