@@ -38,4 +38,6 @@ public interface MemberService {
 
 	boolean deleteGrade(int gr_num);
 
+	MemberVO getMemberByNick(String me_nick);
+
 }

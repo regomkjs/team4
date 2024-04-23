@@ -50,7 +50,15 @@
 				  			<c:url value="/post/detail" var="detailUrl">
 				  				<c:param name="num">${post.po_num}</c:param>
 				  			</c:url>
-				  			<a href="${detailUrl}">${post.po_title}</a> <span class="ml-4">[${post.po_co_count}]</span>
+				  			
+				  			<a href="${detailUrl}">
+					  			<c:if test="${post.po_votePost}">
+					  				<span class="mr-1">[투표중]</span>
+					  			</c:if>
+				  				${post.po_title}
+				  			</a> 
+				  			
+			  				<span class="ml-4">[${post.po_co_count}]</span>
 				  		</td>
 				  		<td>
 				  			<a href="#">${post.me_nick}</a> 
@@ -72,6 +80,7 @@
 		    		<c:param name="ca" value="${pm.cri.ca}"/>
 		    		<c:param name="type" value="${pm.cri.type}" />
 		    		<c:param name="search" value="${pm.cri.search}" />
+		    		<c:param name="order" value="${pm.cri.order}"/>
 		    		<c:param name="page" value="${pm.startPage - 1}"/>
 		    	</c:url>
 		    	<a class="page-link" href="${prev}">이전</a>
@@ -82,6 +91,7 @@
 	    		<c:param name="ca" value="${pm.cri.ca}"/>
     			<c:param name="type" value="${pm.cri.type}" />
 	    		<c:param name="search" value="${pm.cri.search}" />
+	    		<c:param name="order" value="${pm.cri.order}"/>
 	    		<c:param name="page" value="${i}"/>
 	    	</c:url>
 	    	<c:set var="active" value="${pm.cri.page == i ? 'active' : '' }"/>
@@ -95,6 +105,7 @@
 		    		<c:param name="ca" value="${pm.cri.ca}"/>
 		    		<c:param name="type" value="${pm.cri.type}" />
 		    		<c:param name="search" value="${pm.cri.search}" />
+		    		<c:param name="order" value="${pm.cri.order}"/>
 		    		<c:param name="page" value="${pm.endPage + 1}"/>
 		    	</c:url>
 		    	<a class="page-link" href="${next}">다음</a>

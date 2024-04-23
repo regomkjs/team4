@@ -10,18 +10,34 @@
  	<select id="selectPostList" resultType="PostVO">
  		select 
  			post.*, category.*, member.me_nick,
- 			SUM(CASE WHEN co_state = 1 THEN 1 ELSE 0 END) as po_co_count,
-			SUM(CASE WHEN he_state = 1 THEN 1 ELSE 0 END) AS po_totalHeart 
+				(select 
+					count(*) 
+				from 
+					comment 
+				where 
+					comment.co_po_num = post.po_num) 
+			as po_co_count,
+	 			(select
+	 				count(*)
+				from
+					heart
+				where 
+					heart.he_po_num = post.po_num) 
+			as po_totalHeart,
+				(select
+					count(*)
+				from
+					vote
+				where
+					vote.vo_po_num = post.po_num and vote.vo_state = 1)
+			as po_votePost
 		from 
 			post
 				join
 			member on po_me_id = me_id
 				join 
 			category on po_ca_num = ca_num
-				left join 
-			heart on he_po_num = po_num 
-				left join 
-			comment on co_po_num = po_num 
+				
 		where
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
@@ -38,8 +54,7 @@
  			<if test="cri.ca != 0">
  			 	and po_ca_num = #{cri.ca}
  			</if>
- 		group by 
- 			po_num
+ 		
  		order by 
  			<if test='cri.order == "new"'>
 	 			po_num desc
@@ -87,22 +102,36 @@
  	
  	<select id="selectPost" resultType="PostVO">
  		select
- 			post.*, category.*, member.me_nick,count(co_num) as po_co_count,
-			SUM(CASE WHEN he_state = 1 THEN 1 ELSE 0 END) AS po_totalHeart 
+ 			post.*, category.*, member.me_nick,
+ 				(select 
+					count(*) 
+				from 
+					comment 
+				where 
+					comment.co_po_num = post.po_num) 
+			as po_co_count,
+				(select
+	 				count(*)
+				from
+					heart
+				where 
+					heart.he_po_num = post.po_num) 
+			as po_totalHeart,
+ 				(select
+					count(*)
+				from
+					vote
+				where
+					vote.vo_po_num = post.po_num and vote.vo_state = 1)
+			as po_votePost
  		from 
  			post 
 	 			join
 			category on po_ca_num = ca_num
 				join
 			member on po_me_id = me_id
-				left join 
-			heart on he_po_num = po_num 
-				left join 
-			comment on co_po_num = po_num 
  		where 
  			po_num = #{po_num}
- 		group by 
- 			po_num
  	</select>
  	
  	<select id="selectHeart" resultType="HeartVO">
@@ -155,7 +184,14 @@
  	</update>
  	
  	<select id="selectComment" resultType="CommentVO">
- 		select * from comment where co_num = #{co_num}
+ 		select 
+ 			comment.*,  member.me_nick  
+		from 
+			comment 
+				join
+			member on me_id = co_me_id
+		where 
+			co_num = #{co_num}
  	</select>
  	
  	<update id="updateComment">
@@ -177,18 +213,33 @@
  	<select id="selectMyPostList" resultType="PostVO">
  		select 
  			post.*, category.*, member.me_nick,
- 			SUM(CASE WHEN co_state = 1 THEN 1 ELSE 0 END) as po_co_count,
-			SUM(CASE WHEN he_state = 1 THEN 1 ELSE 0 END) AS po_totalHeart 
+ 				(select 
+					count(*) 
+				from 
+					comment 
+				where 
+					comment.co_po_num = post.po_num) 
+			as po_co_count,
+				(select
+	 				count(*)
+				from
+					heart
+				where 
+					heart.he_po_num = post.po_num) 
+			as po_totalHeart,
+ 				(select
+					count(*)
+				from
+					vote
+				where
+					vote.vo_po_num = post.po_num and vote.vo_state = 1)
+			as po_votePost
 		from 
 			post
 				join
 			member on po_me_id = me_id
 				join 
 			category on po_ca_num = ca_num
-				left join 
-			heart on he_po_num = po_num 
-				left join 
-			comment on co_po_num = po_num 
 		where
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
@@ -206,8 +257,6 @@
  			 	and po_ca_num = #{cri.ca}
  			</if>
  			and me_id = #{me_id}
- 		group by 
- 			po_num
  		order by 
 			po_num desc
  		limit #{cri.pageStart} , #{cri.perPageNum}
@@ -424,5 +473,41 @@
  	
  	<delete id="deleteCategory">
  		delete from category where ca_num = #{ca_num}
+ 	</delete>
+ 	
+ 	<select id="selectReportByTarget" resultType="ReportVO">
+ 		select * from report where rp_target = #{target} and rp_me_id = #{me_id}
+ 	</select>
+ 	
+ 	<insert id="insertReport">
+ 		insert into report(rp_note, rp_type, rp_target, rp_writer, rp_me_id)
+ 		values(#{note},#{type},#{target},#{writer},#{me_id})
+ 	</insert>
+ 	
+ 	<select id="selectReportList" resultType="ReportVO">
+ 		select report.*, member.me_nick as rp_me_nick,
+ 				(select 
+ 					me_nick 
+				from 
+					member
+						join
+					report on me_id = rp_me_id
+				where 
+					member.me_id = report.rp_writer) 
+ 			as rp_writer_nick
+		from
+			report
+				join
+			member on me_id = rp_me_id
+		limit 
+ 			#{cri.pageStart}, #{cri.perPageNum}	
+ 	</select>
+ 	
+ 	<select id="totalCountReport" resultType="int">
+ 		select count(*) from report
+ 	</select>
+ 	
+ 	<delete id="deleteReport">
+ 		delete from report where rp_num = #{rp_num}
  	</delete>
 </mapper>

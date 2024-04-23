@@ -227,5 +227,10 @@ public class MemberServiceImp implements MemberService {
 		}
 		return memberDao.deleteGrade(gr_num);
 	}
+
+	@Override
+	public MemberVO getMemberByNick(String me_nick) {
+		return memberDao.selectMemberByNick(me_nick);
+	}
 	
 }

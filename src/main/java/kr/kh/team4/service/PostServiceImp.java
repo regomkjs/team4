@@ -9,6 +9,7 @@ import kr.kh.team4.dao.PostDAO;
 import kr.kh.team4.model.dto.ItemListDTO;
 import kr.kh.team4.model.dto.VoteListDTO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.ChooseVO;
 import kr.kh.team4.model.vo.post.CommentVO;
@@ -549,6 +550,63 @@ public class PostServiceImp implements PostService {
 	@Override
 	public boolean deleteCategory(int ca_num) {
 		return postDAO.deleteCategory(ca_num);
+	}
+
+	@Override
+	public boolean getReportByTarget(String target, String me_id) {
+		ReportVO report = postDAO.selectReportByTarget(target, me_id);
+		if(report == null) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean insertReport(String note, String type, String target, String writer, String me_id) {
+		return postDAO.insertReport(note, type, target, writer, me_id);
+	}
+
+	@Override
+	public ArrayList<ReportVO> getReportList(Criteria cri) {
+		ArrayList<ReportVO> reportList = postDAO.selectReportList(cri);
+		if(reportList == null || reportList.size()==0) {
+			return null;
+		}
+		for(ReportVO report : reportList) {
+			String[] tmp = report.getRp_target().split("_");
+			if(tmp[0].equals("po")) {
+				int num = Integer.parseInt(tmp[1]);
+				PostVO post = postDAO.selectPost(num);
+				report.setRp_writer_nick(post.getMe_nick());
+				report.setRp_post(post);
+			}
+			else {
+				int num = Integer.parseInt(tmp[1]);
+				CommentVO comment = postDAO.selectComment(num);
+				report.setRp_writer_nick(comment.getMe_nick());
+				PostVO post = postDAO.selectPost(comment.getCo_po_num());
+				report.setRp_post(post);
+				report.setRp_comment(comment);
+			}
+		}
+		return reportList;
+	}
+
+	@Override
+	public int getTotalCountReport() {
+		return postDAO.totalCountReport();
+	}
+
+	@Override
+	public int deleteReportList(int[] reportArr) {
+		int count = 0;
+		for(int rp_num : reportArr) {
+			boolean res = postDAO.deleteReport(rp_num);
+			if(res) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 }
