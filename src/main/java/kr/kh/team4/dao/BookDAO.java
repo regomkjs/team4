@@ -8,6 +8,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
@@ -82,5 +83,10 @@ public interface BookDAO {
 
 	ReviewVO selectAvgReview(@Param("bo_num")int bo_num);
 
+	OpinionVO selectOpinion(@Param("rv_num")int rv_num, @Param("user")MemberVO user);
+
+	void insertOpinion(@Param("rv_num")int rv_num, @Param("user")MemberVO user);
+
+	void deleteOpinion(@Param("rv_num")int rv_num, @Param("user")MemberVO user);
 
 }

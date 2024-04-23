@@ -79,7 +79,7 @@ ol.colorlist {
 					출판사:<span>${book.bo_publisher}</span>
 				</p>
 				<p>
-					평점:<span style="font-weight: bold; font-size: 30px">${review.avgScore}</span>
+					평점:<span style="font-weight: bold; font-size: 30px">${avgReview.avgScore}</span>
 				</p>
 				<p>
 					저자:<span>${book.bo_au_name}</span>
@@ -359,8 +359,8 @@ function displayReviewList(list){
 					\${btns}
 				</div>
 				<span style="font-size: small;" class="mr-4">작성시간 : \${moment(item.rv_date).format('YY/MM/DD HH:mm')}<br />
+				<i class="bi bi-hand-thumbs-up bi-up" style="font-size : 20px; cursor:pointer;" data-num="\${item.rv_num}">추천(<span class="text-up">\${item.rv_up}</span>)</i>
 			</div>
-				<i class="bi bi-hand-thumbs-up" style="font-size : 2rem;"></i>
 		`
 	}
 	$('.box-review-list').html(str);
@@ -560,4 +560,81 @@ function initReview() {
 	$('.text-review').show();
 	$('.star-rating').show();
 }
+</script>
+<!-- 리뷰 추천 -->
+<script type="text/javascript">
+$(document).on("click",".bi-up",function(){
+	if(!checkLogin()){
+		return;
+	}
+	let rv_num =  $(this).data('num');
+	$.ajax({
+		url : '<c:url value="/opinion/check"/>',
+		method : "post",
+		data : {
+			"rv_num" : rv_num
+		},
+		success : function (data) {
+			switch (data.result) {
+			case 1:
+				alert("리뷰를 추천했습니다.");
+				$('.bi-up').addClass("bi-hand-thumbs-up-fill");
+				$('.bi-up').removeClass("bi-hand-thumbs-up");
+				break;
+			case 0:
+				alert("추천을 취소했습니다.");
+				$('.bi-up').addClass("bi-hand-thumbs-up");
+				$('.bi-up').removeClass("bi-hand-thumbs-up-fill");
+				break;
+			case -1:
+				alert("에러 발생")
+				break;
+			}
+			getOpinion();
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생2");
+		}
+	});
+	
+});
+
+function getOpinion() {
+	let rv_num = $(this).data('num');
+	let obj = {
+			"rv_num" : rv_num
+	}
+	
+	$.ajax({
+		async : true,
+		url : '<c:url value="/opinion"/>', 
+		type : 'post', 
+		data : obj, 
+		dataType : "json", 
+		success : function (data){
+			displayUpdateOpinion(data.review);
+			displayOpinion(data.state);
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+}
+
+function displayUpdateOpinion(review) {
+	$(".text-up").text(review.rv_up);
+}
+
+function displayOpinion(state) {
+	$('.bi-up').addClass("bi-hand-thumbs-up");
+	$('.bi-up').removeClass("bi-hand-thumbs-up-fill");
+	if(state == 1){
+		$('.bi-up').removeClass("bi-hand-thumbs-up");
+		$('.bi-up').addClass("bi-hand-thumbs-up-fill");
+	}else{
+		$('.bi-up').removeClass("bi-hand-thumbs-up-fill");
+		$('.bi-up').addClass("bi-hand-thumbs-up");
+	}
+}
+getOpinion();
 </script>

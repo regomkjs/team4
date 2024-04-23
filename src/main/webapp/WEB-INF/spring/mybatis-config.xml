@@ -13,6 +13,7 @@
 		<typeAlias type="kr.kh.team4.model.vo.book.LoanVO" alias="LoanVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.book.ReserveVO" alias="ReserveVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.book.ReviewVO" alias="ReviewVO"/>
+		<typeAlias type="kr.kh.team4.model.vo.book.OpinionVO" alias="OpinionVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.CategoryVO" alias="CategoryVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.PostVO" alias="PostVO"/>
 		<typeAlias type="kr.kh.team4.model.vo.post.CommentVO" alias="CommentVO"/>

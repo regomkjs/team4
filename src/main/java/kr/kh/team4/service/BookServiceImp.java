@@ -14,6 +14,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
@@ -344,5 +345,33 @@ public class BookServiceImp implements BookService {
 	public ReviewVO getAvgReview(int bo_num) {
 		return bookDao.selectAvgReview(bo_num);
 	}
-	
+
+	@Override
+	public int opinion(int rv_num, MemberVO user) {
+		if(user == null) {
+			return -1;
+		}
+		OpinionVO op = bookDao.selectOpinion(rv_num, user);
+		if(op == null) {
+			bookDao.insertOpinion(rv_num, user);
+			return 1;
+		}else {
+			bookDao.deleteOpinion(rv_num, user);
+			return 0;
+		}
+	}
+
+	@Override
+	public int getUserOpinion(int rv_num, MemberVO user) {
+		if(user == null) {
+			return -1;
+		}
+		OpinionVO opinion = bookDao.selectOpinion(rv_num, user);
+		return opinion == null ? -1 : opinion.getOp_state();
+	}
+
+	@Override
+	public ReviewVO getReview(int rv_num) {
+		return bookDao.selectReview(rv_num);
+	}
 }

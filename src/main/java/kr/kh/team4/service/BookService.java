@@ -7,6 +7,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
@@ -69,6 +70,13 @@ public interface BookService {
 	boolean updateReview(ReviewVO review, MemberVO user);
 
 	ReviewVO getAvgReview(int bo_num);
+
+	int opinion(int rv_num, MemberVO user);
+
+	int getUserOpinion(int rv_num, MemberVO user);
+
+	ReviewVO getReview(int rv_num);
+
 
 	
 }

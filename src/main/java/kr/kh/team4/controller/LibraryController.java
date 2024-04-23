@@ -70,9 +70,11 @@ public class LibraryController {
 		ArrayList<BookVO> code=bookService.getBookIsbn(book.getBo_isbn());
 		ArrayList<LoanVO> loanList = bookService.getLoanList(book.getBo_isbn());
 		ReviewVO avgReview = bookService.getAvgReview(book.getBo_num());
+		ReviewVO review = bookService.getReview(num);
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		model.addAttribute("user", user);
-		model.addAttribute("review", avgReview);
+		model.addAttribute("avgReview", avgReview);
+		model.addAttribute("review", review);
 		model.addAttribute("loanList", loanList);
 		model.addAttribute("book",book);
 		model.addAttribute("code",code);

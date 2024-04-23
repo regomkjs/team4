@@ -1,22 +1,11 @@
 package kr.kh.team4.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.maven.model.Model;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +19,6 @@ import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.member.MemberVO;
-import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.pagination.ReviewCriteria;
@@ -201,6 +189,28 @@ public class LibraryAjaxController {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		boolean res = bookService.updateReview(review,user);
 		map.put("result", res);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/opinion/check")
+	public Map<String, Object> opinionCheck(@RequestParam("rv_num") int rv_num, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		int res = bookService.opinion(rv_num, user);
+		map.put("result", res);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/opinion")
+	public Map<String, Object> opinion(@RequestParam("rv_num") int rv_num, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		int state = bookService.getUserOpinion(rv_num, user);
+		ReviewVO review = bookService.getReview(rv_num);
+		map.put("state", state);
+		map.put("review", review);
 		return map;
 	}
 }
