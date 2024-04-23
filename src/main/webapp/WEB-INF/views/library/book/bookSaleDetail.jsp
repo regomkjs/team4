@@ -22,51 +22,43 @@
 			<div>aa</div>
 		</div>
 		<div class="main">
-			
 			<div class="book-main">
-				<div class="book-list">
-				
-				</div>
-				<div class="pagination-box">
-					<ul class="pagination justify-content-center pagination-sm"">
-						<c:if test="${pm.prev}">
-							<c:url value="/library/bookSale/search" var="url">
-								<c:param name="page" value="${pm.startPage - 1}"/>
-								<c:param name="type" value="${pm.cri.type}"/>
-								<c:param name="search" value="${pm.cri.search}"/>
-							</c:url>
-							<li class="page-item">
-								<a class="page-link" href="${url}">이전</a>
-							</li>
-						</c:if>
-						<c:forEach begin="${pm.startPage }" end="${pm.endPage}" var="i">
-							<c:url value="/library/bookSale/search" var="url">
-								<c:param name="page" value="${i}"/>
-								<c:param name="type" value="${pm.cri.type}"/>
-								<c:param name="search" value="${pm.cri.search}"/>
-							</c:url>
-							<li class="page-item <c:if test="${pm.cri.page == i}">active</c:if>">
-								<a class="page-link" href="${url}">${i}</a>
-							</li>
-						</c:forEach>
-						<c:if test="${pm.next}">
-							<c:url value="/library/bookSale/search" var="url">
-								<c:param name="page" value="${pm.endPage + 1}"/>
-								<c:param name="type" value="${pm.cri.type}"/>
-								<c:param name="search" value="${pm.cri.search}"/>
-							</c:url>
-							<li class="page-item">
-								<a class="page-link" href="${url}">다음</a>
-							</li>
-						</c:if>
+				<div class="book-title">
+					<ul>
+						<li>${book.item[0].title}</li>
+						<li>${book.item[0].author}<span>|</span>
+							${book.item[0].publisher}<span>|</span>
+							${book.item[0].pubDate}<span>|</span>
+							원제: ${book.item[0].subInfo.originalTitle}
+						</li>
 					</ul>
+				</div>
+				<div class="book-content">
+					<img alt="${book.title}" src="${book.item[0].cover}">
+					<div class="book-info">
+					<ul>
+						<li>분류:${book.item[0].categoryName}</li>
+						<li>타입:${book.item[0].mallType}</li>
+						<li>ISBN:${book.item[0].isbn13}</li>
+						<li>쪽수:${book.item[0].subInfo.itemPage}</li>
+						<li>정가:${book.item[0].priceStandard}</li>
+						<li>
+							<button class="btn btn-outline-warning basket-btn" data-isbn="${book.item[0].isbn13}">장바구니</button>
+							<a class="btn btn-outline-warning purchase-btn" data-isbn="${book.item[0].isbn13}">구매</a>
+						</li>
+					</ul>
+					</div>
+				</div>
+				<div class="book-description">
+					<h4>책 소개</h4>
+					<p>${book.item[0].description}</p>
 				</div>
 			</div>
 		</div>
 	</div>
-<!-- 구매,장바구니 -->
+	<!-- 구매,장바구니 -->
 	<script type="text/javascript">
-	let bookObj=${obj};
+	let bookObj=${book};
 	let basket=[];
 	let data=JSON.parse(localStorage.getItem('basket'));
 	if(data!=null){
@@ -115,7 +107,7 @@
 		location.href = '<c:url value="/library/book/sale" />';	
 	});
 	
-	displayBasketView();
+	displayBasketView()
 	function displayBasketView() {
 		let str=`
 			<p>장바구니(\${basket.length})</p>
@@ -138,39 +130,6 @@
 		localStorage.setItem('basket',basketJson);
 	});
 	</script>
-	<!-- 화면 출력 -->
-	<script type="text/javascript">
-		//bookObj
-		function displayListView() {
-			let str="";
-			for(book of bookObj.item){
-				str+=`
-					<div class="book-item">
-						<div class="book-img">
-							<a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
-								<img alt="\${book.title}" src="\${book.cover}"/>
-							</a>
-						</div>
-						<div class="book-content">
-							<ul>
-								<li>
-									<a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
-									\${book.title} 
-									</a>
-								</li>
-								<li>\${book.author} | \${book.publisher}</li>
-								<li>\${book.pubDate}</li>
-								<li>판매가: \${book.priceStandard}원</li>
-							</ul>
-							<button class="btn btn-outline-warning basket-btn" data-isbn="\${book.isbn13}">장바구니</button>
-							<a class="btn btn-outline-warning purchase-btn" data-isbn="\${book.isbn13}">구매</a>
-						</div>
-					</div>
-				`;	
-			}
-			$(".book-list").html(str);
-			$("input[name=search]").val(bookObj.query);
-		}
-		displayListView();
-	</script>
+	
+	
 </body>
