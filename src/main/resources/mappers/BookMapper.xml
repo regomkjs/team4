@@ -246,4 +246,11 @@
 		delete from opinion where op_rv_num = #{rv_num} and op_me_id = #{user.me_id}
 	</delete>
 	
+	<select id="selectLoanBookList" resultType="BookVO">
+	
+	</select>
+	
+	<select id="selectTotalCountLoanBook" resultType="int">
+	
+	</select>
 </mapper>

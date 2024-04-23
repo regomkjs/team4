@@ -15,6 +15,7 @@ import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.ReviewCriteria;
 
 public interface BookService {
@@ -76,6 +77,10 @@ public interface BookService {
 	int getUserOpinion(int rv_num, MemberVO user);
 
 	ReviewVO getReview(int rv_num);
+
+	ArrayList<BookVO> getLoanBookList(Criteria cri, MemberVO user);
+
+	int totalCountLoanBook(Criteria cri, MemberVO user);
 
 
 	

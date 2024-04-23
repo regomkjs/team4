@@ -23,7 +23,7 @@ import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
-import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.BookService;
 import lombok.extern.log4j.Log4j;
@@ -145,11 +145,11 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/library/management/loan")
-	public String loan(Model model, HttpSession session, BookCriteria cri) {
+	public String loan(Model model, HttpSession session, MyBookCriteria cri) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		ArrayList<BookVO> list = bookService.getMyLoanBookList(cri, user);
+		ArrayList<BookVO> list = bookService.getLoanBookList(cri, user);
 		
-		int totalCount = bookService.totalCountMyLoanBook(cri, user);
+		int totalCount = bookService.totalCountLoanBook(cri, user);
 		PageMaker pm = new PageMaker(5, cri, totalCount);
 		model.addAttribute("loanList", list);
 		model.addAttribute("pm", pm);

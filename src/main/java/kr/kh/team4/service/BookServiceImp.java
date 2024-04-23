@@ -21,6 +21,7 @@ import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.ReviewCriteria;
 
 @Service
@@ -373,5 +374,27 @@ public class BookServiceImp implements BookService {
 	@Override
 	public ReviewVO getReview(int rv_num) {
 		return bookDao.selectReview(rv_num);
+	}
+
+	@Override
+	public ArrayList<BookVO> getLoanBookList(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return null;
+		}
+		return bookDao.selectLoanBookList(cri, user);
+	}
+
+	@Override
+	public int totalCountLoanBook(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return 0;
+		}
+		return bookDao.selectTotalCountLoanBook(cri, user);
 	}
 }

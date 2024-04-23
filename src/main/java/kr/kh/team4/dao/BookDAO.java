@@ -89,4 +89,8 @@ public interface BookDAO {
 
 	void deleteOpinion(@Param("rv_num")int rv_num, @Param("user")MemberVO user);
 
+	ArrayList<BookVO> selectLoanBookList(@Param("cri")Criteria cri, @Param("user")MemberVO user);
+
+	int selectTotalCountLoanBook(@Param("cri")Criteria cri,@Param("user") MemberVO user);
+
 }
