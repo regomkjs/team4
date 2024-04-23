@@ -499,7 +499,11 @@
 			report
 				join
 			member on me_id = rp_me_id
+		limit 
+ 			#{cri.pageStart}, #{cri.perPageNum}	
  	</select>
  	
- 
+ 	<select id="totalCountReport" resultType="int">
+ 		select count(*) from report
+ 	</select>
 </mapper>

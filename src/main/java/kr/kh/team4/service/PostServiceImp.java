@@ -567,8 +567,8 @@ public class PostServiceImp implements PostService {
 	}
 
 	@Override
-	public ArrayList<ReportVO> getReportList() {
-		ArrayList<ReportVO> reportList = postDAO.selectReportList();
+	public ArrayList<ReportVO> getReportList(Criteria cri) {
+		ArrayList<ReportVO> reportList = postDAO.selectReportList(cri);
 		if(reportList == null || reportList.size()==0) {
 			return null;
 		}
@@ -586,9 +586,15 @@ public class PostServiceImp implements PostService {
 				report.setRp_writer_nick(comment.getMe_nick());
 				PostVO post = postDAO.selectPost(comment.getCo_po_num());
 				report.setRp_post(post);
+				report.setRp_comment(comment);
 			}
 		}
 		return reportList;
+	}
+
+	@Override
+	public int getTotalCountReport() {
+		return postDAO.totalCountReport();
 	}
 
 }

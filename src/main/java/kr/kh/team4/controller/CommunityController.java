@@ -11,12 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
+import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.PostService;
 import lombok.extern.log4j.Log4j;
 
@@ -146,10 +149,13 @@ public class CommunityController {
 	
 	@ResponseBody
 	@PostMapping("/report/list")
-	public Map<String, Object> reportListPost(){
+	public Map<String, Object> reportListPost(@RequestBody Criteria cri){
 		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<ReportVO> reportList = postService.getReportList();
+		ArrayList<ReportVO> reportList = postService.getReportList(cri);
+		int totalCount = postService.getTotalCountReport();
+		PageMaker pm = new PageMaker(5,cri, totalCount);
 		map.put("reportList", reportList);
+		map.put("pm", pm);
 		return map;
 	}
 	
