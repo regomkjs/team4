@@ -175,7 +175,7 @@
 	</insert>
 
 	<delete id="deleteLoan">
-		delete from loan where lo_me_id = #{me_id} and lo_bo_num = #{bo_num}
+		delete from loan where lo_bo_num = #{bo_num}
 	</delete>
 	
 	<select id="selectReserveList" resultType="ReserveVO">

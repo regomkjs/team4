@@ -24,6 +24,7 @@ import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.BookService;
 import lombok.extern.log4j.Log4j;
 
@@ -141,5 +142,17 @@ public class LibraryController {
 			e.printStackTrace();
 		}
 		return "/library/book/bookSaleSearch";
+	}
+	
+	@GetMapping("/library/management/loan")
+	public String loan(Model model, HttpSession session, BookCriteria cri) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<BookVO> list = bookService.getMyLoanBookList(cri, user);
+		
+		int totalCount = bookService.totalCountMyLoanBook(cri, user);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("loanList", list);
+		model.addAttribute("pm", pm);
+		return "/member/loan";
 	}
 }

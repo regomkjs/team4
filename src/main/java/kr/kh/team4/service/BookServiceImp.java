@@ -282,10 +282,10 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		
-		if(!loan.getLo_me_id().equals(user.getMe_id())) {
+		if(user.getMe_ms_num() != 1) {
 			return false;
 		}
-		return bookDao.deleteLoan(user.getMe_id(), book.getBo_num());
+		return bookDao.deleteLoan(book.getBo_num());
 	}
 	@Override
 	public ArrayList<ReviewVO> getReviewList(ReviewCriteria cri) {

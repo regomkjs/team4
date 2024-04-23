@@ -45,9 +45,6 @@
 					<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<c:url value="/loan/list"/>">대출 관리</a>
-				</li>
-				<li class="nav-item">
 					<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
 				</li>
 			</c:when>

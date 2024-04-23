@@ -98,7 +98,12 @@ ol.colorlist {
 			<div>
 				<ul>
 					<c:forEach items="${code}" var="co">
-						<li>${co.bo_code}</li>
+						<li>
+							${co.bo_code}
+								<c:forEach items="${loanList}" var="loan">
+									<c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}"><span style="color:red">대출 중</span></c:if>
+								</c:forEach>
+						</li>
 						<button class="btn btn-outline-primary loan-btn"
 							data-bo-num="${co.bo_num}">대출</button>
 						<c:forEach items="${loanList }" var="loan">

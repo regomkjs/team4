@@ -33,6 +33,7 @@
 				<th class="col-2">이미지</th>
 				<th class="col-2">제목</th>
 				<th class="col-2">출판사</th>
+				<th class="col-2">도서코드</th>
 				<th class="col-1">대출일</th>
 				<th class="col-1">만기일</th>
 			</tr>
@@ -55,6 +56,7 @@
 				  			<a href="${detailUrl}">${loan.bo_title}</a>
 				  		</td>
 				  		<td>${loan.bo_publisher}</td>
+				  		<td>${loan.bo_code}</td>
 				  		<td>
 				  			<fmt:formatDate value="${loan.lo_date}" pattern="yy/MM/dd"/><br/>
 			  			</td>
