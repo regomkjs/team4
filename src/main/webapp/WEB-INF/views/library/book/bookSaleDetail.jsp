@@ -60,41 +60,44 @@
 	<script type="text/javascript">
 	let bookObj=${book};
 	let basket=[];
+	let data=JSON.parse(localStorage.getItem('basket'));
+	if(data!=null){
+		basket=data;
+	}
 	let books=bookObj.item;
 	
 	$(document).on("click",".basket-btn",function(){
-		let cookie=getCookie("basket");
 		let isbn=$(this).data("isbn");
-		console.log(JSON.stringify(cookie));
+		for(let i=0;i<basket.length;i++){
+			if(basket[i].isbn13==isbn){
+				return;
+			}
+		}
 		for(let i=0;i<books.length;i++){
 			if(books[i].isbn13==isbn){
 				basket.push(books[i]);
 			}
 		}
-		let str=`
-		<p>장바구니(\${basket.length})</p>
-		<div><ul>
-		`;
-		for(baskets of basket){
-			str+=`
-				<li>\${baskets.title}</li>
-			`;
-		}
-		str+=`</ul></div>`;
-		$(".basket").html(str);
-		setCookie("basket",basket, 1);
+		displayBasketView();
+		let basketJson=JSON.stringify(basket);
+		localStorage.setItem('basket',basketJson);
 	});
 	
 	$(".basket").click(function() {
-		let basketJson=JSON.stringify(basket);
-		localStorage.setItem('basket',basketJson);
 		location.href = '<c:url value="/library/book/sale" />';	
 	});
 	
 	$(document).on("click",".purchase-btn",function(){
 		let isbn=$(this).data("isbn");
+		for(let i=0;i<basket.length;i++){
+			if(basket[i].isbn13==isbn){
+				let basketJson=JSON.stringify(basket);
+				localStorage.setItem('basket',basketJson);
+				location.href = '<c:url value="/library/book/sale" />';
+				return;
+			}
+		}
 		for(let i=0;i<books.length;i++){
-			console.log(books[i].isbn13==isbn);//
 			if(books[i].isbn13==isbn){
 				basket.push(books[i]);
 			}
@@ -103,38 +106,30 @@
 		localStorage.setItem('basket',basketJson);
 		location.href = '<c:url value="/library/book/sale" />';	
 	});
+	
+	displayBasketView()
+	function displayBasketView() {
+		let str=`
+			<p>장바구니(\${basket.length})</p>
+			<div><ul>
+			`;
+			for(baskets of basket){
+				str+=`
+					<li>\${baskets.title}<button type="button" data-index="\${i}" class="close">&times;</button></li>
+				`;
+			}
+		str+=`</ul></div>`;
+		$(".basket").html(str);
+	}
+	
+	$(document).on("click",".close",function(){
+		let index=$(this).data("index");
+		basket.splice(index,1);
+		displayBasketView();
+		let basketJson=JSON.stringify(basket);
+		localStorage.setItem('basket',basketJson);
+	});
 	</script>
 	
-	<!-- 쿠키 -->
-	<script type="text/javascript">
-	function setCookie(cookie_name, value, days) {
-		var exdate = new Date();
-		exdate.setDate(exdate.getDate() + days);
-		// 설정 일수만큼 현재시간에 만료값으로 지정
-
-	 	var cookie_value = escape(value) + ((days == null) ? '' : '; expires=' + exdate.toUTCString());
-		document.cookie = cookie_name + '=' + cookie_value;
-	}
 	
-	function getCookie(cookieName) {
-		  cookieName = `${cookieName}=`;
-		  let cookieData = document.cookie;
-
-		  let cookieValue = "";
-		  let start = cookieData.indexOf(cookieName);
-
-		  if (start !== -1) {
-		    start += cookieName.length;
-		    let end = cookieData.indexOf(";", start);
-		    if (end === -1) end = cookieData.length;
-		    cookieValue = cookieData.substring(start, end);
-		  }
-		  
-		  return unescape(cookieValue);
-	}
-	
-	function deleteCookie(name) {      
-		document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';  
-	}
-	</script>
 </body>
