@@ -422,7 +422,7 @@ function getReportList(cri) {
 							<td>\${report.rp_type}</td>
 							<td>\${report.rp_me_nick}</td>
 							<td>
-								<span class="detail-link" data-num="\${report.rp_num}" data-writer="\${report.rp_writer_nick}" data-type="\${report.rp_type}" data-reporter="\${report.rp_me_nick}" data-note="\${report.rp_note}" data-post="\${report.rp_post.po_num}">
+								<span class="detail-link" data-id="\${report.rp_me_id}" data-num="\${report.rp_num}" data-writer="\${report.rp_writer_nick}" data-type="\${report.rp_type}" data-reporter="\${report.rp_me_nick}" data-note="\${report.rp_note}" data-post="\${report.rp_post.po_num}">
 									<a class="reportDetailModal" href="#" data-toggle="modal" data-target="#reportDetailModal" ><button class="btn btn-sm btn-secondary" >상세보기</button></a>
 					`
 					if(report.rp_comment == null){
@@ -475,7 +475,7 @@ function getReportList(cri) {
 							<td>\${report.rp_type}</td>
 							<td>\${report.rp_me_nick}</td>
 							<td>
-								<span class="detail-link" data-num="\${report.rp_num}" data-writer="\${report.rp_writer_nick}" data-type="\${report.rp_type}" data-reporter="\${report.rp_me_nick}" data-note="\${report.rp_note}" data-post="\${report.rp_post.po_num}">
+								<span class="detail-link" data-id="\${report.rp_me_id}" data-num="\${report.rp_num}" data-writer="\${report.rp_writer_nick}" data-type="\${report.rp_type}" data-reporter="\${report.rp_me_nick}" data-note="\${report.rp_note}" data-post="\${report.rp_post.po_num}">
 									<a class="reportDetailModal" href="#" data-toggle="modal" data-target="#reportDetailModal" ><button class="btn btn-sm btn-secondary" >상세보기</button></a>
 					`
 					if(report.rp_comment == null){
@@ -608,6 +608,7 @@ $(document).on("change", ".check-report",function(){
 
 $(document).on("click",".reportDetailModal",function(){
 	let rp_num = $(this).parents(".detail-link").data("num");
+	let rp_me_id = $(this).parents(".detail-link").data("id");
 	let writer = $(this).parents(".detail-link").data("writer");
 	let type = $(this).parents(".detail-link").data("type");
 	let reporter = $(this).parents(".detail-link").data("reporter");
@@ -622,9 +623,11 @@ $(document).on("click",".reportDetailModal",function(){
 	let co_me_id = $(this).parents(".detail-link").find(".report-comment-id").val();
 	let postUrl = '<c:url value="/post/detail?num='+ po_num +'" />';
 	
-	let popUrl = '<c:url value="/popup/member/punish?nick='+ writer + '" />';
 	
-	console.log(popUrl);
+	
+	let popWriterUrl = '<c:url value="/popup/member/punish?nick='+ writer + '" />';
+	let popReporterUrl = '<c:url value="/popup/member/punish?nick='+ reporter + '" />';
+	
 	str = "";
 	
 	str +=
@@ -641,7 +644,7 @@ $(document).on("click",".reportDetailModal",function(){
 			<div class="input-group">
 				<div class="input-group-prepend"><span class="input-group-text">작성자</span></div>
 				<input class="input-group form-control" readonly value="\${writer}" style="background-color: white;">
-				<button class="btn btn-danger member-punish-btn" data-url="\${popUrl}">활동정지</button>
+				<button class="btn btn-danger member-punish-btn" data-url="\${popWriterUrl}">이용제한</button>
 			</div>
 			
 	`
@@ -678,6 +681,15 @@ $(document).on("click",".reportDetailModal",function(){
 			<div class="input-group">
 				<div class="input-group-prepend"><span class="input-group-text">신고한 회원</span></div>
 				<input class="input-group form-control" readonly value="\${reporter}" style="background-color: white; "> 
+	`
+	if(rp_me_id != `${user.me_id}`){
+		str += 
+		`
+			<button class="btn btn-danger member-punish-btn" data-url="\${popReporterUrl}">이용제한</button>
+		`
+	}
+	str +=
+	`			
 			</div>
 			<div class="input-group">
 				<div class="input-group-prepend"><span class="input-group-text">신고유형</span></div>
@@ -829,9 +841,7 @@ $(document).on("click",".delete-comment-btn",function(){
 <script type="text/javascript">
 $(document).on("click",".member-punish-btn",function(){
 	let url = $(this).data("url");
-	console.log(url)
 	const options = 'width=500, height=300, top=300, left=500, scrollbars=yes'
-	
 	window.open(url,'_blank',options)
 })
 </script>
