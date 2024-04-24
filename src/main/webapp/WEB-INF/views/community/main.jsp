@@ -141,6 +141,7 @@
 
 			<!-- Modal footer -->
 			<div class="modal-footer">
+				<button type="button" class="btn btn-success mr-auto complete-report-btn">처리완료</button>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
 
@@ -325,7 +326,8 @@ $(document).on("click",".category-delete-btn",function(){
 const reportArr = []
 
 let cri = {
-	page : 1
+	page : 1,
+	perPageNum : 5
 }
 
 getReportList(cri)
@@ -343,7 +345,7 @@ function getReportList(cri) {
 			if(reportList == null){
 				str +=
 				`
-					<h4 class="text-center">신고된 경우가 없습니다.</h4>
+					<h4 class="text-center">신고 내역이 없습니다.</h4>
 				`
 				
 				$(".report-container").html(str);
@@ -405,6 +407,7 @@ function getReportList(cri) {
 					if(report.rp_comment == null){
 						str +=
 						`
+							
 							<td>게시글</td>
 						`
 					} else{
@@ -419,8 +422,29 @@ function getReportList(cri) {
 							<td>\${report.rp_type}</td>
 							<td>\${report.rp_me_nick}</td>
 							<td>
-								<span class="detail-link" data-writer="\${report.rp_writer_nick}" data-type="\${report.rp_type}" data-reporter="\${report.rp_me_nick}" data-note="\${report.rp_note}" data-post="\${report.rp_post.po_num}">
+								<span class="detail-link" data-num="\${report.rp_num}" data-writer="\${report.rp_writer_nick}" data-type="\${report.rp_type}" data-reporter="\${report.rp_me_nick}" data-note="\${report.rp_note}" data-post="\${report.rp_post.po_num}">
 									<a class="reportDetailModal" href="#" data-toggle="modal" data-target="#reportDetailModal" ><button class="btn btn-sm btn-secondary" >상세보기</button></a>
+					`
+					if(report.rp_comment == null){
+						str +=
+						`
+							<input hidden class="report-post-category" value="\${report.rp_post.ca_name}">
+							<input hidden class="report-post-title" value="\${report.rp_post.po_title}">
+							<input hidden class="report-post-content" value="\${report.rp_post.po_content}">
+							<input hidden class="report-post-id" value="\${report.rp_post.po_me_id}">
+						`
+					} else{
+						str +=
+						`
+							<input hidden class="report-comment-num" value="\${report.rp_comment.co_num}">
+							<input hidden class="report-comment-content" value="\${report.rp_comment.co_content}">
+							<input hidden class="report-comment-id" value="\${report.rp_comment.co_me_id}">
+						`
+					}
+					
+					
+					str +=				
+					`
 								</span>
 							</td>
 						</tr>
@@ -451,7 +475,7 @@ function getReportList(cri) {
 							<td>\${report.rp_type}</td>
 							<td>\${report.rp_me_nick}</td>
 							<td>
-								<span class="detail-link" data-writer="\${report.rp_writer_nick}" data-type="\${report.rp_type}" data-reporter="\${report.rp_me_nick}" data-note="\${report.rp_note}" data-post="\${report.rp_post.po_num}">
+								<span class="detail-link" data-num="\${report.rp_num}" data-writer="\${report.rp_writer_nick}" data-type="\${report.rp_type}" data-reporter="\${report.rp_me_nick}" data-note="\${report.rp_note}" data-post="\${report.rp_post.po_num}">
 									<a class="reportDetailModal" href="#" data-toggle="modal" data-target="#reportDetailModal" ><button class="btn btn-sm btn-secondary" >상세보기</button></a>
 					`
 					if(report.rp_comment == null){
@@ -467,6 +491,7 @@ function getReportList(cri) {
 					else{
 						str += 
 						`
+							<input hidden class="report-comment-num" value="\${report.rp_comment.co_num}">
 							<input hidden class="report-comment-content" value="\${report.rp_comment.co_content}">
 							<input hidden class="report-comment-id" value="\${report.rp_comment.co_me_id}">
 						`
@@ -582,6 +607,7 @@ $(document).on("change", ".check-report",function(){
 })
 
 $(document).on("click",".reportDetailModal",function(){
+	let rp_num = $(this).parents(".detail-link").data("num");
 	let writer = $(this).parents(".detail-link").data("writer");
 	let type = $(this).parents(".detail-link").data("type");
 	let reporter = $(this).parents(".detail-link").data("reporter");
@@ -591,13 +617,19 @@ $(document).on("click",".reportDetailModal",function(){
 	let po_title = $(this).parents(".detail-link").find(".report-post-title").val();
 	let po_content = $(this).parents(".detail-link").find(".report-post-content").val();
 	let po_me_id = $(this).parents(".detail-link").find(".report-post-id").val();
+	let co_num = $(this).parents(".detail-link").find(".report-comment-num").val();
 	let co_content = $(this).parents(".detail-link").find(".report-comment-content").val();
 	let co_me_id = $(this).parents(".detail-link").find(".report-comment-id").val();
 	let postUrl = '<c:url value="/post/detail?num='+ po_num +'" />';
+	
+	let popUrl = '<c:url value="/popup/member/punish?nick='+ writer + '" />';
+	
+	console.log(popUrl);
 	str = "";
 	
 	str +=
 	`
+		<input hidden class="input-report-num" value="\${rp_num}">
 		<div>
 			<div class="d-flex">
 				<div><h5>신고대상</h5></div>
@@ -609,7 +641,7 @@ $(document).on("click",".reportDetailModal",function(){
 			<div class="input-group">
 				<div class="input-group-prepend"><span class="input-group-text">작성자</span></div>
 				<input class="input-group form-control" readonly value="\${writer}" style="background-color: white;">
-				<button class="btn btn-danger">활동정지</button>
+				<button class="btn btn-danger member-punish-btn" data-url="\${popUrl}">활동정지</button>
 			</div>
 			
 	`
@@ -625,6 +657,7 @@ $(document).on("click",".reportDetailModal",function(){
 				<input class="input-group form-control" readonly value="\${po_title}" style="background-color: white;">
 			</div>
 			<div class="form-control mb-3" style="min-height: 100px">\${po_content}</div>
+			<button class="btn btn-outline-danger delete-post-btn form-control" data-num="\${po_num}"}>신고된 게시글 삭제</button>
 		`
 	}
 	else{
@@ -634,6 +667,7 @@ $(document).on("click",".reportDetailModal",function(){
 				<div class="input-group-prepend"><span class="input-group-text">댓글</span></div>
 				<textarea class="input-group form-control" readonly style="background-color: white; min-height: 50px">\${co_content}</textarea>
 			</div>
+			<button class="btn btn-outline-danger delete-comment-btn form-control" data-num="\${co_num}">신고된 댓글 삭제</button>
 		`
 	}
 	
@@ -685,7 +719,123 @@ $(document).on("click",".report-delete-btn",function(){
 	}
 })
 
+$(document).on("click",".complete-report-btn",function(){
+	if(confirm("이 신고내역 처리를 완료하시겠습니까?")){
+		let rp_num = $(this).parents(".modal-content").find(".input-report-num").val();
+		$.ajax({
+			url : '<c:url value="/report/complete"/>',
+			method : "post",
+			data : {
+				"rp_num" : rp_num
+			},
+			success : function (data) {
+				if(data.result){
+					$("#reportDetailModal").modal("hide");
+					reportArr.splice(0)
+					getReportList(cri);
+					alert("해당 신고 내역이 완료처리 됐습니다.")
+				}
+				else{
+					
+					alert("해당 내역 처리에 실패했습니다.")
+				}
+				
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		})
+		
+	}
+})
+
+//신고된 게시글 삭제
+$(document).on("click",".delete-post-btn",function(){
+	let po_num = $(this).data("num");
+	let rp_num = $(this).parents(".modal-content").find(".input-report-num").val();
+	if(confirm("!!!게시글을 삭제할 경우 포함된 댓글, 투표 등도 함께 삭제됩니다!!! 이 게시글을 삭제하시겠습니까? [수락시 신고 완료로 처리됩니다]")){
+		$.ajax({
+			url : '<c:url value="/report/post/delete"/>',
+			method : "post",
+			data : {
+				"po_num" : po_num,
+				"rp_num" : rp_num
+			},
+			dataType : "json",
+			success : function (data) {
+				if(data.result1){
+					if(data.result2){
+						$("#reportDetailModal").modal("hide");
+						reportArr.splice(0);
+						getReportList(cri);
+						alert("신고된 게시글이 삭제됐습니다. [신고내역 처리완료]")
+					}
+					else{
+						alert("신고된 게시글이 삭제됐습니다. [신고내역 처리실패]")
+					}
+				}
+				else{
+					alert("해당 내역 처리에 실패했습니다.")
+				}
+				
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		})
+	}
+	
+	
+})
+
+//신고된 댓글 삭제
+$(document).on("click",".delete-comment-btn",function(){
+	let co_num = $(this).data("num");
+	let rp_num = $(this).parents(".modal-content").find(".input-report-num").val();
+	if(confirm("이 댓글을 삭제하시겠습니까? [수락시 신고 완료로 처리됩니다]")){
+		$.ajax({
+			url : '<c:url value="/report/comment/delete"/>',
+			method : "post",
+			data : {
+				"co_num" : co_num,
+				"rp_num" : rp_num
+			},
+			dataType : "json",
+			success : function (data) {
+				if(data.result1){
+					if(data.result2){
+						$("#reportDetailModal").modal("hide");
+						reportArr.splice(0);
+						getReportList(cri);
+						alert("신고된 댓글이 삭제됐습니다. [신고내역 처리완료]")
+					}
+					else{
+						alert("신고된 댓글이 삭제됐습니다. [신고내역 처리실패]")
+					}
+				}
+				else{
+					alert("해당 내역 처리에 실패했습니다.")
+				}
+				
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		})
+	}
+})
 </script>
+
+<script type="text/javascript">
+$(document).on("click",".member-punish-btn",function(){
+	let url = $(this).data("url");
+	console.log(url)
+	const options = 'width=500, height=300, top=300, left=500, scrollbars=yes'
+	
+	window.open(url,'_blank',options)
+})
+</script>
+
 
 </body>
 </html>

@@ -1,5 +1,7 @@
 package kr.kh.team4.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.mail.internet.MimeMessage;
@@ -260,6 +262,32 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public MemberVO getMemberByLoan(int bookNum) {
 		return memberDao.selectMemberByLoan(bookNum);
+	}
+	
+	public int addBlockDay(MemberVO member, int day) {
+		if(member == null) {
+			return 0;
+		}
+		if(member.getMe_block() == null) {
+			//신규 정지일 생성
+			memberDao.insertBlock(member.getMe_id(), day);
+			return 1;
+		} 
+		else {
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String formatedNow = now.format(format);
+			if(member.getMe_block().compareTo(formatedNow) >= 0) {
+				//기존값에 추가로 수정
+				memberDao.updateBlock(member.getMe_id(), day);
+				return 2;
+			}
+			else {
+				//기존값 대신 신규 정지일 생성
+				memberDao.insertBlock(member.getMe_id(), day);
+				return 1;
+			}
+		}
 	}
 	
 }

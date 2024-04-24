@@ -237,6 +237,13 @@
 			<artifactId>javaSDK</artifactId>
 			<version>2.2</version>
 		</dependency>
+		
+		<!-- 아임포트 의존성 -->
+			<dependency>
+			    <groupId>com.github.iamport</groupId>
+			    <artifactId>iamport-rest-client-java</artifactId>
+			    <version>0.2.21</version>
+			</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -276,4 +283,10 @@
 			</plugin>
 		</plugins>
 	</build>
+	<repositories>
+	  <repository>
+	    <id>jitpack.io</id>
+	    <url>https://jitpack.io</url>
+	  </repository>
+	</repositories>
 </project>

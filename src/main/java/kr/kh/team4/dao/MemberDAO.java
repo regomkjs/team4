@@ -46,5 +46,9 @@ public interface MemberDAO {
 	int selectTotalCountMyLoanBook(@Param("cri")Criteria cri, @Param("user")MemberVO user);
 
 	MemberVO selectMemberByLoan(@Param("book")int bookNum);
+	
+	void insertBlock(@Param("me_id")String me_id, @Param("day")int day);
+
+	void updateBlock(@Param("me_id")String me_id, @Param("day")int day);
 
 }

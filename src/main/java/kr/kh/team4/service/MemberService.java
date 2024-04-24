@@ -47,4 +47,7 @@ public interface MemberService {
 	int totalCountMyLoanBook(Criteria cri, MemberVO user);
 
 	MemberVO getMemberByLoan(int bookNum);
+	
+	int addBlockDay(MemberVO member, int day);
+
 }

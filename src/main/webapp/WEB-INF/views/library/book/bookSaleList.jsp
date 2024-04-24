@@ -48,7 +48,7 @@
 	<!-- 도서 리스트 출력 -->
 	<script type="text/javascript">
 	let APIdata={
-		TTBKey:"ttbquddjcho1722001",
+		TTBKey:"${api}",
 		QueryType:"ItemNewAll",
 		SearchTarget:"Book",
 		Start:1,
@@ -109,41 +109,46 @@
 		BookList();
 	});
 	</script>
-	<!-- 구매,장바구니 -->
+<!-- 구매,장바구니 -->
 	<script type="text/javascript">
 	let basket=[];
+	let data=JSON.parse(localStorage.getItem('basket'));
+	if(data!=null){
+		basket=data;
+		console.log(basket);
+	}
 	$(document).on("click",".basket-btn",function(){
-		console.log(books);//
 		let isbn=$(this).data("isbn");
+		for(let i=0;i<basket.length;i++){
+			if(basket[i].isbn13==isbn){
+				return;
+			}
+		}
 		for(let i=0;i<books.length;i++){
-			console.log(books[i].isbn13==isbn);//
 			if(books[i].isbn13==isbn){
 				basket.push(books[i]);
 			}
 		}
-		let str=`
-		<p>장바구니(\${basket.length})</p>
-		<div><ul>
-		`;
-		for(baskets of basket){
-			str+=`
-				<li>\${baskets.title}</li>
-			`;
-		}
-		str+=`</ul></div>`;
-		$(".basket").html(str);
-	});
-	
-	$(".basket").click(function() {
+		displayBasketView();
 		let basketJson=JSON.stringify(basket);
 		localStorage.setItem('basket',basketJson);
+	});
+	
+	$(".basket>p").click(function() {
 		location.href = '<c:url value="/library/book/sale" />';	
 	});
 	
 	$(document).on("click",".purchase-btn",function(){
 		let isbn=$(this).data("isbn");
+		for(let i=0;i<basket.length;i++){
+			if(basket[i].isbn13==isbn){
+				let basketJson=JSON.stringify(basket);
+				localStorage.setItem('basket',basketJson);
+				location.href = '<c:url value="/library/book/sale" />';
+				return;
+			}
+		}
 		for(let i=0;i<books.length;i++){
-			console.log(books[i].isbn13==isbn);//
 			if(books[i].isbn13==isbn){
 				basket.push(books[i]);
 			}
@@ -152,19 +157,33 @@
 		localStorage.setItem('basket',basketJson);
 		location.href = '<c:url value="/library/book/sale" />';	
 	});
-	</script>
-	<!-- 쿠키 -->
-	<script type="text/javascript">
-	function setCookie(cookie_name, value, days) {
-		var exdate = new Date();
-		exdate.setDate(exdate.getDate() + days);
-		// 설정 일수만큼 현재시간에 만료값으로 지정
-
-	 	var cookie_value = escape(value) + ((days == null) ? '' : '; expires=' + exdate.toUTCString());
-		document.cookie = cookie_name + '=' + cookie_value;
-	}
 	
-	</script>	
+	
+	function displayBasketView() {
+		let i=0;
+		let str=`
+			<p>장바구니(\${basket.length})</p>
+			<div><ul>
+			`;
+			for(baskets of basket){
+				str+=`
+					<li>\${baskets.title} <button type="button" data-index="\${i}" class="close">&times;</button></li>
+				`;
+				i++;
+			}
+		str+=`</ul></div>`;
+		$(".basket").html(str);
+	}
+	displayBasketView();
+	
+	$(document).on("click",".close",function(){
+		let index=$(this).data("index");
+		basket.splice(index,1);
+		displayBasketView();
+		let basketJson=JSON.stringify(basket);
+		localStorage.setItem('basket',basketJson);
+	});
+	</script>
 	<script type="text/javascript">
 	function displayView(data) {
 		let str="";
@@ -173,11 +192,14 @@
 			str+=`
 			<div class="book-item">
 				<div class="book-img">
-					<img alt="\${book.title}" src="\${book.cover}"/>
+					<a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
+						<img alt="\${book.title}" src="\${book.cover}"/>
+					</a>
 				</div>
 				<div class="book-content">
 					<ul>
-						<li>\${book.title} </li>
+						<li><a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
+							\${book.title} </a></li>
 						<li>\${book.author} | \${book.publisher}</li>
 						<li>\${book.pubDate}</li>
 						<li>판매가: \${book.priceStandard}원</li>

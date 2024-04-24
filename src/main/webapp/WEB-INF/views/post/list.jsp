@@ -61,7 +61,21 @@
 			  				<span class="ml-4">[${post.po_co_count}]</span>
 				  		</td>
 				  		<td>
-				  			<a href="#">${post.me_nick}</a> 
+			  				<div class="dropdown">
+								<a type="button" class="dropdown-toggle" data-toggle="dropdown">
+							    	${post.me_nick}
+								</a>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="#">Link 1</a>
+									<a class="dropdown-item" href="#">Link 2</a>
+									<c:if test="${user.me_id != post.po_me_id && user.me_ms_num == 1}">
+										<c:url value="/popup/member/punish" var="popupURL">
+											<c:param name="nick" value="${post.me_nick}"/>
+										</c:url>
+										<a class="dropdown-item member-punish-btn" type="button" data-url="${popupURL}">활동정지</a>
+									</c:if>
+								</div>
+							</div>
 			  			</td>
 				  		<td>${post.po_view}</td>
 				  		<td>${post.po_totalHeart}</td>
@@ -124,6 +138,16 @@ $("[name=order]").change(function () {
 	$("#searchForm").submit();
 });
 	
+</script>
+
+<script type="text/javascript">
+$(document).on("click",".member-punish-btn",function(){
+	let url = $(this).data("url");
+	console.log(url)
+	const options = 'width=500, height=300, top=300, left=500, scrollbars=yes'
+	
+	window.open(url,'_blank',options)
+})
 </script>
 
 </body>
