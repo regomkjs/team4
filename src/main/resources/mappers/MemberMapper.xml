@@ -79,6 +79,57 @@
 		select * from member where me_nick = #{me_nick}
 	</select>
 	
+	<select id="selectMyLoanBook" resultType="BookVO">
+		select * from book 
+		join 
+			loan on lo_bo_num = bo_num
+		where
+			lo_me_id = #{user.me_id}
+			<if test='cri.type=="all"'>
+				and (bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%'))
+			</if>
+			<if test='cri.type=="title"'>
+				and bo_title like concat('%', #{cri.search}, '%') 
+			</if>
+			<if test='cri.type=="publisher"'>
+				and bo_publisher like concat('%', #{cri.search}, '%') 
+			</if>
+			group by
+				bo_num
+			order by
+				lo_limit asc
+			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="selectTotalCountMyLoanBook" resultType="int">
+		select count(*) from book 
+		join 
+			loan on lo_bo_num = bo_num
+		where
+			lo_me_id = #{user.me_id}
+			<if test='cri.type=="all"'>
+				and (bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%'))
+			</if>
+			<if test='cri.type=="title"'>
+				and bo_title like concat('%', #{cri.search}, '%') 
+			</if>
+			<if test='cri.type=="publisher"'>
+				and bo_publisher like concat('%', #{cri.search}, '%') 
+			</if>
+	</select>
+	
+	<select id="selectMemberByLoan" resultType="MemberVO">
+		select me_phone from member
+		join 
+			loan on lo_me_id = me_id 
+		join
+			book on lo_bo_num = bo_num
+		where
+			lo_bo_num = #{book}
+	</select>
+	
 	<update id="insertBlock">
 		update member set me_block = date_add(now() , interval #{day} day)  where me_id = #{me_id}
 	</update>

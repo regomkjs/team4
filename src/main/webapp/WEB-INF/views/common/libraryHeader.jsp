@@ -37,7 +37,7 @@
 	        <a class="dropdown-item" href="<c:url value="/library/management/bookCategory"/>">도서 카테고리 관리</a>
 	        <a class="dropdown-item" href="<c:url value="/library/bookSale/list"/>">도서 판매</a>
 	        <a class="dropdown-item" href="#">??</a>
-	        <a class="dropdown-item" href="#">??</a>
+	        <a class="dropdown-item" href="<c:url value="/library/management/loan"/>">대출 관리</a>
 	      </div>
     	</li>
 	</ul>

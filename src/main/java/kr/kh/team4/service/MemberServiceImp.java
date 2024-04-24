@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import kr.kh.team4.dao.MemberDAO;
 import kr.kh.team4.model.dto.LoginDTO;
+import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.pagination.Criteria;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -236,6 +238,32 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
+	public ArrayList<BookVO> getMyLoanBookList(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return null;
+		}
+		return memberDao.selectMyLoanBook(cri, user);
+	}
+
+	@Override
+	public int totalCountMyLoanBook(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return 0;
+		}
+		return memberDao.selectTotalCountMyLoanBook(cri, user);
+	}
+
+	@Override
+	public MemberVO getMemberByLoan(int bookNum) {
+		return memberDao.selectMemberByLoan(bookNum);
+	}
+	
 	public int addBlockDay(MemberVO member, int day) {
 		if(member == null) {
 			return 0;

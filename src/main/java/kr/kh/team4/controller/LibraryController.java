@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.ReserveVO;
+import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
+import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.BookService;
@@ -76,8 +79,14 @@ public class LibraryController {
 		BookVO book=bookService.getBook(num);
 		ArrayList<BookVO> code=bookService.getBookIsbn(book.getBo_isbn());
 		ArrayList<LoanVO> loanList = bookService.getLoanList(book.getBo_isbn());
+		ArrayList<ReserveVO> reserveList = bookService.getReserveList(book.getBo_num());
+		ReviewVO avgReview = bookService.getAvgReview(book.getBo_num());
+		ReviewVO review = bookService.getReview(num);
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		model.addAttribute("user", user);
+		model.addAttribute("avgReview", avgReview);
+		model.addAttribute("reserveList", reserveList);
+		model.addAttribute("review", review);
 		model.addAttribute("loanList", loanList);
 		model.addAttribute("book",book);
 		model.addAttribute("code",code);
@@ -147,6 +156,18 @@ public class LibraryController {
 			e.printStackTrace();
 		}
 		return "/library/book/bookSaleSearch";
+	}
+	
+	@GetMapping("/library/management/loan")
+	public String loan(Model model, HttpSession session, MyBookCriteria cri) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<BookVO> list = bookService.getLoanBookList(cri, user);
+		
+		int totalCount = bookService.totalCountLoanBook(cri, user);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("loanList", list);
+		model.addAttribute("pm", pm);
+		return "/library/management/loan";
 	}
 	
 	@GetMapping("/library/bookSale/detail")

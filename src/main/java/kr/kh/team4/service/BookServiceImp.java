@@ -14,6 +14,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
@@ -253,9 +254,11 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
+		
 		//중복된경우
 		for(ReserveVO reserve : list) {
 			if(reserve.getRe_me_id().equals(user.getMe_id())) {
+				bookDao.deleteReserve(user.getMe_id(), book.getBo_num());
 				return false;
 			}
 		}
@@ -281,10 +284,10 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		
-		if(!loan.getLo_me_id().equals(user.getMe_id())) {
+		if(user.getMe_ms_num() != 1) {
 			return false;
 		}
-		return bookDao.deleteLoan(user.getMe_id(), book.getBo_num());
+		return bookDao.deleteLoan(book.getBo_num());
 	}
 	@Override
 	public ArrayList<ReviewVO> getReviewList(ReviewCriteria cri) {
@@ -339,5 +342,74 @@ public class BookServiceImp implements BookService {
 		}
 		return bookDao.updateReview(review);
 	}
-	
+
+	@Override
+	public ReviewVO getAvgReview(int bo_num) {
+		return bookDao.selectAvgReview(bo_num);
+	}
+
+	@Override
+	public int opinion(OpinionVO opinion, MemberVO user) {
+		if(opinion == null) {
+			return -2;
+		}
+		if(user == null) {
+			return -2;
+		}
+		
+		opinion.setOp_me_id(user.getMe_id());
+		OpinionVO dbOpinion = bookDao.selectOpinion(opinion);
+		
+		if(dbOpinion == null) {
+			bookDao.insertOpinion(opinion);
+		}
+		else {
+			if(opinion.getOp_state() == dbOpinion.getOp_state()) {
+				opinion.setOp_state(0);
+			}
+			bookDao.updateOpinion(opinion);
+		}
+		return opinion.getOp_state();
+	}
+
+	@Override
+	public int getUserOpinion(int rv_num, MemberVO user) {
+		if(user == null) {
+			return -2;
+		}
+		OpinionVO opinion = bookDao.selectOpinion(new OpinionVO(rv_num, user.getMe_id()));
+		return opinion == null ? -2 : opinion.getOp_state();
+	}
+
+	@Override
+	public ReviewVO getReview(int rv_num) {
+		return bookDao.selectReview(rv_num);
+	}
+
+	@Override
+	public ArrayList<BookVO> getLoanBookList(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user.getMe_ms_num() != 1) {
+			return null;
+		}
+		return bookDao.selectLoanBookList(cri, user);
+	}
+
+	@Override
+	public int totalCountLoanBook(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user.getMe_ms_num() != 1) {
+			return 0;
+		}
+		return bookDao.selectTotalCountLoanBook(cri, user);
+	}
+
+	@Override
+	public ArrayList<ReserveVO> getReserveList(int bo_num) {
+		return bookDao.selectReserveList(bo_num);
+	}
 }
