@@ -256,5 +256,10 @@ public class MemberServiceImp implements MemberService {
 		}
 		return memberDao.selectTotalCountMyLoanBook(cri, user);
 	}
+
+	@Override
+	public MemberVO getMemberByLoan(int bookNum) {
+		return memberDao.selectMemberByLoan(bookNum);
+	}
 	
 }

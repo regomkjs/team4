@@ -247,10 +247,47 @@
 	</delete>
 	
 	<select id="selectLoanBookList" resultType="BookVO">
-	
+		select * from book 
+		join 
+			loan on lo_bo_num = bo_num
+		join 
+			member on lo_me_id = me_id
+		where
+			lo_state = 1
+			<if test='cri.type=="all"'>
+				and (bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%'))
+			</if>
+			<if test='cri.type=="title"'>
+				and bo_title like concat('%', #{cri.search}, '%') 
+			</if>
+			<if test='cri.type=="publisher"'>
+				and bo_publisher like concat('%', #{cri.search}, '%') 
+			</if>
+		group by
+			bo_num
+		order by
+			lo_limit asc
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
 	
 	<select id="selectTotalCountLoanBook" resultType="int">
-	
+		select count(*) from book 
+		join 
+			loan on lo_bo_num = bo_num
+		join 
+			member on lo_me_id = me_id
+		where
+			lo_state = 1
+			<if test='cri.type=="all"'>
+				and (bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%'))
+			</if>
+			<if test='cri.type=="title"'>
+				and bo_title like concat('%', #{cri.search}, '%') 
+			</if>
+			<if test='cri.type=="publisher"'>
+				and bo_publisher like concat('%', #{cri.search}, '%') 
+			</if>
 	</select>
 </mapper>

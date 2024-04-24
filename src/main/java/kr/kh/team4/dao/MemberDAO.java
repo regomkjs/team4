@@ -45,4 +45,6 @@ public interface MemberDAO {
 
 	int selectTotalCountMyLoanBook(@Param("cri")Criteria cri, @Param("user")MemberVO user);
 
+	MemberVO selectMemberByLoan(@Param("book")int bookNum);
+
 }

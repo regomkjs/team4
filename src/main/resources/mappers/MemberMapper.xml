@@ -90,10 +90,10 @@
 				bo_publisher like concat('%', #{cri.search}, '%'))
 			</if>
 			<if test='cri.type=="title"'>
-				bo_title like concat('%', #{cri.search}, '%') 
+				and bo_title like concat('%', #{cri.search}, '%') 
 			</if>
 			<if test='cri.type=="publisher"'>
-				bo_publisher like concat('%', #{cri.search}, '%') 
+				and bo_publisher like concat('%', #{cri.search}, '%') 
 			</if>
 			group by
 				bo_num
@@ -113,10 +113,20 @@
 				bo_publisher like concat('%', #{cri.search}, '%'))
 			</if>
 			<if test='cri.type=="title"'>
-				bo_title like concat('%', #{cri.search}, '%') 
+				and bo_title like concat('%', #{cri.search}, '%') 
 			</if>
 			<if test='cri.type=="publisher"'>
-				bo_publisher like concat('%', #{cri.search}, '%') 
+				and bo_publisher like concat('%', #{cri.search}, '%') 
 			</if>
+	</select>
+	
+	<select id="selectMemberByLoan" resultType="MemberVO">
+		select me_phone from member
+		join 
+			loan on lo_me_id = me_id 
+		join
+			book on lo_bo_num = bo_num
+		where
+			lo_bo_num = #{book}
 	</select>
 </mapper>

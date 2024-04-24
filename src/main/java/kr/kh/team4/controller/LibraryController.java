@@ -153,6 +153,6 @@ public class LibraryController {
 		PageMaker pm = new PageMaker(5, cri, totalCount);
 		model.addAttribute("loanList", list);
 		model.addAttribute("pm", pm);
-		return "/member/loan";
+		return "/library/management/loan";
 	}
 }

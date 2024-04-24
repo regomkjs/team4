@@ -45,4 +45,6 @@ public interface MemberService {
 	ArrayList<BookVO> getMyLoanBookList(Criteria cri, MemberVO user);
 
 	int totalCountMyLoanBook(Criteria cri, MemberVO user);
+
+	MemberVO getMemberByLoan(int bookNum);
 }
