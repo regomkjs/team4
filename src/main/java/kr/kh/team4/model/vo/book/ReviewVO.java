@@ -21,4 +21,5 @@ public class ReviewVO {
 	private double avgScore;
 	//추천 수
 	private int rv_up;
+	private int rv_down;
 }

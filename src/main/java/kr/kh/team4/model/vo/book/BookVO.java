@@ -26,7 +26,7 @@ public class BookVO {
 	private Date lo_date;
 	private Date lo_limit;
 	private String me_nick;
-	
+	private String me_phone;
 	public BookVO(int bo_num) {
 		this.bo_num = bo_num;
 	}

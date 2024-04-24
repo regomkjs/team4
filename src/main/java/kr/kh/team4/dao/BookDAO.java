@@ -83,14 +83,17 @@ public interface BookDAO {
 
 	ReviewVO selectAvgReview(@Param("bo_num")int bo_num);
 
-	OpinionVO selectOpinion(@Param("rv_num")int rv_num, @Param("user")MemberVO user);
+	OpinionVO selectOpinion(@Param("op")OpinionVO opinion);
 
-	void insertOpinion(@Param("rv_num")int rv_num, @Param("user")MemberVO user);
+	void insertOpinion(@Param("op")OpinionVO opinion);
 
-	void deleteOpinion(@Param("rv_num")int rv_num, @Param("user")MemberVO user);
+	void updateOpinion(@Param("op")OpinionVO opinion);
 
 	ArrayList<BookVO> selectLoanBookList(@Param("cri")Criteria cri, @Param("user")MemberVO user);
 
 	int selectTotalCountLoanBook(@Param("cri")Criteria cri,@Param("user") MemberVO user);
+
+	OpinionVO selectOp(@Param("cri")Criteria cri, @Param("user")MemberVO user);
+
 
 }

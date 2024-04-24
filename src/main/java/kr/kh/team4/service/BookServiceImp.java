@@ -21,7 +21,6 @@ import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
-import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.ReviewCriteria;
 
 @Service
@@ -348,27 +347,36 @@ public class BookServiceImp implements BookService {
 	}
 
 	@Override
-	public int opinion(int rv_num, MemberVO user) {
+	public int opinion(OpinionVO opinion, MemberVO user) {
+		if(opinion == null) {
+			return -2;
+		}
 		if(user == null) {
-			return -1;
+			return -2;
 		}
-		OpinionVO op = bookDao.selectOpinion(rv_num, user);
-		if(op == null) {
-			bookDao.insertOpinion(rv_num, user);
-			return 1;
-		}else {
-			bookDao.deleteOpinion(rv_num, user);
-			return 0;
+		
+		opinion.setOp_me_id(user.getMe_id());
+		OpinionVO dbOpinion = bookDao.selectOpinion(opinion);
+		
+		if(dbOpinion == null) {
+			bookDao.insertOpinion(opinion);
 		}
+		else {
+			if(opinion.getOp_state() == dbOpinion.getOp_state()) {
+				opinion.setOp_state(0);
+			}
+			bookDao.updateOpinion(opinion);
+		}
+		return opinion.getOp_state();
 	}
 
 	@Override
 	public int getUserOpinion(int rv_num, MemberVO user) {
 		if(user == null) {
-			return -1;
+			return -2;
 		}
-		OpinionVO opinion = bookDao.selectOpinion(rv_num, user);
-		return opinion == null ? -1 : opinion.getOp_state();
+		OpinionVO opinion = bookDao.selectOpinion(new OpinionVO(rv_num, user.getMe_id()));
+		return opinion == null ? -2 : opinion.getOp_state();
 	}
 
 	@Override

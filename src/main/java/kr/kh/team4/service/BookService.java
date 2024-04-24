@@ -72,7 +72,7 @@ public interface BookService {
 
 	ReviewVO getAvgReview(int bo_num);
 
-	int opinion(int rv_num, MemberVO user);
+	int opinion(OpinionVO opinion, MemberVO user);
 
 	int getUserOpinion(int rv_num, MemberVO user);
 

@@ -366,7 +366,8 @@ function displayReviewList(list){
 					\${btns}
 				</div>
 				<span style="font-size: small;" class="mr-4">작성시간 : \${moment(item.rv_date).format('YY/MM/DD HH:mm')}<br />
-				<i class="bi bi-hand-thumbs-up bi-up" style="font-size : 20px; cursor:pointer;" data-num="\${item.rv_num}">추천(<span class="text-up">\${item.rv_up}</span>)</i>
+				<i class="bi bi-hand-thumbs-up btn-up" style="font-size : 20px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}">추천(<span class="text-up">\${item.rv_up}</span>)</i>
+				<i class="bi bi-hand-thumbs-down btn-down" style="font-size : 20px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}">비추천(<span class="text-down">\${item.rv_down}</span>)</i>
 			</div>
 		`
 	}
@@ -570,78 +571,84 @@ function initReview() {
 </script>
 <!-- 리뷰 추천 -->
 <script type="text/javascript">
-$(document).on("click",".bi-up",function(){
+$(document).on("click",".btn-up,.btn-down",function(){
 	if(!checkLogin()){
 		return;
 	}
-	let rv_num =  $(this).data('num');
+	let state = $(this).data('state');
+	let rv_num = $(this).data('num');
+	let opinion = {
+			op_state : state,
+			op_rv_num : rv_num
+	}
 	$.ajax({
 		url : '<c:url value="/opinion/check"/>',
 		method : "post",
-		data : {
-			"rv_num" : rv_num
-		},
+		data : JSON.stringify(opinion),
+		contentType : "application/json; charset=utf-8",
+		dataType : "json",
 		success : function (data) {
 			switch (data.result) {
 			case 1:
-				alert("리뷰를 추천했습니다.");
-				$('.bi-up').addClass("bi-hand-thumbs-up-fill");
-				$('.bi-up').removeClass("bi-hand-thumbs-up");
+				alert("추천 했습니다.")
 				break;
 			case 0:
-				alert("추천을 취소했습니다.");
-				$('.bi-up').addClass("bi-hand-thumbs-up");
-				$('.bi-up').removeClass("bi-hand-thumbs-up-fill");
+				let str = opinion.op_state == 1 ? '추천' : '비추천';
+				alert(`\${str}을 취소했습니다.`)
 				break;
 			case -1:
-				alert("에러 발생")
+				alert("비추천 했습니다.")
 				break;
+			default:
+				alert("추천/비추천을 하지 못했습니다.")
 			}
-			getOpinion();
+			getOpinion()
 		},
 		error : function (a,b,c) {
 			console.error("에러 발생2");
 		}
 	});
 	
-});
-
-function getOpinion() {
-	let rv_num = $(this).data('num');
-	let obj = {
-			"rv_num" : rv_num
-	}
-	
-	$.ajax({
-		async : true,
-		url : '<c:url value="/opinion"/>', 
-		type : 'post', 
-		data : obj, 
-		dataType : "json", 
-		success : function (data){
-			displayUpdateOpinion(data.review);
-			displayOpinion(data.state);
-		}, 
-		error : function(jqXHR, textStatus, errorThrown){
-
+	function getOpinion() {
+		let rv_num = $(this).data('num');
+		let obj = {
+				rv_num : num
 		}
-	});
-}
+		
+		$.ajax({
+			async : true,
+			url : '<c:url value="/opinion"/>', 
+			type : 'post', 
+			data : obj, 
+			dataType : "json", 
+			success : function (data){
+				displayUpdateOpinion(data.review);
+				displayOpinion(data.state);
+			}, 
+			error : function(jqXHR, textStatus, errorThrown){
 
-function displayUpdateOpinion(review) {
-	$(".text-up").text(review.rv_up);
-}
-
-function displayOpinion(state) {
-	$('.bi-up').addClass("bi-hand-thumbs-up");
-	$('.bi-up').removeClass("bi-hand-thumbs-up-fill");
-	if(state == 1){
-		$('.bi-up').removeClass("bi-hand-thumbs-up");
-		$('.bi-up').addClass("bi-hand-thumbs-up-fill");
-	}else{
-		$('.bi-up').removeClass("bi-hand-thumbs-up-fill");
-		$('.bi-up').addClass("bi-hand-thumbs-up");
+			}
+		});
 	}
-}
-getOpinion();
+
+	function displayUpdateOpinion(review) {
+		$(".text-up").text(review.rv_up);
+		$(".text-down").text(review.rv_down);
+	}
+
+	function displayOpinion(state) {
+		$('.btn-up').addClass("bi-hand-thumbs-up");
+		$('.btn-up').removeClass("bi-hand-thumbs-up-fill");
+		$('.btn-down').addClass("bi-hand-thumbs-down");
+		$('.btn-down').removeClass("bi-hand-thumbs-down-fill");
+		if(state == 1){
+			$('.btn-up').removeClass("bi-hand-thumbs-up");
+			$('.btn-up').addClass("bi-hand-thumbs-up-fill");
+		}else if(state == -1){
+			$('.btn-down').removeClass("bi-hand-thumbs-down");
+			$('.btn-down').addClass("bi-hand-thumbs-down-fill");
+		}
+	}
+	getOpinion();
+});
 </script>
