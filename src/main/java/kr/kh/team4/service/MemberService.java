@@ -40,4 +40,6 @@ public interface MemberService {
 
 	MemberVO getMemberByNick(String me_nick);
 
+	int addBlockDay(MemberVO member, int day);
+
 }

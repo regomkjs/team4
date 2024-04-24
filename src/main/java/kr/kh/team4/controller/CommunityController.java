@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
+import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.PostService;
@@ -167,4 +168,42 @@ public class CommunityController {
 		map.put("count", count);
 		return map;
 	}
+	
+	@ResponseBody
+	@PostMapping("/report/complete")
+	public Map<String, Object> reportRejectPost(@RequestParam("rp_num")int rp_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = postService.deleteReport(rp_num); 
+		map.put("result", res);
+		return map;
+	}
+	
+	
+	@ResponseBody
+	@PostMapping("/report/post/delete")
+	public Map<String, Object> reportPostDeletePost(@RequestParam("rp_num")int rp_num, @RequestParam("po_num")int po_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res1 = postService.deletePost(new PostVO(po_num));
+		map.put("result1", res1);
+		if(res1) {
+			boolean res2 = postService.deleteReport(rp_num); 
+			map.put("result2", res2);
+		}
+		return map;
+	}
+	
+	
+	@ResponseBody
+	@PostMapping("/report/comment/delete")
+	public Map<String, Object> reportCommentDeletePost(@RequestParam("rp_num")int rp_num, @RequestParam("co_num")int co_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res1 = postService.deleteCommentAdmin(co_num);
+		map.put("result1", res1);
+		if(res1) {
+			boolean res2 = postService.deleteReport(rp_num); 
+			map.put("result2", res2);
+		}
+		return map;
+	}
+	
 }	

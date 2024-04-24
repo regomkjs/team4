@@ -95,4 +95,16 @@ public class HomeAjaxController {
 		map.put("result", res);
 		return map;
 	}
+	
+	
+	@ResponseBody
+	@PostMapping("/member/block")
+	public Map<String, Object> memberBlockPost(@RequestParam("me_id")String me_id, @RequestParam("day")int day){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO member = memberService.getMember(me_id);
+		int res = memberService.addBlockDay(member, day);
+		map.put("result", res);
+		return map;
+	}
+
 }

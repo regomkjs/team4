@@ -15,7 +15,7 @@ public class MemberVO {
 	private String me_nick; 
 	private Date me_date; 
 	private int me_fail_count; 
-	private Date me_block; 
+	private String me_block; 
 	private Date me_loan_block; 
 	private int me_count;
 	private int me_loan_count;

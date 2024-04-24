@@ -4,6 +4,10 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
  
 <tiles-definitions>
+	<!-- 팝업 레이아웃 -->
+	<definition name="/popup/*/*" template="/WEB-INF/views/layout/popupLayout.jsp">
+        <put-attribute name="body" value="/WEB-INF/views/popup/{1}/{2}.jsp" />
+    </definition>
  	<!-- 도서관 레이아웃 -->
   	<definition name="/library/*/*" template="/WEB-INF/views/layout/libraryLayout.jsp">
         <put-attribute name="header" value="/WEB-INF/views/common/libraryHeader.jsp" />   

@@ -609,4 +609,24 @@ public class PostServiceImp implements PostService {
 		return count;
 	}
 
+	@Override
+	public boolean deleteReport(int rp_num) {
+		return postDAO.deleteReport(rp_num);
+	}
+
+	@Override
+	public boolean deleteCommentAdmin(int num) {
+		CommentVO comment = postDAO.selectComment(num);
+		if(comment.getCo_ori_num() == num && postDAO.countReply(comment.getCo_ori_num()) > 1) {
+			return postDAO.updateCommentState(num);
+		}
+		else {
+			CommentVO oriComment = postDAO.selectComment(comment.getCo_ori_num());
+			if(oriComment.getCo_state() == 0 &&  postDAO.countReply(comment.getCo_ori_num()) == 2) {
+				postDAO.deleteComment(oriComment.getCo_num());
+			}
+			return postDAO.deleteComment(num);
+		}
+	}
+
 }

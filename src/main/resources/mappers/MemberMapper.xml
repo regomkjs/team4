@@ -78,4 +78,12 @@
 	<select id="selectMemberByNick" resultType="MemberVO">
 		select * from member where me_nick = #{me_nick}
 	</select>
+	
+	<update id="insertBlock">
+		update member set me_block = date_add(now() , interval #{day} day)  where me_id = #{me_id}
+	</update>
+	
+	<update id="updateBlock">
+		update member set me_block = date_add(me_block , interval #{day} day)  where me_id = #{me_id}
+	</update>
 </mapper>

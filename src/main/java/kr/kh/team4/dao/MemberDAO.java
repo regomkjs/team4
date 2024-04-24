@@ -39,4 +39,8 @@ public interface MemberDAO {
 
 	MemberVO selectMemberByNick(@Param("me_nick")String me_nick);
 
+	void insertBlock(@Param("me_id")String me_id, @Param("day")int day);
+
+	void updateBlock(@Param("me_id")String me_id, @Param("day")int day);
+
 }

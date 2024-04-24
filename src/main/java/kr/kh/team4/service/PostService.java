@@ -101,4 +101,8 @@ public interface PostService {
 
 	int deleteReportList(int[] reportArr);
 
+	boolean deleteReport(int rp_num);
+
+	boolean deleteCommentAdmin(int co_num);
+
 }

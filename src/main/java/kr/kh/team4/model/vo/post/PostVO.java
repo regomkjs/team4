@@ -31,6 +31,11 @@ public class PostVO {
 	//투표 포함 여부
 	private boolean po_votePost;
 	
+	
+	public PostVO(int po_num) {
+		this.po_num = po_num;
+	}
+	
 	/*
 	public String calDateString(Date po_datetime) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
