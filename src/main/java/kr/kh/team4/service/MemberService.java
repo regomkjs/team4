@@ -3,8 +3,10 @@ package kr.kh.team4.service;
 import java.util.ArrayList;
 
 import kr.kh.team4.model.dto.LoginDTO;
+import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.pagination.Criteria;
 
 public interface MemberService {
 
@@ -40,6 +42,12 @@ public interface MemberService {
 
 	MemberVO getMemberByNick(String me_nick);
 
+	ArrayList<BookVO> getMyLoanBookList(Criteria cri, MemberVO user);
+
+	int totalCountMyLoanBook(Criteria cri, MemberVO user);
+
+	MemberVO getMemberByLoan(int bookNum);
+	
 	int addBlockDay(MemberVO member, int day);
 
 }

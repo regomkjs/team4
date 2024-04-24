@@ -8,6 +8,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
@@ -64,7 +65,7 @@ public interface BookDAO {
 
 	boolean insertReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
 
-	boolean deleteLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+	boolean deleteLoan(@Param("bo_num")int bo_num);
 
 	ArrayList<ReserveVO> selectReserveList(@Param("bo_num")int bo_num);
 
@@ -79,6 +80,22 @@ public interface BookDAO {
 	boolean deleteReview(@Param("rv_num")int rv_num);
 
 	boolean updateReview(@Param("review")ReviewVO review);
+
+	ReviewVO selectAvgReview(@Param("bo_num")int bo_num);
+
+	OpinionVO selectOpinion(@Param("op")OpinionVO opinion);
+
+	void insertOpinion(@Param("op")OpinionVO opinion);
+
+	void updateOpinion(@Param("op")OpinionVO opinion);
+
+	ArrayList<BookVO> selectLoanBookList(@Param("cri")Criteria cri, @Param("user")MemberVO user);
+
+	int selectTotalCountLoanBook(@Param("cri")Criteria cri,@Param("user") MemberVO user);
+
+	OpinionVO selectOp(@Param("cri")Criteria cri, @Param("user")MemberVO user);
+
+	void deleteReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
 
 
 }

@@ -17,4 +17,9 @@ public class ReviewVO {
 	
 	//회원 닉네임
 	private String me_nick;
+	//평점
+	private double avgScore;
+	//추천 수
+	private int rv_up;
+	private int rv_down;
 }
