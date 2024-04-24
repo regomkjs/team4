@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
@@ -70,11 +71,13 @@ public class LibraryController {
 		BookVO book=bookService.getBook(num);
 		ArrayList<BookVO> code=bookService.getBookIsbn(book.getBo_isbn());
 		ArrayList<LoanVO> loanList = bookService.getLoanList(book.getBo_isbn());
+		ArrayList<ReserveVO> reserveList = bookService.getReserveList(book.getBo_num());
 		ReviewVO avgReview = bookService.getAvgReview(book.getBo_num());
 		ReviewVO review = bookService.getReview(num);
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		model.addAttribute("user", user);
 		model.addAttribute("avgReview", avgReview);
+		model.addAttribute("reserveList", reserveList);
 		model.addAttribute("review", review);
 		model.addAttribute("loanList", loanList);
 		model.addAttribute("book",book);

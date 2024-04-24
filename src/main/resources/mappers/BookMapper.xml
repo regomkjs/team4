@@ -298,4 +298,8 @@
 				and bo_publisher like concat('%', #{cri.search}, '%') 
 			</if>
 	</select>
+	
+	<delete id="deleteReserve">
+		delete from reserve where re_bo_num = #{bo_num} and re_me_id = #{me_id}
+	</delete>
 </mapper>

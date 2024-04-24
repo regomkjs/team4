@@ -95,5 +95,7 @@ public interface BookDAO {
 
 	OpinionVO selectOp(@Param("cri")Criteria cri, @Param("user")MemberVO user);
 
+	void deleteReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+
 
 }

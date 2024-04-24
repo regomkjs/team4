@@ -82,6 +82,8 @@ public interface BookService {
 
 	int totalCountLoanBook(Criteria cri, MemberVO user);
 
+	ArrayList<ReserveVO> getReserveList(int bo_num);
+
 
 	
 }

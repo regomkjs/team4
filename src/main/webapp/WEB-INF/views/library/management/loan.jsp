@@ -154,8 +154,7 @@ $(".btn-send").click(function(){
         }
     });
 	$(phones).each(function(index, phone) {
-		console.log(phone);
-		 
+		
 		$.ajax({
 			async : false,
 			url : '<c:url value="/mail/send"/>',

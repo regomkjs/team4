@@ -254,9 +254,11 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
+		
 		//중복된경우
 		for(ReserveVO reserve : list) {
 			if(reserve.getRe_me_id().equals(user.getMe_id())) {
+				bookDao.deleteReserve(user.getMe_id(), book.getBo_num());
 				return false;
 			}
 		}
@@ -404,5 +406,10 @@ public class BookServiceImp implements BookService {
 			return 0;
 		}
 		return bookDao.selectTotalCountLoanBook(cri, user);
+	}
+
+	@Override
+	public ArrayList<ReserveVO> getReserveList(int bo_num) {
+		return bookDao.selectReserveList(bo_num);
 	}
 }

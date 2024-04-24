@@ -102,6 +102,9 @@ ol.colorlist {
 							${co.bo_code}
 								<c:forEach items="${loanList}" var="loan">
 									<c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}"><span style="color:red">대출 중</span></c:if>
+									<c:forEach items="${reserveList}" var="reserve">
+										<c:if test="${reserve.re_state == 1 && reserve.re_me_id == user.me_id && reserve.re_bo_num == co.bo_num}">예약 중</c:if>
+									</c:forEach>
 								</c:forEach>
 						</li>
 						<button class="btn btn-outline-primary loan-btn"
@@ -257,11 +260,11 @@ ol.colorlist {
 				if (data.result) {
 					alert("${book.bo_title}책을 예약했습니다.");
 				} else {
-					alert("예약을 못했습니다.")
+					alert("예약을 취소하거나 못했습니다.")
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
-				alert("이미 예약한 책입니다.")
+				alert("에러")
 			}
 		});
 	});
@@ -602,28 +605,23 @@ $(document).on("click",".btn-up,.btn-down",function(){
 			default:
 				alert("추천/비추천을 하지 못했습니다.")
 			}
-			getOpinion()
+			getOpinion(rv_num)
 		},
 		error : function (a,b,c) {
 			console.error("에러 발생2");
 		}
 	});
 	
-	function getOpinion() {
-		let rv_num = $(this).data('num');
-		let obj = {
-				rv_num : num
-		}
-		
+	function getOpinion(rv_num) {
 		$.ajax({
 			async : true,
 			url : '<c:url value="/opinion"/>', 
 			type : 'post', 
-			data : obj, 
+			data : rv_num, 
 			dataType : "json", 
 			success : function (data){
-				displayUpdateOpinion(data.review);
-				displayOpinion(data.state);
+				displayUpdateOpinion(data.review, rv_num);
+				displayOpinion(data.state, rv_num);
 			}, 
 			error : function(jqXHR, textStatus, errorThrown){
 
@@ -631,23 +629,19 @@ $(document).on("click",".btn-up,.btn-down",function(){
 		});
 	}
 
-	function displayUpdateOpinion(review) {
-		$(".text-up").text(review.rv_up);
-		$(".text-down").text(review.rv_down);
+	function displayUpdateOpinion(review, rv_num) {
+		$(`.btn-up[data-num="${rv_num}"]`).next(".text-up").text(review.rv_up);
+	    $(`.btn-down[data-num="${rv_num}"]`).next(".text-down").text(review.rv_down)
 	}
-
-	function displayOpinion(state) {
-		$('.btn-up').addClass("bi-hand-thumbs-up");
-		$('.btn-up').removeClass("bi-hand-thumbs-up-fill");
-		$('.btn-down').addClass("bi-hand-thumbs-down");
-		$('.btn-down').removeClass("bi-hand-thumbs-down-fill");
-		if(state == 1){
-			$('.btn-up').removeClass("bi-hand-thumbs-up");
-			$('.btn-up').addClass("bi-hand-thumbs-up-fill");
-		}else if(state == -1){
-			$('.btn-down').removeClass("bi-hand-thumbs-down");
-			$('.btn-down').addClass("bi-hand-thumbs-down-fill");
-		}
+	function displayOpinion(state, rv_num) {
+	    $(`.btn-up[data-num="${rv_num}"]`).addClass("bi-hand-thumbs-up").removeClass("bi-hand-thumbs-up-fill");
+	    $(`.btn-down[data-num="${rv_num}"]`).addClass("bi-hand-thumbs-down").removeClass("bi-hand-thumbs-down-fill");
+	    
+	    if (state == 1) {
+	        $(`.btn-up[data-num="${rv_num}"]`).removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+	    } else if (state == -1) {
+	        $(`.btn-down[data-num="${rv_num}"]`).removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
+	    }
 	}
 	getOpinion();
 });
