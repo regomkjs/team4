@@ -41,7 +41,7 @@
 			<c:forEach items="${loanList}" var="loan" varStatus="vs">
 				<c:if test="${loan.bo_num > 0}">
 					<tr>
-						<td><input type="checkbox" id="check" name="check" data-num="${loan.bo_num}"></td>
+						<td><input type="checkbox" id="check" name="check" data-num="${loan.bo_num}" data-phone="${loan.me_phone}"></td>
 				  		<td>${pm.totalCount - vs.index - pm.cri.pageStart}</td>
 				  		<td>
 					  		<img src="${loan.bo_thumbnail}">
@@ -81,7 +81,7 @@
 				
 					<!-- Modal body -->
 					<div class="modal-body">
-						<textarea rows="20" cols="60" id="mail-content">반납 만기일까지 X일 남은 책이 있습니다. 연장해주시거나 반납해주시길 바랍니다. ※연체일시 대출에 제한이 생기니 주의 바랍니다.</textarea>
+						<textarea rows="20" cols="60" id="mail-content" name="content">반납 만기일까지 X일 남은 책이 있습니다. 연장해주시거나 반납해주시길 바랍니다. ※연체일시 대출에 제한이 생기니 주의 바랍니다.</textarea>
 					</div>
 				
 				    <!-- Modal footer -->
@@ -142,44 +142,36 @@ $(document).ready(function(){
 });
 </script>
 <script type="text/javascript">
-$("input[name='check']").click(function(){
-	if($(this).is(":checked")){
-		
-	    let bookNum = $(this).data("num");
-         
-		$.ajax({
-			url : '<c:url value="/book/check"/>',
-			method : "post",
-			data : {
-				bookNum : bookNum
-			},
-			success : function (data) {
-				console.log(data.result);
-			},
-			error : function (a,b,c) {
-				console.error("에러 발생2");
-			}
-		});
-	}
-});
-</script>
-<script type="text/javascript">
+
 $(".btn-send").click(function(){
 	
-	let phone = ;
 	let content = $('#mail-content').val();
-	$.ajax({
-		url : '<c:url value="/mail/send"/>',
-		method : "post",
-		data : {
-			bookNum : bookNum
-		},
-		success : function (data) {
-			alert('문자 메시지가 성공적으로 전송되었습니다.');
-		},
-		error : function (a,b,c) {
-			alert('문자 메시지 전송에 실패하였습니다');
-		}
+	let phones = [];
+	 $("input[name='check']:checked").each(function() {
+        let phone = $(this).data("phone");
+        if(phone) {
+            phones.push(phone);
+        }
+    });
+	$(phones).each(function(index, phone) {
+		console.log(phone);
+		 
+		$.ajax({
+			async : false,
+			url : '<c:url value="/mail/send"/>',
+			method : "post",
+			data : {
+				phone : phone,
+				content : content
+			},
+			dataType : "json", 
+			success : function (data) {
+				alert('문자 메시지가 성공적으로 전송되었습니다.');
+			},
+			error : function (a,b,c) {
+				alert('문자 메시지 전송에 실패하였습니다');
+			}
+		});
 	});
 });
 </script>
