@@ -222,4 +222,8 @@
 		where
 			rv_num = #{review.rv_num}
 	</update>
+	
+	<insert id="insertSale">
+		insert into sale(sa_uid,sa_date,sa_me_id) value(#{uid},now(),#{user.me_id})
+	</insert>
 </mapper>

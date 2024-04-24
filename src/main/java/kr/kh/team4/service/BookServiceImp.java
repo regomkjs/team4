@@ -339,5 +339,15 @@ public class BookServiceImp implements BookService {
 		}
 		return bookDao.updateReview(review);
 	}
+
+	@Override
+	public boolean insertSale(MemberVO user, String uid) {
+		if(user==null||uid==null) {
+			return false;
+		}
+		return bookDao.insertSale(user,uid);
+	}
+
+
 	
 }

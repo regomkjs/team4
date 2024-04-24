@@ -203,4 +203,13 @@ public class LibraryAjaxController {
 		map.put("result", res);
 		return map;
 	}
+	
+	@PostMapping("/library/sale/insert")
+	public Map<String, Object> saleInsert(String uid,HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user=(MemberVO) session.getAttribute("user");
+		boolean res=bookService.insertSale(user,uid);
+		map.put("res",res);
+		return map;
+	}
 }

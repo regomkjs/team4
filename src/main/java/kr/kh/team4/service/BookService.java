@@ -68,5 +68,9 @@ public interface BookService {
 
 	boolean updateReview(ReviewVO review, MemberVO user);
 
+	boolean insertSale(MemberVO user, String uid);
+
+
+
 	
 }
