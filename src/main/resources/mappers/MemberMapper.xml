@@ -121,13 +121,13 @@
 	</select>
 	
 	<select id="selectMemberByLoan" resultType="MemberVO">
-		select me_phone from member
+		select me_id, me_phone from member
 		join 
 			loan on lo_me_id = me_id 
 		join
 			book on lo_bo_num = bo_num
 		where
-			lo_bo_num = #{book}
+			lo_bo_num = #{book} and lo_state = 1
 	</select>
 	
 	<update id="insertBlock">

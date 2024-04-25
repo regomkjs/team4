@@ -63,7 +63,7 @@ public interface BookDAO {
 
 	boolean deleteUnder(@Param("un_num")int num);
 
-	boolean insertReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+	boolean insertReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num, @Param("member_id")String member_id);
 
 	boolean updateLoanBook(@Param("bo_num")int bo_num);
 
@@ -102,5 +102,7 @@ public interface BookDAO {
 	ReserveVO selectReserve(@Param("bo_num")int bo_num);
 
 	void updateReserve(@Param("bo_num")String lo_bo_num, @Param("me_id")String lo_me_id);
+
+	LoanVO selectCurrentLoan(@Param("bo_num")int bo_num);
 
 }
