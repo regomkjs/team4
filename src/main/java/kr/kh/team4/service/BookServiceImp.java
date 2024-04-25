@@ -1,12 +1,15 @@
 package kr.kh.team4.service;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
 import kr.kh.team4.dao.BookDAO;
 import kr.kh.team4.dao.MemberDAO;
@@ -19,9 +22,12 @@ import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
+import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.ReviewCriteria;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Service
 public class BookServiceImp implements BookService {
@@ -31,6 +37,7 @@ public class BookServiceImp implements BookService {
 
 	@Autowired
 	MemberDAO memberDao;
+
 	private boolean checkString(String str) {
 		return str == null && str.length() == 0;
 	}
@@ -185,61 +192,93 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean loanBook(MemberVO user, BookVO book) {
-		if(user == null || book == null) {
+		if (user == null || book == null) {
 			return false;
 		}
-		LoanVO loan = bookDao.selectLoan(book.getBo_num());
-		try {
-			if(loan != null) {
+		
+		 LoanVO currentLoan = bookDao.selectCurrentLoan(book.getBo_num());
+		    if(currentLoan != null && currentLoan.getLo_state() == 1) {
+		        return false;
+		    }
+		
+		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
+		if(list.size() != 0) {
+			if(list.get(0).getRe_me_id().equals(user.getMe_id())) {
+				boolean res = bookDao.insertLoan(user.getMe_id(), book.getBo_num());
+				if(res) {
+					bookDao.deleteReserve(user.getMe_id(), book.getBo_num());
+					return true;
+				}
+			}
+			return false;
+		}
+		LoanVO loan = bookDao.selectLoan(book.getBo_num(), user.getMe_id());
+
+		if(loan == null) {
+			boolean res = bookDao.insertLoan(user.getMe_id(), book.getBo_num());
+			if (res) {
+				updateMemberGrade(user);
+			} else {
 				return false;
 			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		boolean res = bookDao.insertLoan(user.getMe_id(), book.getBo_num());
-		if(res) {
-			memberDao.updateLoanCount(user);
-		}else {
+			
+		}else if(loan.getLo_state() == 0){
+			updateMemberGrade(user);
+			bookDao.updateInsertLoan(book.getBo_num(), user.getMe_id());
+		} else {
 			return false;
 		}
-		return true; 
-	}
 
-	@Override
-	public LoanVO getLoan(int num) {
-		return bookDao.selectLoan(num);
+		return true;
 	}
-
+	
+	private void updateMemberGrade(MemberVO user) {
+		memberDao.updateLoanCount(user);
+		ArrayList<GradeVO> gradeList = memberDao.selectGradeList();
+		MemberVO member = memberDao.selectMember(user.getMe_id());
+		GradeVO updatedGrade = null;
+		for (int i = 0; i <= gradeList.size(); i++) {
+			if (member.getMe_loan_count() >= gradeList.get(i).getGr_loan_condition()) {
+				updatedGrade = gradeList.get(i);
+			} else {
+				break;
+			}
+		}
+		
+		if (updatedGrade != null) {
+			memberDao.updateUserGrade(user.getMe_id(), updatedGrade.getGr_num());
+		}
+	}
+	
 	@Override
 	public boolean extendBook(MemberVO user, BookVO book) {
-		if(user == null || book == null) {
+		if (user == null || book == null) {
 			return false;
 		}
-		LoanVO loan = bookDao.selectLoan(book.getBo_num());
-		if(loan == null) {
+		LoanVO loan = bookDao.selectLoan(book.getBo_num(),user.getMe_id());
+		if (loan == null) {
 			return false;
 		}
-		//대출한 회원과 로그인한 회원이 다를경우
-		if(!loan.getLo_me_id().equals(user.getMe_id())) {
+		// 대출한 회원과 로그인한 회원이 다를경우
+		if (!loan.getLo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
-		
+
 		Date today = new Date();
 		Date limit = loan.getLo_limit();
 		long difference = Math.abs(limit.getTime() - today.getTime());
-        long differenceDays = difference / (24 * 60 * 60 * 1000);
-        //반납만기일까지 3일이 넘는 경우
-        if(differenceDays > 3) {
-        	return false;
-        }
-        
-        ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
-        //예약 된 경우
-        if(list != null) {
-        	return false;
-        }
-        
+		long differenceDays = difference / (24 * 60 * 60 * 1000);
+		// 반납만기일까지 3일이 넘는 경우
+		if (differenceDays > 3) {
+			return false;
+		}
+
+		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
+		// 예약 된 경우
+		if (list != null) {
+			return false;
+		}
+
 		return bookDao.updateLoan(user.getMe_id(), book.getBo_num());
 	}
 
@@ -250,94 +289,128 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean reserveBook(MemberVO user, BookVO book) {
-		if(user == null || book == null) {
+		if (user == null || book == null) {
 			return false;
 		}
 		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
-		
-		//중복된경우
-		for(ReserveVO reserve : list) {
-			if(reserve.getRe_me_id().equals(user.getMe_id())) {
+
+		// 중복된경우
+		for (ReserveVO reserve : list) {
+			if (reserve.getRe_me_id().equals(user.getMe_id())) {
 				bookDao.deleteReserve(user.getMe_id(), book.getBo_num());
 				return false;
 			}
 		}
-		LoanVO loan = bookDao.selectLoan(book.getBo_num());
-		//대출이 안 된 경우
-		if(loan == null) {
-			return false;
+		LoanVO loan = bookDao.selectLoan(book.getBo_num(), user.getMe_id());
+		if(loan != null) {
+			if(loan.getLo_state() == 1) {
+				return false;
+			}
+			// 대출한 사람과 로그인한 사람이 같은 경우
+			if (loan.getLo_state() == 1 && loan.getLo_me_id().equals(user.getMe_id())) {
+				return false;
+			}
 		}
-		// 대출한 사람과 로그인한 사람이 같은 경우
-		if (loan.getLo_me_id().equals(user.getMe_id())) {
-			return false;
-		}
-		return bookDao.insertReserve(user.getMe_id(), book.getBo_num());
+		MemberVO member = memberDao.selectMemberByLoan(book.getBo_num()); 
+		return bookDao.insertReserve(user.getMe_id(), book.getBo_num(), member.getMe_id());
 	}
 
 	@Override
 	public boolean returnBook(MemberVO user, BookVO book) {
-		if(user == null || book == null) {
+		if (user == null || book == null) {
 			return false;
 		}
-		LoanVO loan = bookDao.selectLoan(book.getBo_num());
-		if(loan == null) {
+		LoanVO loan = bookDao.selectLoan(book.getBo_num(),user.getMe_id());
+		if (loan == null) {
 			return false;
 		}
-		
-		if(user.getMe_ms_num() != 1) {
+
+//		if (user.getMe_ms_num() != 1) {
+//			return false;
+//		}
+		boolean res = bookDao.updateLoanBook(book.getBo_num());
+		if(res) {
+			BookVO bo = bookDao.getBook(book.getBo_num());
+			ReserveVO reserve = bookDao.selectReserve(book.getBo_num());
+			if(reserve != null) {
+				bookDao.updateReserve(loan.getLo_bo_num(), loan.getLo_me_id());
+				String api_key = "NCSJAUZLM1DHEWEW";
+				String api_secret = "RM7CHJOAGAI3S9CBNC92JDBHOPO8LTFV";
+				Message coolsms = new Message(api_key, api_secret);
+				
+				// 4 params(to, from, type, text) are mandatory. must be filled
+				HashMap<String, String> params = new HashMap<String, String>();
+				params.put("to", reserve.getMe_phone());	// 수신전화번호
+				params.put("from", "01050602154");	// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+				params.put("type", "SMS");	// 타입
+				params.put("text", "예약하신 "+ bo.getBo_title() +"책이 반납되었습니다. 대출하러 와 주세요."); //내용
+				params.put("app_version", "test app 1.2"); // application name and version
+				
+				try {
+					JSONObject obj = (JSONObject) coolsms.send(params);
+					System.out.println(obj.toString());
+				} catch (CoolsmsException e) {
+					System.out.println(e.getMessage());
+					System.out.println(e.getCode());
+				}
+			}
+			return true;
+		}else {
 			return false;
 		}
-		return bookDao.deleteLoan(book.getBo_num());
 	}
+
 	@Override
 	public ArrayList<ReviewVO> getReviewList(ReviewCriteria cri) {
-		if(cri == null) {
+		if (cri == null) {
 			return null;
 		}
 		return bookDao.selectReviewList(cri);
 	}
+
 	@Override
 	public int getTotalCountReview(ReviewCriteria cri) {
-		if(cri == null) {
+		if (cri == null) {
 			return 0;
 		}
 		return bookDao.selectTotalCountReview(cri);
 	}
+
 	@Override
 	public boolean insertReview(ReviewVO review, MemberVO user) {
-		if(review == null) {
+		if (review == null) {
 			return false;
 		}
-		if(user == null) {
+		if (user == null) {
 			return false;
 		}
 		review.setRv_me_id(user.getMe_id());
 		return bookDao.insertReview(review);
 	}
+
 	@Override
 	public boolean deleteReview(ReviewVO review, MemberVO user) {
-		if(review == null || user == null) {
+		if (review == null || user == null) {
 			return false;
 		}
 		ReviewVO dbReview = bookDao.selectReview(review.getRv_num());
-		if( dbReview == null ||
-			!dbReview.getRv_me_id().equals(user.getMe_id()))
+		if (dbReview == null || !dbReview.getRv_me_id().equals(user.getMe_id()))
 			return false;
-		
+
 		return bookDao.deleteReview(review.getRv_num());
 	}
+
 	@Override
 	public boolean updateReview(ReviewVO review, MemberVO user) {
-		if(review == null || review.getRv_content() == null) {
+		if (review == null || review.getRv_content() == null) {
 			return false;
 		}
-		if(user == null ) {
+		if (user == null) {
 			return false;
 		}
-		
+
 		ReviewVO dbReview = bookDao.selectReview(review.getRv_num());
-		if( dbReview == null ||
-			!dbReview.getRv_me_id().equals(user.getMe_id())) {
+		if (dbReview == null || !dbReview.getRv_me_id().equals(user.getMe_id())) {
 			return false;
 		}
 		return bookDao.updateReview(review);
@@ -350,21 +423,20 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public int opinion(OpinionVO opinion, MemberVO user) {
-		if(opinion == null) {
+		if (opinion == null) {
 			return -2;
 		}
-		if(user == null) {
+		if (user == null) {
 			return -2;
 		}
-		
+
 		opinion.setOp_me_id(user.getMe_id());
 		OpinionVO dbOpinion = bookDao.selectOpinion(opinion);
-		
-		if(dbOpinion == null) {
+
+		if (dbOpinion == null) {
 			bookDao.insertOpinion(opinion);
-		}
-		else {
-			if(opinion.getOp_state() == dbOpinion.getOp_state()) {
+		} else {
+			if (opinion.getOp_state() == dbOpinion.getOp_state()) {
 				opinion.setOp_state(0);
 			}
 			bookDao.updateOpinion(opinion);
@@ -374,7 +446,7 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public int getUserOpinion(int rv_num, MemberVO user) {
-		if(user == null) {
+		if (user == null) {
 			return -2;
 		}
 		OpinionVO opinion = bookDao.selectOpinion(new OpinionVO(rv_num, user.getMe_id()));
@@ -388,10 +460,10 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public ArrayList<BookVO> getLoanBookList(Criteria cri, MemberVO user) {
-		if(cri == null) {
+		if (cri == null) {
 			cri = new Criteria();
 		}
-		if(user.getMe_ms_num() != 1) {
+		if (user.getMe_ms_num() != 1) {
 			return null;
 		}
 		return bookDao.selectLoanBookList(cri, user);
@@ -399,10 +471,10 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public int totalCountLoanBook(Criteria cri, MemberVO user) {
-		if(cri == null) {
+		if (cri == null) {
 			cri = new Criteria();
 		}
-		if(user.getMe_ms_num() != 1) {
+		if (user.getMe_ms_num() != 1) {
 			return 0;
 		}
 		return bookDao.selectTotalCountLoanBook(cri, user);

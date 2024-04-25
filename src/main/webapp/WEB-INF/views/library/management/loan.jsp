@@ -81,7 +81,7 @@
 				
 					<!-- Modal body -->
 					<div class="modal-body">
-						<textarea rows="20" cols="60" id="mail-content" name="content">반납 만기일까지 X일 남은 책이 있습니다. 연장해주시거나 반납해주시길 바랍니다. ※연체일시 대출에 제한이 생기니 주의 바랍니다.</textarea>
+						<textarea rows="20" cols="60" id="mail-content" name="content">반납 만기일까지 X일 남은 책이 있습니다. 연장해주시거나 반납해주시길 바랍니다.</textarea>
 					</div>
 				
 				    <!-- Modal footer -->

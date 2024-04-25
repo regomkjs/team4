@@ -44,8 +44,6 @@ public interface BookService {
 
 	boolean loanBook(MemberVO user, BookVO book);
 
-	LoanVO getLoan(int num);
-
 	boolean extendBook(MemberVO user, BookVO book);
 
 	ArrayList<LoanVO> getLoanList(String bo_isbn);

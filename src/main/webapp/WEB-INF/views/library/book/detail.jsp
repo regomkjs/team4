@@ -80,6 +80,7 @@ ol.colorlist {
 				</p>
 				<p>
 					평점:<span style="font-weight: bold; font-size: 30px">${avgReview.avgScore}</span>
+					<c:if test="${avgReview == null}"><span style="font-weight: bold; font-size: 30px">0</span></c:if>
 				</p>
 				<p>
 					저자:<span>${book.bo_au_name}</span>
@@ -100,12 +101,9 @@ ol.colorlist {
 					<c:forEach items="${code}" var="co">
 						<li>
 							${co.bo_code}
-								<c:forEach items="${loanList}" var="loan">
-									<c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}"><span style="color:red">대출 중</span></c:if>
-									<c:forEach items="${reserveList}" var="reserve">
-										<c:if test="${reserve.re_state == 1 && reserve.re_me_id == user.me_id && reserve.re_bo_num == co.bo_num}">예약 중</c:if>
-									</c:forEach>
-								</c:forEach>
+							<c:forEach items="${loanList}" var="loan">
+								<c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}"><span style="color:red">대출 중</span></c:if>
+							</c:forEach>
 						</li>
 						<button class="btn btn-outline-primary loan-btn"
 							data-bo-num="${co.bo_num}">대출</button>
@@ -118,11 +116,11 @@ ol.colorlist {
 								test="${loan.lo_state == 1 && loan.lo_me_id == user.me_id && loan.lo_bo_num == co.bo_num}">
 								<button class="btn btn-outline-primary extend-btn"
 									data-bo-num="${co.bo_num}">대출 연장</button>
+							<button class="btn btn-outline-dark return-btn"
+								data-bo-num="${co.bo_num}">반납</button>
 							</c:if>
 						</c:forEach>
 						<c:if test="${user.me_ms_num == 1}">
-							<button class="btn btn-outline-dark return-btn"
-								data-bo-num="${co.bo_num}">반납</button>
 						</c:if>
 					</c:forEach>
 				</ul>
@@ -192,7 +190,7 @@ ol.colorlist {
 				if (data.result) {
 					alert("${book.bo_title}책을 대출했습니다.");
 				} else {
-					alert("이미 대출된 책입니다.")
+					alert("이미 대출된 책이거나 예약된 책입니다.")
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -617,7 +615,7 @@ $(document).on("click",".btn-up,.btn-down",function(){
 			async : true,
 			url : '<c:url value="/opinion"/>', 
 			type : 'post', 
-			data : rv_num, 
+			data : {rv_num : rv_num}, 
 			dataType : "json", 
 			success : function (data){
 				displayUpdateOpinion(data.review, rv_num);
@@ -630,8 +628,8 @@ $(document).on("click",".btn-up,.btn-down",function(){
 	}
 
 	function displayUpdateOpinion(review, rv_num) {
-		$(`.btn-up[data-num="${rv_num}"]`).next(".text-up").text(review.rv_up);
-	    $(`.btn-down[data-num="${rv_num}"]`).next(".text-down").text(review.rv_down)
+		$(`.btn-up[data-num="${rv_num}"]`).text(review.rv_up);
+	    $(`.btn-down[data-num="${rv_num}"]`).text(review.rv_down)
 	}
 	function displayOpinion(state, rv_num) {
 	    $(`.btn-up[data-num="${rv_num}"]`).addClass("bi-hand-thumbs-up").removeClass("bi-hand-thumbs-up-fill");
@@ -643,6 +641,6 @@ $(document).on("click",".btn-up,.btn-down",function(){
 	        $(`.btn-down[data-num="${rv_num}"]`).removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
 	    }
 	}
-	getOpinion();
+	getOpinion(rv_num);
 });
 </script>

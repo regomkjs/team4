@@ -72,7 +72,7 @@
 	</delete>
 	
 	<update id="updateLoanCount">
-		update member set me_loan_count = #{member.me_loan_count} + 1 where me_id = #{member.me_id}
+		update member set me_loan_count = me_loan_count + 1 where me_id = #{member.me_id}
 	</update>
 	
 	<select id="selectMemberByNick" resultType="MemberVO">
@@ -121,13 +121,13 @@
 	</select>
 	
 	<select id="selectMemberByLoan" resultType="MemberVO">
-		select me_phone from member
+		select me_id, me_phone from member
 		join 
 			loan on lo_me_id = me_id 
 		join
 			book on lo_bo_num = bo_num
 		where
-			lo_bo_num = #{book}
+			lo_bo_num = #{book} and lo_state = 1
 	</select>
 	
 	<update id="insertBlock">
@@ -138,6 +138,10 @@
 		update member set me_block = date_add(me_block , interval #{day} day)  where me_id = #{me_id}
 	</update>
 	
+	<update id="updateUserGrade">
+		update member set me_gr_num = #{gr_num} where me_id = #{me_id}
+	</update>
+		
 	<update id="resetBlockToNull">
 		update member set me_block = null  where me_id = #{me_id}
 	</update>
