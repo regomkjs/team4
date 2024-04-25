@@ -293,5 +293,10 @@ public class MemberServiceImp implements MemberService {
 			}
 		}
 	}
+
+	@Override
+	public void resetBlockToNull(String me_id) {
+		memberDao.resetBlockToNull(me_id);
+	}
 	
 }

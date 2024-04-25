@@ -137,4 +137,8 @@
 	<update id="updateBlock">
 		update member set me_block = date_add(me_block , interval #{day} day)  where me_id = #{me_id}
 	</update>
+	
+	<update id="resetBlockToNull">
+		update member set me_block = null  where me_id = #{me_id}
+	</update>
 </mapper>

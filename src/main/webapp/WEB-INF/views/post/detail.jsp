@@ -217,6 +217,13 @@ $(".btn-heart").on("click", function(){
 			return;
 		}
 	}
+	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let po_num = ${post.po_num};
 	$.ajax({
 		url : '<c:url value="/post/heart"/>',
@@ -451,6 +458,12 @@ $(".btn-comment-insert").click(function () {
 		}
 	}
 	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let content = $(".comment-content").val();
 	let poNum = '${post.po_num}';
 	
@@ -481,6 +494,12 @@ $(".btn-comment-insert").click(function () {
 <!-- 댓글 수정 스크립트 -->
 <script type="text/javascript">
 $(document).on("click",".btn-comment-update",function(){
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	initComment()
 	// 현재 댓글 보여주는 창이 textarea태그로 변경
 	// 기존 댓글 창을 감춤
@@ -502,6 +521,12 @@ $(document).on("click",".btn-comment-update",function(){
 });
 
 $(document).on("click",".btn-complete",function(){
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let num = $(this).data("num");
 	let content = $(".com-input").val();
 	$.ajax({
@@ -555,6 +580,12 @@ $(document).on("click",".btn-comment-delete",function(){
 		}
 	}
 	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let num = $(this).data("num");
 	$.ajax({
 		url : '<c:url value="/comment/delete"/>',
@@ -592,6 +623,12 @@ $(document).on("click",".reply",function(){
 		}
 	}
 	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let ori = $(this).data("ori");
 	
 	$(this).hide();
@@ -606,6 +643,13 @@ $(document).on("click",".reply",function(){
 });
 
 $(document).on("click",".btn-reply-insert",function(){
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
+	
 	let ori = $(this).data("ori");
 	let content = $(".reply-content").val();
 	let po_num = '${post.po_num}';
@@ -686,6 +730,14 @@ $(document).on("click",".select-item", function(){
 			return;
 		}
 	}
+	
+	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let label = $(this).parents(".vote-box").find(".member-count-label");
 	let it_num = $(this).val();
 	let vo_dup = $(this).data("dup");
@@ -735,6 +787,12 @@ $(document).on("click",".btn-close-vote",function(){
 	if('${user.me_id}' == ''){
 		alert("세션이 만료되었습니다.")
 		location.href = "<c:url value='/login'/>"
+		return;
+	}
+	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
 		return;
 	}
 	
@@ -821,6 +879,7 @@ $(document).on("click",".btn-report",function(){
 			return;
 		}
 	}
+	
 	
 	let who = $(this).data("writer");
 	let what = $(this).data("what");
