@@ -417,6 +417,15 @@ public class BookServiceImp implements BookService {
 	}
 
 	@Override
+	public boolean insertSale(MemberVO user, String uid,String merchant_uid) {
+		if(user==null||checkString(uid)||checkString(merchant_uid)) {
+			return false;
+		}
+		return bookDao.insertSale(user,uid,merchant_uid);
+	}
+
+
+	
 	public ReviewVO getAvgReview(int bo_num) {
 		return bookDao.selectAvgReview(bo_num);
 	}

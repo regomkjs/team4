@@ -68,6 +68,8 @@ public interface BookService {
 
 	boolean updateReview(ReviewVO review, MemberVO user);
 
+	boolean insertSale(MemberVO user, String uid,String merchant_uid);
+
 	ReviewVO getAvgReview(int bo_num);
 
 	int opinion(OpinionVO opinion, MemberVO user);

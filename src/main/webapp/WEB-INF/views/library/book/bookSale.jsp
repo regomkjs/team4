@@ -10,7 +10,7 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th><input type="checkbox" class="allChkBtn"/></th>
+						<th><input type="checkbox" class="allChkBtn" /></th>
 						<th colspan="2">상품명</th>
 						<th>가격</th>
 						<th>수량</th>
@@ -22,9 +22,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="6" class="total-sale">				
-							
-						</td>
+						<td colspan="6" class="total-sale"></td>
 					</tr>
 				</tfoot>
 			</table>
@@ -37,7 +35,6 @@
 	<!-- 장바구니 -->
 	<script type="text/javascript">
 		let data=JSON.parse(localStorage.getItem('basket'));
-		console.log(data);
 		
 		displayView();
 		function displayView() {
@@ -61,7 +58,7 @@
 							</c:forEach>
 						</select>
 					</td>
-					<td><button>삭제</button></td>
+					<td><button class="del-btn">삭제</button></td>
 				</tr>
 				`;
 				n++;
@@ -69,27 +66,56 @@
 			$(".table>tbody").html(str);
 		}
 	</script>
-	<!-- 결제? -->
+	<!-- 결제 -->
 	<script type="text/javascript">
 		var IMP = window.IMP;
 		IMP.init("${imp}");   /* imp~ : 가맹점 식별코드*/
+		let Goods={
+			total:0,
+			name:"",
+			uid:""
+		};
 		
 		$('#money-btn').click(function() {
+			Goods.name=selectedBook.length>1?
+					data[selectedBook[0]].title+" 외 "+(selectedBook.length-1)+"개":data[selectedBook[0]].title;
+			let str="${user.me_nick}";
+			let today = new Date(); 
+			Goods.uid=str.substring(0,3)+toStringFormatting(today);
 			IMP.request_pay({
 				pg: "html5_inicis",		//KG이니시스 pg파라미터 값
                 pay_method: "card",		//결제 방법
-                merchant_uid: "1234578",//주문번호
-                name: "당근 10kg",		//상품 명
-                amount: 200,			//금액
+                merchant_uid: Goods.uid,//주문번호
+                name:Goods.name,		//상품 명
+                amount:100, //Goods.total,			//금액
                 //주문자 정보
-   				buyer_email: "gildong@gmail.com",
-   				buyer_name: "이길영",
-   				buyer_tel: "010-4242-4242",
+   				buyer_email: "${user.me_email}",
+   				buyer_name: "${user.me_nick}",
+   				buyer_tel: "${user.me_phone}",
    				//buyer_addr: "서울특별시 강남구 신사동",
    				//buyer_postcode: "01181"
+   				custom_data:data
 			}, function(rsp) {
 				console.log(rsp);
-		
+				$.ajax({
+					async : true,
+					url : '<c:url value="/library/sale/insert"/>' ,
+					type : 'post', 
+					data : {
+						imp_uid:rsp.imp_uid,
+						merchant_uid:rsp.merchant_uid,
+						amount: rsp.paid_amount
+						}, 
+					dataType : "json", 
+				}).done(function(data){
+					console.log(data);
+					if(data.res){
+		        		alert("결제 완료");
+		        		//화면 불러오기,장바구니내용 삭제
+	        		} else {
+	        			alert("결제 실패");
+	        		}
+				});
 			});
 		});
 	</script>
@@ -127,24 +153,35 @@
 		}else{
 			$('input:checkbox').prop('checked',false);
 			selectedBook=[];
+			Goods.name="";
+			Goods.total=0;			
 		}
 		displaySeleView();
 	});
 	
+	$(document).on("click",".del-btn",function(){
+		let value=$(this).closest("tr").data("index");
+		for(let i = 0; i < selectedBook.length; i++) {
+		    if (selectedBook[i] === value) {
+		    	selectedBook.splice(i, 1);
+		    }
+		}
+		data.splice(value, 1);
+		window.localStorage.setItem("basket", JSON.stringify(data));
+		displayView();
+		displaySeleView();
+	});
 	</script>
 	<!-- 판매 계산 -->
 	<script type="text/javascript">
 	function displaySeleView() {
-		//data total-sale
-		//selectedBook
 		let price=0;
-		let total=0;
+		let count=0;
 		for(let i=0;i<selectedBook.length;i++){
 			price+=(data[selectedBook[i]].priceStandard)*($(".sale-count").eq(selectedBook[i]).val());
-			total+=Number($(".sale-count").eq(selectedBook[i]).val());
+			count+=Number($(".sale-count").eq(selectedBook[i]).val());
 		}
-		
-		let sale=(price*(100-${grade.gr_discount}))/100;
+		Goods.total=(price*(100-${grade.gr_discount}))/100;
 		let str=`
 			<tr>
 				<td>총 상품가격:</td>
@@ -152,14 +189,40 @@
 			</tr>
 			<tr>
 				<td>총 주문 상품수:</td>
-				<td>\${total}</td>
+				<td>\${count}</td>
 			</tr>
 			<tr>
 				<td>할인된 가격:</td>
-				<td>\${sale}</td>
+				<td>\${Goods.total}</td>
 			</tr>
 		`;
 		$(".total-sale").html(str);
 	}
+	displaySeleView();
+	</script>
+	<!-- 날짜 -->
+	<script type="text/javascript">
+	function toStringFormatting(source){
+	      var  date = new Date(source);
+	      const year = date.getFullYear();
+	      const month = leftPad(date.getMonth() + 1);
+	      const day = leftPad(date.getDate());
+	      const hours = ('0' + date.getHours()).slice(-2); 
+	      const minutes = ('0' + date.getMinutes()).slice(-2);
+	      return year+""+month+""+day+""+hours+""+minutes;
+		}
+		
+	
+		function leftPad(value){
+			if (Number(value) >= 10) {
+				return value;
+			}
+			return "0" + value;
+		}
+	</script>
+	<!--  -->
+	<script type="text/javascript">
+	
+
 	</script>
 </body>
