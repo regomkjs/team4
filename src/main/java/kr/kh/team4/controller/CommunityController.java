@@ -185,10 +185,6 @@ public class CommunityController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res1 = postService.deletePost(new PostVO(po_num));
 		map.put("result1", res1);
-		if(res1) {
-			boolean res2 = postService.deleteReport(rp_num); 
-			map.put("result2", res2);
-		}
 		return map;
 	}
 	
@@ -199,10 +195,6 @@ public class CommunityController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res1 = postService.deleteCommentAdmin(co_num);
 		map.put("result1", res1);
-		if(res1) {
-			boolean res2 = postService.deleteReport(rp_num); 
-			map.put("result2", res2);
-		}
 		return map;
 	}
 	

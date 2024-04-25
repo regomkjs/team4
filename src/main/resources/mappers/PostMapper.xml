@@ -510,4 +510,12 @@
  	<delete id="deleteReport">
  		delete from report where rp_num = #{rp_num}
  	</delete>
+ 	
+ 	<select id="selectCommentListByPost" resultType="CommentVO">
+ 		select * from comment where co_po_num = #{po_num}
+ 	</select>
+ 	
+ 	<delete id="deleteReportByTarget">
+ 		delete from report where rp_target = #{rp_target}
+ 	</delete>
 </mapper>

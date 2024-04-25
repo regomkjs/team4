@@ -720,7 +720,8 @@ $(document).on("click",".report-delete-btn",function(){
 			dataType : "json",
 			success : function (data) {
 				alert("신고내역 "+data.count+"개가 반려됐습니다.");
-				reportArr.splice(0)
+				reportArr.splice(0);
+				cri.page = 1;
 				getReportList(cri);
 			},
 			error : function (a,b,c) {
@@ -743,7 +744,8 @@ $(document).on("click",".complete-report-btn",function(){
 			success : function (data) {
 				if(data.result){
 					$("#reportDetailModal").modal("hide");
-					reportArr.splice(0)
+					reportArr.splice(0);
+					cri.page = 1;
 					getReportList(cri);
 					alert("해당 신고 내역이 완료처리 됐습니다.")
 				}
@@ -776,15 +778,11 @@ $(document).on("click",".delete-post-btn",function(){
 			dataType : "json",
 			success : function (data) {
 				if(data.result1){
-					if(data.result2){
-						$("#reportDetailModal").modal("hide");
-						reportArr.splice(0);
-						getReportList(cri);
-						alert("신고된 게시글이 삭제됐습니다. [신고내역 처리완료]")
-					}
-					else{
-						alert("신고된 게시글이 삭제됐습니다. [신고내역 처리실패]")
-					}
+					$("#reportDetailModal").modal("hide");
+					reportArr.splice(0);
+					cri.page = 1;
+					getReportList(cri);
+					alert("신고된 게시글이 삭제됐습니다. [신고내역 처리완료]")
 				}
 				else{
 					alert("해당 내역 처리에 실패했습니다.")
@@ -815,15 +813,11 @@ $(document).on("click",".delete-comment-btn",function(){
 			dataType : "json",
 			success : function (data) {
 				if(data.result1){
-					if(data.result2){
-						$("#reportDetailModal").modal("hide");
-						reportArr.splice(0);
-						getReportList(cri);
-						alert("신고된 댓글이 삭제됐습니다. [신고내역 처리완료]")
-					}
-					else{
-						alert("신고된 댓글이 삭제됐습니다. [신고내역 처리실패]")
-					}
+					$("#reportDetailModal").modal("hide");
+					reportArr.splice(0);
+					cri.page = 1;
+					getReportList(cri);
+					alert("신고된 댓글이 삭제됐습니다. [신고내역 처리완료]")
 				}
 				else{
 					alert("해당 내역 처리에 실패했습니다.")
