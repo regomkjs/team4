@@ -51,4 +51,6 @@ public interface MemberDAO {
 
 	void updateBlock(@Param("me_id")String me_id, @Param("day")int day);
 
+	void updateUserGrade(@Param("me_id")String me_id, @Param("gr_num")int gr_num);
+
 }

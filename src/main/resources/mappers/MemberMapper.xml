@@ -72,7 +72,7 @@
 	</delete>
 	
 	<update id="updateLoanCount">
-		update member set me_loan_count = #{member.me_loan_count} + 1 where me_id = #{member.me_id}
+		update member set me_loan_count = me_loan_count + 1 where me_id = #{member.me_id}
 	</update>
 	
 	<select id="selectMemberByNick" resultType="MemberVO">
@@ -136,5 +136,9 @@
 	
 	<update id="updateBlock">
 		update member set me_block = date_add(me_block , interval #{day} day)  where me_id = #{me_id}
+	</update>
+	
+	<update id="updateUserGrade">
+		update member set me_gr_num = #{gr_num} where me_id = #{me_id}
 	</update>
 </mapper>
