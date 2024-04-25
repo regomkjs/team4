@@ -58,7 +58,7 @@
 							</c:forEach>
 						</select>
 					</td>
-					<td><button>삭제</button></td>
+					<td><button class="del-btn">삭제</button></td>
 				</tr>
 				`;
 				n++;
@@ -66,7 +66,7 @@
 			$(".table>tbody").html(str);
 		}
 	</script>
-	<!-- 결제? -->
+	<!-- 결제 -->
 	<script type="text/javascript">
 		var IMP = window.IMP;
 		IMP.init("${imp}");   /* imp~ : 가맹점 식별코드*/
@@ -111,6 +111,7 @@
 					console.log(data);
 					if(data.res){
 		        		alert("결제 완료");
+		        		//화면 불러오기,장바구니내용 삭제
 	        		} else {
 	        			alert("결제 실패");
 	        		}
@@ -158,6 +159,18 @@
 		displaySeleView();
 	});
 	
+	$(document).on("click",".del-btn",function(){
+		let value=$(this).closest("tr").data("index");
+		for(let i = 0; i < selectedBook.length; i++) {
+		    if (selectedBook[i] === value) {
+		    	selectedBook.splice(i, 1);
+		    }
+		}
+		data.splice(value, 1);
+		window.localStorage.setItem("basket", JSON.stringify(data));
+		displayView();
+		displaySeleView();
+	});
 	</script>
 	<!-- 판매 계산 -->
 	<script type="text/javascript">
@@ -207,7 +220,7 @@
 			return "0" + value;
 		}
 	</script>
-	<!-- test -->
+	<!--  -->
 	<script type="text/javascript">
 	
 
