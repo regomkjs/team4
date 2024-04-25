@@ -1,5 +1,7 @@
 package kr.kh.team4.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -72,8 +74,15 @@ public class HomeController {
 				model.addAttribute("url", "/login");
 				return "message";
 			}
-			
+			//실패횟수 초기화
 			memberService.failCountUp(user, 0);
+			//오늘 날짜와 유저의 커뮤이용 정지기한 비교 
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String formatedNow = now.format(format);
+			if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) < 0) {
+				memberService.resetBlockToNull(user.getMe_id());
+			}
 			model.addAttribute("user", user);
 			model.addAttribute("msg", "로그인 성공");
 			model.addAttribute("url", "/");

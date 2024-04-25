@@ -141,4 +141,8 @@
 	<update id="updateUserGrade">
 		update member set me_gr_num = #{gr_num} where me_id = #{me_id}
 	</update>
+		
+	<update id="resetBlockToNull">
+		update member set me_block = null  where me_id = #{me_id}
+	</update>
 </mapper>

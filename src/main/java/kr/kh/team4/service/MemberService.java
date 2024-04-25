@@ -50,4 +50,6 @@ public interface MemberService {
 	
 	int addBlockDay(MemberVO member, int day);
 
+	void resetBlockToNull(String me_id);
+
 }

@@ -81,6 +81,10 @@ $(".btn-action").click(function () {
 					alert("기존 정지일에 추가됐습니다.")		
 					window.close();
 				}
+				else if(res == 3){
+					alert("운영자를 정지할 수 없습니다.")		
+					window.close();
+				}
 				else{
 					alert("정지일 설정에 실패했습니다.")
 					window.close();

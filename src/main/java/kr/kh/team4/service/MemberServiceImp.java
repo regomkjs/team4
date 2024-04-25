@@ -268,6 +268,10 @@ public class MemberServiceImp implements MemberService {
 		if(member == null) {
 			return 0;
 		}
+		if(member.getMe_ms_num() == 1) {
+			return 3;
+		}
+		
 		if(member.getMe_block() == null) {
 			//신규 정지일 생성
 			memberDao.insertBlock(member.getMe_id(), day);
@@ -288,6 +292,11 @@ public class MemberServiceImp implements MemberService {
 				return 1;
 			}
 		}
+	}
+
+	@Override
+	public void resetBlockToNull(String me_id) {
+		memberDao.resetBlockToNull(me_id);
 	}
 	
 }

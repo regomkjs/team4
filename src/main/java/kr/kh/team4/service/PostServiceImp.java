@@ -56,27 +56,28 @@ public class PostServiceImp implements PostService {
 					items.getIt_list().size() == 0 || items.getIt_list() == null  || items == null) {
 				return;
 			}
+
+			for(VoteVO vote : votes.getVo_list()) {
+				if(vote == null || !checkString(vote.getVo_date())) {
+					continue;
+				}
+				vote.setVo_po_num(po_num);
+				postDAO.insertVote(vote);
+				for(ItemVO item : items.getIt_list()) {
+					if(!checkString(item.getIt_name()) || item == null) {
+						continue;
+					}
+					if(vote.getVo_count() == item.getIt_vo_count()) {
+						item.setIt_vo_num(vote.getVo_num());
+						postDAO.insertItem(item);
+					}
+				}
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		for(VoteVO vote : votes.getVo_list()) {
-			if(vote == null || !checkString(vote.getVo_date())) {
-				continue;
-			}
-			vote.setVo_po_num(po_num);
-			postDAO.insertVote(vote);
-			for(ItemVO item : items.getIt_list()) {
-				if(!checkString(item.getIt_name()) || item == null) {
-					continue;
-				}
-				if(vote.getVo_count() == item.getIt_vo_count()) {
-					item.setIt_vo_num(vote.getVo_num());
-					postDAO.insertItem(item);
-				}
-			}
-		}
 		clearVote();
 	}
 	
@@ -242,6 +243,8 @@ public class PostServiceImp implements PostService {
 		if(comment == null || !comment.getCo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
+		String rp_target = "co_"+comment.getCo_num();
+		postDAO.deleteReportByTarget(rp_target);
 		if(comment.getCo_ori_num() == num && postDAO.countReply(comment.getCo_ori_num()) > 1) {
 			return postDAO.updateCommentState(num);
 		}
@@ -385,6 +388,13 @@ public class PostServiceImp implements PostService {
 		if(post == null) {
 			return false;
 		}
+		ArrayList<CommentVO> commentList = postDAO.selectCommentListByPost(post.getPo_num());
+		for(CommentVO comment : commentList) {
+			String rp_target = "co_"+comment.getCo_num();
+			postDAO.deleteReportByTarget(rp_target);
+		}
+		String rp_target = "po_"+ post.getPo_num();
+		postDAO.deleteReportByTarget(rp_target);
 		return postDAO.deletePost(post);
 	}
 
@@ -617,6 +627,8 @@ public class PostServiceImp implements PostService {
 	@Override
 	public boolean deleteCommentAdmin(int num) {
 		CommentVO comment = postDAO.selectComment(num);
+		String rp_target = "co_"+comment.getCo_num();
+		postDAO.deleteReportByTarget(rp_target);
 		if(comment.getCo_ori_num() == num && postDAO.countReply(comment.getCo_ori_num()) > 1) {
 			return postDAO.updateCommentState(num);
 		}
