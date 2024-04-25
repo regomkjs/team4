@@ -189,41 +189,38 @@ public class BookServiceImp implements BookService {
 		if (user == null || book == null) {
 			return false;
 		}
-		LoanVO loan = bookDao.selectLoan(book.getBo_num());
-		try {
-			if (loan != null) {
+		LoanVO loan = bookDao.selectLoan(book.getBo_num(), user.getMe_id());
+		if(loan == null) {
+			
+			boolean res = bookDao.insertLoan(user.getMe_id(), book.getBo_num());
+			if (res) {
+				memberDao.updateLoanCount(user);
+				ArrayList<GradeVO> list = memberDao.selectGradeList();
+				MemberVO member = memberDao.selectMember(user.getMe_id());
+				GradeVO updatedGrade = null;
+				for (int i = 1; i <= list.size(); i++) {
+					if (member.getMe_loan_count() >= list.get(i).getGr_loan_condition()) {
+						updatedGrade = list.get(i);
+					} else {
+						break;
+					}
+				}
+				
+				if (updatedGrade != null) {
+					memberDao.updateUserGrade(user.getMe_id(), updatedGrade.getGr_num());
+				}
+			} else {
 				return false;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		boolean res = bookDao.insertLoan(user.getMe_id(), book.getBo_num());
-		if (res) {
+			
+		}else if(loan.getLo_state() == 0){
 			memberDao.updateLoanCount(user);
-			ArrayList<GradeVO> list = memberDao.selectGradeList();
-			MemberVO member = memberDao.selectMember(user.getMe_id());
-			GradeVO updatedGrade = null;
-			for (int i = 1; i <= list.size(); i++) {
-				if (member.getMe_loan_count() >= list.get(i).getGr_loan_condition()) {
-					updatedGrade = list.get(i);
-				} else {
-					break;
-				}
-			}
-
-			if (updatedGrade != null) {
-				memberDao.updateUserGrade(user.getMe_id(), updatedGrade.getGr_num());
-			}
-		} else {
+			bookDao.updateInsertLoan(book.getBo_num(), user.getMe_id());
+		}else {
 			return false;
 		}
-		return true;
-	}
 
-	@Override
-	public LoanVO getLoan(int num) {
-		return bookDao.selectLoan(num);
+		return true;
 	}
 
 	@Override
@@ -231,7 +228,7 @@ public class BookServiceImp implements BookService {
 		if (user == null || book == null) {
 			return false;
 		}
-		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		LoanVO loan = bookDao.selectLoan(book.getBo_num(),user.getMe_id());
 		if (loan == null) {
 			return false;
 		}
@@ -277,13 +274,15 @@ public class BookServiceImp implements BookService {
 				return false;
 			}
 		}
-		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		LoanVO loan = bookDao.selectLoan(book.getBo_num(),user.getMe_id());
 		// 대출이 안 된 경우
-		if (loan == null) {
+		if(loan == null) {
 			return false;
+		}else if(loan.getLo_state() == 0){
+			
 		}
 		// 대출한 사람과 로그인한 사람이 같은 경우
-		if (loan.getLo_me_id().equals(user.getMe_id())) {
+		if (loan.getLo_state() == 1 && loan.getLo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
 		return bookDao.insertReserve(user.getMe_id(), book.getBo_num());
@@ -294,15 +293,15 @@ public class BookServiceImp implements BookService {
 		if (user == null || book == null) {
 			return false;
 		}
-		LoanVO loan = bookDao.selectLoan(book.getBo_num());
+		LoanVO loan = bookDao.selectLoan(book.getBo_num(),user.getMe_id());
 		if (loan == null) {
 			return false;
 		}
 
-		if (user.getMe_ms_num() != 1) {
-			return false;
-		}
-		return bookDao.deleteLoan(book.getBo_num());
+//		if (user.getMe_ms_num() != 1) {
+//			return false;
+//		}
+		return bookDao.updateLoanBook(book.getBo_num());
 	}
 
 	@Override

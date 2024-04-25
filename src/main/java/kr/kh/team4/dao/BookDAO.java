@@ -51,7 +51,7 @@ public interface BookDAO {
 
 	boolean insertLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
 
-	LoanVO selectLoan(@Param("bo_num")int num);
+	LoanVO selectLoan(@Param("bo_num")int num, @Param("me_id")String me_id);
 
 	boolean updateLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
 
@@ -65,7 +65,7 @@ public interface BookDAO {
 
 	boolean insertReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
 
-	boolean deleteLoan(@Param("bo_num")int bo_num);
+	boolean updateLoanBook(@Param("bo_num")int bo_num);
 
 	ArrayList<ReserveVO> selectReserveList(@Param("bo_num")int bo_num);
 
@@ -96,6 +96,8 @@ public interface BookDAO {
 	OpinionVO selectOp(@Param("cri")Criteria cri, @Param("user")MemberVO user);
 
 	void deleteReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+
+	void updateInsertLoan(@Param("bo_num")int bo_num, @Param("me_id")String me_id);
 
 
 }
