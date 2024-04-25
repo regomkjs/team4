@@ -1,6 +1,5 @@
 package kr.kh.team4.controller;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -16,6 +15,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -260,6 +260,8 @@ public class LibraryAjaxController {
 		JSONObject obj2=(JSONObject) obj.get("response");
 		String token=(String)obj2.get("access_token");
 		return token;
+	}
+
 	@ResponseBody
 	@PostMapping("/opinion/check")
 	public Map<String, Object> opinionCheck(@RequestBody OpinionVO opinion, HttpSession session){
