@@ -7,6 +7,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
@@ -14,6 +15,7 @@ import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.ReviewCriteria;
 
 public interface BookService {
@@ -42,8 +44,6 @@ public interface BookService {
 
 	boolean loanBook(MemberVO user, BookVO book);
 
-	LoanVO getLoan(int num);
-
 	boolean extendBook(MemberVO user, BookVO book);
 
 	ArrayList<LoanVO> getLoanList(String bo_isbn);
@@ -70,6 +70,19 @@ public interface BookService {
 
 	boolean insertSale(MemberVO user, String uid,String merchant_uid);
 
+	ReviewVO getAvgReview(int bo_num);
+
+	int opinion(OpinionVO opinion, MemberVO user);
+
+	int getUserOpinion(int rv_num, MemberVO user);
+
+	ReviewVO getReview(int rv_num);
+
+	ArrayList<BookVO> getLoanBookList(Criteria cri, MemberVO user);
+
+	int totalCountLoanBook(Criteria cri, MemberVO user);
+
+	ArrayList<ReserveVO> getReserveList(int bo_num);
 
 
 	

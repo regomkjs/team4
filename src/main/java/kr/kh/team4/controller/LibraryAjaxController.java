@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
+import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.member.MemberVO;
@@ -29,6 +30,7 @@ import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.pagination.ReviewCriteria;
 import kr.kh.team4.service.BookService;
+import kr.kh.team4.service.MemberService;
 
 
 @RestController
@@ -36,6 +38,9 @@ public class LibraryAjaxController {
 	
 	@Autowired
 	BookService bookService;
+	
+	@Autowired
+	MemberService memberService;
 	
 	@ResponseBody
 	@PostMapping("/management/manager/insert")
@@ -255,5 +260,34 @@ public class LibraryAjaxController {
 		JSONObject obj2=(JSONObject) obj.get("response");
 		String token=(String)obj2.get("access_token");
 		return token;
+	@ResponseBody
+	@PostMapping("/opinion/check")
+	public Map<String, Object> opinionCheck(@RequestBody OpinionVO opinion, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		int res = bookService.opinion(opinion, user);
+		map.put("result", res);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/opinion")
+	public Map<String, Object> opinion(@RequestParam("rv_num") int rv_num, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		int state = bookService.getUserOpinion(rv_num, user);
+		ReviewVO review = bookService.getReview(rv_num);
+		map.put("state", state);
+		map.put("review", review);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/book/check")
+	public Map<String, Object> bookCheck(@RequestParam("bookNum") int bookNum){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = memberService.getMemberByLoan(bookNum);
+		map.put("result", user);
+		return map;
 	}
 }

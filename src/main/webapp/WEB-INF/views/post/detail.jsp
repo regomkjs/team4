@@ -7,6 +7,7 @@
 <head>
 	<title>게시글 상세</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+	<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <c:set var="now" value="<%=new java.util.Date()%>" />
@@ -33,12 +34,13 @@
 							<c:param name="num"  value="${post.po_num}"/>
 						</c:url>
 						<a href="${updateUrl}" class="btn btn-success mr-3">수정</a>
-						
+					</c:if>
+					<c:if test="${user.me_ms_num < 2 || user.me_id == post.po_me_id}">					
 						<c:url value="/post/delete" var="deleteUrl">
 							<c:param name="num"  value="${post.po_num}"/>
 						</c:url>
 						<a href="${deleteUrl}" class="btn btn-danger">삭제</a>
-					</c:if>
+					</c:if>	
 				</div>
 			</div>
 			<div class="form-control" id="category">${post.ca_name}</div>
@@ -207,6 +209,19 @@
 
 <!-- 좋아요 구현 스크립트 -->
 <script type="text/javascript">
+
+$(document).on("mouseover", ".btn-heart", function () {
+	$(this).addClass("fa-beat")
+})
+
+
+
+$(document).on("mouseleave", ".btn-heart", function () {
+	$(this).removeClass("fa-beat")
+})
+
+
+
 $(".btn-heart").on("click", function(){
 	if('${user.me_id}' == ''){
 		if(confirm("로그인이 필요한 서비스 입니다. 로그인으로 이동하시겠습니까?")){
@@ -217,6 +232,13 @@ $(".btn-heart").on("click", function(){
 			return;
 		}
 	}
+	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let po_num = ${post.po_num};
 	$.ajax({
 		url : '<c:url value="/post/heart"/>',
@@ -309,8 +331,8 @@ function getCommentList(cri, today) {
 				if(comment.co_state != 1 && comment.co_num == comment.co_ori_num){
 					str +=
 						`
-						<div class="comment-container text-center">
-							<h1 class="text-center">삭제된 댓글입니다.</h1>
+						<div class="comment-container text-center" style="min-height: 70px; ">
+							<h3 class="text-center" style="padding-top:15px">삭제된 댓글입니다.</h3>
 						</div>	
 						<hr>
 						`
@@ -320,16 +342,16 @@ function getCommentList(cri, today) {
 					if('${user.me_id}' == comment.co_me_id){
 						btns += 
 						`
-						<div class="btn-comment-group col-2">
+						<div class="btn-comment-group ml-auto">
 							<button class="btn btn-outline-warning btn-comment-update me-2" data-num="\${comment.co_num}">수정</button>
 							<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
 						</div>
 						`
 					}
-					else if('${user.me_gr_num}' == '0' && '${user}' != null){
+					else if('${user.me_ms_num}' <= '1' && '${user}' != null){
 						btns += 
 						`
-						<div class="btn-comment-group col-2 ">
+						<div class="btn-comment-group ml-auto ">
 							<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
 						</div>
 						`
@@ -342,22 +364,23 @@ function getCommentList(cri, today) {
 						`
 							<div class="comment-container">
 									<div class="input-group mb-3 box-comment">
-										<div class="col-2"><h5>\${comment.me_nick}<h5>
+										<div class="col-2 d-flex"><h5 class="mr-3">\${comment.me_nick}<h5>
 						`
 					}
 					else{
 						str +=
 						`
+							<i class="bi bi-arrow-return-right ml-2 mr-2" style="font-size:2.5rem; color: gray; float:left"></i>
 							<div class="comment-container" style="margin-left: 100px;">
-									<div class="input-group mb-3 box-comment">
-										<div class="col-2"><h5>\${comment.me_nick}<h5>
+								<div class="input-group mb-3 box-comment">
+									<div class="col-2 d-flex"><h5 class="mr-3">\${comment.me_nick}<h5>
 						`
 					}
 					
 					if(comment.co_me_id != '${user.me_id}' && comment.co_me_id != 'admin123'){
 						str +=
 						`
-							<a href="#" class="btn btn-danger btn-report" data-toggle="modal" data-target="#reportModal" class="reportModal" data-writer="\${comment.me_nick}" data-what="co" data-num="\${comment.co_num}">신고</a>						
+							<a href="#" class="badge badge-danger btn-report" data-toggle="modal" data-target="#reportModal" class="reportModal" data-writer="\${comment.me_nick}" data-what="co" data-num="\${comment.co_num}"><i class="fa-solid fa-handcuffs" style="color: #fffff;"></i></a>						
 						`
 					}
 					str +=
@@ -451,6 +474,12 @@ $(".btn-comment-insert").click(function () {
 		}
 	}
 	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let content = $(".comment-content").val();
 	let poNum = '${post.po_num}';
 	
@@ -481,6 +510,12 @@ $(".btn-comment-insert").click(function () {
 <!-- 댓글 수정 스크립트 -->
 <script type="text/javascript">
 $(document).on("click",".btn-comment-update",function(){
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	initComment()
 	// 현재 댓글 보여주는 창이 textarea태그로 변경
 	// 기존 댓글 창을 감춤
@@ -502,6 +537,12 @@ $(document).on("click",".btn-comment-update",function(){
 });
 
 $(document).on("click",".btn-complete",function(){
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let num = $(this).data("num");
 	let content = $(".com-input").val();
 	$.ajax({
@@ -555,6 +596,12 @@ $(document).on("click",".btn-comment-delete",function(){
 		}
 	}
 	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let num = $(this).data("num");
 	$.ajax({
 		url : '<c:url value="/comment/delete"/>',
@@ -592,6 +639,12 @@ $(document).on("click",".reply",function(){
 		}
 	}
 	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let ori = $(this).data("ori");
 	
 	$(this).hide();
@@ -606,6 +659,13 @@ $(document).on("click",".reply",function(){
 });
 
 $(document).on("click",".btn-reply-insert",function(){
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
+	
 	let ori = $(this).data("ori");
 	let content = $(".reply-content").val();
 	let po_num = '${post.po_num}';
@@ -686,6 +746,14 @@ $(document).on("click",".select-item", function(){
 			return;
 		}
 	}
+	
+	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
+		return;
+	}
+	
 	let label = $(this).parents(".vote-box").find(".member-count-label");
 	let it_num = $(this).val();
 	let vo_dup = $(this).data("dup");
@@ -735,6 +803,12 @@ $(document).on("click",".btn-close-vote",function(){
 	if('${user.me_id}' == ''){
 		alert("세션이 만료되었습니다.")
 		location.href = "<c:url value='/login'/>"
+		return;
+	}
+	
+	if('${user.me_block}' >= today){
+		alert("커뮤니티 이용이 정지됐습니다.\n정지기한 : "+'${user.me_block}');
+		$(".comment-content").val("");
 		return;
 	}
 	
@@ -821,6 +895,7 @@ $(document).on("click",".btn-report",function(){
 			return;
 		}
 	}
+	
 	
 	let who = $(this).data("writer");
 	let what = $(this).data("what");

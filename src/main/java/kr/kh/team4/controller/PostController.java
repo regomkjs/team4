@@ -1,5 +1,7 @@
 package kr.kh.team4.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -27,6 +29,11 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @Controller
 public class PostController {
+	
+	//유저의 커뮤이용 정지기한 비교를 위한 오늘 날짜
+	LocalDate now = LocalDate.now();
+	DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	String formatedNow = now.format(format);
 	
 	
 	@Autowired
@@ -65,6 +72,12 @@ public class PostController {
 			model.addAttribute("url", "/login");
 			return "message";
 		}
+		
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			model.addAttribute("msg", "커뮤니티 이용이 정지됐습니다.                                                 정지기한 : "+ user.getMe_block());
+			model.addAttribute("url", "/post/list");
+			return "message";
+		}
 		ArrayList<CategoryVO> list = postService.getCategoryList();
 		model.addAttribute("categoryList", list);
 		if(ca != 0) {
@@ -85,6 +98,13 @@ public class PostController {
 			model.addAttribute("url", "/login");
 			return "message";
 		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			model.addAttribute("msg", "커뮤니티 이용이 정지됐습니다.                                                 정지기한 : "+ user.getMe_block());
+			model.addAttribute("url", "/post/list");
+			return "message";
+		}
+		
+		
 		post.setPo_me_id(user.getMe_id());
 		boolean res = postService.insertPost(post, votes, items);
 		if(res) {
@@ -144,6 +164,12 @@ public class PostController {
 			model.addAttribute("url", "/post/detail?num="+num);
 			return "message";
 		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			model.addAttribute("msg", "커뮤니티 이용이 정지됐습니다.                                                 정지기한 : "+ user.getMe_block());
+			model.addAttribute("url", "/post/detail?num="+num);
+			return "message";
+		}
+		
 		ArrayList<CategoryVO> list = postService.getCategoryList();
 		model.addAttribute("categoryList", list);
 		model.addAttribute("title", "게시글 수정");
@@ -165,6 +191,11 @@ public class PostController {
 		if(user == null || 
 				!post.getPo_me_id().equals(user.getMe_id())) {
 			model.addAttribute("msg", "수정 권한이 없습니다.");
+			model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
+			return "message";
+		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			model.addAttribute("msg", "커뮤니티 이용이 정지됐습니다.                                                 정지기한 : "+ user.getMe_block());
 			model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
 			return "message";
 		}
@@ -192,10 +223,16 @@ public class PostController {
 			return "message";
 		}
 		if(user == null || 
-				!post.getPo_me_id().equals(user.getMe_id())
+				!post.getPo_me_id().equals(user.getMe_id()) ||
+				user.getMe_ms_num() > 1
 				//관리자인지 예외처리 추가요망
 				) {
 			model.addAttribute("msg", "삭제 권한이 없습니다.");
+			model.addAttribute("url", "/post/detail?num="+num);
+			return "message";
+		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			model.addAttribute("msg", "커뮤니티 이용이 정지됐습니다.                                                 정지기한 : "+ user.getMe_block());
 			model.addAttribute("url", "/post/detail?num="+num);
 			return "message";
 		}

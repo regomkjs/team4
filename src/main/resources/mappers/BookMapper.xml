@@ -147,7 +147,7 @@
 	</insert>
 	
 	<select id="selectLoan" resultType="LoanVO">
-		select * from loan join book on bo_num = lo_bo_num where bo_num = #{bo_num}
+		select * from loan where lo_bo_num = #{bo_num} and lo_me_id = #{me_id}
 	</select>
 	
 	<update id="updateLoan">
@@ -171,12 +171,16 @@
 	
 	<insert id="insertReserve">
 		insert into reserve(re_date, re_state, re_bo_num, re_me_id)
-		select date_add(lo_limit,interval 3 day), 1, #{bo_num}, #{me_id} from loan where lo_bo_num = #{bo_num}
+		value((select date_add(lo_limit,interval 3 day) from loan where lo_bo_num = #{bo_num} and lo_me_id = #{member_id}), 1, #{bo_num}, #{me_id})
 	</insert>
 
-	<delete id="deleteLoan">
-		delete from loan where lo_me_id = #{me_id} and lo_bo_num = #{bo_num}
-	</delete>
+	<update id="updateLoanBook">
+		update loan set 
+			lo_return = now(),
+			lo_state = 0 
+		where 
+			lo_bo_num = #{bo_num}
+	</update>
 	
 	<select id="selectReserveList" resultType="ReserveVO">
 		select * from reserve where re_bo_num = #{bo_num}
@@ -184,14 +188,20 @@
 	
 	<select id="selectReviewList" resultType="ReviewVO">
 		select 
- 			review.*, member.me_nick 
+ 			review.*, member.me_nick, 
+ 			sum(case when op_state = 1 then 1 else 0 end) as rv_up,
+ 			 sum(case when op_state = -1 then 1 else 0 end) as rv_down
 		from 
 			review 
 				join
 			member on me_id = rv_me_id
+				left join
+			opinion on rv_num = op_rv_num
 		where 
 			rv_bo_num = #{cri.search}
- 		order by 
+		group by
+			rv_num
+ 		order by
  			rv_num desc
  		limit 
  			#{cri.pageStart}, #{cri.perPageNum}	
@@ -207,7 +217,14 @@
 	</insert>
 	
 	<select id="selectReview" resultType="ReviewVO">
-		select * from review where rv_num = #{rv_num}
+		select review.*,
+			 sum(case when op_state = 1 then 1 else 0 end) as rv_up,
+			 sum(case when op_state = -1 then 1 else 0 end) as rv_down
+		from 
+			review
+		left join 
+			opinion on op_rv_num = rv_num
+		where rv_num = #{rv_num}
 	</select>
 	
 	<delete id="deleteReview">
@@ -226,4 +243,106 @@
 	<insert id="insertSale">
 		insert into sale(sa_uid,sa_date,sa_me_id,sa_merchant_uid) value(#{uid},now(),#{user.me_id},#{merchant_uid})
 	</insert>
+	
+	<select id="selectAvgReview" resultType="ReviewVO">
+		select round(avg(rv_score), 1) as avgScore from review where rv_bo_num = #{bo_num}
+	</select>
+	
+	<select id="selectOpinion" resultType="OpinionVO">
+		select * from opinion where op_rv_num = #{op.op_rv_num} and op_me_id = #{op.op_me_id}
+	</select>
+	
+	<insert id="insertOpinion">
+		insert into opinion(op_state, op_rv_num, op_me_id)
+		values(1, #{op.op_rv_num}, #{op.op_me_id})
+	</insert>
+	
+	<delete id="updateOpinion">
+		update opinion set op_state = #{op.op_state}
+		where op_rv_num = #{op.op_rv_num} and op_me_id = #{op.op_me_id}
+	</delete>
+	
+	<select id="selectLoanBookList" resultType="BookVO">
+		select * from book 
+		join 
+			loan on lo_bo_num = bo_num
+		join 
+			member on lo_me_id = me_id
+		where
+			lo_state = 1
+			<if test='cri.type=="all"'>
+				and (bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%'))
+			</if>
+			<if test='cri.type=="title"'>
+				and bo_title like concat('%', #{cri.search}, '%') 
+			</if>
+			<if test='cri.type=="publisher"'>
+				and bo_publisher like concat('%', #{cri.search}, '%') 
+			</if>
+		group by
+			bo_num
+		order by
+			lo_limit asc
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="selectTotalCountLoanBook" resultType="int">
+		select count(*) from book 
+		join 
+			loan on lo_bo_num = bo_num
+		join 
+			member on lo_me_id = me_id
+		where
+			lo_state = 1
+			<if test='cri.type=="all"'>
+				and (bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%'))
+			</if>
+			<if test='cri.type=="title"'>
+				and bo_title like concat('%', #{cri.search}, '%') 
+			</if>
+			<if test='cri.type=="publisher"'>
+				and bo_publisher like concat('%', #{cri.search}, '%') 
+			</if>
+	</select>
+	
+	<delete id="deleteReserve">
+		delete from reserve where re_bo_num = #{bo_num} and re_me_id = #{me_id}
+	</delete>
+	
+	<update id="updateInsertLoan">
+		update loan set 
+		lo_date = now(),
+		lo_return = null,
+		lo_limit = date_add(now(),interval 7 day),
+		lo_state = 1
+		where 
+			lo_me_id = #{me_id} and lo_bo_num = #{bo_num}
+	</update>
+	
+	<select id="selectReserve" resultType="ReserveVO">
+		select * from reserve 
+		join 
+			member on re_me_id = me_id 
+		where 
+			re_bo_num = #{bo_num} 
+		order by 
+			re_num asc 
+		limit 1;
+	</select>
+	
+	<update id="updateReserve">
+		update reserve set
+			re_date = (select date_add(lo_return,interval 3 day) from loan where lo_bo_num = #{bo_num} and lo_me_id = #{me_id})
+		where 
+			re_bo_num = #{bo_num} 
+		order by 
+			re_num asc 
+		limit 1;
+	</update>
+	
+	<select id="selectCurrentLoan" resultType="LoanVO">
+		select * from loan where lo_bo_num = #{bo_num} and lo_state = 1
+	</select>
 </mapper>

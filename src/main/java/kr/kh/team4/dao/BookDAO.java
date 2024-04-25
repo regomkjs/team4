@@ -8,6 +8,7 @@ import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
@@ -50,7 +51,7 @@ public interface BookDAO {
 
 	boolean insertLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
 
-	LoanVO selectLoan(@Param("bo_num")int num);
+	LoanVO selectLoan(@Param("bo_num")int num, @Param("me_id")String me_id);
 
 	boolean updateLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
 
@@ -62,9 +63,9 @@ public interface BookDAO {
 
 	boolean deleteUnder(@Param("un_num")int num);
 
-	boolean insertReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+	boolean insertReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num, @Param("member_id")String member_id);
 
-	boolean deleteLoan(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+	boolean updateLoanBook(@Param("bo_num")int bo_num);
 
 	ArrayList<ReserveVO> selectReserveList(@Param("bo_num")int bo_num);
 
@@ -82,7 +83,28 @@ public interface BookDAO {
 
 	boolean insertSale(@Param("user")MemberVO user, @Param("uid")String uid,@Param("merchant_uid")String merchant_uid);
 
-	
+	ReviewVO selectAvgReview(@Param("bo_num")int bo_num);
 
+	OpinionVO selectOpinion(@Param("op")OpinionVO opinion);
+
+	void insertOpinion(@Param("op")OpinionVO opinion);
+
+	void updateOpinion(@Param("op")OpinionVO opinion);
+
+	ArrayList<BookVO> selectLoanBookList(@Param("cri")Criteria cri, @Param("user")MemberVO user);
+
+	int selectTotalCountLoanBook(@Param("cri")Criteria cri,@Param("user") MemberVO user);
+
+	OpinionVO selectOp(@Param("cri")Criteria cri, @Param("user")MemberVO user);
+
+	void deleteReserve(@Param("me_id")String me_id, @Param("bo_num")int bo_num);
+
+	void updateInsertLoan(@Param("bo_num")int bo_num, @Param("me_id")String me_id);
+
+	ReserveVO selectReserve(@Param("bo_num")int bo_num);
+
+	void updateReserve(@Param("bo_num")String lo_bo_num, @Param("me_id")String lo_me_id);
+
+	LoanVO selectCurrentLoan(@Param("bo_num")int bo_num);
 
 }

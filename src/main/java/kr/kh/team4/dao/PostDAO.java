@@ -135,6 +135,10 @@ public interface PostDAO {
 
 	boolean deleteReport(@Param("rp_num")int rp_num);
 
+	ArrayList<CommentVO> selectCommentListByPost(@Param("po_num")int po_num);
+
+	void deleteReportByTarget(@Param("rp_target")String rp_target);
+
 	
 	
 

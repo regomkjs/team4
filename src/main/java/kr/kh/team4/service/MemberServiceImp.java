@@ -1,5 +1,7 @@
 package kr.kh.team4.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.mail.internet.MimeMessage;
@@ -12,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import kr.kh.team4.dao.MemberDAO;
 import kr.kh.team4.model.dto.LoginDTO;
+import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.pagination.Criteria;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -231,6 +235,68 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public MemberVO getMemberByNick(String me_nick) {
 		return memberDao.selectMemberByNick(me_nick);
+	}
+
+	@Override
+	public ArrayList<BookVO> getMyLoanBookList(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return null;
+		}
+		return memberDao.selectMyLoanBook(cri, user);
+	}
+
+	@Override
+	public int totalCountMyLoanBook(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return 0;
+		}
+		return memberDao.selectTotalCountMyLoanBook(cri, user);
+	}
+
+	@Override
+	public MemberVO getMemberByLoan(int bookNum) {
+		return memberDao.selectMemberByLoan(bookNum);
+	}
+	
+	public int addBlockDay(MemberVO member, int day) {
+		if(member == null) {
+			return 0;
+		}
+		if(member.getMe_ms_num() == 1) {
+			return 3;
+		}
+		
+		if(member.getMe_block() == null) {
+			//신규 정지일 생성
+			memberDao.insertBlock(member.getMe_id(), day);
+			return 1;
+		} 
+		else {
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String formatedNow = now.format(format);
+			if(member.getMe_block().compareTo(formatedNow) >= 0) {
+				//기존값에 추가로 수정
+				memberDao.updateBlock(member.getMe_id(), day);
+				return 2;
+			}
+			else {
+				//기존값 대신 신규 정지일 생성
+				memberDao.insertBlock(member.getMe_id(), day);
+				return 1;
+			}
+		}
+	}
+
+	@Override
+	public void resetBlockToNull(String me_id) {
+		memberDao.resetBlockToNull(me_id);
 	}
 	
 }

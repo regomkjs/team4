@@ -14,6 +14,7 @@ import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.MyCommentCriteria;
 import kr.kh.team4.pagination.PostCriteria;
 
@@ -100,5 +101,9 @@ public interface PostService {
 	int getTotalCountReport();
 
 	int deleteReportList(int[] reportArr);
+
+	boolean deleteReport(int rp_num);
+
+	boolean deleteCommentAdmin(int co_num);
 
 }

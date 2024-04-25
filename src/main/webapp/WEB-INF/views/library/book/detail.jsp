@@ -2,6 +2,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
 ol.colorlist {
 	list-style: none !important;
@@ -78,6 +79,10 @@ ol.colorlist {
 					출판사:<span>${book.bo_publisher}</span>
 				</p>
 				<p>
+					평점:<span style="font-weight: bold; font-size: 30px">${avgReview.avgScore}</span>
+					<c:if test="${avgReview == null}"><span style="font-weight: bold; font-size: 30px">0</span></c:if>
+				</p>
+				<p>
 					저자:<span>${book.bo_au_name}</span>
 				</p>
 				<p>
@@ -94,7 +99,12 @@ ol.colorlist {
 			<div>
 				<ul>
 					<c:forEach items="${code}" var="co">
-						<li>${co.bo_code}</li>
+						<li>
+							${co.bo_code}
+							<c:forEach items="${loanList}" var="loan">
+								<c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}"><span style="color:red">대출 중</span></c:if>
+							</c:forEach>
+						</li>
 						<button class="btn btn-outline-primary loan-btn"
 							data-bo-num="${co.bo_num}">대출</button>
 						<c:forEach items="${loanList }" var="loan">
@@ -106,10 +116,12 @@ ol.colorlist {
 								test="${loan.lo_state == 1 && loan.lo_me_id == user.me_id && loan.lo_bo_num == co.bo_num}">
 								<button class="btn btn-outline-primary extend-btn"
 									data-bo-num="${co.bo_num}">대출 연장</button>
-								<button class="btn btn-outline-dark return-btn"
-									data-bo-num="${co.bo_num}">반납</button>
+							<button class="btn btn-outline-dark return-btn"
+								data-bo-num="${co.bo_num}">반납</button>
 							</c:if>
 						</c:forEach>
+						<c:if test="${user.me_ms_num == 1}">
+						</c:if>
 					</c:forEach>
 				</ul>
 			</div>
@@ -118,7 +130,7 @@ ol.colorlist {
 					<li>책을 대출할 시 만기일은 대출한 날로부터 1주일 후로 지정됩니다.</li>
 					<li>연장은 만기일까지 3일 남았을 때부터 누를 수 있습니다.</li>
 					<li>책이 예약된 경우 연장을 할 수 없습니다.</li>
-					<li>...</li>
+					<li style="color:red; font-weight: bold;">※ 예약은 약속입니다. : 필요한 도서만 예약하고, 예약도서는 꼭 대출해 주시기 바랍니다.</li>
 				</ol>
 			</div>
 			<div class="container-review mt-3 mb-3">
@@ -178,7 +190,7 @@ ol.colorlist {
 				if (data.result) {
 					alert("${book.bo_title}책을 대출했습니다.");
 				} else {
-					alert("이미 대출된 책입니다.")
+					alert("이미 대출된 책이거나 예약된 책입니다.")
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -246,11 +258,11 @@ ol.colorlist {
 				if (data.result) {
 					alert("${book.bo_title}책을 예약했습니다.");
 				} else {
-					alert("예약을 못했습니다.")
+					alert("예약을 취소하거나 못했습니다.")
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
-				alert("이미 예약한 책입니다.")
+				alert("에러")
 			}
 		});
 	});
@@ -355,6 +367,8 @@ function displayReviewList(list){
 					\${btns}
 				</div>
 				<span style="font-size: small;" class="mr-4">작성시간 : \${moment(item.rv_date).format('YY/MM/DD HH:mm')}<br />
+				<i class="bi bi-hand-thumbs-up btn-up" style="font-size : 20px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}">추천(<span class="text-up">\${item.rv_up}</span>)</i>
+				<i class="bi bi-hand-thumbs-down btn-down" style="font-size : 20px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}">비추천(<span class="text-down">\${item.rv_down}</span>)</i>
 			</div>
 		`
 	}
@@ -555,4 +569,78 @@ function initReview() {
 	$('.text-review').show();
 	$('.star-rating').show();
 }
+</script>
+<!-- 리뷰 추천 -->
+<script type="text/javascript">
+$(document).on("click",".btn-up,.btn-down",function(){
+	if(!checkLogin()){
+		return;
+	}
+	let state = $(this).data('state');
+	let rv_num = $(this).data('num');
+	let opinion = {
+			op_state : state,
+			op_rv_num : rv_num
+	}
+	$.ajax({
+		url : '<c:url value="/opinion/check"/>',
+		method : "post",
+		data : JSON.stringify(opinion),
+		contentType : "application/json; charset=utf-8",
+		dataType : "json",
+		success : function (data) {
+			switch (data.result) {
+			case 1:
+				alert("추천 했습니다.")
+				break;
+			case 0:
+				let str = opinion.op_state == 1 ? '추천' : '비추천';
+				alert(`\${str}을 취소했습니다.`)
+				break;
+			case -1:
+				alert("비추천 했습니다.")
+				break;
+			default:
+				alert("추천/비추천을 하지 못했습니다.")
+			}
+			getOpinion(rv_num)
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생2");
+		}
+	});
+	
+	function getOpinion(rv_num) {
+		$.ajax({
+			async : true,
+			url : '<c:url value="/opinion"/>', 
+			type : 'post', 
+			data : {rv_num : rv_num}, 
+			dataType : "json", 
+			success : function (data){
+				displayUpdateOpinion(data.review, rv_num);
+				displayOpinion(data.state, rv_num);
+			}, 
+			error : function(jqXHR, textStatus, errorThrown){
+
+			}
+		});
+	}
+
+	function displayUpdateOpinion(review, rv_num) {
+		$(`.btn-up[data-num="${rv_num}"]`).text(review.rv_up);
+	    $(`.btn-down[data-num="${rv_num}"]`).text(review.rv_down)
+	}
+	function displayOpinion(state, rv_num) {
+	    $(`.btn-up[data-num="${rv_num}"]`).addClass("bi-hand-thumbs-up").removeClass("bi-hand-thumbs-up-fill");
+	    $(`.btn-down[data-num="${rv_num}"]`).addClass("bi-hand-thumbs-down").removeClass("bi-hand-thumbs-down-fill");
+	    
+	    if (state == 1) {
+	        $(`.btn-up[data-num="${rv_num}"]`).removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+	    } else if (state == -1) {
+	        $(`.btn-down[data-num="${rv_num}"]`).removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
+	    }
+	}
+	getOpinion(rv_num);
+});
 </script>

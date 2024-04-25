@@ -1,9 +1,9 @@
 package kr.kh.team4.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,17 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.kh.team4.model.dto.LoginDTO;
+import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
-import kr.kh.team4.model.vo.post.PostVO;
-import kr.kh.team4.pagination.MyPostCriteria;
+import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.MemberService;
 import kr.kh.team4.service.PostService;
@@ -77,8 +74,15 @@ public class HomeController {
 				model.addAttribute("url", "/login");
 				return "message";
 			}
-			
+			//실패횟수 초기화
 			memberService.failCountUp(user, 0);
+			//오늘 날짜와 유저의 커뮤이용 정지기한 비교 
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String formatedNow = now.format(format);
+			if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) < 0) {
+				memberService.resetBlockToNull(user.getMe_id());
+			}
 			model.addAttribute("user", user);
 			model.addAttribute("msg", "로그인 성공");
 			model.addAttribute("url", "/");
@@ -169,4 +173,16 @@ public class HomeController {
 		return "/grade/list";
 	}
 	
+	@GetMapping("/mypage/loan")
+	public String myLoanBook(Model model, MyBookCriteria cri, HttpSession session) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<BookVO> list = memberService.getMyLoanBookList(cri, user);
+		
+		int totalCount = memberService.totalCountMyLoanBook(cri, user);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("loanList", list);
+		model.addAttribute("pm", pm);
+		model.addAttribute("title", "내가 대출한 도서");
+		return "/member/loan";
+	}
 }
