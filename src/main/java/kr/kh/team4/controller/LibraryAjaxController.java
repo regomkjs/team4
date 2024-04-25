@@ -1,26 +1,21 @@
 package kr.kh.team4.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.maven.model.Model;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +25,6 @@ import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.member.MemberVO;
-import kr.kh.team4.model.vo.post.CommentVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.pagination.ReviewCriteria;
@@ -205,11 +199,61 @@ public class LibraryAjaxController {
 	}
 	
 	@PostMapping("/library/sale/insert")
-	public Map<String, Object> saleInsert(String uid,HttpSession session){
+	public Map<String, Object> saleInsert(String imp_uid,int amount,HttpSession session,
+			String merchant_uid)
+			throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user=(MemberVO) session.getAttribute("user");
-		boolean res=bookService.insertSale(user,uid);
-		map.put("res",res);
+
+		String token=token();
+		System.out.println(imp_uid+", "+token);
+		HttpRequest request = HttpRequest.newBuilder()
+			    .uri(URI.create("https://api.iamport.kr/payments/"+imp_uid))
+			    .header("Content-Type", "application/json")
+			    .header("Authorization",token)
+			    .method("GET", HttpRequest.BodyPublishers.ofString("{}"))
+			    .build();
+			HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println(response.body());
+			
+		JSONParser parser = new JSONParser();
+		JSONObject obj=(JSONObject)parser.parse(response.body());
+		JSONObject obj2=(JSONObject) obj.get("response");
+		int money=Integer.parseInt(String.valueOf(obj2.get("amount")));
+	
+		if(money==amount) {
+			boolean res=bookService.insertSale(user,imp_uid,merchant_uid);
+			map.put("res",res);
+		}else {
+			saleCancel(imp_uid,merchant_uid);
+			map.put("res",false);
+		}
 		return map;
+	}
+	
+	private void saleCancel(String imp_uid,String merchant_uid) throws Exception {
+		HttpRequest request = HttpRequest.newBuilder()
+			    .uri(URI.create("https://api.iamport.kr/payments/cancel"))
+			    .header("Content-Type", "application/json")
+			    .header("Authorization",token())
+			    .method("POST", HttpRequest.BodyPublishers.ofString("{\"imp_uid\":\""+imp_uid+"\",\"merchant_uid\":\""+merchant_uid+"\"}"))
+			    .build();
+			HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println(response.body());
+		
+	}
+
+	private String token()throws Exception {
+		HttpRequest request = HttpRequest.newBuilder()
+			    .uri(URI.create("https://api.iamport.kr/users/getToken"))
+			    .header("Content-Type", "application/json")
+			    .method("POST", HttpRequest.BodyPublishers.ofString("{\"imp_key\":\"4625415628107468\",\"imp_secret\":\"JzR8w8KQn6BsCSMUVRc4UEuR1bSfMaFTJwLJgMAw1IIpUWLkaPs1tlZqdCeObKQ4Ln7RrV69zCzlGeck\"}"))
+			    .build();
+		HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+		JSONParser parser = new JSONParser();
+		JSONObject obj=(JSONObject)parser.parse(response.body());
+		JSONObject obj2=(JSONObject) obj.get("response");
+		String token=(String)obj2.get("access_token");
+		return token;
 	}
 }

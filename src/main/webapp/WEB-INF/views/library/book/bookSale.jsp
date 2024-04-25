@@ -96,27 +96,25 @@
    				//buyer_postcode: "01181"
    				custom_data:data
 			}, function(rsp) {
-				if (rsp.success) {
-					$.ajax({
-						async : true,
-						url : '<c:url value="/library/sale/insert"/>', 
-						type : 'post', 
-						data : {uid:rsp.merchant_uid}, 
-						dataType : "json", 
-						success : function (data){
-							if(data.res){
-								alert("결제가 되었습니다.");
-							}else{
-								alert("결제에 실패하였습니다.");
-							}
+				console.log(rsp);
+				$.ajax({
+					async : true,
+					url : '<c:url value="/library/sale/insert"/>' ,
+					type : 'post', 
+					data : {
+						imp_uid:rsp.imp_uid,
+						merchant_uid:rsp.merchant_uid,
+						amount: rsp.paid_amount
 						}, 
-						error : function(jqXHR, textStatus, errorThrown){
-
-						}
-					});
-                } else {
-                    alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
-                }
+					dataType : "json", 
+				}).done(function(data){
+					console.log(data);
+					if(data.res){
+		        		alert("결제 완료");
+	        		} else {
+	        			alert("결제 실패");
+	        		}
+				});
 			});
 		});
 	</script>
@@ -208,5 +206,10 @@
 			}
 			return "0" + value;
 		}
+	</script>
+	<!-- test -->
+	<script type="text/javascript">
+	
+
 	</script>
 </body>

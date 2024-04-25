@@ -224,6 +224,6 @@
 	</update>
 	
 	<insert id="insertSale">
-		insert into sale(sa_uid,sa_date,sa_me_id) value(#{uid},now(),#{user.me_id})
+		insert into sale(sa_uid,sa_date,sa_me_id,sa_merchant_uid) value(#{uid},now(),#{user.me_id},#{merchant_uid})
 	</insert>
 </mapper>

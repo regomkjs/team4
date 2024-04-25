@@ -341,11 +341,11 @@ public class BookServiceImp implements BookService {
 	}
 
 	@Override
-	public boolean insertSale(MemberVO user, String uid) {
-		if(user==null||uid==null) {
+	public boolean insertSale(MemberVO user, String uid,String merchant_uid) {
+		if(user==null||checkString(uid)||checkString(merchant_uid)) {
 			return false;
 		}
-		return bookDao.insertSale(user,uid);
+		return bookDao.insertSale(user,uid,merchant_uid);
 	}
 
 
