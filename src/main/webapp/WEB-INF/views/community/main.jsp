@@ -14,7 +14,7 @@
 	<ul>
 		<li><a href="#" data-toggle="modal" data-target="#adminModal" class="adminModal">게시판 관리</a></li>
 		<li><a href="#" data-toggle="modal" data-target="#reportModal" class="reportModal">신고 관리</a></li>
-		<li><a href="#" data-toggle="modal" data-target="#userModal" class="userModal">유저 관리</a></li>
+		<li><a href="#" data-toggle="modal" data-target="#userModal" class="userModal">회원 관리</a></li>
 	</ul>
 	
 	
@@ -99,13 +99,50 @@
    
 			<!-- Modal Header -->
 			<div class="modal-header">
-				<h4 class="modal-title">유저 관리</h4>
+				<h4 class="modal-title">회원 관리</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			
 			<!-- Modal body -->
 			<div class="modal-body">
-			  Modal body..
+				<div class="user-container">
+					<div class="container">
+						<div class="d-flex">
+							<!-- Nav tabs -->
+							<ul class="nav flex-column nav-pills text-center" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link active" data-toggle="tab" href="#all">회원목록</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#prison">수감소</a>
+								</li>
+								<c:if test="${user.me_ms_num == 0}">
+									<li class="nav-item">
+										<a class="nav-link" data-toggle="tab" href="#master">운영진 관리</a>
+									</li>
+								</c:if>
+							</ul>
+	
+							<!-- Tab panes -->
+							<div class="tab-content col-9" style="min-height: 300px">
+								<div id="all" class="container tab-pane active">
+									<h3>회원목록</h3>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								</div>
+								<div id="prison" class="container tab-pane fade">
+									<h3>이용 정지 회원</h3>
+									<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+								</div>
+								<c:if test="${user.me_ms_num == 0}">
+									<div id="master" class="container tab-pane fade">
+							 			<h3>운영진 관리</h3>
+										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+									</div>
+								</c:if>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<!-- Modal footer -->

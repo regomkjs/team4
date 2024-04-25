@@ -4,6 +4,7 @@
 <html>
 <head>
 	<title>게시글 목록</title>
+	<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container">
@@ -20,7 +21,7 @@
 				<option value="writer" <c:if test='${pm.cri.type == "writer"}'>selected</c:if>>작성자</option>
 			</select>
 			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
-			<button type="submit" class="input-group-append btn btn-outline-success">검색</button>
+			<button type="submit" class="input-group-append btn btn-success search-btn"><i class="fa-solid fa-magnifying-glass mr-1 mt-1"  style="--fa-animation-duration: 1.5s;"></i>검색</button>
 		</div>
 	 	<select class="form-control col-4 offset-8 mt-1 mb-2" name="order">
 	 		<option value="new" <c:if test='${pm.cri.order == "new"}'>selected</c:if>>최신순</option>
@@ -51,24 +52,24 @@
 				  				<c:param name="num">${post.po_num}</c:param>
 				  			</c:url>
 				  			
-				  			<a href="${detailUrl}">
-					  			<c:if test="${post.po_votePost}">
-					  				<span class="mr-1">[투표중]</span>
-					  			</c:if>
+				  			<a href="${detailUrl}" style="cursor: pointer; color: black; text-decoration: none;">
 				  				${post.po_title}
 				  			</a> 
+				  			<c:if test="${post.po_votePost}">
+				  				<i class="fa-solid fa-check-to-slot ml-2" style="color: #ee9953;"></i>
+				  			</c:if>
 				  			
 			  				<span class="ml-4">[${post.po_co_count}]</span>
 				  		</td>
 				  		<td>
 			  				<div class="dropdown">
-								<a type="button" class="dropdown-toggle" data-toggle="dropdown">
+								<a type="button" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; color: black; text-decoration: none;">
 							    	${post.me_nick}
 								</a>
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="#">Link 1</a>
 									<a class="dropdown-item" href="#">Link 2</a>
-									<c:if test="${user.me_id != post.po_me_id && user.me_ms_num == 1}">
+									<c:if test="${user.me_id != post.po_me_id && user.me_ms_num <= 1}">
 										<c:url value="/popup/member/punish" var="popupURL">
 											<c:param name="nick" value="${post.me_nick}"/>
 										</c:url>
@@ -149,6 +150,19 @@ $(document).on("click",".member-punish-btn",function(){
 	window.open(url,'_blank',options)
 })
 </script>
+
+<script type="text/javascript">
+$(document).on("mouseover", ".search-btn", function () {
+	$(this).find("i").addClass("fa-beat")
+})
+
+
+
+$(document).on("mouseleave", ".search-btn", function () {
+	$(this).find("i").removeClass("fa-beat")
+})
+</script>
+
 
 </body>
 </html>

@@ -223,7 +223,8 @@ public class PostController {
 			return "message";
 		}
 		if(user == null || 
-				!post.getPo_me_id().equals(user.getMe_id())
+				!post.getPo_me_id().equals(user.getMe_id()) ||
+				user.getMe_ms_num() > 1
 				//관리자인지 예외처리 추가요망
 				) {
 			model.addAttribute("msg", "삭제 권한이 없습니다.");

@@ -40,7 +40,7 @@
 					<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
 				</li>
 			</c:when>
-			<c:when test="${user.me_ms_num == 1}">
+			<c:when test="${user.me_ms_num <= 1}">
 				<li class="nav-item">
 					<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
 				</li>
