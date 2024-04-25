@@ -18,4 +18,5 @@ public class ReserveVO {
 	private int bo_num;
 	//책 고유번호
 	private String bo_isbn;
+	private String me_phone;
 }

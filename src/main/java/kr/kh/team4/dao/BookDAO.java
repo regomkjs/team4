@@ -99,5 +99,8 @@ public interface BookDAO {
 
 	void updateInsertLoan(@Param("bo_num")int bo_num, @Param("me_id")String me_id);
 
+	ReserveVO selectReserve(@Param("bo_num")int bo_num);
+
+	void updateReserve(@Param("bo_num")String lo_bo_num, @Param("me_id")String lo_me_id);
 
 }

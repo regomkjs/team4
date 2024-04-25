@@ -80,6 +80,7 @@ ol.colorlist {
 				</p>
 				<p>
 					평점:<span style="font-weight: bold; font-size: 30px">${avgReview.avgScore}</span>
+					<c:if test="${avgReview == null}"><span style="font-weight: bold; font-size: 30px">0</span></c:if>
 				</p>
 				<p>
 					저자:<span>${book.bo_au_name}</span>
@@ -189,7 +190,7 @@ ol.colorlist {
 				if (data.result) {
 					alert("${book.bo_title}책을 대출했습니다.");
 				} else {
-					alert("이미 대출된 책입니다.")
+					alert("이미 대출된 책이거나 예약된 책입니다.")
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
