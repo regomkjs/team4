@@ -205,4 +205,10 @@ public class LibraryController {
 		}
 		return "/library/book/bookSaleDetail";
 	}
+	
+	@GetMapping("/library/order/list")
+	public String SaleList() {
+		
+		return "/library/book/order";
+	}
 }

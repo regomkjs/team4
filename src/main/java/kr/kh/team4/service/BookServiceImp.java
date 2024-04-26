@@ -14,12 +14,14 @@ import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 import kr.kh.team4.dao.BookDAO;
 import kr.kh.team4.dao.MemberDAO;
 import kr.kh.team4.model.dto.BookDTO;
+import kr.kh.team4.model.dto.SaleDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
+import kr.kh.team4.model.vo.book.SaleVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.GradeVO;
@@ -417,11 +419,12 @@ public class BookServiceImp implements BookService {
 	}
 
 	@Override
-	public boolean insertSale(MemberVO user, String uid,String merchant_uid) {
-		if(user==null||checkString(uid)||checkString(merchant_uid)) {
+	public boolean insertSale(MemberVO user, SaleDTO saleDto) {
+		if(user==null||checkString(saleDto.getImp_uid())
+				||checkString(saleDto.getMerchant_uid())) {
 			return false;
 		}
-		return bookDao.insertSale(user,uid,merchant_uid);
+		return bookDao.insertSale(user,saleDto);
 	}
 
 
@@ -492,5 +495,10 @@ public class BookServiceImp implements BookService {
 	@Override
 	public ArrayList<ReserveVO> getReserveList(int bo_num) {
 		return bookDao.selectReserveList(bo_num);
+	}
+
+	@Override
+	public ArrayList<SaleVO> getSaleList(String me_id) {
+		return bookDao.getSaleList(me_id);
 	}
 }
