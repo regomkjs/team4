@@ -8,6 +8,7 @@ import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MemberCriteria;
 
 public interface MemberDAO {
 
@@ -54,5 +55,9 @@ public interface MemberDAO {
 	void updateUserGrade(@Param("me_id")String me_id, @Param("gr_num")int gr_num);
 	
 	void resetBlockToNull(@Param("me_id")String me_id);
+
+	ArrayList<MemberVO> selectMemberList(@Param("cri")MemberCriteria cri);
+
+	int totalCountMember(@Param("cri")MemberCriteria cri);
 
 }

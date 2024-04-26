@@ -20,8 +20,12 @@ import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
+
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
+
+import kr.kh.team4.pagination.MemberCriteria;
+
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -340,6 +344,22 @@ public class MemberServiceImp implements MemberService {
 			return true;
 		}
 		return false;
+
+	@Override
+	public ArrayList<MemberVO> getMemberList(MemberCriteria cri) {
+		if(cri == null) {
+			cri = new MemberCriteria();
+		}
+		return memberDao.selectMemberList(cri);
+	}
+
+	@Override
+	public int getTotalCountMember(MemberCriteria cri) {
+		if(cri == null) {
+			cri = new MemberCriteria();
+		}
+		return memberDao.totalCountMember(cri);
+
 	}
 	
 }
