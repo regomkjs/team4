@@ -23,6 +23,7 @@ import kr.kh.team4.pagination.MyCommentCriteria;
 import kr.kh.team4.pagination.MyPostCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.pagination.PostCriteria;
+import kr.kh.team4.service.MemberService;
 import kr.kh.team4.service.PostService;
 import lombok.extern.log4j.Log4j;
 
@@ -38,6 +39,9 @@ public class PostController {
 	
 	@Autowired
 	PostService postService;
+	
+	@Autowired
+	MemberService memberService;
 	
 	
 	@GetMapping("/post")
@@ -222,30 +226,60 @@ public class PostController {
 			model.addAttribute("url", "/post/list");
 			return "message";
 		}
-		if(user == null || 
-				!post.getPo_me_id().equals(user.getMe_id()) ||
-				user.getMe_ms_num() > 1
-				//관리자인지 예외처리 추가요망
-				) {
+		if(user == null) {
 			model.addAttribute("msg", "삭제 권한이 없습니다.");
 			model.addAttribute("url", "/post/detail?num="+num);
 			return "message";
 		}
-		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
-			model.addAttribute("msg", "커뮤니티 이용이 정지됐습니다.                                                 정지기한 : "+ user.getMe_block());
-			model.addAttribute("url", "/post/detail?num="+num);
+		if(user.getMe_id().equals(post.getPo_me_id())) {
+			boolean res = postService.deletePost(post);
+			if(res) {
+				model.addAttribute("msg", "게시글이 삭제되었습니다.");
+				model.addAttribute("url", "/post/list");
+			}
+			else {
+				model.addAttribute("msg", "게시글 삭제에 실패했습니다.");
+				model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
+			}
 			return "message";
 		}
-		boolean res = postService.deletePost(post);
-		if(res) {
-			model.addAttribute("msg", "게시글이 삭제되었습니다.");
-			model.addAttribute("url", "/post/list");
+		
+		if(user.getMe_mr_num() == 0) {
+			boolean res = postService.deletePost(post);
+			if(res) {
+				model.addAttribute("msg", "게시글이 삭제되었습니다.");
+				model.addAttribute("url", "/post/list");
+			}
+			else {
+				model.addAttribute("msg", "게시글 삭제에 실패했습니다.");
+				model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
+			}
+			return "message";
+		} 
+		else if(user.getMe_mr_num() == 1) {
+			MemberVO writer = memberService.getMember(post.getPo_me_id());
+			if(writer.getMe_mr_num() <= user.getMe_mr_num()) {
+				model.addAttribute("msg", "다른 운영진의 글은 지울 수 없습니다.");
+				model.addAttribute("url", "/post/detail?num="+num);
+				return "message";
+			}
+			else {
+				boolean res = postService.deletePost(post);
+				if(res) {
+					model.addAttribute("msg", "게시글이 삭제되었습니다.");
+					model.addAttribute("url", "/post/list");
+				}
+				else {
+					model.addAttribute("msg", "게시글 삭제에 실패했습니다.");
+					model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
+				}
+				return "message";
+			}
 		}
-		else {
-			model.addAttribute("msg", "게시글 삭제에 실패했습니다.");
-			model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
-		}
+		model.addAttribute("msg", "삭제 권한이 없습니다.");
+		model.addAttribute("url", "/post/detail?num="+num);
 		return "message";
+
 	}
 	
 	

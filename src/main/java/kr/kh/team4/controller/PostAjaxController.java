@@ -98,8 +98,57 @@ public class PostAjaxController {
 	public Map<String, Object> commentDeletePost(@RequestParam("num")int num, HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		boolean res = postService.deleteComment(num, user);
+		CommentVO comment = postService.getComment(num);
+		MemberVO writer = memberService.getMember(comment.getCo_me_id());
+		boolean res;
+		String message = "";
+		if(user == null) {
+			res = false;
+			message = "세션이 만료되어 댓글 삭제에 실패했습니다.";
+			map.put("result", res);
+			map.put("message", message);
+			return map;
+		}
+		if(user.getMe_id().equals(comment.getCo_me_id())) {
+			res = postService.deleteComment(num, user);
+			if(!res) {
+				message = "댓글 삭제에 실패했습니다.";
+				map.put("message", message);
+			}
+			map.put("result", res);
+			return map;
+		}
+		if(user.getMe_mr_num() == 0) {
+			res = postService.deleteComment(num, user);
+			if(!res) {
+				message = "댓글 삭제에 실패했습니다.";
+				map.put("message", message);
+			}
+			map.put("result", res);
+			return map;
+		}
+		else if(user.getMe_mr_num() == 1) {
+			if(user.getMe_mr_num() >= writer.getMe_mr_num()) {
+				res = false;
+				message = "다른 운영진이 작성한 댓글은 지울 수 없습니다.";
+				map.put("result", res);
+				map.put("message", message);
+				return map;
+			}
+			else {
+				res = postService.deleteComment(num, user);
+				if(!res) {
+					message = "댓글 삭제에 실패했습니다.";
+					map.put("message", message);
+				}
+				map.put("result", res);
+				return map;
+			}
+		}
+		res = false;
+		message = "댓글 삭제에 실패했습니다.";
 		map.put("result", res);
+		map.put("message", message);
 		return map;
 	}
 	

@@ -116,7 +116,7 @@
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" href="#prison">수감소</a>
 								</li>
-								<c:if test="${user.me_ms_num == 0}">
+								<c:if test="${user.me_mr_num == 0}">
 									<li class="nav-item">
 										<a class="nav-link" data-toggle="tab" href="#master">운영진 관리</a>
 									</li>
@@ -133,7 +133,7 @@
 									<h3>이용 정지 회원</h3>
 									<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 								</div>
-								<c:if test="${user.me_ms_num == 0}">
+								<c:if test="${user.me_mr_num == 0}">
 									<div id="master" class="container tab-pane fade">
 							 			<h3>운영진 관리</h3>
 										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
@@ -287,8 +287,15 @@ $(".category-input-btn").click(function () {
 $(document).on("click",".category-update-btn",function(){
 	initCategory()
 	let container = $(this).parents(".category-box")
-	container.attr("hidden",true);
 	let ca_num = $(this).data("num");
+	let admin_right = '${user.me_mr_num}';
+	
+	if(admin_right == 1 && ca_num == 1){
+		alert("공지 게시판은 최고 관리자만 수정할 수 있습니다.");
+		return;
+	}
+	container.attr("hidden",true);
+	
 	let inputBox = $(this).parents(".category-box").find("input").val();
 	let str = "";
 	str +=
@@ -302,8 +309,15 @@ $(document).on("click",".category-update-btn",function(){
 })
 
 $(document).on("click",".update-submit-btn",function(){
+	let admin_right = '${user.me_mr_num}';
 	let ca_name = $(this).parents('.input-update-box').find('.input-update-name').val();
 	let ca_num = $(this).data("num");
+	
+	if(admin_right == 1 && ca_num == 1){
+		alert("공지 게시판은 최고 관리자만 수정할 수 있습니다.");
+		return;
+	}
+	
 	$.ajax({
 		url : '<c:url value="/category/update"/>',
 		method : "post",
@@ -330,6 +344,11 @@ $(document).on("click",".update-submit-btn",function(){
 //게시판 삭제
 $(document).on("click",".category-delete-btn",function(){
 	let ca_num = $(this).data("num");
+	if(ca_num == 1){
+		alert("공지 게시판은 삭제가 불가능 합니다.");
+		return;
+	}
+	
 	if(confirm("게시판을 삭제할 경우 해당 게시판 내 게시글이 모두 삭제되게 됩니다. 삭제 하시겠습니까?")){
 		$.ajax({
 			url : '<c:url value="/category/delete"/>',

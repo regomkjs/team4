@@ -4,11 +4,19 @@ CREATE DATABASE  IF NOT EXISTS `library`;
 
 USE `library`;
 
+DROP TABLE IF EXISTS `member_right`;
+
+CREATE TABLE `member_right` (
+  `mr_num` int NOT NULL,
+  `mr_name` varchar(15) NOT NULL,
+  PRIMARY KEY (`mr_num`)
+) ;
+
 
 DROP TABLE IF EXISTS `member_state`;
 
 CREATE TABLE `member_state` (
-  `ms_num` int NOT NULL AUTO_INCREMENT,
+  `ms_num` int NOT NULL,
   `ms_name` varchar(15) NOT NULL,
   PRIMARY KEY (`ms_num`)
 ) ;
@@ -38,12 +46,15 @@ CREATE TABLE `member` (
   `me_loan_block` date DEFAULT NULL,
   `me_count` int NOT NULL DEFAULT '0',
   `me_loan_count` int NOT NULL DEFAULT '0',
+  `me_mr_num` int not null,
   `me_ms_num` int NOT NULL,
   `me_gr_num` int NOT NULL,
   PRIMARY KEY (`me_id`),
   UNIQUE KEY `me_nick` (`me_nick`),
+  KEY `FK_member_right_TO_member_1` (`me_mr_num`),
   KEY `FK_member_state_TO_member_1` (`me_ms_num`),
   KEY `FK_grade_TO_member_1` (`me_gr_num`),
+  CONSTRAINT `FK_member_right_TO_member_1` FOREIGN KEY (`me_mr_num`) REFERENCES `member_right` (`mr_num`),
   CONSTRAINT `FK_grade_TO_member_1` FOREIGN KEY (`me_gr_num`) REFERENCES `grade` (`gr_num`),
   CONSTRAINT `FK_member_state_TO_member_1` FOREIGN KEY (`me_ms_num`) REFERENCES `member_state` (`ms_num`)
 ) ;
