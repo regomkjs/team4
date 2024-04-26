@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SaleVO {
 	private int sa_num; 
-	private int sa_price; 
 	private Date sa_date;
-	private String sa_bo_num; 
+	private String sa_uid; 
+	private String sa_merchant_uid; 
+	private int sa_ss_num; 
 	private String sa_me_id;
+	private String sa_state;
 }
