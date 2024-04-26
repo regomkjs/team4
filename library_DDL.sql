@@ -17,7 +17,7 @@ insert into `member_right` values (0,'마스터'),(1,'운영진'),(2,'회원');
 DROP TABLE IF EXISTS `member_state`;
 
 CREATE TABLE `member_state` (
-  `ms_num` int NOT NULL AUTO_INCREMENT,
+  `ms_num` int NOT NULL,
   `ms_name` varchar(15) NOT NULL,
   PRIMARY KEY (`ms_num`)
 ) ;
@@ -180,14 +180,13 @@ DROP TABLE IF EXISTS `sale`;
 
 CREATE TABLE `sale` (
   `sa_num` int NOT NULL AUTO_INCREMENT,
-  `sa_price` int NOT NULL,
+  `sa_uid` varchar(30) NOT NULL,
   `sa_date` datetime not null,
-  `sa_bo_num` int  NOT NULL,
+  `sa_merchant_uid` varchar(30) NOT NULL,
+  `sa_state` int default 1,
   `sa_me_id` varchar(12) NOT NULL,
   PRIMARY KEY (`sa_num`),
-  KEY `FK_book_TO_sale_1` (`sa_bo_num`),
   KEY `FK_member_TO_sale_1` (`sa_me_id`),
-  CONSTRAINT `FK_book_TO_sale_1` FOREIGN KEY (`sa_bo_num`) REFERENCES `book` (`bo_num`),
   CONSTRAINT `FK_member_TO_sale_1` FOREIGN KEY (`sa_me_id`) REFERENCES `member` (`me_id`)
 ) ;
 

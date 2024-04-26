@@ -81,6 +81,8 @@ public interface BookDAO {
 
 	boolean updateReview(@Param("review")ReviewVO review);
 
+	boolean insertSale(@Param("user")MemberVO user, @Param("uid")String uid,@Param("merchant_uid")String merchant_uid);
+
 	ReviewVO selectAvgReview(@Param("bo_num")int bo_num);
 
 	OpinionVO selectOpinion(@Param("op")OpinionVO opinion);

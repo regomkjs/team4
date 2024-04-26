@@ -69,7 +69,7 @@
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="#">Link 1</a>
 									<a class="dropdown-item" href="#">Link 2</a>
-									<c:if test="${user.me_id != post.po_me_id && user.me_ms_num <= 1}">
+									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num <= 1}">
 										<c:url value="/popup/member/punish" var="popupURL">
 											<c:param name="nick" value="${post.me_nick}"/>
 										</c:url>
@@ -144,7 +144,6 @@ $("[name=order]").change(function () {
 <script type="text/javascript">
 $(document).on("click",".member-punish-btn",function(){
 	let url = $(this).data("url");
-	console.log(url)
 	const options = 'width=500, height=300, top=300, left=500, scrollbars=yes'
 	
 	window.open(url,'_blank',options)

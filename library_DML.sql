@@ -8,3 +8,7 @@ insert into under(un_name,un_code,un_up_num) values
 /*group by 에러 발생시
 SET GLOBAL sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 */
+
+insert into `member_right` values (0,'마스터'),(1,'운영진'),(2,'회원');
+insert into `member_state` values (2,'유저'),(3,'정지');
+

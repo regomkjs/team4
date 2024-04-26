@@ -1,11 +1,17 @@
 package kr.kh.team4.controller;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -197,6 +203,65 @@ public class LibraryAjaxController {
 		return map;
 	}
 	
+	@PostMapping("/library/sale/insert")
+	public Map<String, Object> saleInsert(String imp_uid,int amount,HttpSession session,
+			String merchant_uid)
+			throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user=(MemberVO) session.getAttribute("user");
+
+		String token=token();
+		System.out.println(imp_uid+", "+token);
+		HttpRequest request = HttpRequest.newBuilder()
+			    .uri(URI.create("https://api.iamport.kr/payments/"+imp_uid))
+			    .header("Content-Type", "application/json")
+			    .header("Authorization",token)
+			    .method("GET", HttpRequest.BodyPublishers.ofString("{}"))
+			    .build();
+			HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println(response.body());
+			
+		JSONParser parser = new JSONParser();
+		JSONObject obj=(JSONObject)parser.parse(response.body());
+		JSONObject obj2=(JSONObject) obj.get("response");
+		int money=Integer.parseInt(String.valueOf(obj2.get("amount")));
+	
+		if(money==amount) {
+			boolean res=bookService.insertSale(user,imp_uid,merchant_uid);
+			map.put("res",res);
+		}else {
+			saleCancel(imp_uid,merchant_uid);
+			map.put("res",false);
+		}
+		return map;
+	}
+	
+	private void saleCancel(String imp_uid,String merchant_uid) throws Exception {
+		HttpRequest request = HttpRequest.newBuilder()
+			    .uri(URI.create("https://api.iamport.kr/payments/cancel"))
+			    .header("Content-Type", "application/json")
+			    .header("Authorization",token())
+			    .method("POST", HttpRequest.BodyPublishers.ofString("{\"imp_uid\":\""+imp_uid+"\",\"merchant_uid\":\""+merchant_uid+"\"}"))
+			    .build();
+			HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println(response.body());
+		
+	}
+
+	private String token()throws Exception {
+		HttpRequest request = HttpRequest.newBuilder()
+			    .uri(URI.create("https://api.iamport.kr/users/getToken"))
+			    .header("Content-Type", "application/json")
+			    .method("POST", HttpRequest.BodyPublishers.ofString("{\"imp_key\":\"4625415628107468\",\"imp_secret\":\"JzR8w8KQn6BsCSMUVRc4UEuR1bSfMaFTJwLJgMAw1IIpUWLkaPs1tlZqdCeObKQ4Ln7RrV69zCzlGeck\"}"))
+			    .build();
+		HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+		JSONParser parser = new JSONParser();
+		JSONObject obj=(JSONObject)parser.parse(response.body());
+		JSONObject obj2=(JSONObject) obj.get("response");
+		String token=(String)obj2.get("access_token");
+		return token;
+	}
+
 	@ResponseBody
 	@PostMapping("/opinion/check")
 	public Map<String, Object> opinionCheck(@RequestBody OpinionVO opinion, HttpSession session){

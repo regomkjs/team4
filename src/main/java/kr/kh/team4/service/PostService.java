@@ -106,4 +106,6 @@ public interface PostService {
 
 	boolean deleteCommentAdmin(int co_num);
 
+	CommentVO getComment(int num);
+
 }

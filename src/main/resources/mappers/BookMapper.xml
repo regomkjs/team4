@@ -240,6 +240,10 @@
 			rv_num = #{review.rv_num}
 	</update>
 	
+	<insert id="insertSale">
+		insert into sale(sa_uid,sa_date,sa_me_id,sa_merchant_uid) value(#{uid},now(),#{user.me_id},#{merchant_uid})
+	</insert>
+	
 	<select id="selectAvgReview" resultType="ReviewVO">
 		select round(avg(rv_score), 1) as avgScore from review where rv_bo_num = #{bo_num}
 	</select>
