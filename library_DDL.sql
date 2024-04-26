@@ -188,6 +188,7 @@ DROP TABLE IF EXISTS `sale`;
 
 CREATE TABLE `sale` (
   `sa_num` int NOT NULL AUTO_INCREMENT,
+  `sa_name` varchar(50) NOT NULL,
   `sa_uid` varchar(30) NOT NULL,
   `sa_date` datetime not null,
   `sa_merchant_uid` varchar(30) NOT NULL,

@@ -82,6 +82,20 @@
 			let str="${user.me_nick}";
 			let today = new Date(); 
 			Goods.uid=str.substring(0,3)+toStringFormatting(today);
+			
+			let custom=[];
+			for(let i=0;i<selectedBook.length;i++){
+				let num=selectedBook[i];
+				let sdata={}
+				sdata.title=data[selectedBook[i]].title;
+				sdata.cover=data[selectedBook[0]].cover;
+				sdata.priceStandard=data[selectedBook[0]].priceStandard;
+				sdata.isbn=data[selectedBook[0]].isbn;
+				sdata.isbn13=data[selectedBook[0]].isbn13;
+				sdata.count=Number($(".sale-count").eq(selectedBook[i]).val());
+				custom.push(sdata);
+			}
+	
 			IMP.request_pay({
 				pg: "html5_inicis",		//KG이니시스 pg파라미터 값
                 pay_method: "card",		//결제 방법
@@ -94,7 +108,7 @@
    				buyer_tel: "${user.me_phone}",
    				//buyer_addr: "서울특별시 강남구 신사동",
    				//buyer_postcode: "01181"
-   				custom_data:data
+   				custom_data:custom
 			}, function(rsp) {
 				console.log(rsp);
 				$.ajax({
@@ -102,6 +116,7 @@
 					url : '<c:url value="/library/sale/insert"/>' ,
 					type : 'post', 
 					data : {
+						book_name:rsp.name,
 						imp_uid:rsp.imp_uid,
 						merchant_uid:rsp.merchant_uid,
 						amount: rsp.paid_amount
@@ -219,10 +234,5 @@
 			}
 			return "0" + value;
 		}
-	</script>
-	<!--  -->
-	<script type="text/javascript">
-	
-
 	</script>
 </body>

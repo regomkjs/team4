@@ -241,7 +241,8 @@
 	</update>
 	
 	<insert id="insertSale">
-		insert into sale(sa_uid,sa_date,sa_me_id,sa_merchant_uid) value(#{uid},now(),#{user.me_id},#{merchant_uid})
+		insert into sale(sa_uid, sa_date, sa_me_id, sa_merchant_uid, sa_name) 
+		value(#{sa.imp_uid}, now(), #{user.me_id}, #{sa.merchant_uid}, #{sa.book_name})
 	</insert>
 	
 	<select id="selectAvgReview" resultType="ReviewVO">
@@ -367,4 +368,12 @@
 		where
 			me_id = #{user.me_id}
 	</update>
+	
+	<select id="getSaleList" resultType="SaleVO">
+		select sale.*,(ss_state)as sa_state,(me_nick)as sa_nick from 
+		sale join sale_state on sa_ss_num=ss_num
+		join member on me_id=sa_me_id 
+		where sa_me_id=#{me_id}
+		order by sa_date desc	
+	</select>
 </mapper>
