@@ -12,7 +12,6 @@ CREATE TABLE `member_right` (
   PRIMARY KEY (`mr_num`)
 ) ;
 
-insert into `member_right` values (0,'마스터'),(1,'운영진'),(2,'회원');
 
 DROP TABLE IF EXISTS `member_state`;
 

@@ -354,4 +354,8 @@
 		where sa_me_id=#{me_id}
 		order by sa_date desc	
 	</select>
+	
+	<select id="getSale" resultType="SaleVO">
+		select * from sale where sa_merchant_uid=#{sa_merchant_uid}
+	</select>
 </mapper>

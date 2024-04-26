@@ -88,6 +88,8 @@ public interface BookService {
 
 	ArrayList<SaleVO> getSaleList(String me_id);
 
+	SaleVO getSale(String sa_merchant_uid);
+
 
 	
 }

@@ -262,6 +262,20 @@ public class LibraryAjaxController {
 		map.put("order", order);
 		return map;
 	}
+	
+	@PostMapping("/order/detail") // Criteria cri,
+	public Map<String, Object> orderDetail(String merchant_uid) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		SaleVO order = bookService.getSale(merchant_uid);
+		if(order==null) {
+			map.put("info",null);			
+		}else {
+			JSONObject data = payments(order.getSa_uid());
+			System.out.println(data);
+			map.put("info",data);
+		}
+		return map;
+	}
 
 	@ResponseBody
 	@PostMapping("/opinion/check")

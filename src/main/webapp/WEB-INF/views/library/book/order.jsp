@@ -53,43 +53,43 @@
         			<table class="table table-bordered">
 						<tr>
 							<th>주문번호</th>
-							<td>ㄴㄴㄴ</td>
+							<td></td>
 							<th>배송방법</th>
-							<td>sdfs</td>
+							<td></td>
 						</tr>
 						<tr>
 							<th>주문 접수일</th>
-							<td>ㄴㄴㄴ</td>
+							<td></td>
 							<th>결제일</th>
-							<td>sdfs</td>
+							<td></td>
 						</tr>
 						<tr>
 							<th>주문하신 분</th>
-							<td>ㄴㄴㄴ</td>
+							<td></td>
 							<th>전화번호</th>
-							<td>sdfs</td>
+							<td></td>
 						</tr>
 					</table>
 					<h4> 주문 상품 정보</h4>
 					<table class="table table-bordered">
 						<tr>
 							<th>주문상품</th>
-							<td >ㄴㄴㄴ</td>
+							<td ></td>
 						</tr>
 					</table>
 					<h4>결제 정보</h4>
 					<table class="table table-bordered">
 						<tr>
 							<th>총 결제금액</th>
-							<td>ㄴㄴㄴ</td>
+							<td></td>
 						</tr>
 						<tr>
 							<th>할인 금액</th>
-							<td>ㄴㄴㄴ</td>
+							<td></td>
 						</tr>
 						<tr>
 							<th>결제수단</th>
-							<td>ㄴㄴㄴ</td>
+							<td></td>
 						</tr>
 					</table>
 		        </div>
@@ -153,7 +153,23 @@
 		}
 		displayViewOrder();
 		
-		
+		//주문 상세 내역
+		function displayDetailOrder() {
+			$.ajax({
+				async : true,
+				url : '<c:url value="/order/detail"/>', 
+				type : 'post', 
+				data : merchant_uid:$(this).data("uid"), 
+				dataType : "json", 
+				success : function (data){
+					console.log(data);
+					//toStringFormatting(source)
+					
+				}, error : function(jqXHR, textStatus, errorThrown){
+				
+				}
+			});
+		}
 	</script>
 	<!-- 날짜 -->
 	<script type="text/javascript">

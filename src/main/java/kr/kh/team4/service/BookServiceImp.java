@@ -501,4 +501,12 @@ public class BookServiceImp implements BookService {
 	public ArrayList<SaleVO> getSaleList(String me_id) {
 		return bookDao.getSaleList(me_id);
 	}
+
+	@Override
+	public SaleVO getSale(String sa_merchant_uid) {
+		if(checkString(sa_merchant_uid)) {
+			return null;
+		}
+		return bookDao.getSale(sa_merchant_uid);
+	}
 }

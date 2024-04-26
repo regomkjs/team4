@@ -111,4 +111,6 @@ public interface BookDAO {
 
 	ArrayList<SaleVO> getSaleList(@Param("me_id")String me_id);
 
+	SaleVO getSale(@Param("sa_merchant_uid")String sa_merchant_uid);
+
 }
