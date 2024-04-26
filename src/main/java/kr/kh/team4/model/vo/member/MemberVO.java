@@ -18,6 +18,7 @@ public class MemberVO {
 	private String me_block; 
 	private Date me_loan_block; 
 	private int me_count;
+	private int me_post_count;
 	private int me_loan_count;
 	private int me_ms_num; 
 	private int me_gr_num;
