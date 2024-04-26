@@ -48,6 +48,7 @@ CREATE TABLE `member` (
   `me_block` date DEFAULT NULL,
   `me_loan_block` date DEFAULT NULL,
   `me_count` int NOT NULL DEFAULT '0',
+  `me_post_count` int not null default '0',
   `me_loan_count` int NOT NULL DEFAULT '0',
   `me_mr_num` int not null DEFAULT '2',
   `me_ms_num` int NOT NULL,
