@@ -20,7 +20,9 @@ import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
 import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MemberCriteria;
 import kr.kh.team4.pagination.PageMaker;
+import kr.kh.team4.service.MemberService;
 import kr.kh.team4.service.PostService;
 import lombok.extern.log4j.Log4j;
 
@@ -30,6 +32,10 @@ public class CommunityController {
 
 	@Autowired
 	PostService postService;
+	
+	@Autowired
+	MemberService memberService;
+	
 	
 	@GetMapping("/community/main")
 	public String communityMain (Model model, HttpSession session) {
@@ -195,6 +201,19 @@ public class CommunityController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res1 = postService.deleteCommentAdmin(co_num);
 		map.put("result1", res1);
+		return map;
+	}
+	
+	
+	@ResponseBody
+	@PostMapping("/member/list")
+	public Map<String, Object> memberListPost(@RequestBody MemberCriteria me_cri){
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<MemberVO> list = memberService.getMemberList(me_cri);
+		int totalCount = memberService.getTotalCountMember(me_cri);
+		PageMaker pm = new PageMaker(5, me_cri, totalCount);
+		map.put("pm", pm);
+		map.put("list", list);
 		return map;
 	}
 	

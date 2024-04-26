@@ -17,10 +17,10 @@
 				<label for="category">게시판:</label>
 				<select id="category" name="po_ca_num" class="form-control">
 					<c:forEach items="${categoryList}" var="category">
-						<c:if test='${category.ca_name == "공지" && user.me_gr_num == 0}'>
+						<c:if test='${category.ca_num == 1 && user.me_mr_num <= 1}'>
 							<option value="${category.ca_num}" <c:if test="${ca_num == category.ca_num}">selected</c:if>>${category.ca_name}</option>
 						</c:if>
-						<c:if test='${category.ca_name != "공지"}'>
+						<c:if test='${category.ca_num != 1}'>
 							<option value="${category.ca_num}" <c:if test="${ca_num == category.ca_num}">selected</c:if>>${category.ca_name}</option>
 						</c:if>
 					</c:forEach>
