@@ -341,4 +341,26 @@
 	<select id="selectCurrentLoan" resultType="LoanVO">
 		select * from loan where lo_bo_num = #{bo_num} and lo_state = 1
 	</select>
+	
+	<update id="updateReserveList">
+		update reserve set
+			re_date = (select date_add(lo_limit,interval 3 day) from loan where lo_bo_num = #{bo_num} and lo_me_id = #{member_id})
+		where 
+			re_bo_num = #{bo_num} 
+	</update>
+	
+	<select id="selectDiffDay" resultType="int">
+		select datediff(now(), #{loan.lo_limit}) from loan where lo_bo_num = #{loan.lo_bo_num}
+	</select>
+	
+	<select id="selectTotalCountLoan" resultType="int">
+		select count(*) from loan where lo_state = 1 and lo_me_id = #{user.me_id}
+	</select>
+	
+	<update id="addLoanBlock">
+		update member set
+			me_loan_block = date_add(now(), interval #{day} day)
+		where
+			me_id = #{user.me_id}
+	</update>
 </mapper>

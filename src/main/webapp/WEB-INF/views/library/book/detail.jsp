@@ -120,8 +120,6 @@ ol.colorlist {
 								data-bo-num="${co.bo_num}">반납</button>
 							</c:if>
 						</c:forEach>
-						<c:if test="${user.me_ms_num == 1}">
-						</c:if>
 					</c:forEach>
 				</ul>
 			</div>
@@ -130,6 +128,7 @@ ol.colorlist {
 					<li>책을 대출할 시 만기일은 대출한 날로부터 1주일 후로 지정됩니다.</li>
 					<li>연장은 만기일까지 3일 남았을 때부터 누를 수 있습니다.</li>
 					<li>책이 예약된 경우 연장을 할 수 없습니다.</li>
+					<li>연체일시 대출권 수 X 연체일 수 만큼 대출,예약에 제한이 생깁니다.</li>
 					<li style="color:red; font-weight: bold;">※ 예약은 약속입니다. : 필요한 도서만 예약하고, 예약도서는 꼭 대출해 주시기 바랍니다.</li>
 				</ol>
 			</div>

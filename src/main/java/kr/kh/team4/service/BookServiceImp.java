@@ -196,17 +196,18 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		
-		 LoanVO currentLoan = bookDao.selectCurrentLoan(book.getBo_num());
-		    if(currentLoan != null && currentLoan.getLo_state() == 1) {
-		        return false;
-		    }
-		
+		LoanVO currentLoan = bookDao.selectCurrentLoan(book.getBo_num());
+			if(currentLoan != null && currentLoan.getLo_state() == 1) {
+				return false;
+			}
+
 		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
 		if(list.size() != 0) {
 			if(list.get(0).getRe_me_id().equals(user.getMe_id())) {
 				boolean res = bookDao.insertLoan(user.getMe_id(), book.getBo_num());
 				if(res) {
 					bookDao.deleteReserve(user.getMe_id(), book.getBo_num());
+					bookDao.updateReserveList(book.getBo_num(), user.getMe_id());
 					return true;
 				}
 			}
@@ -267,7 +268,7 @@ public class BookServiceImp implements BookService {
 		Date today = new Date();
 		Date limit = loan.getLo_limit();
 		long difference = Math.abs(limit.getTime() - today.getTime());
-		long differenceDays = difference / (24 * 60 * 60 * 1000);
+		long differenceDays = difference / (24 * 60 * 60 * 1000) + 1;
 		// 반납만기일까지 3일이 넘는 경우
 		if (differenceDays > 3) {
 			return false;
@@ -328,8 +329,21 @@ public class BookServiceImp implements BookService {
 //		if (user.getMe_ms_num() != 1) {
 //			return false;
 //		}
+		
 		boolean res = bookDao.updateLoanBook(book.getBo_num());
+		
 		if(res) {
+			Date date1 = loan.getLo_limit();
+			Date date2 = new Date();
+			boolean result = date2.after(date1);
+			if(result) {
+				int diffDay = bookDao.selectDiffDay(loan);
+				int loanCount = bookDao.selectTotalCountLoan(user);
+				int blockDay =  diffDay * loanCount;
+				bookDao.addLoanBlock(user, blockDay);
+			}
+			
+			
 			BookVO bo = bookDao.getBook(book.getBo_num());
 			ReserveVO reserve = bookDao.selectReserve(book.getBo_num());
 			if(reserve != null) {

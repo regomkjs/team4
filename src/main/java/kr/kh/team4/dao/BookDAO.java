@@ -105,4 +105,12 @@ public interface BookDAO {
 
 	LoanVO selectCurrentLoan(@Param("bo_num")int bo_num);
 
+	void updateReserveList(@Param("bo_num")int bo_num, @Param("me_id")String me_id);
+
+	int selectDiffDay(@Param("loan")LoanVO loan);
+
+	int selectTotalCountLoan(@Param("user")MemberVO user);
+
+	void addLoanBlock(@Param("user")MemberVO user, @Param("day")int blockDay);
+
 }
