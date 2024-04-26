@@ -47,9 +47,10 @@ public class HomeController {
 	}
 	
 	@PostMapping("/signup")
-	public String signupPost(Model model, MemberVO member) {
+	public String signupPost(Model model, MemberVO member,HttpSession session) {
 		if(memberService.insertMember(member)) {
 			model.addAttribute("msg","회원가입 성공");
+			session.removeAttribute("authCode");
 			model.addAttribute("url","/");
 		}else {
 			model.addAttribute("msg","회원가입 실패");
