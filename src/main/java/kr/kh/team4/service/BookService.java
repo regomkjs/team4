@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import kr.kh.team4.model.dto.BookDTO;
+import kr.kh.team4.model.dto.SaleDTO;
 import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
+import kr.kh.team4.model.vo.book.SaleVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
@@ -68,7 +70,7 @@ public interface BookService {
 
 	boolean updateReview(ReviewVO review, MemberVO user);
 
-	boolean insertSale(MemberVO user, String uid,String merchant_uid);
+	boolean insertSale(MemberVO user, SaleDTO saleDto);
 
 	ReviewVO getAvgReview(int bo_num);
 
@@ -83,6 +85,8 @@ public interface BookService {
 	int totalCountLoanBook(Criteria cri, MemberVO user);
 
 	ArrayList<ReserveVO> getReserveList(int bo_num);
+
+	ArrayList<SaleVO> getSaleList(String me_id);
 
 
 	
