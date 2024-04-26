@@ -84,7 +84,7 @@
 		join 
 			loan on lo_bo_num = bo_num
 		where
-			lo_me_id = #{user.me_id}
+			lo_me_id = #{user.me_id} and lo_state = 1
 			<if test='cri.type=="all"'>
 				and (bo_title like concat('%', #{cri.search}, '%') or
 				bo_publisher like concat('%', #{cri.search}, '%'))
@@ -107,7 +107,7 @@
 		join 
 			loan on lo_bo_num = bo_num
 		where
-			lo_me_id = #{user.me_id}
+			lo_me_id = #{user.me_id} and lo_state = 1
 			<if test='cri.type=="all"'>
 				and (bo_title like concat('%', #{cri.search}, '%') or
 				bo_publisher like concat('%', #{cri.search}, '%'))

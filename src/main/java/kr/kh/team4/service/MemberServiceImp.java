@@ -3,9 +3,11 @@ package kr.kh.team4.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.mail.internet.MimeMessage;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -18,6 +20,8 @@ import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -297,6 +301,45 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public void resetBlockToNull(String me_id) {
 		memberDao.resetBlockToNull(me_id);
+	}
+
+	@Override
+	public boolean sendMailPhone(String phone, String numStr) {
+		if(phone == "") {
+			return false;
+		}
+		String api_key = "NCSJAUZLM1DHEWEW";
+	    String api_secret = "RM7CHJOAGAI3S9CBNC92JDBHOPO8LTFV";
+	    Message coolsms = new Message(api_key, api_secret);
+	    
+	    
+	    // 4 params(to, from, type, text) are mandatory. must be filled
+	    HashMap<String, String> params = new HashMap<String, String>();
+	    params.put("to", phone);	// 수신전화번호
+	    params.put("from", "01050602154");	// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+	    params.put("type", "SMS");	// 타입
+	    params.put("text", "인증번호는" + "["+numStr+"]" + "입니다.");
+	    params.put("app_version", "test app 1.2"); // application name and version
+	
+	    try {
+	      JSONObject obj = (JSONObject) coolsms.send(params);
+	      System.out.println(obj.toString());
+	    } catch (CoolsmsException e) {
+	      System.out.println(e.getMessage());
+	      System.out.println(e.getCode());
+		}
+	    return true;
+	}
+
+	@Override
+	public boolean checkMailPhone(String savedCode, String num) {
+		if(savedCode == "" || num == "") {
+			return false;
+		}
+		if(savedCode.equals(num)) {
+			return true;
+		}
+		return false;
 	}
 	
 }

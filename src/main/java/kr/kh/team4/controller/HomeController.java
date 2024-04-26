@@ -47,9 +47,10 @@ public class HomeController {
 	}
 	
 	@PostMapping("/signup")
-	public String signupPost(Model model, MemberVO member) {
+	public String signupPost(Model model, MemberVO member,HttpSession session) {
 		if(memberService.insertMember(member)) {
 			model.addAttribute("msg","회원가입 성공");
+			session.removeAttribute("authCode");
 			model.addAttribute("url","/");
 		}else {
 			model.addAttribute("msg","회원가입 실패");
@@ -155,6 +156,7 @@ public class HomeController {
 		boolean res = memberService.updateMember(member, user);
 		if(res) {
 			model.addAttribute("msg", "회원 정보를 수정했습니다.");
+			session.removeAttribute("authCode");
 			model.addAttribute("url", "/mypage");
 		}else {
 			model.addAttribute("msg", "회원 정보를 수정하지 못했습니다.");

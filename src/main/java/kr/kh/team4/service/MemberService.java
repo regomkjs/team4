@@ -52,4 +52,8 @@ public interface MemberService {
 
 	void resetBlockToNull(String me_id);
 
+	boolean sendMailPhone(String phone, String numStr);
+
+	boolean checkMailPhone(String savedCode, String num);
+
 }
