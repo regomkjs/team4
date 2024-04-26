@@ -268,7 +268,7 @@ public class MemberServiceImp implements MemberService {
 		if(member == null) {
 			return 0;
 		}
-		if(member.getMe_ms_num() == 1) {
+		if(member.getMe_mr_num() <= 1) {
 			return 3;
 		}
 		

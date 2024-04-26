@@ -240,7 +240,7 @@ public class PostServiceImp implements PostService {
 			return false;
 		}
 		CommentVO comment = postDAO.selectComment(num);
-		if(comment == null || !comment.getCo_me_id().equals(user.getMe_id())) {
+		if(comment == null) {
 			return false;
 		}
 		String rp_target = "co_"+comment.getCo_num();
@@ -639,6 +639,11 @@ public class PostServiceImp implements PostService {
 			}
 			return postDAO.deleteComment(num);
 		}
+	}
+
+	@Override
+	public CommentVO getComment(int num) {
+		return postDAO.selectComment(num);
 	}
 
 }

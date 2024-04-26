@@ -39,7 +39,7 @@ public class CommunityController {
 			model.addAttribute("url", "/login");
 			return "message";
 		}
-		if(user.getMe_gr_num() == 0) {
+		if(user.getMe_mr_num() > 1) {
 			model.addAttribute("msg", "운영자만 접근할 수 있습니다.");
 			model.addAttribute("url", "/post/main");
 			return "message";
@@ -68,7 +68,7 @@ public class CommunityController {
 			map.put("errorMessage", errorMessage);
 			return map;
 		}
-		if(user.getMe_gr_num() == 0) {
+		if(user.getMe_mr_num() > 1) {
 			errorMessage = "운영자만 접근할 수 있습니다.";
 			map.put("errorMessage", errorMessage);
 			return map;
@@ -99,7 +99,7 @@ public class CommunityController {
 			map.put("errorMessage", errorMessage);
 			return map;
 		}
-		if(user.getMe_gr_num() == 0) {
+		if(user.getMe_mr_num() > 1) {
 			errorMessage = "운영자만 접근할 수 있습니다.";
 			map.put("errorMessage", errorMessage);
 			return map;
@@ -139,7 +139,7 @@ public class CommunityController {
 			res = false;
 			map.put("result", res);
 		}
-		if(user.getMe_gr_num() == 0) {
+		if(user.getMe_mr_num() > 1) {
 			res = false;
 			map.put("result", res);
 		}

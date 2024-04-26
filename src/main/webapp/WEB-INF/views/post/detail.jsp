@@ -609,13 +609,14 @@ $(document).on("click",".btn-comment-delete",function(){
 		data : {
 			"num" : num
 		},
+		dataType : "json", 
 		success : function (data) {
 			if(data.result){
 				alert("댓글이 삭제되었습니다.");
 				getCommentList(cri, today);
 			}
 			else{
-				alert("댓글 삭제에 실패했습니다.");
+				alert(data.message);
 			}
 		},
 		error : function (a,b,c) {
