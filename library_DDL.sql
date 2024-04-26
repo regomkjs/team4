@@ -175,6 +175,13 @@ CREATE TABLE `reserve` (
   CONSTRAINT `FK_member_TO_reserve_1` FOREIGN KEY (`re_me_id`) REFERENCES `member` (`me_id`)
 ) ;
 
+DROP TABLE IF EXISTS `sale_state`;
+
+CREATE TABLE `sale_state` (
+  `ss_num` INT AUTO_INCREMENT,
+  `ss_state` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`ss_num`));
+
 DROP TABLE IF EXISTS `sale`;
 
 CREATE TABLE `sale` (
@@ -182,12 +189,15 @@ CREATE TABLE `sale` (
   `sa_uid` varchar(30) NOT NULL,
   `sa_date` datetime not null,
   `sa_merchant_uid` varchar(30) NOT NULL,
-  `sa_state` int default 1,
+  `sa_ss_num` int default 1,
   `sa_me_id` varchar(12) NOT NULL,
   PRIMARY KEY (`sa_num`),
   KEY `FK_member_TO_sale_1` (`sa_me_id`),
-  CONSTRAINT `FK_member_TO_sale_1` FOREIGN KEY (`sa_me_id`) REFERENCES `member` (`me_id`)
+  KEY `FK_sale_state_TO_sale_1` (`sa_ss_num`),
+  CONSTRAINT `FK_member_TO_sale_1` FOREIGN KEY (`sa_me_id`) REFERENCES `member` (`me_id`),
+  CONSTRAINT `FK_sale_state_TO_sale_1` FOREIGN KEY (`sa_ss_num`) REFERENCES `sale_state` (`ss_num`)
 ) ;
+
 
 DROP TABLE IF EXISTS `review`;
 
