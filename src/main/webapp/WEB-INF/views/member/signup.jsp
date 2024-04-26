@@ -255,6 +255,7 @@ function validatePhoneNumber(input_str) {
 }
 
 </script>
+<!-- 인증 -->
 <script type="text/javascript">
 $(".complete-phone").click(function() {
 	let num = $('[name=code]').val();
