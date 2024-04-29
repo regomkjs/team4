@@ -712,7 +712,7 @@ $(document).on("click",".reportDetailModal",function(){
 			<div class="d-flex">
 				<div><h5>신고대상</h5></div>
 				<div class="mb-1 ml-auto">
-					<a href="\${postUrl}" class="btn btn-secondary btn-sm" >게시글로</a>
+					<a href="#" class="btn btn-secondary btn-sm btn-detail-post" data-url="\${postUrl}">게시글로</a>
 				</div>
 			</div>
 			</div>
@@ -779,6 +779,15 @@ $(document).on("click",".reportDetailModal",function(){
 	
 	$(".report-detail-container").html(str);
 })
+
+
+$(document).on("click",".btn-detail-post", function(){
+	let url = $(this).data("url");
+	const options = 'width=1000, height=1000, top=0, left=0, scrollbars=yes'
+	
+	window.open(url,'_blank',options)
+})
+
 
 
 $(document).on("click",".report-delete-btn",function(){
@@ -931,12 +940,54 @@ let me_cri = {
 
 let where = $(".all-container");
 
+setTable(where);
+getMemberList(me_cri, where);
+
+
 function toggleRole(me_cri) {
 	if(me_cri.role == "asc"){
 		me_cri.role = "desc";
 	}else{
 		me_cri.role = "asc";
 	}
+}
+
+
+function setTable(where){
+	me_cri.role = "asc";
+	let str = "";
+	str +=
+	`
+		<table class="table table-hover container text-center">
+			<thead>
+				<tr>
+					<th class="order-btn order-right" data-order="right">권한<i class="fa-solid fa-caret-up order-icon ml-1"></i></th>
+					<th class="order-btn order-id" data-order="id">아이디</th>
+					<th class="order-btn order-nick" data-order="nick">닉네임</th>
+					<th class="order-btn order-grade" data-order="grade">등급</th>
+					<th class="order-btn order-date" data-order="date">가입일</th>
+					<th class="order-btn order-post" data-order="post">게시글</th>
+					<th class="order-btn order-loan" data-order="loan">대출</th>
+					<th>상태</th>
+					<th class="order-btn order-loanBlock" data-order="loanBlock">대출 정지일</th>
+					<th class="order-btn order-communityBlock" data-order="communityBlock">커뮤 정지일</th>
+					<th></th>
+	`
+	if(me_cri.type == "all"){
+		str +=
+		`
+			<th></th>
+		`
+	}
+	
+	str +=
+	`				
+				</tr>
+			</thead>
+			<tbody class="table-body-flag"></tbody>
+		</table>
+	`
+	where.html(str);
 }
 
 
@@ -952,79 +1003,110 @@ function getMemberList(me_cri, where){
 			let pm = data.pm
 			let memberList = data.list
 			str = "";
-			str +=
-			`
-				<table class="table table-hover container">
-					<thead>
-						<tr>
-							<th class="order-btn" data-order="right">권한</th>
-							<th class="order-btn" data-order="id">아이디</th>
-							<th class="order-btn" data-order="nick">닉네임</th>
-							<th class="order-btn" data-order="grade">등급</th>
-							<th class="order-btn" data-order="date">가입일</th>
-							<th class="order-btn" data-order="post">게시글</th>
-							<th class="order-btn" data-order="loan">대출</th>
-							<th>상태</th>
-							<th class="order-btn" data-order="loan">커뮤니티 정지</th>
-							<th class="order-btn" data-order="loan">대출 정지</th>
-						</tr>
-					</thead>
-					<tbody>
-			`
 			
-			for(member of memberList){
-				str += 
-				`
-					<tr>
-						<td>\${member.me_mr_name}</td>
-						<td>\${member.me_id}</td>
-						<td>\${member.me_nick}</td>
-						<td>\${member.me_gr_name}</td>
-						<td>\${member.me_date}</td>
-						<td>\${member.me_post_count}</td>
-						<td>\${member.me_loan_count}</td>
-						<td>\${member.me_ms_name}</td>
-				`
-				if(member.me_block != null){
+			if(memberList.length == 0){
+				if(pm.cri.type == "all"){
 					str +=
-					`
-						<td>\${member.me_block}</td>
+					`	
+						<tr>
+							<td colspan="12">
+								<h3 class="text-center">해당 항목의 회원이 없습니다.</h3>
+							</td>
+						</tr>
 					`
 				}
 				else{
 					str +=
-						`
-							<td></td>
-						`
-				}
-				if(member.me_loan_block != null){
-					str +=
+					`	
+						<tr>
+							<td colspan="11">
+								<h3 class="text-center">해당 항목의 회원이 없습니다.</h3>
+							</td>
+						</tr>
 					`
-						<td>\${member.me_loan_block}</td>
-					`
-				}
-				else{
-					str +=
-						`
-							<td></td>
-						`
 				}
 				
-				str +=
-				`
-					</tr>
-				`
+			}
+			else{
+				
+				for(member of memberList){
+					str += 
+					`
+						<tr>
+							<td>\${member.me_mr_name}</td>
+							<td>\${member.me_id}</td>
+							<td>\${member.me_nick}</td>
+							<td>\${member.me_gr_name}</td>
+							<td>\${member.me_date}</td>
+							<td>\${member.me_post_count}</td>
+							<td>\${member.me_loan_count}</td>
+							<td>\${member.me_ms_name}</td>
+					`
+					if(member.me_loan_block != null){
+						str +=
+						`
+							<td>\${member.me_loan_block}</td>
+						`
+					}
+					else{
+						str +=
+						`
+							<td>-</td>
+						`
+					}
+					if(member.me_block != null){
+						str +=
+						`
+							<td>\${member.me_block}</td>
+						`
+					}
+					else{
+						str +=
+						`
+							<td>-</td>
+						`
+					}
+					if(pm.cri.type == "all"){
+						str +=
+						`
+							<td><a href="#" class="btn btn-sm btn-danger">정지</a></td>
+							<td><a href="#" class="btn btn-sm btn-primary">임명</a></td>
+						`
+					}
+					else if(pm.cri.type == "prisoner"){
+						if(member.me_block != null){
+							str +=
+							`
+								<td><a href="#" class="btn btn-sm btn-success">기한 해제</a></td>
+							`
+						}
+						else{
+							str +=
+							`
+								<td><a href="#" class="btn btn-sm btn-success">정지 해제</a></td>
+							`
+						}
+						
+					}
+					else{
+						if(member.me_mr_num == 1){
+							str +=
+							`
+								<td><a href="#" class="btn btn-sm btn-danger">임명 해제</a></td>
+							`
+						}
+					}
+					str +=
+					`
+						</tr>
+					`
+					
+				}
+				
+			
 			}
 			
-			
-			str +=		
-			`		
-					</tbody>
-				</table>
-			`
-			
-			
-			where.html(str);
+			$(".table-body-flag").html(str);
 			
 			
 			let pmStr = "";
@@ -1079,7 +1161,8 @@ $(document).on("click",".member-tab", function () {
 	me_cri.page = 1;
 	me_cri.type = type;
 	
-	let where = $('.'+ type + '-container');
+	where = $('.'+ type + '-container');
+	setTable(where);
 	getMemberList(me_cri, where)
 })
 
@@ -1090,27 +1173,30 @@ $(document).on("click", ".order-btn", function () {
 	if(order != me_cri.order){
 		me_cri.role = "asc";
 		me_cri.order = order;
-		getMemberList(me_cri, where)
+		console.log(me_cri.order);
+		getMemberList(me_cri, where);
 	}
 	else{
 		toggleRole(me_cri);
-		getMemberList(me_cri, where)
+		getMemberList(me_cri, where);
 	}
-	let caret
-	if(me_cri.role == "asc"){
-		caret += `<span>` 
-		caret += text 
-		caret += `</span><i class="fa-solid fa-square-caret-up"></i>` 
-	}
-	else{
-		caret += `<span>` 
-		caret += text 
-		caret += `</span><i class="fa-solid fa-square-caret-down"></i>` 
-	}
-	$(this).html(caret);
+	
+	addCaret(text, me_cri);
 })
 
- getMemberList(me_cri, where)
+
+function addCaret(text, me_cri) {
+	$(".order-icon").remove();
+	let caret = "";
+	if(me_cri.role == "asc"){
+		caret += text + `<i class="fa-solid fa-caret-up order-icon ml-1"></i>` 
+	}
+	else{
+		caret += text + `<i class="fa-solid fa-caret-down order-icon ml-1"></i>` 
+	}
+	$('.order-'+me_cri.order).html(caret);
+}
+ 
 </script>
 
 </body>
