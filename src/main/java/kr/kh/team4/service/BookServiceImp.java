@@ -253,18 +253,10 @@ public class BookServiceImp implements BookService {
 	private void updateMemberGrade(MemberVO user) {
 		memberDao.updateLoanCount(user);
 		ArrayList<GradeVO> gradeList = memberDao.selectGradeList();
-		MemberVO member = memberDao.selectMember(user.getMe_id());
-		GradeVO updatedGrade = null;
-		for (int i = 0; i <= gradeList.size(); i++) {
-			if (member.getMe_loan_count() >= gradeList.get(i).getGr_loan_condition()) {
-				updatedGrade = gradeList.get(i);
-			} else {
-				break;
+		for(GradeVO grade : gradeList) {
+			if(user.getMe_loan_count() >= grade.getGr_loan_condition() && user.getMe_post_count() >= grade.getGr_post_condition()) {
+				memberDao.updateUserGrade(user.getMe_id(), grade.getGr_num());
 			}
-		}
-		
-		if (updatedGrade != null) {
-			memberDao.updateUserGrade(user.getMe_id(), updatedGrade.getGr_num());
 		}
 	}
 	

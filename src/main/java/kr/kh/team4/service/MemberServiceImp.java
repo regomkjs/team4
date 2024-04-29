@@ -362,5 +362,10 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.totalCountMember(cri);
 
 	}
+
+	@Override
+	public void updateMemberGrade(String me_id, GradeVO grade) {
+		memberDao.updateUserGrade(me_id, grade.getGr_num());
+	}
 	
 }

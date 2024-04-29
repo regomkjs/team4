@@ -61,5 +61,7 @@ public interface MemberService {
 
 	int getTotalCountMember(MemberCriteria me_cri);
 
+	void updateMemberGrade(String me_id, GradeVO grade);
+
 
 }

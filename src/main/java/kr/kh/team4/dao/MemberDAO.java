@@ -62,4 +62,6 @@ public interface MemberDAO {
 
 	void updateLoanBlock(@Param("me_id")String me_id);
 
+	void updatePostCount(@Param("user")MemberVO user);
+
 }
