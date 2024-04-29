@@ -60,4 +60,8 @@ public interface MemberDAO {
 
 	int totalCountMember(@Param("cri")MemberCriteria cri);
 
+	void permanentBlock(@Param("me_id")String me_id);
+
+	void decreaseBlock(@Param("me_id")String me_id, @Param("day")int day);
+
 }

@@ -218,4 +218,13 @@
 				me_mr_num != 2
 			</if>
 	</select>
+	
+	<update id="permanentBlock">
+		update member set me_ms_num = 1 where me_id = #{me_id}
+	</update>
+	
+	<update id="decreaseBlock">
+		update member set me_block = date_sub(me_block , interval #{day} day) where me_id = #{me_id}
+	</update>
+	
 </mapper>

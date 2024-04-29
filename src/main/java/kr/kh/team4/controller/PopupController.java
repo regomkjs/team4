@@ -21,9 +21,17 @@ public class PopupController {
 	
 	
 	@GetMapping("/popup/member/punish")
-	public String popupMain (Model model, String nick, HttpSession session) {
+	public String popupMemberPunish (Model model, String nick, HttpSession session) {
 		MemberVO member = memberService.getMemberByNick(nick);
 		model.addAttribute("member", member);
 		return "/popup/member/punish";
 	}
+	
+	@GetMapping("/popup/member/forgive")
+	public String popupMemberForgive (Model model, String nick, HttpSession session) {
+		MemberVO member = memberService.getMemberByNick(nick);
+		model.addAttribute("member", member);
+		return "/popup/member/forgive";
+	}
+	
 }

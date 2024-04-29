@@ -21,29 +21,40 @@
 		</div>
 		<input class="form-control input-nick" value="${member.me_nick}" readonly style="background-color: white;">
 	</div>
-	<c:if test="${member.me_block != null}">
+	<c:if test="${member.me_ms_num != 1}">
+		<c:if test="${member.me_block != null}">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">정지기한</span>
+				</div>
+				<input class="form-control" value="${member.me_block}" readonly style="background-color: white;">
+			</div>
+		</c:if>
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<span class="input-group-text">정지일수</span>
+			</div>
+			<select class="form-control text-center">
+				<option value="1">1일</option>
+				<option value="3">3일</option>
+				<option value="7">일주일(7일)</option>
+				<option value="30">한달(30일)</option>
+				<option value="365">일년(365일)</option>
+				<option value="999">영구정지</option>
+			</select>
+			<div class="input-group-append">
+				<button class="btn btn-primary btn-action">확정</button>
+			</div>
+		</div>
+	</c:if>
+	<c:if test="${member.me_ms_num == 1}">
 		<div class="input-group">
 			<div class="input-group-prepend">
 				<span class="input-group-text">정지기한</span>
 			</div>
-			<input class="form-control" value="${member.me_block}" readonly style="background-color: white;">
+			<input class="form-control" value="영구정지" readonly style="background-color: white;">
 		</div>
 	</c:if>
-	<div class="input-group">
-		<div class="input-group-prepend">
-			<span class="input-group-text">정지일수</span>
-		</div>
-		<select class="form-control text-center">
-			<option value="1">1일</option>
-			<option value="3">3일</option>
-			<option value="7">일주일(7일)</option>
-			<option value="30">한달(30일)</option>
-			<option value="365">일년(365일)</option>
-		</select>
-		<div class="input-group-append">
-			<button class="btn btn-primary btn-action">확정</button>
-		</div>
-	</div>
 	<button class="btn btn-success close-btn form-control mt-2">나가기</button>
 
 </div>
@@ -61,10 +72,16 @@ $(".btn-action").click(function () {
 	let me_id = $(".input-id").val()
 	let me_nick = $(".input-nick").val()
 	let day = $(this).parents(".input-group").find("select").val();
+	let daylong = "";
+	if(day < 400){
+		daylong = day+"일"
+	}else{
+		daylong = "영구정지"
+	}
 	
-	if(confirm("닉네임 : "+ me_nick + "\n추가할 정지일수 : "+ day + "일\n이대로 실행 하시겠습니까?" )){
+	if(confirm("닉네임 : "+ me_nick + "\n설정할 정지일수 : "+ daylong + "\n이대로 실행 하시겠습니까?" )){
 		$.ajax({
-			url : '<c:url value="/member/block"/>',
+			url : '<c:url value="/member/block/insert"/>',
 			method : "post",
 			data : {
 				"me_id" : me_id,
@@ -83,6 +100,10 @@ $(".btn-action").click(function () {
 				}
 				else if(res == 3){
 					alert("운영자를 정지할 수 없습니다.")		
+					window.close();
+				}
+				else if(res == 4){
+					alert("영구정지 되었습니다.")		
 					window.close();
 				}
 				else{

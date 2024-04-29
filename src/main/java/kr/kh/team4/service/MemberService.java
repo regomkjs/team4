@@ -61,5 +61,7 @@ public interface MemberService {
 
 	int getTotalCountMember(MemberCriteria me_cri);
 
+	int updateBlockOption(MemberVO member, String option, int day);
+
 
 }
