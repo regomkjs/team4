@@ -367,5 +367,11 @@ public class MemberServiceImp implements MemberService {
 	public void updateMemberGrade(String me_id, GradeVO grade) {
 		memberDao.updateUserGrade(me_id, grade.getGr_num());
 	}
+
+	@Override
+	public boolean emailCheck(String email) {
+		MemberVO member = memberDao.selectEmail(email);
+		return member == null;
+	}
 	
 }

@@ -63,5 +63,7 @@ public interface MemberService {
 
 	void updateMemberGrade(String me_id, GradeVO grade);
 
+	boolean emailCheck(String email);
+
 
 }

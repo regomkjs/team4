@@ -226,4 +226,8 @@
 	<update id="updatePostCount">
 		update member set me_post_count = me_post_count + 1 where me_id = #{user.me_id}
 	</update>
+	
+	<select id="selectEmail" resultType="MemberVO">
+		select * from member where me_email = #{email}
+	</select>
 </mapper>
