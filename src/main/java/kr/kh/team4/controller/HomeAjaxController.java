@@ -2,8 +2,8 @@ package kr.kh.team4.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,17 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.kh.team4.model.dto.LoginDTO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
-import kr.kh.team4.model.vo.post.PostVO;
-import kr.kh.team4.pagination.MyPostCriteria;
-import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.MemberService;
 import kr.kh.team4.service.PostService;
 import lombok.extern.log4j.Log4j;
@@ -106,5 +100,33 @@ public class HomeAjaxController {
 		map.put("result", res);
 		return map;
 	}
-
+	
+	@ResponseBody
+	@GetMapping("/send/mail/phone")
+	public Map<String, Object> sendMailPhone(@RequestParam("phone")String phone, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		Random rand  = new Random();
+	    String numStr = "";
+		for(int i=0; i<4; i++) {
+		    String ran = Integer.toString(rand.nextInt(10));
+		    numStr+=ran;
+		}
+		
+		session.setAttribute("authCode", numStr);
+		
+		boolean res = memberService.sendMailPhone(phone, numStr);
+		map.put("result", res);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/check/mail/phone")
+	public Map<String, Object> checkMailPhone(@RequestParam("num")String num, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		String savedCode = (String) session.getAttribute("authCode");
+		boolean res = memberService.checkMailPhone(savedCode, num);
+		map.put("result", res);
+        return map;
+	}
 }

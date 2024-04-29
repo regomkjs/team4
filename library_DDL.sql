@@ -62,6 +62,7 @@ CREATE TABLE `member` (
   CONSTRAINT `FK_member_state_TO_member_1` FOREIGN KEY (`me_ms_num`) REFERENCES `member_state` (`ms_num`)
 ) ;
 
+
 DROP TABLE IF EXISTS `report`;
 
 CREATE TABLE `report` (

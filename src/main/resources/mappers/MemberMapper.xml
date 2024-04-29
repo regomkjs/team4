@@ -84,7 +84,7 @@
 		join 
 			loan on lo_bo_num = bo_num
 		where
-			lo_me_id = #{user.me_id}
+			lo_me_id = #{user.me_id} and lo_state = 1
 			<if test='cri.type=="all"'>
 				and (bo_title like concat('%', #{cri.search}, '%') or
 				bo_publisher like concat('%', #{cri.search}, '%'))
@@ -107,7 +107,7 @@
 		join 
 			loan on lo_bo_num = bo_num
 		where
-			lo_me_id = #{user.me_id}
+			lo_me_id = #{user.me_id} and lo_state = 1
 			<if test='cri.type=="all"'>
 				and (bo_title like concat('%', #{cri.search}, '%') or
 				bo_publisher like concat('%', #{cri.search}, '%'))
@@ -145,4 +145,71 @@
 	<update id="resetBlockToNull">
 		update member set me_block = null  where me_id = #{me_id}
 	</update>
+	
+	<select id="selectMemberList" resultType="MemberVO">
+		select 
+			member.*,
+			(select ms_name from member_state 
+				where member.me_ms_num = member_state.ms_num) as me_ms_name,
+			(select gr_name from grade
+				where member.me_gr_num = grade.gr_num) as me_gr_name,
+			(select mr_name from member_right 
+				where member.me_mr_num = member_right.mr_num) as me_mr_name
+		from 
+			member 
+		where
+			<if test='cri.type == "all"'>
+				me_ms_num != 1 and (now() &gt; me_block or me_block is null)
+			</if> 
+			<if test='cri.type == "prisoner"'>
+				me_ms_num = 1 or (now() &lt; me_block  and me_block is not null)
+			</if> 
+			<if test='cri.type == "admin"'>
+				me_mr_num != 2
+			</if>
+		order by
+			<if test='cri.order == "right"'>
+				me_mr_num
+			</if>
+			<if test='cri.order == "date"'>
+				me_date
+			</if>
+			<if test='cri.order == "grade"'>
+				me_gr_num
+			</if>
+			<if test='cri.order == "nick"'>
+				me_nick
+			</if>
+			<if test='cri.order == "id"'>
+				me_id
+			</if>
+			<if test='cri.order == "post"'>
+				me_post_count
+			</if>
+			<if test='cri.order == "loan"'>
+				me_loan_count
+			</if>
+			<if test='cri.role == "asc"'>asc</if>
+			<if test='cri.role == "desc"'>desc</if>
+			
+		limit
+			#{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="totalCountMember" resultType="int">
+		select
+			count(*) 
+		from 
+			member
+		where
+			<if test='cri.type == "all"'>
+				me_ms_num != 1 and (now() &gt; me_block or me_block is null)
+			</if> 
+			<if test='cri.type == "prisoner"'>
+				me_ms_num = 1 or (now() &lt; me_block  and me_block is not null)
+			</if> 
+			<if test='cri.type == "admin"'>
+				me_mr_num != 2
+			</if>
+	</select>
 </mapper>

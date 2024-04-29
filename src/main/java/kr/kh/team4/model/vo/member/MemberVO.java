@@ -13,7 +13,7 @@ public class MemberVO {
 	private String me_email; 
 	private String me_phone; 
 	private String me_nick; 
-	private Date me_date; 
+	private String me_date; 
 	private int me_fail_count; 
 	private String me_block; 
 	private Date me_loan_block; 
@@ -23,4 +23,11 @@ public class MemberVO {
 	private int me_ms_num; 
 	private int me_gr_num;
 	private int me_mr_num;
+	
+	//등급명
+	private String me_gr_name;
+	//상태명
+	private String me_ms_name;
+	//권한명
+	private String me_mr_name;
 }

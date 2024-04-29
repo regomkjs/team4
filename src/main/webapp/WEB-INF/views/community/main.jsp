@@ -4,6 +4,13 @@
 <html>
 <head>
 	<title>메인</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+	<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
+	<style type="text/css">
+		.order-btn:hover {
+			cursor: pointer;
+		}
+	</style>
 </head>
 <body>
 <div class="container">
@@ -105,42 +112,54 @@
 			
 			<!-- Modal body -->
 			<div class="modal-body">
-				<div class="user-container">
-					<div class="container">
-						<div class="d-flex">
-							<!-- Nav tabs -->
-							<ul class="nav flex-column nav-pills text-center" role="tablist">
+				<div class="container col-12">
+					<div class="d-flex">
+						<!-- Nav tabs -->
+						<ul class="nav flex-column nav-pills text-center" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active member-tab" data-toggle="tab" href="#all" data-type="all">회원</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link member-tab" data-toggle="tab" href="#prison" data-type="prisoner">수감소</a>
+							</li>
+							<c:if test="${user.me_mr_num == 0}">
 								<li class="nav-item">
-									<a class="nav-link active" data-toggle="tab" href="#all">회원목록</a>
+									<a class="nav-link member-tab" data-toggle="tab" href="#master" data-type="admin">운영진</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="#prison">수감소</a>
-								</li>
-								<c:if test="${user.me_mr_num == 0}">
-									<li class="nav-item">
-										<a class="nav-link" data-toggle="tab" href="#master">운영진 관리</a>
-									</li>
-								</c:if>
-							</ul>
-	
-							<!-- Tab panes -->
-							<div class="tab-content col-9" style="min-height: 300px">
-								<div id="all" class="container tab-pane active">
-									<h3>회원목록</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							</c:if>
+						</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content" style="min-height: 300px; width: 90%">
+							<div id="all" class="container tab-pane active" >
+								<h3>이용중인 회원</h3>
+								<div class="all-container">
+								
 								</div>
-								<div id="prison" class="container tab-pane fade">
-									<h3>이용 정지 회원</h3>
-									<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-								</div>
-								<c:if test="${user.me_mr_num == 0}">
-									<div id="master" class="container tab-pane fade">
-							 			<h3>운영진 관리</h3>
-										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-									</div>
-								</c:if>
+								
 							</div>
+							<div id="prison" class="container tab-pane fade">
+								<h3>정지된 회원</h3>
+								<div class="prisoner-container">
+								
+								</div>
+								
+							</div>
+							<c:if test="${user.me_mr_num == 0}">
+								<div id="master" class="container tab-pane fade">
+						 			<h3>운영진 관리</h3>
+						 			<div class="admin-container">
+								
+									</div>
+									
+								</div>
+							</c:if>
 						</div>
+					</div>
+					<div class="member-pagination">
+						<ul class="pagination justify-content-center">
+						
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -888,6 +907,7 @@ $(document).on("click",".delete-comment-btn",function(){
 })
 </script>
 
+<!-- 커뮤니티 이용 제한 팝업 스트립트 -->
 <script type="text/javascript">
 $(document).on("click",".member-punish-btn",function(){
 	let url = $(this).data("url");
@@ -896,6 +916,202 @@ $(document).on("click",".member-punish-btn",function(){
 })
 </script>
 
+<!-- 회원 관리 스크립트 -->
+<script type="text/javascript">
+
+
+let me_cri = {
+	page : 1,
+	perPageNum : 5,
+	search : "",
+	type : "all",
+	order : "right",
+	role : "asc"
+}
+
+let where = $(".all-container");
+
+function toggleRole(me_cri) {
+	if(me_cri.role == "asc"){
+		me_cri.role = "desc";
+	}else{
+		me_cri.role = "asc";
+	}
+}
+
+
+
+function getMemberList(me_cri, where){
+	$.ajax({
+		url : '<c:url value="/member/list"/>',
+		method : "post",
+		data : JSON.stringify(me_cri),
+		contentType : "application/json; charset=utf-8",
+		dataType : "json", 
+		success : function (data) {
+			let pm = data.pm
+			let memberList = data.list
+			str = "";
+			str +=
+			`
+				<table class="table table-hover container">
+					<thead>
+						<tr>
+							<th class="order-btn" data-order="right">권한</th>
+							<th class="order-btn" data-order="id">아이디</th>
+							<th class="order-btn" data-order="nick">닉네임</th>
+							<th class="order-btn" data-order="grade">등급</th>
+							<th class="order-btn" data-order="date">가입일</th>
+							<th class="order-btn" data-order="post">게시글</th>
+							<th class="order-btn" data-order="loan">대출</th>
+							<th>상태</th>
+							<th class="order-btn" data-order="loan">커뮤니티 정지</th>
+							<th class="order-btn" data-order="loan">대출 정지</th>
+						</tr>
+					</thead>
+					<tbody>
+			`
+			
+			for(member of memberList){
+				str += 
+				`
+					<tr>
+						<td>\${member.me_mr_name}</td>
+						<td>\${member.me_id}</td>
+						<td>\${member.me_nick}</td>
+						<td>\${member.me_gr_name}</td>
+						<td>\${member.me_date}</td>
+						<td>\${member.me_post_count}</td>
+						<td>\${member.me_loan_count}</td>
+						<td>\${member.me_ms_name}</td>
+				`
+				if(member.me_block != null){
+					str +=
+					`
+						<td>\${member.me_block}</td>
+					`
+				}
+				else{
+					str +=
+						`
+							<td></td>
+						`
+				}
+				if(member.me_loan_block != null){
+					str +=
+					`
+						<td>\${member.me_loan_block}</td>
+					`
+				}
+				else{
+					str +=
+						`
+							<td></td>
+						`
+				}
+				
+				str +=
+				`
+					</tr>
+				`
+			}
+			
+			
+			str +=		
+			`		
+					</tbody>
+				</table>
+			`
+			
+			
+			where.html(str);
+			
+			
+			let pmStr = "";
+			//이전 버튼 활성화 여부
+			if(pm.prev){
+				pmStr += 
+				`
+					<li class="page-item">
+						<a class="page-link" href="javascript:void(0);" data-page="\${pm.startPage-1}">이전</a>
+					</li>
+				`;
+			}
+			//숫자 페이지
+			for(let i = pm.startPage; i<= pm.endPage; i++){
+				let active = pm.cri.page == i ? "active" : "";
+				pmStr += 
+				`
+				    <li class="page-item \${active}">
+						<a class="page-link" href="javascript:void(0);" data-page="\${i}">\${i}</a>
+					</li>
+				`
+			}
+			//다음 버튼 활성화 여부
+			if(pm.next){
+				pmStr += 
+				`
+					<li class="page-item">
+						<a class="page-link" href="javascript:void(0);" data-page="\${pm.endPage + 1}">다음</a>
+					</li>
+				`
+			}
+			
+			$(".member-pagination ul").html(pmStr);
+			
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생");
+		}
+	})
+	
+}
+
+$(document).on("click", ".member-pagination .page-link", function () {
+	me_cri.page = $(this).data("page");
+	getMemberList(me_cri, where);
+})
+
+
+
+$(document).on("click",".member-tab", function () {
+	let type = $(this).data("type");
+	me_cri.page = 1;
+	me_cri.type = type;
+	
+	let where = $('.'+ type + '-container');
+	getMemberList(me_cri, where)
+})
+
+$(document).on("click", ".order-btn", function () {
+	let order = $(this).data("order");
+	let text =  $(this).text();
+	console.log(text)
+	if(order != me_cri.order){
+		me_cri.role = "asc";
+		me_cri.order = order;
+		getMemberList(me_cri, where)
+	}
+	else{
+		toggleRole(me_cri);
+		getMemberList(me_cri, where)
+	}
+	let caret
+	if(me_cri.role == "asc"){
+		caret += `<span>` 
+		caret += text 
+		caret += `</span><i class="fa-solid fa-square-caret-up"></i>` 
+	}
+	else{
+		caret += `<span>` 
+		caret += text 
+		caret += `</span><i class="fa-solid fa-square-caret-down"></i>` 
+	}
+	$(this).html(caret);
+})
+
+ getMemberList(me_cri, where)
+</script>
 
 </body>
 </html>

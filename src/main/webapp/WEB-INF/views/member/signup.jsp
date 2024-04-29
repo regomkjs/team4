@@ -59,6 +59,12 @@
 		<div class="form-group">
 			<input type="text" class="form-control" id="phone" name="me_phone" placeholder="전화번호">
 			<label id="phone-error" class="error text-danger" for="phone"></label>
+			<button type="button" class="btn btn-outline-primary check-phone">인증번호 보내기</button>
+		</div>
+		<div class="form-group" id="verification-section">
+		    <input type="text" class="form-control" id="code" name="code" placeholder="인증번호">
+		    <label id="code-error" class="error text-danger" for="code"></label>
+		    <button type="button" class="btn btn-outline-primary complete-phone" id="verifyButton" type="button">확인</button>
 		</div>
 		<button class="btn btn-outline-success col-12 btn-submit" style="margin-top: 40px">회원가입</button>
 	</form>
@@ -89,6 +95,10 @@ $("form").validate({
 		me_phone : {
 			required : true,
 			regex : /^\d{3}-\d{3,4}-\d{4}$/
+		},
+		code :{
+			required : true,
+			regex : /^[0-9]{4}$/
 		}
 	},
 	messages : {
@@ -114,10 +124,13 @@ $("form").validate({
 		me_phone : {
 			required : "필수 항목입니다.",
 			regex : "전화번호는 010-XXXX-XXXX 형식으로 입력하세요."
+		},
+		code : {
+			required : "인증하세요.",
+			regex : "4자리 숫자로 입력하세요."
 		}
 	}
 });
-
 $.validator.addMethod(
 	"regex",
 	function (value, element, regexp){
@@ -202,6 +215,84 @@ function nickNameCheckDup(){
 }
 $('[name=me_nick]').on('input',function(){
 	nickNameCheckDup();
+})
+</script>
+<!-- 전화번호 인증 -->
+<script type="text/javascript">
+$(document).on("click", ".check-phone", function() {
+	let phone = $('[name=me_phone]').val();
+	 
+	if(validatePhoneNumber(phone)) {
+		let obj = {
+			phone
+		}
+		$.ajax({
+			async : true,
+			url : '<c:url value="/send/mail/phone"/>', 
+			type : 'get', 
+			data : obj, 
+			dataType : "json", 
+			success : function (data){
+				if(data.result){
+					alert("입력하신 번호로 메시지를 전송했습니다.")
+				}
+				else{
+					alert("유효하지 않은 전화번호입니다. 전화번호를 다시 확인해주세요.")
+				}
+				
+			}, 
+			error : function(jqXHR, textStatus, errorThrown){
+	
+			}
+		});
+	 }else{
+		 alert("유효하지 않은 전화번호입니다.")
+	 }
+});
+function validatePhoneNumber(input_str) {
+	let pattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
+	return pattern.test(input_str);
+}
+
+</script>
+<!-- 인증 -->
+<script type="text/javascript">
+$(".complete-phone").click(function() {
+	let num = $('[name=code]').val();
+	let obj = {
+			num : num,
+	}
+	$.ajax({
+		async : true,
+		url : '<c:url value="/check/mail/phone"/>', 
+		type : 'post', 
+		data : obj, 
+		dataType : "json", 
+		success : function (data){
+			if(data.result){
+				alert("인증 성공")
+				$('[name=code]').attr('readonly', true);
+			}
+			else{
+				alert("인증 실패")
+			}
+			
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+});
+</script>
+<script type="text/javascript">
+$(document).on("click", ".btn-submit", function() {
+	
+	let input = document.getElementById('code');
+	
+	 if (!input.hasAttribute('readonly')) {
+         alert('인증을 완료해주세요.');
+         return false;
+     }
 })
 </script>
 </body>

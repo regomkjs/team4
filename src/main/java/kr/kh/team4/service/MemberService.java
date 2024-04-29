@@ -7,6 +7,7 @@ import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MemberCriteria;
 
 public interface MemberService {
 
@@ -51,5 +52,14 @@ public interface MemberService {
 	int addBlockDay(MemberVO member, int day);
 
 	void resetBlockToNull(String me_id);
+
+	boolean sendMailPhone(String phone, String numStr);
+
+	boolean checkMailPhone(String savedCode, String num);
+
+	ArrayList<MemberVO> getMemberList(MemberCriteria me_cri);
+
+	int getTotalCountMember(MemberCriteria me_cri);
+
 
 }
