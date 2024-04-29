@@ -12,12 +12,14 @@ import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
+import kr.kh.team4.model.vo.book.SaleStateVO;
 import kr.kh.team4.model.vo.book.SaleVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.ReviewCriteria;
+import kr.kh.team4.pagination.SaleListCriteria;
 
 public interface BookDAO {
 
@@ -117,6 +119,14 @@ public interface BookDAO {
 
 	void addLoanBlock(@Param("user")MemberVO user, @Param("day")int blockDay);
 	
-	ArrayList<SaleVO> getSaleList(@Param("me_id")String me_id);
+	ArrayList<SaleVO> getSaleList(@Param("me_id")String me_id,@Param("cri")SaleListCriteria cri);
+
+	SaleVO getSale(@Param("sa_merchant_uid")String sa_merchant_uid);
+
+	void updateSale(@Param("sa")SaleVO order);
+
+	ArrayList<SaleStateVO> getSaleStateList();
+
+	int getUserSaleTotalCount(@Param("me_id")String me_id,@Param("cri") SaleListCriteria cri);
 
 }

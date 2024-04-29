@@ -64,4 +64,10 @@ public interface MemberDAO {
 
 	void decreaseBlock(@Param("me_id")String me_id, @Param("day")int day);
 
+	void updateLoanBlock(@Param("me_id")String me_id);
+
+	void updatePostCount(@Param("user")MemberVO user);
+
+	MemberVO selectEmail(@Param("email")String email);
+
 }
