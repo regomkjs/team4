@@ -967,6 +967,12 @@ function getMemberList(me_cri, where){
 							<th>상태</th>
 							<th class="order-btn" data-order="loan">커뮤니티 정지</th>
 							<th class="order-btn" data-order="loan">대출 정지</th>
+							<th></th>
+			`
+			
+			
+			str +=
+			`				
 						</tr>
 					</thead>
 					<tbody>
@@ -1009,11 +1015,23 @@ function getMemberList(me_cri, where){
 							<td></td>
 						`
 				}
-				
+				if(pm.cri.type == "all"){
+					str +=
+						`
+							<td><a href="#" class="btn btn-sm btn-danger">커뮤 정지</a></td>
+						`
+				}
+				else if(pm.cri.type == "prisoner"){
+					
+				}
+				else{
+					
+				}
 				str +=
 				`
 					</tr>
 				`
+				
 			}
 			
 			
@@ -1096,7 +1114,7 @@ $(document).on("click", ".order-btn", function () {
 		toggleRole(me_cri);
 		getMemberList(me_cri, where)
 	}
-	let caret
+	let caret = "";
 	if(me_cri.role == "asc"){
 		caret += `<span>` 
 		caret += text 
