@@ -373,7 +373,51 @@
 		select sale.*,(ss_state)as sa_state,(me_nick)as sa_nick from 
 		sale join sale_state on sa_ss_num=ss_num
 		join member on me_id=sa_me_id 
-		where sa_me_id=#{me_id}
+		<choose>
+			<when test='cri.year!="all" and cri.month!="all"'>
+				where sa_date like concat( #{cri.year},'-',#{cri.month},'%')
+				and sa_me_id=#{me_id}	
+			</when>
+			<when test='cri.year!="all" and cri.month=="all"'>
+				where sa_date like concat( #{cri.year},'%')	
+				and sa_me_id=#{me_id}
+			</when>
+			<otherwise>
+				where sa_me_id=#{me_id}	
+			</otherwise>
+		</choose>	
 		order by sa_date desc	
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
+	
+	<select id="getUserSaleTotalCount" resultType="int">
+		select count(*) from sale 
+		<choose>
+			<when test='cri.year!="all" and cri.month!="all"'>
+				where sa_date like concat( #{cri.year},'-',#{cri.month},'%')
+				and sa_me_id=#{me_id}	
+			</when>
+			<when test='cri.year!="all" and cri.month=="all"'>
+				where sa_date like concat( #{cri.year},'%')	
+				and sa_me_id=#{me_id}
+			</when>
+			<otherwise>
+				where sa_me_id=#{me_id}	
+			</otherwise>
+		</choose>	
+	</select>
+	
+	<select id="getSale" resultType="SaleVO">
+		select * from sale where sa_merchant_uid=#{sa_merchant_uid}
+	</select>
+	
+	<select id="getSaleStateList" resultType="kr.kh.team4.model.vo.book.SaleStateVO">
+		select * from sale_state
+	</select>
+	
+	<update id="updateSale">
+		update sale set sa_ss_num=#{sa.sa_ss_num} where 
+		sa_merchant_uid=#{sa.sa_merchant_uid} and
+		sa_uid=#{sa.sa_uid}
+	</update>
 </mapper>

@@ -26,12 +26,14 @@ import kr.kh.team4.model.dto.UnderDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
+import kr.kh.team4.model.vo.book.SaleStateVO;
 import kr.kh.team4.model.vo.book.SaleVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.pagination.ReviewCriteria;
+import kr.kh.team4.pagination.SaleListCriteria;
 import kr.kh.team4.service.BookService;
 import kr.kh.team4.service.MemberService;
 
@@ -256,11 +258,50 @@ public class LibraryAjaxController {
 	}
 
 	@PostMapping("/order/list") // Criteria cri,
-	public Map<String, Object> orderList(HttpSession session) throws Exception {
+	public Map<String, Object> orderList(HttpSession session,SaleListCriteria cri) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		ArrayList<SaleVO> order = bookService.getSaleList(user.getMe_id());
+		System.out.println(cri);
+		ArrayList<SaleVO> order = bookService.getSaleList(user.getMe_id(),cri);
+		int totalCount=bookService.getUserSaleTotalCount(user.getMe_id(),cri);
+		PageMaker pm=new PageMaker(10, cri, totalCount);
 		map.put("order", order);
+		map.put("pm", pm);
+		return map;
+	}
+	
+	@PostMapping("/order/detail")
+	public Map<String, Object> orderDetail(String merchant_uid) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		SaleVO order = bookService.getSale(merchant_uid);
+		if(order==null) {
+			map.put("info",null);			
+		}else {
+			JSONObject data = payments(order.getSa_uid());
+			System.out.println(data);
+			map.put("info",data);
+		}
+		return map;
+	}
+	
+	@PostMapping("/order/cancel") 
+	public Map<String, Object> orderCancel(String merchant_uid) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(merchant_uid);
+		SaleVO order = bookService.getSale(merchant_uid);
+		ArrayList<SaleStateVO> ssVO=bookService.getSaleStateList();
+		if(order==null) {
+			map.put("res",false);			
+		}else {
+			for(SaleStateVO tmp:ssVO) {
+				if(tmp.getSs_state().equals("취소")){
+					order.setSa_ss_num(tmp.getSs_num());
+				}
+			}
+			bookService.updateSale(order);
+			saleCancel(order.getSa_uid(),order.getSa_merchant_uid());
+			map.put("res",true);
+		}
 		return map;
 	}
 

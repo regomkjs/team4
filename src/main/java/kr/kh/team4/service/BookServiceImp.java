@@ -21,6 +21,7 @@ import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.OpinionVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.book.ReviewVO;
+import kr.kh.team4.model.vo.book.SaleStateVO;
 import kr.kh.team4.model.vo.book.SaleVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
@@ -28,6 +29,7 @@ import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.ReviewCriteria;
+import kr.kh.team4.pagination.SaleListCriteria;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
@@ -532,7 +534,36 @@ public class BookServiceImp implements BookService {
 	}
 
 	@Override
-	public ArrayList<SaleVO> getSaleList(String me_id) {
-		return bookDao.getSaleList(me_id);
+	public ArrayList<SaleVO> getSaleList(String me_id,SaleListCriteria cri) {
+		if(cri==null) {
+			cri=new SaleListCriteria(1,"all","all");
+		}
+		return bookDao.getSaleList(me_id,cri);
+	}
+
+	@Override
+	public SaleVO getSale(String sa_merchant_uid) {
+		if(checkString(sa_merchant_uid)) {
+			return null;
+		}
+		return bookDao.getSale(sa_merchant_uid);
+	}
+
+	@Override
+	public void updateSale(SaleVO order) {
+		bookDao.updateSale(order);
+	}
+
+	@Override
+	public ArrayList<SaleStateVO> getSaleStateList() {
+		return bookDao.getSaleStateList();
+	}
+
+	@Override
+	public int getUserSaleTotalCount(String me_id,SaleListCriteria cri) {
+		if(cri==null) {
+			cri=new SaleListCriteria(1,"all","all");
+		}
+		return bookDao.getUserSaleTotalCount(me_id,cri);
 	}
 }

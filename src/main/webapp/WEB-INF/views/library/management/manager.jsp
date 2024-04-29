@@ -298,6 +298,9 @@ $(document).on("click",".updateBook",function(){
 			return;
 		}
 		bookSearch.page=1;
+		bookCri.endPage=0;
+		bookCri.startPage=1;
+		bookCri.perPage=10;
 		searchBook(bookSearch);
 	});
 	
