@@ -159,10 +159,10 @@
 			member 
 		where
 			<if test='cri.type == "all"'>
-				me_ms_num != 1 and (now() &gt; me_block or me_block is null)
+				me_mr_num = 2 and (me_ms_num != 1 and (now() &gt; me_block or me_block is null))
 			</if> 
 			<if test='cri.type == "prisoner"'>
-				me_ms_num = 1 or (now() &lt; me_block  and me_block is not null)
+				me_mr_num = 2 and (me_ms_num = 1 or (now() &lt; me_block  and me_block is not null))
 			</if> 
 			<if test='cri.type == "admin"'>
 				me_mr_num != 2
@@ -189,6 +189,12 @@
 			<if test='cri.order == "loan"'>
 				me_loan_count
 			</if>
+			<if test='cri.order == "communityBlock"'>
+				me_block
+			</if>
+			<if test='cri.order == "loanBlock"'>
+				me_loan_block
+			</if>
 			<if test='cri.role == "asc"'>asc</if>
 			<if test='cri.role == "desc"'>desc</if>
 			
@@ -203,10 +209,10 @@
 			member
 		where
 			<if test='cri.type == "all"'>
-				me_ms_num != 1 and (now() &gt; me_block or me_block is null)
+				me_mr_num = 2 and (me_ms_num != 1 and (now() &gt; me_block or me_block is null))
 			</if> 
 			<if test='cri.type == "prisoner"'>
-				me_ms_num = 1 or (now() &lt; me_block  and me_block is not null)
+				me_mr_num = 2 and (me_ms_num = 1 or (now() &lt; me_block  and me_block is not null))
 			</if> 
 			<if test='cri.type == "admin"'>
 				me_mr_num != 2
