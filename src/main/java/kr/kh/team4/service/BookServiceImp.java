@@ -197,6 +197,20 @@ public class BookServiceImp implements BookService {
 		if (user == null || book == null) {
 			return false;
 		}
+	
+		Date now = new Date();
+		Date blockDate = user.getMe_loan_block();
+		try {
+			boolean diffDate = blockDate.after(now);
+			if(diffDate) {
+				return false;
+			}else {
+				memberDao.updateLoanBlock(user.getMe_id());
+			}
+		}catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+
 		
 		LoanVO currentLoan = bookDao.selectCurrentLoan(book.getBo_num());
 			if(currentLoan != null && currentLoan.getLo_state() == 1) {
@@ -204,6 +218,7 @@ public class BookServiceImp implements BookService {
 			}
 
 		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
+		
 		if(list.size() != 0) {
 			if(list.get(0).getRe_me_id().equals(user.getMe_id())) {
 				boolean res = bookDao.insertLoan(user.getMe_id(), book.getBo_num());
@@ -296,7 +311,20 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
-
+		
+		Date now = new Date();
+		Date blockDate = user.getMe_loan_block();
+		try {
+			boolean diffDate = blockDate.after(now);
+			if(diffDate) {
+				return false;
+			}else {
+				memberDao.updateLoanBlock(user.getMe_id());
+			}
+		}catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		
 		// 중복된경우
 		for (ReserveVO reserve : list) {
 			if (reserve.getRe_me_id().equals(user.getMe_id())) {

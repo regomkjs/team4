@@ -60,4 +60,6 @@ public interface MemberDAO {
 
 	int totalCountMember(@Param("cri")MemberCriteria cri);
 
+	void updateLoanBlock(@Param("me_id")String me_id);
+
 }

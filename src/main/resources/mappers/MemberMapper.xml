@@ -212,4 +212,8 @@
 				me_mr_num != 2
 			</if>
 	</select>
+	
+	<update id="updateLoanBlock">
+		update member set me_loan_block = null where me_id = #{me_id}
+	</update>
 </mapper>

@@ -349,9 +349,9 @@
 	
 	<update id="updateReserveList">
 		update reserve set
-			re_date = (select date_add(lo_limit,interval 3 day) from loan where lo_bo_num = #{bo_num} and lo_me_id = #{member_id})
-		where 
-			re_bo_num = #{bo_num} 
+			re_date = (select date_add(lo_limit,interval 3 day) from loan where lo_bo_num = #{bo_num} and lo_me_id = #{me_id})
+		where
+			re_bo_num = #{bo_num}
 	</update>
 	
 	<select id="selectDiffDay" resultType="int">
