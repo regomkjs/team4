@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.kh.team4.dao.MemberDAO;
 import kr.kh.team4.dao.PostDAO;
 import kr.kh.team4.model.dto.ItemListDTO;
 import kr.kh.team4.model.dto.VoteListDTO;
+import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
@@ -17,17 +19,17 @@ import kr.kh.team4.model.vo.post.HeartVO;
 import kr.kh.team4.model.vo.post.ItemVO;
 import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.model.vo.post.VoteVO;
-import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
-import kr.kh.team4.pagination.MyCommentCriteria;
-import kr.kh.team4.pagination.PostCriteria;
 
 @Service
 public class PostServiceImp implements PostService {
 	
 	@Autowired
 	PostDAO postDAO;
-
+	
+	@Autowired
+	MemberDAO memberDao;
+	
 	private boolean checkString(String str) {
 		try {
 			if(str.length() == 0 || str == null) {
@@ -128,11 +130,23 @@ public class PostServiceImp implements PostService {
 		boolean res =postDAO.insertPost(post);
 		if(!res) {
 			return false;
+		}else {
+			MemberVO user = memberDao.selectMember(post.getPo_me_id());
+			updateMemberGrade(user);
 		}
 		makeNewVote(post.getPo_num(), votes, items);
 		return true;
 	}
-
+	
+	private void updateMemberGrade(MemberVO user) {
+		memberDao.updatePostCount(user);
+		ArrayList<GradeVO> gradeList = memberDao.selectGradeList();
+		for(GradeVO grade : gradeList) {
+			if(user.getMe_loan_count() >= grade.getGr_loan_condition() && user.getMe_post_count() >= grade.getGr_post_condition()) {
+				memberDao.updateUserGrade(user.getMe_id(), grade.getGr_num());
+			}
+		}
+	}
 
 
 	@Override

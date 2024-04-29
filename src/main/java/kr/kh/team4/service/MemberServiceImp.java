@@ -52,7 +52,7 @@ public class MemberServiceImp implements MemberService {
 	
 	public boolean mailSend(String to, String title, String content) {
 
-	    String setfrom = "regomkjs2013@gmail.com";
+	   String setfrom = "dhtkfkdh@gmail.com";
 	   try{
 	        MimeMessage message = mailSender.createMimeMessage();
 	        MimeMessageHelper messageHelper
@@ -337,7 +337,7 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public boolean checkMailPhone(String savedCode, String num) {
-		if(savedCode == "" || num == "") {
+		if(savedCode == null || num == null) {
 			return false;
 		}
 		if(savedCode.equals(num)) {
@@ -361,6 +361,11 @@ public class MemberServiceImp implements MemberService {
 		}
 		return memberDao.totalCountMember(cri);
 
+	}
+
+	@Override
+	public void updateMemberGrade(String me_id, GradeVO grade) {
+		memberDao.updateUserGrade(me_id, grade.getGr_num());
 	}
 	
 }
