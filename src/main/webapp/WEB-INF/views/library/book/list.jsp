@@ -146,5 +146,10 @@
 				}
 			});
 		}	
+		
+		$(document).on('click',".page-link",function(){
+			cri.page = $(this).data('page');
+			displayBookView(cri);
+		});
 	</script>
 </body>
