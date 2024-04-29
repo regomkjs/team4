@@ -344,7 +344,7 @@ public class MemberServiceImp implements MemberService {
 			return true;
 		}
 		return false;
-
+	}
 	@Override
 	public ArrayList<MemberVO> getMemberList(MemberCriteria cri) {
 		if(cri == null) {

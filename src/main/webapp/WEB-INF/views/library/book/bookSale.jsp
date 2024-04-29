@@ -88,10 +88,10 @@
 				let num=selectedBook[i];
 				let sdata={}
 				sdata.title=data[selectedBook[i]].title;
-				sdata.cover=data[selectedBook[0]].cover;
-				sdata.priceStandard=data[selectedBook[0]].priceStandard;
-				sdata.isbn=data[selectedBook[0]].isbn;
-				sdata.isbn13=data[selectedBook[0]].isbn13;
+				sdata.cover=data[selectedBook[i]].cover;
+				sdata.priceStandard=data[selectedBook[i]].priceStandard;
+				sdata.isbn=data[selectedBook[i]].isbn;
+				sdata.isbn13=data[selectedBook[i]].isbn13;
 				sdata.count=Number($(".sale-count").eq(selectedBook[i]).val());
 				custom.push(sdata);
 			}
