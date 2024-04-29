@@ -64,4 +64,6 @@ public interface MemberDAO {
 
 	void updatePostCount(@Param("user")MemberVO user);
 
+	MemberVO selectEmail(@Param("email")String email);
+
 }

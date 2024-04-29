@@ -55,6 +55,7 @@
 		<div class="form-group" style="margin-bottom: 10px">
 			<input type="text" class="form-control" id="email" name="me_email" placeholder="이메일">
 			<label id="email-error" class="error text-danger" for="email"></label>
+			<label id="email-error2" class="error text-danger"></label>
 		</div>
 		<div class="form-group">
 			<input type="text" class="form-control" id="phone" name="me_phone" placeholder="전화번호">
@@ -293,6 +294,43 @@ $(document).on("click", ".btn-submit", function() {
          alert('인증을 완료해주세요.');
          return false;
      }
+})
+</script>
+<!-- 이메일 중복 확인 -->
+<script type="text/javascript">
+function emailCheckDup(){
+	$("#email-error2").text("");
+	$("#email-error2").hide();
+	let email = $('[name=me_email]').val();
+	let obj = {
+		email : email
+	}
+	let emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,6}$/;
+	if(!emailRegex.test(email)){
+		return false;
+	}
+	let result = false;
+	$.ajax({
+		async : false,
+		url : '<c:url value="/email/check/dup"/>', 
+		type : 'get', 
+		data : obj, 
+		dataType : "json", 
+		success : function (data){
+			result = data.result;
+			if(!result){
+				$("#email-error2").text("이미 사용중인 이메일입니다.");
+				$("#email-error2").show();
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+	return result;
+}
+$('[name=me_email]').on('input',function(){
+	emailCheckDup();
 })
 </script>
 </body>

@@ -129,4 +129,13 @@ public class HomeAjaxController {
 		map.put("result", res);
         return map;
 	}
+	
+	@ResponseBody
+	@GetMapping("/email/check/dup")
+	public Map<String, Object> emailCheckDup(@RequestParam("email")String email){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = memberService.emailCheck(email);
+		map.put("result", res);
+		return map;
+	}
 }
