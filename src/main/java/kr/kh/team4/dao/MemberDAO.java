@@ -78,4 +78,6 @@ public interface MemberDAO {
 
 	MemberVO selectMemberByCookie(@Param("me_cookie")String sessionId);
 
+	boolean insertSnsMember(@Param("member")MemberVO member);
+
 }

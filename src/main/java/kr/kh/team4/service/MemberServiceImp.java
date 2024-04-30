@@ -458,4 +458,59 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.selectMemberByCookie(sessionId);
 	}
 	
+	@Override
+	public boolean idCheck(String sns, String id) {
+		try {
+			int num = Integer.parseInt(id);
+			num = num * 2;
+			id = sns + "!" + num;
+		}catch(Exception e) {
+			id = sns + "!" + id;
+		}
+		MemberVO user = memberDao.selectMember(id);
+		System.out.println(id);
+		return user != null;
+	}
+
+	@Override
+	public boolean signupSns(String sns, String id, String email, String phone, String nick) {
+		//아이디 설정
+		try {
+			int num = Integer.parseInt(id);
+			num = num * 2;
+			id = sns + "!" + num;
+		}catch(Exception e) {
+			id = sns + "!" + id;
+		}
+		//전화번호 설정
+		String[] tmp = phone.split(" ");
+		String tmpPhone = "0" + tmp[1];
+		//닉네임 설정
+		boolean ok = true;
+		while(ok) {
+			MemberVO tmpMember = memberDao.selectMemberByNick(nick);
+			if(tmpMember == null) {
+				 ok = !ok;
+			}
+			else {
+				
+			}
+		}
+		
+		MemberVO memberVO = new MemberVO(id, email,tmpPhone, nick);
+		return memberDao.insertSnsMember(memberVO);
+	}
+
+	@Override
+	public MemberVO loginSns(String sns, String id) {
+		try {
+			int num = Integer.parseInt(id);
+			num = num * 2;
+			id = sns + "!" + num;
+		}catch(Exception e) {
+			id = sns + "!" + id;
+		}
+		return memberDao.selectMember(id);
+	}
+	
 }
