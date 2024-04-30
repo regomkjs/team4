@@ -420,4 +420,32 @@
 		sa_merchant_uid=#{sa.sa_merchant_uid} and
 		sa_uid=#{sa.sa_uid}
 	</update>
+	
+	<select id="selectSaleList" resultType="SaleVO">
+		select sale.*,(ss_state)as sa_state,(me_nick)as sa_nick from 
+		sale join sale_state on sa_ss_num=ss_num
+		join member on me_id=sa_me_id 
+		<choose>
+			<when test='cri.year!="all" and cri.month!="all"'>
+				where sa_date like concat( #{cri.year},'-',#{cri.month},'%')
+			</when>
+			<when test='cri.year!="all" and cri.month=="all"'>
+				where sa_date like concat( #{cri.year},'%')	
+			</when>
+		</choose>	
+		order by sa_date desc	
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="selectSaleTotalCount" resultType="int">
+		select count(*) from sale 
+		<choose>
+			<when test='cri.year!="all" and cri.month!="all"'>
+				where sa_date like concat( #{cri.year},'-',#{cri.month},'%')
+			</when>
+			<when test='cri.year!="all" and cri.month=="all"'>
+				where sa_date like concat( #{cri.year},'%')	
+			</when>
+		</choose>	
+	</select>
 </mapper>

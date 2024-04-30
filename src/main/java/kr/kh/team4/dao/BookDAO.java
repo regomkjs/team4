@@ -129,4 +129,8 @@ public interface BookDAO {
 
 	int getUserSaleTotalCount(@Param("me_id")String me_id,@Param("cri") SaleListCriteria cri);
 
+	ArrayList<SaleVO> selectSaleList(@Param("cri")SaleListCriteria cri);
+
+	int selectSaleTotalCount(@Param("cri")SaleListCriteria cri);
+
 }
