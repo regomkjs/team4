@@ -14,7 +14,7 @@ public class LoanVO {
 	private Date lo_limit; 
 	private int lo_state; 
 	private String lo_me_id;
-	private String lo_bo_num;
+	private int lo_bo_num;
 	
 	//책 번호
 	private int bo_num;

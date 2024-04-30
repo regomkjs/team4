@@ -456,4 +456,8 @@
 			</when>
 		</choose>	
 	</select>
+	
+	<select id="selectLoanState" resultType="LoanVO">
+		select * from loan
+	</select>
 </mapper>

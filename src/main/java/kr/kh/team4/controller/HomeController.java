@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.kh.team4.model.dto.LoginDTO;
 import kr.kh.team4.model.vo.book.BookVO;
+import kr.kh.team4.model.vo.book.LoanVO;
 import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.pagination.MyBookCriteria;
+import kr.kh.team4.pagination.MyReportCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.BookService;
 import kr.kh.team4.service.MemberService;
@@ -83,6 +86,7 @@ public class HomeController {
 		MemberVO user = memberService.login(loginDto);
 		ArrayList<GradeVO> gradeList = memberService.getGradeList();
 		ArrayList<ReserveVO> reserveList = bookService.getReList(user);
+		ArrayList<LoanVO> loanList = bookService.getLoan();
 		if(user != null) {
 			if(user.getMe_ms_num() == 3) {
 				model.addAttribute("msg", "현재 계정이 [정지] 상태라서 로그인이 불가능합니다.");
@@ -103,16 +107,23 @@ public class HomeController {
 			if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) < 0) {
 				memberService.resetBlockToNull(user.getMe_id());
 			}
-			//예약 만기 시
+			
 			Date date = new Date();
-			for(ReserveVO reserve : reserveList) {
-				Date re_date = reserve.getRe_date();
-				boolean res = date.after(re_date);
-				if(res) {
-					int count = user.getMe_count() + 1;
-					memberService.updateMemberCount(user, count);
-					bookService.deleteReserve(reserve, user);
-				}
+			for (LoanVO loan : loanList) {
+			    for (ReserveVO reserve : reserveList) {
+			        if (reserve.getRe_bo_num() == loan.getLo_bo_num()) {
+			            Date re_date = reserve.getRe_date();
+			            boolean isExpired = date.after(re_date);
+
+			            if (loan.getLo_state() == 1 && isExpired) {
+			                bookService.updateReserve(reserve);
+			            } else if (loan.getLo_state() == 0 && isExpired) {
+			                int count = user.getMe_count() + 1;
+			                memberService.updateMemberCount(user, count);
+			                bookService.deleteReserve(reserve, user);
+			            }
+			        }
+			    }
 			}
 			
 			if(user.getMe_count() > 2) {
@@ -243,5 +254,17 @@ public class HomeController {
 		model.addAttribute("pm", pm);
 		model.addAttribute("title", "내가 대출한 도서");
 		return "/member/loan";
+	}
+	
+	@GetMapping("/mypage/report")
+	public String myReport(Model model, HttpSession session, MyReportCriteria cri) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<ReportVO> list = memberService.getMyReportList(cri, user);
+		int totalCount = memberService.totalCountMyReport(cri, user);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("reportList", list);
+		model.addAttribute("pm", pm);
+		model.addAttribute("title", "내가 대출한 도서");
+		return "/member/report";
 	}
 }
