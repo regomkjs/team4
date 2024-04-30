@@ -144,7 +144,7 @@
 			</div>
 			
 			<div>
-				<c:if test="${user.me_id != post.po_me_id && post.po_me_id != 'admin123'}">
+				<c:if test="${user.me_id != post.po_me_id && user.me_mr_num == 2 && post.me_mr_num == 2}">
 					<a href="#" class="btn btn-danger btn-report" data-toggle="modal" data-target="#reportModal" class="reportModal" data-writer="${post.me_nick}" data-what="po" data-num="${post.po_num}">신고</a>
 				</c:if>
 			</div>
@@ -328,11 +328,20 @@ function getCommentList(cri, today) {
 				str = '<div class="container text-center mb-3 mt-3">아직 등록된 댓글이 없습니다.</div>';
 			}
 			for(comment of commentList){
-				if(comment.co_state != 1 && comment.co_num == comment.co_ori_num){
+				if(comment.co_state == 0 && comment.co_num == comment.co_ori_num){
 					str +=
 						`
 						<div class="comment-container text-center" style="min-height: 70px; ">
 							<h3 class="text-center" style="padding-top:15px">삭제된 댓글입니다.</h3>
+						</div>	
+						<hr>
+						`
+				}
+				else if(comment.co_state == -1){
+					str +=
+						`
+						<div class="comment-container text-center" style="min-height: 70px; ">
+							<h3 class="text-center" style="padding-top:15px">운영자에 의해 삭제된 댓글입니다.</h3>
 						</div>	
 						<hr>
 						`
@@ -377,7 +386,7 @@ function getCommentList(cri, today) {
 						`
 					}
 					
-					if(comment.co_me_id != '${user.me_id}' && comment.co_me_id != 'admin123'){
+					if(comment.co_me_id != '${user.me_id}' && comment.me_mr_num == 2 && '${user.me_mr_num}' == 2){
 						str +=
 						`
 							<a href="#" class="badge badge-danger btn-report" data-toggle="modal" data-target="#reportModal" class="reportModal" data-writer="\${comment.me_nick}" data-what="co" data-num="\${comment.co_num}"><i class="fa-solid fa-handcuffs" style="color: #fffff;"></i></a>						

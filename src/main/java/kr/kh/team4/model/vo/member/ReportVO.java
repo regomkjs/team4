@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class ReportVO {
 	private int rp_num; 
 	private String rp_note; 
+	private int rp_state;
 	private String rp_type; 
 	private String rp_target; 
 	private String rp_writer;

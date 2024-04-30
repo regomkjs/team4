@@ -102,7 +102,7 @@
  	
  	<select id="selectPost" resultType="PostVO">
  		select
- 			post.*, category.*, member.me_nick,
+ 			post.*, category.*, member.me_nick, member.me_mr_num,
  				(select 
 					count(*) 
 				from 
@@ -157,7 +157,7 @@
  	
  	<select id="selectCommentList" resultType="CommentVO">
  		select 
- 			comment.*, member.me_nick 
+ 			comment.*, member.me_nick, member.me_mr_num
 		from 
 			comment 
 				join
@@ -499,23 +499,37 @@
 			report
 				join
 			member on me_id = rp_me_id
+		where
+			rp_state = 0
 		limit 
  			#{cri.pageStart}, #{cri.perPageNum}	
  	</select>
  	
  	<select id="totalCountReport" resultType="int">
- 		select count(*) from report
+ 		select count(*) from report where rp_state = 0
  	</select>
  	
- 	<delete id="deleteReport">
- 		delete from report where rp_num = #{rp_num}
- 	</delete>
+ 	<update id="rejectReport">
+ 		update report set rp_state = 4 where rp_num = #{rp_num}
+ 	</update>
  	
  	<select id="selectCommentListByPost" resultType="CommentVO">
  		select * from comment where co_po_num = #{po_num}
  	</select>
  	
- 	<delete id="deleteReportByTarget">
- 		delete from report where rp_target = #{rp_target}
- 	</delete>
+ 	<update id="acceptReportByTarget">
+ 		update report set rp_state = 1 where rp_target = #{rp_target} and rp_state = 0
+ 	</update>
+ 	
+ 	<update id="deleteCommentAdmin">
+ 		update comment set co_state = -1 where co_num = #{co_num}
+ 	</update>
+ 	
+ 	<update id="updateReportBlockReporter">
+ 		update report set rp_state = 3 where rp_num = #{rp_num}
+ 	</update>
+ 	
+ 	<update id="updateReportBlockWriter">
+ 		update report set rp_state = 2 where rp_num = #{rp_num}
+ 	</update>
 </mapper>

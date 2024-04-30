@@ -133,11 +133,17 @@ public interface PostDAO {
 
 	int totalCountReport();
 
-	boolean deleteReport(@Param("rp_num")int rp_num);
+	boolean rejectReport(@Param("rp_num")int rp_num);
 
 	ArrayList<CommentVO> selectCommentListByPost(@Param("po_num")int po_num);
 
-	void deleteReportByTarget(@Param("rp_target")String rp_target);
+	void acceptReportByTarget(@Param("rp_target")String rp_target);
+
+	boolean deleteCommentAdmin(@Param("co_num")int co_num);
+
+	boolean updateReportBlockReporter(@Param("rp_num")int rp_num);
+
+	boolean updateReportBlockWriter(@Param("rp_num")int rp_num);
 
 	
 	

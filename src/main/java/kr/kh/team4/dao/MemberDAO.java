@@ -70,4 +70,8 @@ public interface MemberDAO {
 
 	MemberVO selectEmail(@Param("email")String email);
 
+	void updateBlockRenewal();
+
+	boolean updateMemberRight(@Param("me_id")String me_id, @Param("num")int num);
+
 }

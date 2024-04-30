@@ -258,7 +258,7 @@ public class PostServiceImp implements PostService {
 			return false;
 		}
 		String rp_target = "co_"+comment.getCo_num();
-		postDAO.deleteReportByTarget(rp_target);
+		postDAO.acceptReportByTarget(rp_target);
 		if(comment.getCo_ori_num() == num && postDAO.countReply(comment.getCo_ori_num()) > 1) {
 			return postDAO.updateCommentState(num);
 		}
@@ -405,10 +405,10 @@ public class PostServiceImp implements PostService {
 		ArrayList<CommentVO> commentList = postDAO.selectCommentListByPost(post.getPo_num());
 		for(CommentVO comment : commentList) {
 			String rp_target = "co_"+comment.getCo_num();
-			postDAO.deleteReportByTarget(rp_target);
+			postDAO.acceptReportByTarget(rp_target);
 		}
 		String rp_target = "po_"+ post.getPo_num();
-		postDAO.deleteReportByTarget(rp_target);
+		postDAO.acceptReportByTarget(rp_target);
 		return postDAO.deletePost(post);
 	}
 
@@ -622,10 +622,10 @@ public class PostServiceImp implements PostService {
 	}
 
 	@Override
-	public int deleteReportList(int[] reportArr) {
+	public int rejectReportList(int[] reportArr) {
 		int count = 0;
 		for(int rp_num : reportArr) {
-			boolean res = postDAO.deleteReport(rp_num);
+			boolean res = postDAO.rejectReport(rp_num);
 			if(res) {
 				count++;
 			}
@@ -634,30 +634,33 @@ public class PostServiceImp implements PostService {
 	}
 
 	@Override
-	public boolean deleteReport(int rp_num) {
-		return postDAO.deleteReport(rp_num);
+	public boolean rejectReport(int rp_num) {
+		return postDAO.rejectReport(rp_num);
 	}
 
 	@Override
 	public boolean deleteCommentAdmin(int num) {
 		CommentVO comment = postDAO.selectComment(num);
 		String rp_target = "co_"+comment.getCo_num();
-		postDAO.deleteReportByTarget(rp_target);
-		if(comment.getCo_ori_num() == num && postDAO.countReply(comment.getCo_ori_num()) > 1) {
-			return postDAO.updateCommentState(num);
-		}
-		else {
-			CommentVO oriComment = postDAO.selectComment(comment.getCo_ori_num());
-			if(oriComment.getCo_state() == 0 &&  postDAO.countReply(comment.getCo_ori_num()) == 2) {
-				postDAO.deleteComment(oriComment.getCo_num());
-			}
-			return postDAO.deleteComment(num);
-		}
+		postDAO.acceptReportByTarget(rp_target);
+		return postDAO.deleteCommentAdmin(num);
 	}
 
 	@Override
 	public CommentVO getComment(int num) {
 		return postDAO.selectComment(num);
+	}
+
+	@Override
+	public boolean blockReporter(int rp_num) {
+		
+		return postDAO.updateReportBlockReporter(rp_num);
+	}
+
+	@Override
+	public boolean blockWriter(int rp_num) {
+		
+		return postDAO.updateReportBlockWriter(rp_num);
 	}
 
 }

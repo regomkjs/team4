@@ -167,19 +167,19 @@ public class CommunityController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/report/delete")
-	public Map<String, Object> reportListPost(@RequestBody int[] reportArr){
+	@PostMapping("/report/arr/reject")
+	public Map<String, Object> reportArrRejectPost(@RequestBody int[] reportArr){
 		Map<String, Object> map = new HashMap<String, Object>();
-		int count = postService.deleteReportList(reportArr);
+		int count = postService.rejectReportList(reportArr);
 		map.put("count", count);
 		return map;
 	}
 	
 	@ResponseBody
-	@PostMapping("/report/complete")
+	@PostMapping("/report/reject")
 	public Map<String, Object> reportRejectPost(@RequestParam("rp_num")int rp_num){
 		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res = postService.deleteReport(rp_num); 
+		boolean res = postService.rejectReport(rp_num); 
 		map.put("result", res);
 		return map;
 	}
@@ -216,5 +216,24 @@ public class CommunityController {
 		map.put("list", list);
 		return map;
 	}
+	
+	@ResponseBody
+	@PostMapping("/report/block/reporter")
+	public Map<String, Object> reportBlockReporterPost(@RequestParam("rp_num")int rp_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = postService.blockReporter(rp_num); 
+		map.put("result", res);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/report/block/writer")
+	public Map<String, Object> reportBlockWriterPost(@RequestParam("rp_num")int rp_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = postService.blockWriter(rp_num); 
+		map.put("result", res);
+		return map;
+	}
+	
 	
 }	

@@ -24,6 +24,8 @@ public class CommentVO {
 	
 	//작성자 닉네임
 	private String me_nick;
+	//작성자 권한
+	private int me_mr_num;
 	//게시글 번호
 	private String po_num;
 	//게시글 제목
