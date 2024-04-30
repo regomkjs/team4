@@ -540,7 +540,7 @@
  	</update>
  	
  	<update id="decreaseReportCount">
- 		update member set me_report_count = me_report_count - 1 where me_id = #{me_id}
+ 		update member set me_report_count = me_report_count - 1 where me_id = #{me_id} and me_report_count > 0
  	</update>
  	
  	<select id="selectReport" resultType="ReportVO">
