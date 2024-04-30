@@ -408,7 +408,7 @@
 	</select>
 	
 	<select id="getSale" resultType="SaleVO">
-		select * from sale where sa_merchant_uid=#{sa_merchant_uid}
+		select sale.*, me_phone from sale join member on sa_me_id = me_id where sa_merchant_uid=#{sa_merchant_uid}
 	</select>
 	
 	<select id="getSaleStateList" resultType="kr.kh.team4.model.vo.book.SaleStateVO">
