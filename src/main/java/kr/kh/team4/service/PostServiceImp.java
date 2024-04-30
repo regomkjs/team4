@@ -405,9 +405,17 @@ public class PostServiceImp implements PostService {
 		ArrayList<CommentVO> commentList = postDAO.selectCommentListByPost(post.getPo_num());
 		for(CommentVO comment : commentList) {
 			String rp_target = "co_"+comment.getCo_num();
+			ArrayList<ReportVO> reportList = postDAO.selectReportListByTarget(rp_target);
+			for(ReportVO report : reportList) {
+				postDAO.decreaseReportCount(report.getRp_writer());
+			}
 			postDAO.acceptReportByTarget(rp_target);
 		}
 		String rp_target = "po_"+ post.getPo_num();
+		ArrayList<ReportVO> reportList = postDAO.selectReportListByTarget(rp_target);
+		for(ReportVO report : reportList) {
+			postDAO.decreaseReportCount(report.getRp_writer());
+		}
 		postDAO.acceptReportByTarget(rp_target);
 		return postDAO.deletePost(post);
 	}
@@ -587,7 +595,11 @@ public class PostServiceImp implements PostService {
 
 	@Override
 	public boolean insertReport(String note, String type, String target, String writer, String me_id) {
-		return postDAO.insertReport(note, type, target, writer, me_id);
+		boolean res = postDAO.insertReport(note, type, target, writer, me_id);
+		if(res) {
+			postDAO.increaseReportCount(writer);
+		}
+		return res;
 	}
 
 	@Override
@@ -627,6 +639,8 @@ public class PostServiceImp implements PostService {
 		for(int rp_num : reportArr) {
 			boolean res = postDAO.rejectReport(rp_num);
 			if(res) {
+				ReportVO tmp = postDAO.selectReport(rp_num);
+				postDAO.decreaseReportCount(tmp.getRp_writer());
 				count++;
 			}
 		}
@@ -635,13 +649,22 @@ public class PostServiceImp implements PostService {
 
 	@Override
 	public boolean rejectReport(int rp_num) {
-		return postDAO.rejectReport(rp_num);
+		boolean res = postDAO.rejectReport(rp_num);
+		if(res) {
+			ReportVO tmp = postDAO.selectReport(rp_num);
+			postDAO.decreaseReportCount(tmp.getRp_writer());
+		}
+		return res;
 	}
 
 	@Override
 	public boolean deleteCommentAdmin(int num) {
 		CommentVO comment = postDAO.selectComment(num);
 		String rp_target = "co_"+comment.getCo_num();
+		ArrayList<ReportVO> reportList = postDAO.selectReportListByTarget(rp_target);
+		for(ReportVO report : reportList) {
+			postDAO.decreaseReportCount(report.getRp_writer());
+		}
 		postDAO.acceptReportByTarget(rp_target);
 		return postDAO.deleteCommentAdmin(num);
 	}

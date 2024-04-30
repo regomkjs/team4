@@ -74,4 +74,8 @@ public interface MemberDAO {
 
 	boolean updateMemberRight(@Param("me_id")String me_id, @Param("num")int num);
 
+	void updateMemberCookie(@Param("user")MemberVO user);
+
+	MemberVO selectMemberByCookie(@Param("me_cookie")String sessionId);
+
 }
