@@ -38,7 +38,7 @@ DROP TABLE IF EXISTS `member`;
 
 CREATE TABLE `member` (
   `me_id` varchar(12) NOT NULL,
-  `me_pw` varchar(255) NOT NULL,
+  `me_pw` varchar(255),
   `me_email` varchar(30) NOT NULL,
   `me_phone` varchar(13) NOT NULL,
   `me_nick` varchar(12) NOT NULL,
@@ -195,7 +195,7 @@ CREATE TABLE `sale` (
   `sa_uid` varchar(30) NOT NULL,
   `sa_date` datetime not null,
   `sa_merchant_uid` varchar(30) NOT NULL,
-  `sa_ss_num` int default 2,
+  `sa_ss_num` int default 1,
   `sa_me_id` varchar(12) NOT NULL,
   PRIMARY KEY (`sa_num`),
   KEY `FK_member_TO_sale_1` (`sa_me_id`),
