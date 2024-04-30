@@ -9,7 +9,7 @@
 	</insert>
 	
 	<select id="selectMember" resultType="MemberVO">
-		select * from member where me_id = #{me_id}
+		select * from member join grade on gr_num = me_gr_num  where me_id = #{me_id}
 	</select>
 	
 	<select id="selectNickName" resultType="MemberVO">
