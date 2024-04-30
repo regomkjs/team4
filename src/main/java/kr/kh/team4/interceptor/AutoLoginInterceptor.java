@@ -16,7 +16,6 @@ public class AutoLoginInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	MemberService memberService;
 	
-	
 	@Override
 	public boolean preHandle(
 		HttpServletRequest request, 
@@ -38,10 +37,7 @@ public class AutoLoginInterceptor extends HandlerInterceptorAdapter {
 				}
 			}
 		}
-		
 		return true;
 	}
-	
-	
-	
+
 }

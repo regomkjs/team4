@@ -430,6 +430,15 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
+	public void updateMemberCount(MemberVO user, int count) {
+		memberDao.updateMemberCount(user, count);
+	}
+
+	@Override
+	public void updateMemberLoanBlock(MemberVO user) {
+		memberDao.updateMemberLoanBlock(user);
+	}
+	
 	public boolean appointMember(MemberVO member) {
 		if(member == null) {
 			return false;
@@ -447,9 +456,8 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public void updateMemberCookie(MemberVO user) {
-		if(user == null) {
+		if(user == null)
 			return;
-		}
 		memberDao.updateMemberCookie(user);
 	}
 
@@ -457,5 +465,4 @@ public class MemberServiceImp implements MemberService {
 	public MemberVO getMemberByCookie(String sessionId) {
 		return memberDao.selectMemberByCookie(sessionId);
 	}
-	
 }

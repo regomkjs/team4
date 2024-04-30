@@ -11,7 +11,7 @@ public class ReserveVO {
 	private int re_num; 
 	private Date re_date; 
 	private int re_state;
-	private String re_bo_num;
+	private int re_bo_num;
 	private String re_me_id;
 	
 	//책 번호

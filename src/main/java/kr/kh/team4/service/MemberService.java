@@ -68,6 +68,10 @@ public interface MemberService {
 
 	boolean emailCheck(String email);
 
+	void updateMemberCount(MemberVO user, int count);
+
+	void updateMemberLoanBlock(MemberVO user);
+	
 	boolean appointMember(MemberVO member);
 
 	boolean dismissMember(MemberVO member);

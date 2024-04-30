@@ -14,7 +14,6 @@ import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.service.MemberService;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter{
-	
 	@Autowired
 	MemberService memberService;
 	
@@ -36,7 +35,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 				Cookie cookie = new Cookie("loginCookie", value);
 				cookie.setPath("/");
 				//1주일
-				int time = 7 * 24 * 60 * 60;
+				int time = 7 * 24 * 60 * 60;//7일을 초로 환산
 				cookie.setMaxAge(time);
 				//화면에 전송
 				response.addCookie(cookie);

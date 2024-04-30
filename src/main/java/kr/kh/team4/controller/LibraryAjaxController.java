@@ -37,6 +37,8 @@ import kr.kh.team4.pagination.ReviewCriteria;
 import kr.kh.team4.pagination.SaleListCriteria;
 import kr.kh.team4.service.BookService;
 import kr.kh.team4.service.MemberService;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @RestController
 public class LibraryAjaxController {
@@ -143,9 +145,23 @@ public class LibraryAjaxController {
 	public Map<String, Object> loanBook(@RequestBody BookVO book, HttpSession session, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		boolean res = bookService.loanBook(user, book);
-		map.put("result", res);
-		return map;
+		String message = "";
+		boolean res;
+		if(user.getMe_loan_block() != null) {
+			res = false;
+			message = "계정이 정지되어 대출할 수 없습니다.";
+			map.put("result", res);
+			map.put("message", message);
+			return map;
+		}else {
+			res = bookService.loanBook(user, book);
+			if(!res) {
+				message = "이미 대출된 책이거나 예약된 책입니다.";
+				map.put("message", message);
+			}
+			map.put("result", res);
+			return map;
+		}
 	}
 
 	@ResponseBody
@@ -187,9 +203,23 @@ public class LibraryAjaxController {
 	public Map<String, Object> reserveBook(@RequestBody BookVO book, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		boolean res = bookService.reserveBook(user, book);
-		map.put("result", res);
-		return map;
+		String message = "";
+		boolean res;
+		if(user.getMe_loan_block() != null) {
+			res = false;
+			message = "계정이 정지되어 예약할 수 없습니다.";
+			map.put("result", res);
+			map.put("message", message);
+			return map;
+		}else {
+			res = bookService.reserveBook(user, book);
+			if(!res) {
+				message = "예약을 취소하거나 못했습니다.";
+				map.put("message", message);
+			}
+			map.put("result", res);
+			return map;
+		}
 	}
 
 	@ResponseBody
@@ -344,6 +374,26 @@ public class LibraryAjaxController {
 		}else {
 			order.setSa_ss_num(num);
 			bookService.updateSale(order);
+			if(order.getSa_ss_num() == 3) {
+				String api_key = "NCSJAUZLM1DHEWEW";
+	 			String api_secret = "RM7CHJOAGAI3S9CBNC92JDBHOPO8LTFV";
+			    Message coolsms = new Message(api_key, api_secret);
+			    // 4 params(to, from, type, text) are mandatory. must be filled
+			    HashMap<String, String> params = new HashMap<String, String>();
+			    params.put("to", order.getMe_phone());	// 수신전화번호
+			    params.put("from", "01050602154");	// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+			    params.put("type", "SMS");	// 타입
+			    params.put("text", "구매하신 " + order.getSa_name() + " 책이 도착했습니다. 수령하러 와주세요."); //내용
+			    params.put("app_version", "test app 1.2"); // application name and version
+			
+			    try {
+			      JSONObject obj = (JSONObject) coolsms.send(params);
+			      System.out.println(obj.toString());
+			    } catch (CoolsmsException e) {
+			      System.out.println(e.getMessage());
+			      System.out.println(e.getCode());
+			    }
+			}
 			map.put("res",true);
 		}
 		return map;

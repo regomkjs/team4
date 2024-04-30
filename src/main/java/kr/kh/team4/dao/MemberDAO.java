@@ -70,10 +70,14 @@ public interface MemberDAO {
 
 	MemberVO selectEmail(@Param("email")String email);
 
+	void updateMemberCount(@Param("user")MemberVO user, @Param("count")int count);
+
+	void updateMemberLoanBlock(@Param("user")MemberVO user);
+	
 	void updateBlockRenewal();
 
 	boolean updateMemberRight(@Param("me_id")String me_id, @Param("num")int num);
-
+	
 	void updateMemberCookie(@Param("user")MemberVO user);
 
 	MemberVO selectMemberByCookie(@Param("me_cookie")String sessionId);

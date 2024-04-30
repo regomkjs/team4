@@ -9,7 +9,7 @@
 	</insert>
 	
 	<select id="selectMember" resultType="MemberVO">
-		select * from member where me_id = #{me_id}
+		select * from member join grade on gr_num = me_gr_num  where me_id = #{me_id}
 	</select>
 	
 	<select id="selectNickName" resultType="MemberVO">
@@ -238,6 +238,14 @@
 	<select id="selectEmail" resultType="MemberVO">
 		select * from member where me_email = #{email}
 	</select>
+	
+	<update id="updateMemberCount">
+		update member set me_count = #{count} where me_id = #{user.me_id}
+	</update>
+	
+	<update id="updateMemberLoanBlock">
+		update member set me_loan_block = date_add(now() , interval 7 day)  where me_id = #{user.me_id}
+	</update>
 
 	<update id="updateBlockRenewal">
 		update member set me_block = null where now() &gt; me_block
