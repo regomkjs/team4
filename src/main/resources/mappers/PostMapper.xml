@@ -15,7 +15,8 @@
 				from 
 					comment 
 				where 
-					comment.co_po_num = post.po_num) 
+					comment.co_po_num = post.po_num and 
+					comment.co_state = 1) 
 			as po_co_count,
 	 			(select
 	 				count(*)
@@ -108,7 +109,8 @@
 				from 
 					comment 
 				where 
-					comment.co_po_num = post.po_num) 
+					comment.co_po_num = post.po_num and
+					comment.co_state = 1) 
 			as po_co_count,
 				(select
 	 				count(*)
@@ -532,4 +534,20 @@
  	<update id="updateReportBlockWriter">
  		update report set rp_state = 2 where rp_num = #{rp_num}
  	</update>
+ 	
+ 	<update id="increaseReportCount">
+ 		update member set me_report_count = me_report_count + 1 where me_id = #{me_id}
+ 	</update>
+ 	
+ 	<update id="decreaseReportCount">
+ 		update member set me_report_count = me_report_count - 1 where me_id = #{me_id} and me_report_count > 0
+ 	</update>
+ 	
+ 	<select id="selectReport" resultType="ReportVO">
+ 		select * from report where rp_num = #{rp_num}
+ 	</select>
+ 	
+ 	<select id="selectReportListByTarget" resultType="ReportVO">
+ 		select * from report where rp_target = #{rp_target} and rp_state = 0
+ 	</select>
 </mapper>

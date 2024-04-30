@@ -337,7 +337,7 @@ function getCommentList(cri, today) {
 						<hr>
 						`
 				}
-				else if(comment.co_state == -1){
+				else if(comment.co_state == -1 && comment.co_num == comment.co_ori_num){
 					str +=
 						`
 						<div class="comment-container text-center" style="min-height: 70px; ">
@@ -346,6 +346,17 @@ function getCommentList(cri, today) {
 						<hr>
 						`
 				}
+				else if(comment.co_state == -1 && comment.co_num != comment.co_ori_num){
+					str +=
+						`
+						<i class="bi bi-arrow-return-right ml-2 mr-2" style="font-size:2.5rem; color: gray; float:left"></i>
+						<div class="comment-container text-center" style="min-height: 70px; ">
+							<h3 class="text-center" style="margin-left: 100px; padding-top:15px;">운영자에 의해 삭제된 댓글입니다.</h3>
+						</div>	
+						<hr>
+						`
+				}
+				
 				else{
 					let btns = "";
 					if('${user.me_id}' == comment.co_me_id){

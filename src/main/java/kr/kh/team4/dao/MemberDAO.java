@@ -80,5 +80,6 @@ public interface MemberDAO {
 	
 	void updateMemberCookie(@Param("user")MemberVO user);
 
-	MemberVO selectMemberByCookie(@Param("session_id")String sessionId);
+	MemberVO selectMemberByCookie(@Param("me_cookie")String sessionId);
+
 }

@@ -68,6 +68,11 @@
 		<div class="form-group" style="margin-bottom: 10px">
 			<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호">
 		</div>
+		<div class="form-check mb-2 mt-2" style="color: gray;">
+			<label class="form-check-label">
+		   		<input type="checkbox" class="form-check-input" value="true" name="autoLogin">자동로그인
+	 		</label>
+		</div>
 		<a href="<c:url value="/find/id"/>" style="color: gray;">아이디찾기</a>
 	    <span style="color: gray; opacity: 60%">|</span>
 	    <a href="<c:url value="/find/pw"/>" style="color: gray;">비밀번호찾기</a>

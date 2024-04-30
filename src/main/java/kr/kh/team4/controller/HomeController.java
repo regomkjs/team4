@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,13 @@ public class HomeController {
 	}
 	
 	@GetMapping("/login")
-	public String login(Model model) {
+	public String login(Model model, HttpServletRequest request) {
+		//로그인 페이지로 넘어오기 이전 경로를 가져옴
+		String url = request.getHeader("Referer");
+		//이전 url에 login이 들어가 있는 경우를 제외
+		if(url != null && !url.contains("login")) {
+			request.getSession().setAttribute("prevUrl", url);
+		}
 		model.addAttribute("title", "로그인");
 		return "/member/login";
 	}
@@ -79,6 +86,11 @@ public class HomeController {
 		if(user != null) {
 			if(user.getMe_ms_num() == 3) {
 				model.addAttribute("msg", "현재 계정이 [정지] 상태라서 로그인이 불가능합니다.");
+				model.addAttribute("url", "/login");
+				return "message";
+			}
+			if(user.getMe_ms_num() == 1) {
+				model.addAttribute("msg", "[영구정지] 된 계정입니다.");
 				model.addAttribute("url", "/login");
 				return "message";
 			}
@@ -151,7 +163,7 @@ public class HomeController {
 	
 	@GetMapping("logout")
 	public String logout(Model model, HttpSession session) {
-		//DB에서 cookie정보를 삭제
+		//DB에서 쿠키정보 삭제
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		user.setMe_cookie(null);
 		user.setMe_cookie_limit(null);
