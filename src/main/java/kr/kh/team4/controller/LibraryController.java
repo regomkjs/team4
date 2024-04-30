@@ -2,6 +2,7 @@ package kr.kh.team4.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Member;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -101,7 +102,9 @@ public class LibraryController {
 	
 
 	@GetMapping("/library/bookSale/list")
-	public String bookSale(Model model) {
+	public String bookSale(Model model,HttpSession session) {
+		MemberVO user=(MemberVO) session.getAttribute("user");
+		model.addAttribute("user",user);
 		model.addAttribute("api",aladinAPI);
 		return "/library/book/bookSaleList";
 	}
@@ -117,7 +120,7 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/library/bookSale/search")
-	public String bookSaleSearch(Model model,Criteria cri){
+	public String bookSaleSearch(Model model,Criteria cri,HttpSession session){
 		try {
 			StringBuilder urlBuilder = new StringBuilder("http://www.aladin.co.kr/ttb/api/ItemSearch.aspx"); /* URL */
 			urlBuilder.append("?" + URLEncoder.encode("ttbkey", "UTF-8") +"="+aladinAPI); /* Service Key */
@@ -149,6 +152,8 @@ public class LibraryController {
 	        JSONObject obj = (JSONObject)parser.parse(sb.toString());
 	        int total= Integer.parseInt(obj.get("totalResults").toString());
 	        PageMaker pm=new PageMaker(10, cri,total);
+	        MemberVO user=(MemberVO) session.getAttribute("user");
+			model.addAttribute("user",user);
 	        model.addAttribute("obj",obj);       
 	        model.addAttribute("pm",pm);       
 		} catch (Exception e) {
@@ -170,7 +175,7 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/library/bookSale/detail")
-	public String bookSaleDetail(Model model,String isbn){
+	public String bookSaleDetail(Model model,String isbn,HttpSession session){
 		try {
 			StringBuilder urlBuilder = new StringBuilder("http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx"); /* URL */
 			urlBuilder.append("?" + URLEncoder.encode("ttbkey", "UTF-8") + "="+aladinAPI); /* Service Key */		
@@ -198,6 +203,8 @@ public class LibraryController {
 	        conn.disconnect();
 	        JSONParser parser = new JSONParser();
 	        JSONObject obj = (JSONObject)parser.parse(sb.toString());
+	        MemberVO user=(MemberVO) session.getAttribute("user");
+			model.addAttribute("user",user);
 	        model.addAttribute("book",obj);           
 		} catch (Exception e) {
 			e.printStackTrace();

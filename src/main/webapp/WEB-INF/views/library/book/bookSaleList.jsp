@@ -21,7 +21,7 @@
 		</form>
 		<div class="basket">
 			<p>장바구니</p>
-			<div>aa</div>
+			<div></div>
 		</div>
 		<div class="main">
 			<div class="side-bar">
@@ -112,7 +112,8 @@
 <!-- 구매,장바구니 -->
 	<script type="text/javascript">
 	let basket=[];
-	let data=JSON.parse(localStorage.getItem('basket'));
+	let nick=${user.me_nick!=null}?"${user.me_nick}":"guest";
+	let data=JSON.parse(localStorage.getItem(nick));
 	if(data!=null){
 		basket=data;
 		console.log(basket);
@@ -131,7 +132,7 @@
 		}
 		displayBasketView();
 		let basketJson=JSON.stringify(basket);
-		localStorage.setItem('basket',basketJson);
+		localStorage.setItem(nick,basketJson);
 	});
 	
 	$(".basket>p").click(function() {
@@ -143,7 +144,7 @@
 		for(let i=0;i<basket.length;i++){
 			if(basket[i].isbn13==isbn){
 				let basketJson=JSON.stringify(basket);
-				localStorage.setItem('basket',basketJson);
+				localStorage.setItem(nick,basketJson);
 				location.href = '<c:url value="/library/book/sale" />';
 				return;
 			}
@@ -154,7 +155,7 @@
 			}
 		}
 		let basketJson=JSON.stringify(basket);
-		localStorage.setItem('basket',basketJson);
+		localStorage.setItem(nick,basketJson);
 		location.href = '<c:url value="/library/book/sale" />';	
 	});
 	
@@ -181,7 +182,7 @@
 		basket.splice(index,1);
 		displayBasketView();
 		let basketJson=JSON.stringify(basket);
-		localStorage.setItem('basket',basketJson);
+		localStorage.setItem(nick,basketJson);
 	});
 	</script>
 	<script type="text/javascript">
