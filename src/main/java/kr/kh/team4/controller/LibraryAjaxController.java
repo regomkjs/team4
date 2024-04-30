@@ -383,7 +383,7 @@ public class LibraryAjaxController {
 			    params.put("to", order.getMe_phone());	// 수신전화번호
 			    params.put("from", "01050602154");	// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
 			    params.put("type", "SMS");	// 타입
-			    params.put("text", "구매하신 " + order.getSa_name() + " 책이 도착했습니다. 수령하러 와주세요."); //내용
+			    params.put("text", "구매하신 " + order.getSa_name() + " 책이 도착했습니다."); //내용
 			    params.put("app_version", "test app 1.2"); // application name and version
 			
 			    try {

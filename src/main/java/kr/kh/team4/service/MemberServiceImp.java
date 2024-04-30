@@ -19,12 +19,14 @@ import kr.kh.team4.model.dto.LoginDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.pagination.Criteria;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 import kr.kh.team4.pagination.MemberCriteria;
+import kr.kh.team4.pagination.MyReportCriteria;
 
 
 @Service
@@ -465,4 +467,27 @@ public class MemberServiceImp implements MemberService {
 	public MemberVO getMemberByCookie(String sessionId) {
 		return memberDao.selectMemberByCookie(sessionId);
 	}
+
+	@Override
+	public ArrayList<ReportVO> getMyReportList(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return null;
+		}
+		return memberDao.selectMyReportList(cri, user);
+	}
+
+	@Override
+	public int totalCountMyReport(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return 0;
+		}
+		return memberDao.selectTotalCountMyReport(cri, user);
+	}
+
 }

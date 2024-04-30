@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.MemberCriteria;
 
@@ -81,5 +82,9 @@ public interface MemberDAO {
 	void updateMemberCookie(@Param("user")MemberVO user);
 
 	MemberVO selectMemberByCookie(@Param("me_cookie")String sessionId);
+
+	ArrayList<ReportVO> selectMyReportList(@Param("cri")Criteria cri, @Param("user")MemberVO user);
+
+	int selectTotalCountMyReport(@Param("cri")Criteria cri, @Param("user")MemberVO user);
 
 }

@@ -6,8 +6,10 @@ import kr.kh.team4.model.dto.LoginDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.MemberCriteria;
+import kr.kh.team4.pagination.MyReportCriteria;
 
 public interface MemberService {
 
@@ -79,5 +81,9 @@ public interface MemberService {
 	MemberVO getMemberByCookie(String sessionId);
 
 	void updateMemberCookie(MemberVO user);
+
+	ArrayList<ReportVO> getMyReportList(Criteria cri, MemberVO user);
+
+	int totalCountMyReport(Criteria cri, MemberVO user);
 
 }

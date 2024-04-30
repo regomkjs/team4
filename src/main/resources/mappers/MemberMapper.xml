@@ -269,5 +269,27 @@
 		where me_cookie = #{me_cookie} and me_cookie_limit >= now()
 		]]>
 	</select>
-
+	
+	<select id="selectMyReportList" resultType="ReportVO">
+		select * from report 
+		where
+			rp_me_id = #{user.me_id}
+			<if test='cri.type=="all"'>
+				and rp_note like concat('%', #{cri.search}, '%')
+			</if>
+			group by
+				rp_num
+			order by
+				rp_num asc
+			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="selectTotalCountMyReport" resultType="int">
+		select count(*) from report 
+		where
+			rp_me_id = #{user.me_id}
+			<if test='cri.type=="all"'>
+				and rp_note like concat('%', #{cri.search}, '%')
+			</if>
+	</select>
 </mapper>

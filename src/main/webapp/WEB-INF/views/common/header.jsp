@@ -33,6 +33,7 @@
 					    <a class="dropdown-item" href="<c:url value="/mypage"/>">내 정보</a>
 					    <a class="dropdown-item" href="<c:url value="/mypage/post"/>">내가 쓴 게시글</a>
 					    <a class="dropdown-item" href="<c:url value="/mypage/comment"/>">내가 쓴 댓글</a>
+					    <a class="dropdown-item" href="<c:url value="/mypage/report"/>">내가 신고한 내역</a>
 					    <a class="dropdown-item" href="<c:url value="/mypage/loan"/>">내가 대출한 도서</a>
 				  	</div>
 				</li>
