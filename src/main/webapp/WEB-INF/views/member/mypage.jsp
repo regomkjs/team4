@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,26 +67,25 @@
 			</div>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
-			<label for="id">등급</label>
-			<div class="input-group">
-				<input type="text" class="form-control" id="grade" name="me_grade" readonly value="${user.me_gr_name}">
-			</div>
-		</div>
-		<div class="form-group" style="margin-bottom: 10px">
 			<label for="id">커뮤니티 정지일</label>
 			<div class="input-group">
 				<c:if test="${user.me_block != null}">
-					<input type="text" class="form-control" id="block" name="me_block" readonly value="${user.me_block}">
+					<input type="text" class="form-control" id="block" name="me_block" readonly value="<fmt:formatDate value="${user.me_block}" pattern="yy/MM/dd"/>">
 				</c:if>
 				<c:if test="${user.me_block == null}">
-					<input type="text" class="form-control" id="block" name="me_block" readonly value="정지 아님">
+					<input type="text" class="form-control" id="block" name="me_block" readonly value="X">
 				</c:if>
 			</div>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
 			<label for="id">도서 정지일</label>
 			<div class="input-group">
-				<input type="text" class="form-control" id="loan_block" name="me_loan_block" readonly value="${user.me_loan_block }">
+				<c:if test="${user.me_loan_block != null}">
+					<input type="text" class="form-control" id="loan_block" name="me_loan_block" readonly value="<fmt:formatDate value="${user.me_loan_block}" pattern="yy/MM/dd"/>">
+				</c:if>
+				<c:if test="${user.me_loan_block == null}">
+					<input type="text" class="form-control" id="block" name="me_block" readonly value="X">
+				</c:if>
 			</div>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
