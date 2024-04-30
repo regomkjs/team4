@@ -107,7 +107,7 @@ public interface BookDAO {
 
 	ReserveVO selectReserve(@Param("bo_num")int bo_num);
 
-	void updateReserve(@Param("bo_num")String lo_bo_num, @Param("me_id")String lo_me_id);
+	void updateReserve(@Param("bo_num")int lo_bo_num, @Param("me_id")String lo_me_id);
 
 	LoanVO selectCurrentLoan(@Param("bo_num")int bo_num);
 
@@ -136,5 +136,7 @@ public interface BookDAO {
 	ArrayList<SaleVO> selectSaleList(@Param("cri")SaleListCriteria cri);
 
 	int selectSaleTotalCount(@Param("cri")SaleListCriteria cri);
+
+	ArrayList<LoanVO> selectLoanState();
 
 }

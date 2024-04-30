@@ -106,5 +106,9 @@ public interface BookService {
 
 	int selectSaleTotalCount(SaleListCriteria cri);
 
+	ArrayList<LoanVO> getLoan();
+
+	void updateReserve(ReserveVO reserve);
+
 
 }

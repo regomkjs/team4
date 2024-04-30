@@ -617,4 +617,15 @@ public class BookServiceImp implements BookService {
 		}
 		return bookDao.selectSaleTotalCount(cri);
 	}
+
+	@Override
+	public ArrayList<LoanVO> getLoan() {
+		return bookDao.selectLoanState();
+	}
+
+	@Override
+	public void updateReserve(ReserveVO reserve) {
+		ReserveVO re = bookDao.selectReserve(reserve.getRe_bo_num());
+		bookDao.updateRe(re.getRe_bo_num(), re.getRe_me_id());
+	}
 }
