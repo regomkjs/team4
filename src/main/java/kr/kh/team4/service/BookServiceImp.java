@@ -577,8 +577,8 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public void deleteReserve(ReserveVO reserve, MemberVO user) {
-		bookDao.deleteReserve(user.getMe_id(), reserve.getRe_bo_num());
 		ReserveVO re = bookDao.selectReserve(reserve.getRe_bo_num());
+		bookDao.deleteReserve(re.getRe_me_id(), re.getRe_bo_num());
 		if(re != null) {
 			bookDao.updateRe(re.getRe_bo_num(), re.getRe_me_id());
 			String api_key = "NCSJAUZLM1DHEWEW";
