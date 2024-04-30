@@ -239,4 +239,12 @@
 		select * from member where me_email = #{email}
 	</select>
 
+	<update id="updateBlockRenewal">
+		update member set me_block = null where now() &gt; me_block
+	</update>
+	
+	<update id="updateMemberRight">
+		update member set me_mr_num = #{num} where me_id = #{me_id}
+	</update>
+	
 </mapper>

@@ -49,6 +49,7 @@ CREATE TABLE `member` (
   `me_count` int NOT NULL DEFAULT '0',
   `me_post_count` int not null default '0',
   `me_loan_count` int NOT NULL DEFAULT '0',
+  `me_report_count` int not null default '0',
   `me_mr_num` int not null DEFAULT '2',
   `me_ms_num` int NOT NULL,
   `me_gr_num` int NOT NULL,
@@ -68,6 +69,7 @@ DROP TABLE IF EXISTS `report`;
 CREATE TABLE `report` (
   `rp_num` int NOT NULL AUTO_INCREMENT,
   `rp_note` text NOT NULL,
+  `rp_state` int not null default '0',
   `rp_type` varchar(15) NOT NULL,
   `rp_target` varchar(15) NOT NULL,
   `rp_writer` varchar(12) NOT NULL,

@@ -68,4 +68,8 @@ public interface MemberService {
 
 	boolean emailCheck(String email);
 
+	boolean appointMember(MemberVO member);
+
+	boolean dismissMember(MemberVO member);
+
 }

@@ -100,12 +100,16 @@ public interface PostService {
 
 	int getTotalCountReport();
 
-	int deleteReportList(int[] reportArr);
+	int rejectReportList(int[] reportArr);
 
-	boolean deleteReport(int rp_num);
+	boolean rejectReport(int rp_num);
 
 	boolean deleteCommentAdmin(int co_num);
 
 	CommentVO getComment(int num);
+
+	boolean blockReporter(int rp_num);
+
+	boolean blockWriter(int rp_num);
 
 }
