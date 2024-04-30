@@ -145,6 +145,14 @@ public interface PostDAO {
 
 	boolean updateReportBlockWriter(@Param("rp_num")int rp_num);
 
+	void increaseReportCount(@Param("me_id")String me_id);
+
+	void decreaseReportCount(@Param("me_id")String me_id);
+
+	ReportVO selectReport(@Param("rp_num")int rp_num);
+
+	ArrayList<ReportVO> selectReportListByTarget(@Param("rp_target")String rp_target);
+
 	
 	
 
