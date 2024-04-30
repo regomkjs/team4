@@ -98,6 +98,10 @@ public interface BookService {
 
 	int getUserSaleTotalCount(String me_id, SaleListCriteria cri);
 
+	ArrayList<SaleVO> selectSaleList(SaleListCriteria cri);
+
+	int selectSaleTotalCount(SaleListCriteria cri);
+
 
 	
 }

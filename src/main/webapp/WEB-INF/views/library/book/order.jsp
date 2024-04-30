@@ -182,7 +182,7 @@
 								<td>\${data.order[i].sa_name}</td>
 								<td>\${data.order[i].sa_state}</td>
 								`;
-								if(data.order[i].sa_ss_num == 1){
+								if(data.order[i].sa_state == "준비"){
 									str+=`<td><button type="button" class="del-btn"
 									>주문취소</button></td>`;
 								}else{
