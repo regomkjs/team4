@@ -916,12 +916,30 @@ $(document).on("click",".delete-comment-btn",function(){
 })
 </script>
 
-<!-- 커뮤니티 이용 제한 팝업 스트립트 -->
+<!-- 커뮤니티 이용 권한 제어 팝업 스트립트 -->
 <script type="text/javascript">
+var popup_punish;
+var popup_forgive;
 $(document).on("click",".member-punish-btn",function(){
 	let url = $(this).data("url");
 	const options = 'width=500, height=300, top=300, left=500, scrollbars=yes'
-	window.open(url,'_blank',options)
+	
+	popup_punish = window.open(url,'_blank',options);
+	popup_punish.addEventListener('beforeunload', function() {
+		me_cri.page = 1;
+		getMemberList(me_cri, where);
+	});
+})
+
+$(document).on("click",".member-forgive-btn",function(){
+	let url = $(this).data("url");
+	const options = 'width=500, height=400, top=300, left=500, scrollbars=yes'
+	
+	popup_forgive = window.open(url,'_blank',options);
+	popup_forgive.addEventListener('beforeunload', function() {
+		me_cri.page = 1;
+		getMemberList(me_cri, where);
+	});
 })
 </script>
 
@@ -1030,14 +1048,16 @@ function getMemberList(me_cri, where){
 			else{
 				
 				for(member of memberList){
+					let punishUrl = '<c:url value="/popup/member/punish?nick='+ member.me_nick + '" />';
+					let forgiveUrl = '<c:url value="/popup/member/forgive?nick='+ member.me_nick + '" />';
 					str += 
 					`
 						<tr>
 							<td>\${member.me_mr_name}</td>
-							<td>\${member.me_id}</td>
-							<td>\${member.me_nick}</td>
+							<td class="small">\${member.me_id}</td>
+							<td class="small">\${member.me_nick}</td>
 							<td>\${member.me_gr_name}</td>
-							<td>\${member.me_date}</td>
+							<td class="small">\${member.me_date}</td>
 							<td>\${member.me_post_count}</td>
 							<td>\${member.me_loan_count}</td>
 							<td>\${member.me_ms_name}</td>
@@ -1045,45 +1065,45 @@ function getMemberList(me_cri, where){
 					if(member.me_loan_block != null){
 						str +=
 						`
-							<td>\${member.me_loan_block}</td>
+							<td class="small">\${member.me_loan_block}</td>
 						`
 					}
 					else{
 						str +=
 						`
-							<td>-</td>
+							<td class="small">-</td>
 						`
 					}
 					if(member.me_block != null){
 						str +=
 						`
-							<td>\${member.me_block}</td>
+							<td class="small">\${member.me_block}</td>
 						`
 					}
 					else{
 						str +=
 						`
-							<td>-</td>
+							<td class="small">-</td>
 						`
 					}
 					if(pm.cri.type == "all"){
 						str +=
 						`
-							<td><a href="#" class="btn btn-sm btn-danger">정지</a></td>
-							<td><a href="#" class="btn btn-sm btn-primary">임명</a></td>
+							<td><a href="#" class="btn btn-sm btn-danger member-punish-btn" data-url="\${punishUrl}">정지</a></td>
+							<td><a href="#" class="btn btn-sm btn-primary btn-appoint" data-member="\${member.me_id}">임명</a></td>
 						`
 					}
 					else if(pm.cri.type == "prisoner"){
 						if(member.me_block != null){
 							str +=
 							`
-								<td><a href="#" class="btn btn-sm btn-success">기한 해제</a></td>
+								<td><a href="#" class="btn btn-sm btn-success member-forgive-btn" data-url="\${forgiveUrl}">기한 변경</a></td>
 							`
 						}
 						else{
 							str +=
 							`
-								<td><a href="#" class="btn btn-sm btn-success">정지 해제</a></td>
+								<td><a href="#" class="btn btn-sm btn-secondary member-forgive-btn" data-url="\${forgiveUrl}">정지 해제</a></td>
 							`
 						}
 						
@@ -1092,7 +1112,13 @@ function getMemberList(me_cri, where){
 						if(member.me_mr_num == 1){
 							str +=
 							`
-								<td><a href="#" class="btn btn-sm btn-danger">임명 해제</a></td>
+								<td><a href="#" class="btn btn-sm btn-danger btn-dismiss" data-member="\${member.me_id}">임명 해제</a></td>
+							`
+						}
+						else{
+							str +=
+							`
+								<td></td>
 							`
 						}
 					}

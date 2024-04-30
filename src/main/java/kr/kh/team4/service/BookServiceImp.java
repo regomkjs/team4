@@ -199,6 +199,20 @@ public class BookServiceImp implements BookService {
 		if (user == null || book == null) {
 			return false;
 		}
+	
+		Date now = new Date();
+		Date blockDate = user.getMe_loan_block();
+		try {
+			boolean diffDate = blockDate.after(now);
+			if(diffDate) {
+				return false;
+			}else {
+				memberDao.updateLoanBlock(user.getMe_id());
+			}
+		}catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+
 		
 		LoanVO currentLoan = bookDao.selectCurrentLoan(book.getBo_num());
 			if(currentLoan != null && currentLoan.getLo_state() == 1) {
@@ -206,6 +220,7 @@ public class BookServiceImp implements BookService {
 			}
 
 		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
+		
 		if(list.size() != 0) {
 			if(list.get(0).getRe_me_id().equals(user.getMe_id())) {
 				boolean res = bookDao.insertLoan(user.getMe_id(), book.getBo_num());
@@ -240,18 +255,10 @@ public class BookServiceImp implements BookService {
 	private void updateMemberGrade(MemberVO user) {
 		memberDao.updateLoanCount(user);
 		ArrayList<GradeVO> gradeList = memberDao.selectGradeList();
-		MemberVO member = memberDao.selectMember(user.getMe_id());
-		GradeVO updatedGrade = null;
-		for (int i = 0; i <= gradeList.size(); i++) {
-			if (member.getMe_loan_count() >= gradeList.get(i).getGr_loan_condition()) {
-				updatedGrade = gradeList.get(i);
-			} else {
-				break;
+		for(GradeVO grade : gradeList) {
+			if(user.getMe_loan_count() >= grade.getGr_loan_condition() && user.getMe_post_count() >= grade.getGr_post_condition()) {
+				memberDao.updateUserGrade(user.getMe_id(), grade.getGr_num());
 			}
-		}
-		
-		if (updatedGrade != null) {
-			memberDao.updateUserGrade(user.getMe_id(), updatedGrade.getGr_num());
 		}
 	}
 	
@@ -298,7 +305,20 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
-
+		
+		Date now = new Date();
+		Date blockDate = user.getMe_loan_block();
+		try {
+			boolean diffDate = blockDate.after(now);
+			if(diffDate) {
+				return false;
+			}else {
+				memberDao.updateLoanBlock(user.getMe_id());
+			}
+		}catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		
 		// 중복된경우
 		for (ReserveVO reserve : list) {
 			if (reserve.getRe_me_id().equals(user.getMe_id())) {

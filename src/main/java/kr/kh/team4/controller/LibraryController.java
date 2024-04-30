@@ -2,7 +2,6 @@ package kr.kh.team4.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Member;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -25,8 +24,8 @@ import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
-import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.BookService;
 import kr.kh.team4.service.MemberService;

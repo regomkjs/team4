@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -138,7 +139,7 @@ public class LibraryAjaxController {
 
 	@ResponseBody
 	@PostMapping("/loan/book")
-	public Map<String, Object> loanBook(@RequestBody BookVO book, HttpSession session) {
+	public Map<String, Object> loanBook(@RequestBody BookVO book, HttpSession session, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		boolean res = bookService.loanBook(user, book);

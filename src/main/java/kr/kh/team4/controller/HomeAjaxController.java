@@ -92,8 +92,8 @@ public class HomeAjaxController {
 	
 	
 	@ResponseBody
-	@PostMapping("/member/block")
-	public Map<String, Object> memberBlockPost(@RequestParam("me_id")String me_id, @RequestParam("day")int day){
+	@PostMapping("/member/block/insert")
+	public Map<String, Object> memberBlockInsertPost(@RequestParam("me_id")String me_id, @RequestParam("day")int day){
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO member = memberService.getMember(me_id);
 		int res = memberService.addBlockDay(member, day);
@@ -129,4 +129,26 @@ public class HomeAjaxController {
 		map.put("result", res);
         return map;
 	}
+	
+	@ResponseBody
+	@PostMapping("/member/block/update")
+	public Map<String, Object> memberBlockUpdatePost(@RequestParam("me_id")String me_id, 
+				@RequestParam("option")String option, @RequestParam("day")int day){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO member = memberService.getMember(me_id);
+		int res = memberService.updateBlockOption(member, option ,day);
+		map.put("result", res);
+		return map;
+	}
+	
+	
+
+	@GetMapping("/email/check/dup")
+	public Map<String, Object> emailCheckDup(@RequestParam("email")String email){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = memberService.emailCheck(email);
+		map.put("result", res);
+		return map;
+	}
+
 }

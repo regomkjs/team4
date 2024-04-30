@@ -21,6 +21,7 @@ import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.PageMaker;
+import kr.kh.team4.service.BookService;
 import kr.kh.team4.service.MemberService;
 import kr.kh.team4.service.PostService;
 import lombok.extern.log4j.Log4j;
@@ -31,6 +32,9 @@ public class HomeController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	BookService bookService;
 	
 	@Autowired
 	PostService postService;
@@ -68,7 +72,7 @@ public class HomeController {
 	@PostMapping("/login")
 	public String loginPost(Model model, LoginDTO loginDto) {
 		MemberVO user = memberService.login(loginDto);
-
+		ArrayList<GradeVO> gradeList = memberService.getGradeList();
 		if(user != null) {
 			if(user.getMe_ms_num() == 3) {
 				model.addAttribute("msg", "현재 계정이 [정지] 상태라서 로그인이 불가능합니다.");
@@ -84,6 +88,12 @@ public class HomeController {
 			if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) < 0) {
 				memberService.resetBlockToNull(user.getMe_id());
 			}
+			for(GradeVO grade : gradeList) {
+				if(user.getMe_loan_count() >= grade.getGr_loan_condition() && user.getMe_post_count() >= grade.getGr_post_condition()) {
+					memberService.updateMemberGrade(user.getMe_id(), grade);
+				}
+			}
+			
 			model.addAttribute("user", user);
 			model.addAttribute("msg", "로그인 성공");
 			model.addAttribute("url", "/");

@@ -52,7 +52,7 @@ public class MemberServiceImp implements MemberService {
 	
 	public boolean mailSend(String to, String title, String content) {
 
-	    String setfrom = "regomkjs2013@gmail.com";
+	   String setfrom = "dhtkfkdh@gmail.com";
 	   try{
 	        MimeMessage message = mailSender.createMimeMessage();
 	        MimeMessageHelper messageHelper
@@ -281,11 +281,20 @@ public class MemberServiceImp implements MemberService {
 		}
 		
 		if(member.getMe_block() == null) {
+			if(day > 400) {
+				memberDao.updateMemberState(member.getMe_id(), 1);
+				return 4;
+			}
 			//신규 정지일 생성
 			memberDao.insertBlock(member.getMe_id(), day);
 			return 1;
 		} 
 		else {
+			if(day > 400) {
+				memberDao.resetBlockToNull(member.getMe_id());
+				memberDao.updateMemberState(member.getMe_id(), 1);
+				return 4;
+			}
 			LocalDate now = LocalDate.now();
 			DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			String formatedNow = now.format(format);
@@ -337,7 +346,7 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public boolean checkMailPhone(String savedCode, String num) {
-		if(savedCode == "" || num == "") {
+		if(savedCode == null || num == null) {
 			return false;
 		}
 		if(savedCode.equals(num)) {
@@ -360,6 +369,58 @@ public class MemberServiceImp implements MemberService {
 			cri = new MemberCriteria();
 		}
 		return memberDao.totalCountMember(cri);
+
+	}
+
+	@Override
+	public int updateBlockOption(MemberVO member, String option, int day) {
+		if(member == null) {
+			return 0;
+		}
+		if(member.getMe_mr_num() <= 1) {
+			return 3;
+		}
+		if((option.equals("permanent") && member.getMe_ms_num() == 1)||
+				(option.equals("decrease") && member.getMe_ms_num() == 1)||
+				(option.equals("delete") && member.getMe_ms_num() != 1)||
+				(option.equals("change") && member.getMe_ms_num() != 1)) {
+			return 1;
+		}
+		if(option.equals("permanent")) {
+			memberDao.resetBlockToNull(member.getMe_id());
+			memberDao.updateMemberState(member.getMe_id(), 1);
+			return 2;
+		}
+		else if(option.equals("decrease")) {
+			memberDao.decreaseBlock(member.getMe_id(), day);
+			return 2;
+		}
+		else if(option.equals("delete")) {
+			memberDao.updateMemberState(member.getMe_id(), 2);
+			return 2;
+		}
+		else if(option.equals("change")){
+			memberDao.updateMemberState(member.getMe_id(), 2);
+			if(member.getMe_block() != null) {
+				memberDao.resetBlockToNull(member.getMe_id());
+			}
+			memberDao.insertBlock(member.getMe_id(), day);
+			return 2;
+		}
+		else {
+			return 0;
+		}
+	}
+
+	@Override
+	public void updateMemberGrade(String me_id, GradeVO grade) {
+		memberDao.updateUserGrade(me_id, grade.getGr_num());
+	}
+
+	@Override
+	public boolean emailCheck(String email) {
+		MemberVO member = memberDao.selectEmail(email);
+		return member == null;
 
 	}
 	

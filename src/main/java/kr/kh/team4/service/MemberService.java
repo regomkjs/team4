@@ -62,4 +62,10 @@ public interface MemberService {
 	int getTotalCountMember(MemberCriteria me_cri);
 
 
+	int updateBlockOption(MemberVO member, String option, int day);
+
+	void updateMemberGrade(String me_id, GradeVO grade);
+
+	boolean emailCheck(String email);
+
 }
