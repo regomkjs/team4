@@ -98,6 +98,8 @@ public interface BookService {
 
 	int getUserSaleTotalCount(String me_id, SaleListCriteria cri);
 
+	ArrayList<ReserveVO> getReList(MemberVO user);
 
-	
+	void deleteReserve(ReserveVO reserve, MemberVO user);
+
 }

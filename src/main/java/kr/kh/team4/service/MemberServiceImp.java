@@ -423,5 +423,15 @@ public class MemberServiceImp implements MemberService {
 		return member == null;
 
 	}
+
+	@Override
+	public void updateMemberCount(MemberVO user, int count) {
+		memberDao.updateMemberCount(user, count);
+	}
+
+	@Override
+	public void updateMemberLoanBlock(MemberVO user) {
+		memberDao.updateMemberLoanBlock(user);
+	}
 	
 }

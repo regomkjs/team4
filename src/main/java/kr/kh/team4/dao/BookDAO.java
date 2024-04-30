@@ -129,4 +129,8 @@ public interface BookDAO {
 
 	int getUserSaleTotalCount(@Param("me_id")String me_id,@Param("cri") SaleListCriteria cri);
 
+	ArrayList<ReserveVO> selectReList(@Param("user")MemberVO user);
+
+	void updateRe(@Param("re_bo_num")int re_bo_num, @Param("re_me_id")String re_me_id);
+
 }

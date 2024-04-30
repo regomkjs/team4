@@ -238,5 +238,12 @@
 	<select id="selectEmail" resultType="MemberVO">
 		select * from member where me_email = #{email}
 	</select>
-
+	
+	<update id="updateMemberCount">
+		update member set me_count = #{count} where me_id = #{user.me_id}
+	</update>
+	
+	<update id="updateMemberLoanBlock">
+		update member set me_loan_block = date_add(now() , interval 7 day)  where me_id = #{user.me_id}
+	</update>
 </mapper>

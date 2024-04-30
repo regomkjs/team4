@@ -70,4 +70,8 @@ public interface MemberDAO {
 
 	MemberVO selectEmail(@Param("email")String email);
 
+	void updateMemberCount(@Param("user")MemberVO user, @Param("count")int count);
+
+	void updateMemberLoanBlock(@Param("user")MemberVO user);
+
 }
