@@ -142,9 +142,23 @@ public class LibraryAjaxController {
 	public Map<String, Object> loanBook(@RequestBody BookVO book, HttpSession session, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		boolean res = bookService.loanBook(user, book);
-		map.put("result", res);
-		return map;
+		String message = "";
+		boolean res;
+		if(user.getMe_loan_block() != null) {
+			res = false;
+			message = "계정이 정지되어 대출할 수 없습니다.";
+			map.put("result", res);
+			map.put("message", message);
+			return map;
+		}else {
+			res = bookService.loanBook(user, book);
+			if(!res) {
+				message = "이미 대출된 책이거나 예약된 책입니다.";
+				map.put("message", message);
+			}
+			map.put("result", res);
+			return map;
+		}
 	}
 
 	@ResponseBody
@@ -186,9 +200,23 @@ public class LibraryAjaxController {
 	public Map<String, Object> reserveBook(@RequestBody BookVO book, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		boolean res = bookService.reserveBook(user, book);
-		map.put("result", res);
-		return map;
+		String message = "";
+		boolean res;
+		if(user.getMe_loan_block() != null) {
+			res = false;
+			message = "계정이 정지되어 예약할 수 없습니다.";
+			map.put("result", res);
+			map.put("message", message);
+			return map;
+		}else {
+			res = bookService.reserveBook(user, book);
+			if(!res) {
+				message = "예약을 취소하거나 못했습니다.";
+				map.put("message", message);
+			}
+			map.put("result", res);
+			return map;
+		}
 	}
 
 	@ResponseBody

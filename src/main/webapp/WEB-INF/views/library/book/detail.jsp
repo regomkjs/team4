@@ -189,7 +189,7 @@ ol.colorlist {
 				if (data.result) {
 					alert("${book.bo_title}책을 대출했습니다.");
 				} else {
-					alert("이미 대출된 책이거나 예약된 책입니다.")
+					alert(data.message);
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -257,7 +257,7 @@ ol.colorlist {
 				if (data.result) {
 					alert("${book.bo_title}책을 예약했습니다.");
 				} else {
-					alert("예약을 취소하거나 못했습니다.")
+					alert(data.message);
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -627,17 +627,17 @@ $(document).on("click",".btn-up,.btn-down",function(){
 	}
 
 	function displayUpdateOpinion(review, rv_num) {
-		$(`.btn-up[data-num="${rv_num}"]`).text(review.rv_up);
-	    $(`.btn-down[data-num="${rv_num}"]`).text(review.rv_down)
+		$('.btn-up').text(review.rv_up);
+	    $('.btn-down').text(review.rv_down)
 	}
 	function displayOpinion(state, rv_num) {
-	    $(`.btn-up[data-num="${rv_num}"]`).addClass("bi-hand-thumbs-up").removeClass("bi-hand-thumbs-up-fill");
-	    $(`.btn-down[data-num="${rv_num}"]`).addClass("bi-hand-thumbs-down").removeClass("bi-hand-thumbs-down-fill");
+	    $('.btn-up').addClass("bi-hand-thumbs-up").removeClass("bi-hand-thumbs-up-fill");
+	    $('.btn-down').addClass("bi-hand-thumbs-down").removeClass("bi-hand-thumbs-down-fill");
 	    
 	    if (state == 1) {
-	        $(`.btn-up[data-num="${rv_num}"]`).removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+	        $('.btn-up').removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
 	    } else if (state == -1) {
-	        $(`.btn-down[data-num="${rv_num}"]`).removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
+	        $('.btn-down').removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
 	    }
 	}
 	getOpinion(rv_num);
