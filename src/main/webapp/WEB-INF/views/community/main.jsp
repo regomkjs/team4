@@ -719,7 +719,7 @@ $(document).on("click",".reportDetailModal",function(){
 			<div class="input-group">
 				<div class="input-group-prepend"><span class="input-group-text">작성자</span></div>
 				<input class="input-group form-control" readonly value="\${writer}" style="background-color: white;">
-				<button class="btn btn-danger member-punish-btn" data-url="\${popWriterUrl}">이용제한</button>
+				<button class="btn btn-danger writer-punish-btn" data-url="\${popWriterUrl}" data-num="\${rp_num}">이용제한</button>
 			</div>
 			
 	`
@@ -760,7 +760,7 @@ $(document).on("click",".reportDetailModal",function(){
 	if(rp_me_id != `${user.me_id}`){
 		str += 
 		`
-			<button class="btn btn-danger member-punish-btn" data-url="\${popReporterUrl}">이용제한</button>
+			<button class="btn btn-danger reporter-punish-btn" data-url="\${popReporterUrl}" data-num="\${rp_num}">이용제한</button>
 		`
 	}
 	str +=
@@ -797,7 +797,7 @@ $(document).on("click",".report-delete-btn",function(){
 	}
 	if(confirm("신고내역 "+reportArr.length+"개를 반려하시겠습니까?")){
 		$.ajax({
-			url : '<c:url value="/report/delete"/>',
+			url : '<c:url value="/report/arr/reject"/>',
 			method : "post",
 			data : JSON.stringify(reportArr),
 			contentType : "application/json; charset=utf-8",
@@ -817,10 +817,10 @@ $(document).on("click",".report-delete-btn",function(){
 })
 
 $(document).on("click",".complete-report-btn",function(){
-	if(confirm("이 신고내역 처리를 완료하시겠습니까?")){
+	if(confirm("이 신고내역을 반려하시겠습니까?")){
 		let rp_num = $(this).parents(".modal-content").find(".input-report-num").val();
 		$.ajax({
-			url : '<c:url value="/report/complete"/>',
+			url : '<c:url value="/report/reject"/>',
 			method : "post",
 			data : {
 				"rp_num" : rp_num
@@ -831,7 +831,7 @@ $(document).on("click",".complete-report-btn",function(){
 					reportArr.splice(0);
 					cri.page = 1;
 					getReportList(cri);
-					alert("해당 신고 내역이 완료처리 됐습니다.")
+					alert("해당 신고 내역이 반려처리 됐습니다.")
 				}
 				else{
 					
@@ -851,7 +851,7 @@ $(document).on("click",".complete-report-btn",function(){
 $(document).on("click",".delete-post-btn",function(){
 	let po_num = $(this).data("num");
 	let rp_num = $(this).parents(".modal-content").find(".input-report-num").val();
-	if(confirm("!!!게시글을 삭제할 경우 포함된 댓글, 투표 등도 함께 삭제됩니다!!! 이 게시글을 삭제하시겠습니까? [수락시 신고 완료로 처리됩니다]")){
+	if(confirm("!게시글을 삭제할 경우 포함된 댓글, 투표 등도 함께 삭제됩니다!\n이 게시글을 삭제하시겠습니까? [수락시 완료로 처리됩니다]")){
 		$.ajax({
 			url : '<c:url value="/report/post/delete"/>',
 			method : "post",
@@ -886,7 +886,7 @@ $(document).on("click",".delete-post-btn",function(){
 $(document).on("click",".delete-comment-btn",function(){
 	let co_num = $(this).data("num");
 	let rp_num = $(this).parents(".modal-content").find(".input-report-num").val();
-	if(confirm("이 댓글을 삭제하시겠습니까? [수락시 신고 완료로 처리됩니다]")){
+	if(confirm("이 댓글을 삭제하시겠습니까? [수락시 완료로 처리됩니다]")){
 		$.ajax({
 			url : '<c:url value="/report/comment/delete"/>',
 			method : "post",
@@ -939,6 +939,75 @@ $(document).on("click",".member-forgive-btn",function(){
 	popup_forgive.addEventListener('beforeunload', function() {
 		me_cri.page = 1;
 		getMemberList(me_cri, where);
+	});
+})
+
+
+$(document).on("click",".writer-punish-btn",function(){
+	let url = $(this).data("url");
+	let rp_num = $(this).data("num");
+	const options = 'width=500, height=300, top=300, left=500, scrollbars=yes'
+	
+	popup_punish = window.open(url,'_blank',options);
+	popup_punish.addEventListener('beforeunload', function() {
+		$.ajax({
+			url : '<c:url value="/report/block/writer"/>',
+			method : "post",
+			data : {
+				"rp_num" : rp_num
+			},
+			dataType : "json",
+			success : function (data) {
+				if(data.result){
+					$("#reportDetailModal").modal("hide");
+					reportArr.splice(0);
+					cri.page = 1;
+					getReportList(cri);
+					alert("해당 신고건이 처리됐습니다.")
+				}
+				else{
+					alert("해당 내역 처리에 실패했습니다.")
+				}
+				
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		})
+	});
+})
+
+$(document).on("click",".reporter-punish-btn",function(){
+	let url = $(this).data("url");
+	let rp_num = $(this).data("num");
+	const options = 'width=500, height=300, top=300, left=500, scrollbars=yes'
+	
+	popup_punish = window.open(url,'_blank',options);
+	popup_punish.addEventListener('beforeunload', function() {
+		$.ajax({
+			url : '<c:url value="/report/block/reporter"/>',
+			method : "post",
+			data : {
+				"rp_num" : rp_num
+			},
+			dataType : "json",
+			success : function (data) {
+				if(data.result){
+					$("#reportDetailModal").modal("hide");
+					reportArr.splice(0);
+					cri.page = 1;
+					getReportList(cri);
+					alert("해당 신고건이 처리됐습니다.")
+				}
+				else{
+					alert("해당 내역 처리에 실패했습니다.")
+				}
+				
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		})
 	});
 })
 </script>
@@ -1009,6 +1078,18 @@ function setTable(where){
 }
 
 
+function addCaret(text, me_cri) {
+	$(".order-icon").remove();
+	let caret = "";
+	if(me_cri.role == "asc"){
+		caret += text + `<i class="fa-solid fa-caret-up order-icon ml-1"></i>` 
+	}
+	else{
+		caret += text + `<i class="fa-solid fa-caret-down order-icon ml-1"></i>` 
+	}
+	$('.order-'+me_cri.order).html(caret);
+}
+
 
 function getMemberList(me_cri, where){
 	$.ajax({
@@ -1021,7 +1102,7 @@ function getMemberList(me_cri, where){
 			let pm = data.pm
 			let memberList = data.list
 			str = "";
-			
+			let right = ${user.me_mr_num}
 			if(memberList.length == 0){
 				if(pm.cri.type == "all"){
 					str +=
@@ -1090,8 +1171,20 @@ function getMemberList(me_cri, where){
 						str +=
 						`
 							<td><a href="#" class="btn btn-sm btn-danger member-punish-btn" data-url="\${punishUrl}">정지</a></td>
-							<td><a href="#" class="btn btn-sm btn-primary btn-appoint" data-member="\${member.me_id}">임명</a></td>
 						`
+						
+						if(right == 0){
+							str +=
+							`
+								<td><a href="#" class="btn btn-sm btn-primary btn-appoint" data-nick="\${member.me_nick}" data-id="\${member.me_id}">임명</a></td>
+							`
+						}
+						else{
+							str +=
+							`
+								<td></td>
+							`
+						}
 					}
 					else if(pm.cri.type == "prisoner"){
 						if(member.me_block != null){
@@ -1106,13 +1199,12 @@ function getMemberList(me_cri, where){
 								<td><a href="#" class="btn btn-sm btn-secondary member-forgive-btn" data-url="\${forgiveUrl}">정지 해제</a></td>
 							`
 						}
-						
 					}
 					else{
-						if(member.me_mr_num == 1){
+						if(member.me_mr_num == 1 && right == 0){
 							str +=
 							`
-								<td><a href="#" class="btn btn-sm btn-danger btn-dismiss" data-member="\${member.me_id}">임명 해제</a></td>
+								<td><a href="#" class="btn btn-sm btn-danger btn-dismiss" data-nick="\${member.me_nick}" data-id="\${member.me_id}">임명 해제</a></td>
 							`
 						}
 						else{
@@ -1126,10 +1218,7 @@ function getMemberList(me_cri, where){
 					`
 						</tr>
 					`
-					
 				}
-				
-			
 			}
 			
 			$(".table-body-flag").html(str);
@@ -1211,18 +1300,67 @@ $(document).on("click", ".order-btn", function () {
 })
 
 
-function addCaret(text, me_cri) {
-	$(".order-icon").remove();
-	let caret = "";
-	if(me_cri.role == "asc"){
-		caret += text + `<i class="fa-solid fa-caret-up order-icon ml-1"></i>` 
+$(document).on("click", ".btn-appoint", function () {
+	let me_id = $(this).data("id");
+	let me_nick = $(this).data("nick");
+	if(confirm("아이디 : "+ me_id + "\n닉네임 : "+ me_nick+"\n\n위 회원을 운영진으로 임명하시겠습니까?")){
+		$.ajax({
+			url : '<c:url value="/member/appoint"/>',
+			method : "post",
+			data : {
+				"me_id" : me_id
+			},
+			dataType : "json",
+			success : function (data) {
+				if(data.result){
+					alert("닉네임 : "+ me_nick+" 회원이 운영진으로 임명됐습니다.")
+					me_cri.page = 1;
+					getMemberList(me_cri, where);
+				}
+				else{
+					alert("운영진 임명에 실패했습니다.")
+				}
+				
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		})
 	}
-	else{
-		caret += text + `<i class="fa-solid fa-caret-down order-icon ml-1"></i>` 
+	
+})
+
+
+$(document).on("click", ".btn-dismiss", function () {
+	let me_id = $(this).data("id");
+	let me_nick = $(this).data("nick");
+	if(confirm("아이디 : "+ me_id + "\n닉네임 : "+ me_nick+"\n\n위 운영진을 해임하시겠습니까?")){
+		$.ajax({
+			url : '<c:url value="/member/dismiss"/>',
+			method : "post",
+			data : {
+				"me_id" : me_id
+			},
+			dataType : "json",
+			success : function (data) {
+				if(data.result){
+					alert("닉네임 : "+ me_nick+" 이 해임됐습니다.")
+					me_cri.page = 1;
+					getMemberList(me_cri, where);
+				}
+				else{
+					alert("운영진 해임에 실패했습니다.")
+				}
+				
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		})
 	}
-	$('.order-'+me_cri.order).html(caret);
-}
- 
+	
+})
+
 </script>
 
 </body>

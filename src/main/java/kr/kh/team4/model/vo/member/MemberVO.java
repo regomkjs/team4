@@ -20,6 +20,7 @@ public class MemberVO {
 	private int me_count;
 	private int me_post_count;
 	private int me_loan_count;
+	private int me_report_count;
 	private int me_ms_num; 
 	private int me_gr_num;
 	private int me_mr_num;

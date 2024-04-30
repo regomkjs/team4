@@ -151,4 +151,33 @@ public class HomeAjaxController {
 		return map;
 	}
 
+	@ResponseBody
+	@PostMapping("/member/appoint")
+	public Map<String, Object> memberAppointPost(@RequestParam("me_id")String me_id, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null || user.getMe_mr_num() != 0) {
+			map.put("result", false);
+			return map;
+		}
+		MemberVO member = memberService.getMember(me_id);
+		boolean res = memberService.appointMember(member);
+		map.put("result", res);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/member/dismiss")
+	public Map<String, Object> memberDismissPost(@RequestParam("me_id")String me_id, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null || user.getMe_mr_num() != 0) {
+			map.put("result", false);
+			return map;
+		}
+		MemberVO member = memberService.getMember(me_id);
+		boolean res = memberService.dismissMember(member);
+		map.put("result", res);
+		return map;
+	}
 }

@@ -28,6 +28,8 @@ public class PostVO {
 	private int po_totalHeart;
 	//작성자 닉네임
 	private String me_nick;
+	//작성자 권한
+	private int me_mr_num;
 	//투표 포함 여부
 	private boolean po_votePost;
 	

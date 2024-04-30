@@ -30,6 +30,10 @@ import kr.kh.team4.pagination.MemberCriteria;
 @Service
 public class MemberServiceImp implements MemberService {
 	
+	//member_right
+	final static int Admin = 1;
+	final static int CommonMember = 2;
+	
 	@Autowired
 	MemberDAO memberDao;
 	
@@ -393,6 +397,7 @@ public class MemberServiceImp implements MemberService {
 		}
 		else if(option.equals("decrease")) {
 			memberDao.decreaseBlock(member.getMe_id(), day);
+			memberDao.updateBlockRenewal();
 			return 2;
 		}
 		else if(option.equals("delete")) {
@@ -432,6 +437,21 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public void updateMemberLoanBlock(MemberVO user) {
 		memberDao.updateMemberLoanBlock(user);
+	}
+	
+	public boolean appointMember(MemberVO member) {
+		if(member == null) {
+			return false;
+		}
+		return memberDao.updateMemberRight(member.getMe_id(), Admin);
+	}
+
+	@Override
+	public boolean dismissMember(MemberVO member) {
+		if(member == null) {
+			return false;
+		}
+		return memberDao.updateMemberRight(member.getMe_id(), CommonMember);
 	}
 	
 }

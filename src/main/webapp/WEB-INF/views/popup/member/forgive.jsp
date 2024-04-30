@@ -152,7 +152,20 @@ $(".btn-action").click(function () {
 					window.close();
 				}
 				else if(res == 2){
-					alert("작업 성공했습니다.")		
+					let tmp = "";
+					if(option == "decrease"){
+						tmp += "정지일에서 " + day + "일 감면했습니다.";
+					}
+					else if(option == "permanent"){
+						tmp += "영구정지로 변경됐습니다.";
+					}
+					else if(option == "delete"){
+						tmp += "영구정지가 해제됐습니다.";
+					}
+					else {
+						tmp += "기한정지 "+day+"일로 변경됐습니다.";
+					}
+					alert(tmp)		
 					window.close();
 				}
 				else if(res == 3){
