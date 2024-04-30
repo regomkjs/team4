@@ -53,6 +53,8 @@ CREATE TABLE `member` (
   `me_mr_num` int not null DEFAULT '2',
   `me_ms_num` int NOT NULL,
   `me_gr_num` int NOT NULL,
+  `me_cookie` varchar(255) default NULL,
+  `me_cookie_limit` datetime default NULL,
   PRIMARY KEY (`me_id`),
   UNIQUE KEY `me_nick` (`me_nick`),
   KEY `FK_member_right_TO_member_1` (`me_mr_num`),

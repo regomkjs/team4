@@ -75,5 +75,8 @@ public interface MemberService {
 	boolean appointMember(MemberVO member);
 
 	boolean dismissMember(MemberVO member);
+	
+	void updateMemberCookie(MemberVO user);
 
+	MemberVO getMemberByCookie(String sessionId);
 }

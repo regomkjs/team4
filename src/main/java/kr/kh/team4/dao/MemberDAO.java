@@ -77,5 +77,8 @@ public interface MemberDAO {
 	void updateBlockRenewal();
 
 	boolean updateMemberRight(@Param("me_id")String me_id, @Param("num")int num);
+	
+	void updateMemberCookie(@Param("user")MemberVO user);
 
+	MemberVO selectMemberByCookie(@Param("session_id")String sessionId);
 }

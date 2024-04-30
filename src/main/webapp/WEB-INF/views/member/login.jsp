@@ -71,6 +71,11 @@
 		<a href="<c:url value="/find/id"/>" style="color: gray;">아이디찾기</a>
 	    <span style="color: gray; opacity: 60%">|</span>
 	    <a href="<c:url value="/find/pw"/>" style="color: gray;">비밀번호찾기</a>
+	    <div class="form-check">
+			<label class="form-check-label">
+				<input type="checkbox" class="form-check-input" value="true" name="autoLogin">자동로그인
+			</label>
+		</div>
 		<button class="btn btn-outline-success col-12 btn-submit" style="margin-top: 40px">로그인</button>
 	</form>
 </div>

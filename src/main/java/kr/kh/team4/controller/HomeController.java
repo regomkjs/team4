@@ -122,6 +122,7 @@ public class HomeController {
 					memberService.updateMemberGrade(user.getMe_id(), grade);
 				}
 			}
+			user.setAutoLogin(loginDto.isAutoLogin());
 			model.addAttribute("user", user);
 			model.addAttribute("msg", "로그인 성공");
 			model.addAttribute("url", "/");
@@ -150,6 +151,12 @@ public class HomeController {
 	
 	@GetMapping("logout")
 	public String logout(Model model, HttpSession session) {
+		//DB에서 cookie정보를 삭제
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		user.setMe_cookie(null);
+		user.setMe_cookie_limit(null);
+		memberService.updateMemberCookie(user);
+		
 		session.removeAttribute("user");
 		model.addAttribute("msg", "로그아웃 했습니다.");
 		model.addAttribute("url", "/");

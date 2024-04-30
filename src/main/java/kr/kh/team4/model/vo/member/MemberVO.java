@@ -25,6 +25,11 @@ public class MemberVO {
 	private int me_gr_num;
 	private int me_mr_num;
 	
+	//자동로그인
+	private String me_cookie;
+	private Date me_cookie_limit;
+	private boolean autoLogin;
+	
 	//등급명
 	private String me_gr_name;
 	//상태명

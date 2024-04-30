@@ -40,6 +40,8 @@
 	<beans:bean id="loginInterceptor" class="kr.kh.team4.interceptor.LoginInterceptor" />
 	<!-- GuestInterceptor를 등록 -->
 	<beans:bean id="guestInterceptor" class="kr.kh.team4.interceptor.GuestInterceptor"/>
+	<!-- AutoLoginInterceptor를 등록 -->
+	<beans:bean id="autoLoginInterceptor" class="kr.kh.team4.interceptor.AutoLoginInterceptor"/>
 	<!-- 인터셉터 맵핑 -->
 	<interceptors>
 		<interceptor>
@@ -53,6 +55,11 @@
 			<mapping path="/find/pw"/>
 			<mapping path="/find/id"/>
 			<beans:ref bean="guestInterceptor"/>
+		</interceptor>
+		<!-- AutoLoginInterceptor가 실행된 URL 지정 -->
+		<interceptor>
+			<mapping path="/*"/>
+			<beans:ref bean="autoLoginInterceptor"/>
 		</interceptor>
 	</interceptors>
 </beans:beans>
