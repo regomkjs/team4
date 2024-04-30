@@ -132,5 +132,9 @@ public interface BookDAO {
 	ArrayList<ReserveVO> selectReList(@Param("user")MemberVO user);
 
 	void updateRe(@Param("re_bo_num")int re_bo_num, @Param("re_me_id")String re_me_id);
+	
+	ArrayList<SaleVO> selectSaleList(@Param("cri")SaleListCriteria cri);
+
+	int selectSaleTotalCount(@Param("cri")SaleListCriteria cri);
 
 }

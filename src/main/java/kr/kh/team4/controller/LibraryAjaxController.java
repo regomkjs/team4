@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.kh.team4.dao.BookDAO;
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.SaleDTO;
 import kr.kh.team4.model.dto.UnderDTO;
@@ -332,7 +333,50 @@ public class LibraryAjaxController {
 		}
 		return map;
 	}
-
+	
+	@PostMapping("/management/order/List") 
+	public Map<String, Object> managementOrderList(SaleListCriteria cri) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<SaleVO> list=bookService.selectSaleList(cri);
+		int total=bookService.selectSaleTotalCount(cri);
+		PageMaker pm=new PageMaker(10, cri, total);
+		map.put("pm", pm);
+		map.put("list", list);
+		return map;
+	}
+	
+	@PostMapping("/management/order/stateList") 
+	public Map<String, Object> managementOrderStateList(String merchant_uid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		SaleVO order=bookService.getSale(merchant_uid);
+		ArrayList<SaleStateVO> state=bookService.getSaleStateList();
+		ArrayList<SaleStateVO> del=new ArrayList<SaleStateVO>();
+		for(SaleStateVO itme:state) {
+			if(itme.getSs_num()<=order.getSa_ss_num()) {
+				del.add(itme);
+			}
+		}
+		state.removeAll(del);
+		map.put("state", state);
+		return map;
+	}
+	
+	
+	@PostMapping("/management/order/stateUpdate") 
+	public Map<String, Object> ManagementOrderStateUpdate(String merchant_uid,int num) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(merchant_uid+"  "+num);
+		SaleVO order = bookService.getSale(merchant_uid);
+		if(order==null) {
+			map.put("res",false);
+		}else {
+			order.setSa_ss_num(num);
+			bookService.updateSale(order);
+			map.put("res",true);
+		}
+		return map;
+	}
+	
 	@ResponseBody
 	@PostMapping("/opinion/check")
 	public Map<String, Object> opinionCheck(@RequestBody OpinionVO opinion, HttpSession session) {

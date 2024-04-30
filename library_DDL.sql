@@ -193,7 +193,7 @@ CREATE TABLE `sale` (
   `sa_uid` varchar(30) NOT NULL,
   `sa_date` datetime not null,
   `sa_merchant_uid` varchar(30) NOT NULL,
-  `sa_ss_num` int default 1,
+  `sa_ss_num` int default 2,
   `sa_me_id` varchar(12) NOT NULL,
   PRIMARY KEY (`sa_num`),
   KEY `FK_member_TO_sale_1` (`sa_me_id`),

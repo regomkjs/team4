@@ -603,4 +603,18 @@ public class BookServiceImp implements BookService {
 		}
 	}
 	
+	public ArrayList<SaleVO> selectSaleList(SaleListCriteria cri) {
+		if(cri==null) {
+			cri=new SaleListCriteria(1,"all","all");
+		}
+		return bookDao.selectSaleList(cri);
+	}
+
+	@Override
+	public int selectSaleTotalCount(SaleListCriteria cri) {
+		if(cri==null) {
+			cri=new SaleListCriteria(1,"all","all");
+		}
+		return bookDao.selectSaleTotalCount(cri);
+	}
 }

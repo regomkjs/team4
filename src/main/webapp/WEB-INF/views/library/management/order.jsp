@@ -59,7 +59,7 @@
 						<thead>
 							<tr>								
 								<th></th>
-								<th>상품명</th>
+								<th>상품정보</th>
 								<th>수량</th>
 								<th>가격</th>
 							</tr>
@@ -87,34 +87,6 @@
 			displayDetailOrder(merchant_uid);
 		});
 		
-		//주문 취소
-		$(document).on("click",".del-btn",function(){
-			let res=confirm('결제를 취소하시겠습니까?.');
-			if(res){
-				$.ajax({
-					async : true,
-					url : '<c:url value="/order/cancel"/>', 
-					type : 'post', 
-					data : {
-						merchant_uid:$(this).parent().parent().data("uid")
-					}, 
-					dataType : "json", 
-					success : function (data){
-						if(data.res){
-							alert("결제가 취소 되었습니다");
-							displayViewOrder();
-						}else{
-							alert("결제 취소가 실패 되었습니다");
-						}
-					}, error : function(jqXHR, textStatus, errorThrown){
-					
-					}
-				});
-			}else{
-				alert("취소되었습니다");
-			}
-		});
-		
 		$(".search-btn").click(function(){
 			displayViewOrder();
 		});
@@ -122,6 +94,62 @@
 		$(document).on('click',".page-link",function(){
 			cri.page = $(this).data('page');
 			 displayViewOrder();
+		});
+		
+		//수정 클릭
+		$(document).on('click',".update-btn",function(){
+			let merchant_uid=$(this).parent().parent().data("uid");
+			$.ajax({
+				async : true, 
+				url : '<c:url value="/management/order/stateList"/>', 
+				type : 'post', 
+				data : {merchant_uid}, 
+				dataType : "json", 
+				success : function (data){
+					let str=`<select name=state>`;
+					for(state of data.state){
+						str+=`
+							<option value="\${state.ss_num}">\${state.ss_state}</option>
+						`;
+					}
+					str+=`</select>`;
+					$('tr[data-uid='+merchant_uid+']>.event-box').html(str);
+					str=`
+						<button type="button" class="complate-btn">수정완료</button>
+					`;
+					$('tr[data-uid='+merchant_uid+']>td:last').html(str);
+				}, 
+				error : function(jqXHR, textStatus, errorThrown){
+
+				}
+			});
+		});
+		
+		//수정완료 클릭
+		$(document).on('click',".complate-btn",function(){
+			let merchant_uid=$(this).parent().parent().data("uid");
+			let num=$('tr[data-uid='+merchant_uid+']>.event-box>select[name=state]').val();
+			$.ajax({
+				async : true, 
+				url : '<c:url value="/management/order/stateUpdate"/>', 
+				type : 'post', 
+				data : {
+					merchant_uid,
+					num
+				}, 
+				dataType : "json", 
+				success : function (data){
+					if(data.res){
+						alert("수정 완료");
+						displayViewOrder();
+					}else{
+						alert("수정 실패");
+					}
+				}, 
+				error : function(jqXHR, textStatus, errorThrown){
+
+				}
+			});
 		});
 	</script>
 	<!-- 출력 -->
@@ -163,7 +191,7 @@
 			cri.month=$("select[name=month]").val();
 			$.ajax({
 				async : true,
-				url : '<c:url value="/order/list"/>', 
+				url : '<c:url value="/management/order/List"/>', 
 				type : 'post', 
 				data : cri, 
 				dataType : "json", 
@@ -171,24 +199,27 @@
 					console.log(data);
 					//toStringFormatting(source)
 					let str="";
-					for(let i=0;i<data.order.length;i++){
+					for(let i=0;i<data.list.length;i++){
 						str+=`
-							<tr data-uid="\${data.order[i].sa_merchant_uid}">
-								<td>\${toStringFormatting(data.order[i].sa_date)}</td>
+							<tr data-uid="\${data.list[i].sa_merchant_uid}">
+								<td>\${toStringFormatting(data.list[i].sa_date)}</td>
 								<td><a herf="#" data-toggle="modal" data-target="#myModal"
 									class="receipt-btn"
-								>\${data.order[i].sa_merchant_uid}</a></td>
-								<td>\${data.order[i].sa_nick}</td>
-								<td>\${data.order[i].sa_name}</td>
-								<td>\${data.order[i].sa_state}</td>
-								`;
-								if(data.order[i].sa_state == "준비"){
-									str+=`<td><button type="button" class="del-btn"
-									>주문취소</button></td>`;
-								}else{
-									str+=`<td></td>`;
-								}
-							str+=`</tr>`;
+								>\${data.list[i].sa_merchant_uid}</a></td>
+								<td>\${data.list[i].sa_nick}</td>
+								<td>\${data.list[i].sa_name}</td>
+								<td class="event-box">\${data.list[i].sa_state}</td>
+							`;
+						if(data.list[i].sa_state=="취소" || data.list[i].sa_state=="수령"){
+							str+=`<td></td>`;
+						}else{
+							str+=`<td>
+								<button type="button" class="update-btn">수정</button>
+							</td>`;
+						}
+						str+=`
+							</tr>
+						`;
 					}
 					$(".Order>.table>tbody").html(str);
 					
@@ -239,12 +270,6 @@
 					//toStringFormatting(source)
 					let str=`
 						<tr>
-							<th>주문번호</th>
-							<td>\${data.info.merchant_uid}</td>
-							<th>배송방법</th>
-							<td>방문 수령</td>
-						</tr>
-						<tr>
 							<th>주문 접수일</th>
 							<td>\${toStringFormatting(data.info.started_at*1000)}</td>
 							<th>결제일</th>
@@ -266,7 +291,9 @@
 						str+=`
 							<tr>
 								<td><img alt="\${datas.title}" src="\${datas.cover}"></td>
-								<td>\${datas.title}</td>
+								<td><li>제목: \${datas.title}</li>
+									<li>ISBN: \${datas.isbn}</li>
+									<li>ISBN13: \${datas.isbn13}</li></td>
 								<td>\${datas.count}</td>
 								<td>\${datas.priceStandard}</td>
 							</tr>
@@ -282,14 +309,6 @@
 					$(".table-book>tbody").html(str);
 					
 					str=`
-						<tr>
-							<th>총 주문 금액</th>
-							<td>\${price}</td>
-						</tr>
-						<tr>
-							<th>할인 금액</th>
-							<td>\${price-data.info.amount}</td>
-						</tr>
 						<tr>
 							<th>실 결제 금액</th>
 							<td>\${data.info.amount}</td>

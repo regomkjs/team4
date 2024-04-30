@@ -210,4 +210,11 @@ public class LibraryController {
 		
 		return "/library/book/order";
 	}
+
+	
+	@GetMapping("/library/management/order")
+	public String managementOrder() {
+		
+		return "/library/management/order";
+	}
 }

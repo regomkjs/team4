@@ -101,5 +101,10 @@ public interface BookService {
 	ArrayList<ReserveVO> getReList(MemberVO user);
 
 	void deleteReserve(ReserveVO reserve, MemberVO user);
+	
+	ArrayList<SaleVO> selectSaleList(SaleListCriteria cri);
+
+	int selectSaleTotalCount(SaleListCriteria cri);
+
 
 }
