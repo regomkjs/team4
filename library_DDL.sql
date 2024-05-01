@@ -50,8 +50,6 @@ CREATE TABLE `member` (
   `me_post_count` int not null default '0',
   `me_loan_count` int NOT NULL DEFAULT '0',
   `me_report_count` int not null default '0',
-  `me_cookie` varchar(255) null,
-  `me_cookie_limit` datetime null,
   `me_mr_num` int not null DEFAULT '2',
   `me_ms_num` int NOT NULL,
   `me_gr_num` int NOT NULL,
