@@ -68,7 +68,8 @@
 	<script type="text/javascript">
 	let bookObj=${obj};
 	let basket=[];
-	let data=JSON.parse(localStorage.getItem('basket'));
+	let nick=${user.me_nick!=null}?"${user.me_nick}":"guest";
+	let data=JSON.parse(localStorage.getItem(nick));
 	if(data!=null){
 		basket=data;
 	}
@@ -88,7 +89,7 @@
 		}
 		displayBasketView();
 		let basketJson=JSON.stringify(basket);
-		localStorage.setItem('basket',basketJson);
+		localStorage.setItem(nick,basketJson);
 	});
 	
 	$(".basket").click(function() {
@@ -100,7 +101,7 @@
 		for(let i=0;i<basket.length;i++){
 			if(basket[i].isbn13==isbn){
 				let basketJson=JSON.stringify(basket);
-				localStorage.setItem('basket',basketJson);
+				localStorage.setItem(nick,basketJson);
 				location.href = '<c:url value="/library/book/sale" />';
 				return;
 			}
@@ -111,7 +112,7 @@
 			}
 		}
 		let basketJson=JSON.stringify(basket);
-		localStorage.setItem('basket',basketJson);
+		localStorage.setItem(nick,basketJson);
 		location.href = '<c:url value="/library/book/sale" />';	
 	});
 	
@@ -135,7 +136,7 @@
 		basket.splice(index,1);
 		displayBasketView();
 		let basketJson=JSON.stringify(basket);
-		localStorage.setItem('basket',basketJson);
+		localStorage.setItem(nick,basketJson);
 	});
 	</script>
 	<!-- 화면 출력 -->

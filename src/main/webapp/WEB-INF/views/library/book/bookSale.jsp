@@ -34,11 +34,12 @@
 	</div>
 	<!-- 장바구니 -->
 	<script type="text/javascript">
-		let data=JSON.parse(localStorage.getItem('basket'));
-		
+		let nick=${user.me_nick!=null}?"${user.me_nick}":"guest";
+		let data=JSON.parse(localStorage.getItem(nick));
 		displayView();
 		function displayView() {
 			let str="";
+			data=JSON.parse(localStorage.getItem(nick));
 			let n=0;
 			for(book of data){
 				str+=`
@@ -127,6 +128,8 @@
 					if(data.res){
 		        		alert("결제 완료");
 		        		//화면 불러오기,장바구니내용 삭제
+		        		window.localStorage.removeItem(nick);
+		        		displayView();
 	        		} else {
 	        			alert("결제 실패");
 	        		}
@@ -182,7 +185,7 @@
 		    }
 		}
 		data.splice(value, 1);
-		window.localStorage.setItem("basket", JSON.stringify(data));
+		window.localStorage.setItem(nick, JSON.stringify(data));
 		displayView();
 		displaySeleView();
 	});
