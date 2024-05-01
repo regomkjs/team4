@@ -511,7 +511,7 @@ public class BookServiceImp implements BookService {
 		if (cri == null) {
 			cri = new Criteria();
 		}
-		if (user.getMe_ms_num() != 1) {
+		if (user.getMe_mr_num() > 1) {
 			return null;
 		}
 		return bookDao.selectLoanBookList(cri, user);
@@ -522,9 +522,7 @@ public class BookServiceImp implements BookService {
 		if (cri == null) {
 			cri = new Criteria();
 		}
-		if (user.getMe_ms_num() != 1) {
-			return 0;
-		}
+
 		return bookDao.selectTotalCountLoanBook(cri, user);
 	}
 

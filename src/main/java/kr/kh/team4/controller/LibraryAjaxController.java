@@ -236,6 +236,7 @@ public class LibraryAjaxController {
 	@PostMapping("/review/list")
 	public Map<String, Object> reviewListPost(@RequestBody ReviewCriteria cri) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		cri.setPerPageNum(4);
 		ArrayList<ReviewVO> list = bookService.getReviewList(cri);
 		int totalCount = bookService.getTotalCountReview(cri);
 		PageMaker pm = new PageMaker(5, cri, totalCount);
