@@ -79,6 +79,11 @@ img{ width: 220px;}
 
 .text-group{ margin: 10px; padding: 10px;}
 
+hr{ margin-top: 45px; margin-bottom: 40px;}
+
+.btn-group{ padding: 5px}
+
+.info{ background: #e72900; color: #fff; width: 150px; border-radius: 5px; text-align: center;}
 </style>
 <meta charset="UTF-8">
 <body>
@@ -89,13 +94,14 @@ img{ width: 220px;}
 			<div class="media">
 				<img alt="${book.bo_title}" src="${book.bo_thumbnail}" />
 				<div class="text-group">
-					<h4>${book.bo_title}</h4>
+					<h3>${book.bo_title}</h3>
+					<br>
 					<p>
 						출판사: <span>${book.bo_publisher}</span>
 					</p>
 					<p>
-						평점: <span style="font-weight: bold; font-size: 30px; color: #eb217c;">${avgReview.avgScore}</span>
-						<c:if test="${avgReview == null}"><span style="font-weight: bold; font-size: 30px; color: #eb217c;">0</span></c:if>
+						평점: <span style="font-weight: bold; font-size: 20px; color: #eb217c;">${avgReview.avgScore}</span>
+						<c:if test="${avgReview == null}"><span style="font-weight: bold; font-size: 20px; color: #eb217c;">0</span></c:if>
 					</p>
 					<p>
 						저자: <span>${book.bo_au_name}</span>
@@ -120,33 +126,34 @@ img{ width: 220px;}
 			<div>
 				<ul>
 					<c:forEach items="${code}" var="co">
-						<li>
-							${co.bo_code}
-							<c:forEach items="${loanList}" var="loan">
-								<c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}"><span style="color:red">대출 중</span></c:if>
-							</c:forEach>
-						</li>
-						<button class="btn btn-outline-primary loan-btn"
-							data-bo-num="${co.bo_num}">대출</button>
-						<c:forEach items="${loanList }" var="loan">
-							<c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}">
-								<button class="btn btn-outline-warning reserve-btn"
-									data-bo-num="${co.bo_num}">예약</button>
-							</c:if>
-							<c:if
-								test="${loan.lo_state == 1 && loan.lo_me_id == user.me_id && loan.lo_bo_num == co.bo_num}">
-								<button class="btn btn-outline-primary extend-btn"
-									data-bo-num="${co.bo_num}">대출 연장</button>
-							<button class="btn btn-outline-dark return-btn"
-								data-bo-num="${co.bo_num}">반납</button>
-							</c:if>
-						</c:forEach>
+						<li style="display: flex; align-items: center; justify-content: space-between;">
+		               		<div style="display: flex; align-items: center;">
+					            <span>${co.bo_code}</span>
+					            <c:forEach items="${loanList}" var="loan">
+					                <c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}">
+					                    <span style="color:red; margin-left: 10px;">대출 중</span>
+					                </c:if>
+					            </c:forEach>
+					        </div>
+			                <div class="btn-group">
+			                    <button class="btn btn-outline-primary loan-btn" data-bo-num="${co.bo_num}">대출</button>
+			                    <c:forEach items="${loanList}" var="loan">
+			                        <c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}">
+			                            <button class="btn btn-outline-warning reserve-btn" data-bo-num="${co.bo_num}">예약</button>
+			                        </c:if>
+			                        <c:if test="${loan.lo_state == 1 && loan.lo_me_id == user.me_id && loan.lo_bo_num == co.bo_num}">
+			                            <button class="btn btn-outline-primary extend-btn" data-bo-num="${co.bo_num}">대출 연장</button>
+			                            <button class="btn btn-outline-dark return-btn" data-bo-num="${co.bo_num}">반납</button>
+			                        </c:if>
+			                    </c:forEach>
+			                </div>
+			            </li>
 					</c:forEach>
 				</ul>
 			</div>
 			<div>
 				<ol class="colorlist">
-					<h4>※이용안내※</h4>
+					<h5 class="info">이용안내</h5>
 					<li>책을 대출할 시 만기일은 대출한 날로부터 1주일 후로 지정됩니다.</li>
 					<li>연장은 만기일까지 3일 남았을 때부터 누를 수 있습니다.</li>
 					<li>책이 예약된 경우 연장을 할 수 없습니다.</li>
@@ -384,15 +391,15 @@ function displayReviewList(list){
 		`
 	 		<div class="box-review d-flex justify-content-between align-items-center">
                 <div class="review-section">
-                    <div style="font-size: 15px">\${item.me_nick}</div>
-                    <div>\${stars}</div>
-                    <div class="text-review" style="font-size: 15px;">\${item.rv_content}</div>
+                    <div style="font-size: 20px">\${item.me_nick}</div>
+                    <div style="font-size: 15px">\${stars}</div>
+                    <div class="text-review" style="font-size: 20px;">\${item.rv_content}</div>
                     <span style="font-size: medium;">작성시간 : \${moment(item.rv_date).format('YY/MM/DD HH:mm')}<br />
                 </div>
                 \${btns}
             </div>
-            <i class="bi bi-hand-thumbs-up btn-up" style="font-size : 20px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}">추천(<span class="text-up">\${item.rv_up}</span>)</i>
-            <i class="bi bi-hand-thumbs-down btn-down" style="font-size : 20px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}">비추천(<span class="text-down">\${item.rv_down}</span>)</i>
+            <i class="bi bi-hand-thumbs-up btn-up" style="font-size : 15px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}">추천(<span class="text-up">\${item.rv_up}</span>)</i>
+            <i class="bi bi-hand-thumbs-down btn-down" style="font-size : 15px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}">비추천(<span class="text-down">\${item.rv_down}</span>)</i>
             <hr>
             <div style="clear: both;"></div>
 		`

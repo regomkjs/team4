@@ -68,6 +68,9 @@
 			</c:forEach>
 			<button class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">문자 전송</button>
 		</tbody>
+		<c:if test="${pm.totalCount == 0}">
+			<h1 class="text-center">대출한 책이 없습니다.</h1>
+		</c:if>
 		<!-- The Modal -->
 		<div class="modal" id="myModal">
 			<div class="modal-dialog">
@@ -92,9 +95,6 @@
 			</div>
 		</div>
 	</table>
-	<c:if test="${pm.totalCount == 0}">
-		<h1 class="text-center">대출한 책이 없습니다.</h1>
-	</c:if>
 	<ul class="pagination justify-content-center">
 		<c:if test="${pm.prev}">
 		    <li class="page-item">
