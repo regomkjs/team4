@@ -1,7 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
 ol.colorlist {
@@ -67,35 +68,55 @@ ol.colorlist {
 .star-rating .filled-star::after {
     content: "\2605";
 }
+
+.bar {border: 2px solid skyblue; border-radius: 10px;}
+
+img{ width: 220px;}
+
+.container { background-color: #F4FFFF;}
+
+.media{ position: relative;}
+
+.text-group{ margin: 10px; padding: 10px;}
+
 </style>
 <meta charset="UTF-8">
 <body>
 	<div class="container mt-5">
+		<h3>상세정보</h3>
+		<hr class="bar">
 		<div class="main">
-			<img alt="${book.bo_title}" src="${book.bo_thumbnail}" />
-			<div>
-				<h5>${book.bo_title}</h5>
-				<p>
-					출판사:<span>${book.bo_publisher}</span>
-				</p>
-				<p>
-					평점:<span style="font-weight: bold; font-size: 30px">${avgReview.avgScore}</span>
-					<c:if test="${avgReview == null}"><span style="font-weight: bold; font-size: 30px">0</span></c:if>
-				</p>
-				<p>
-					저자:<span>${book.bo_au_name}</span>
-				</p>
-				<p>
-					역자:<span>${book.bo_tr_name}</span>
-				</p>
-				<p>
-					출판일:<span>${book.bo_date}</span>
-				</p>
-				<p>
-					ISBN:<span>${book.bo_isbn}</span>
-				</p>
+			<div class="media">
+				<img alt="${book.bo_title}" src="${book.bo_thumbnail}" />
+				<div class="text-group">
+					<h4>${book.bo_title}</h4>
+					<p>
+						출판사: <span>${book.bo_publisher}</span>
+					</p>
+					<p>
+						평점: <span style="font-weight: bold; font-size: 30px; color: #eb217c;">${avgReview.avgScore}</span>
+						<c:if test="${avgReview == null}"><span style="font-weight: bold; font-size: 30px; color: #eb217c;">0</span></c:if>
+					</p>
+					<p>
+						저자: <span>${book.bo_au_name}</span>
+					</p>
+					<p>
+						역자: <span>${book.bo_tr_name}</span>
+					</p>
+					<p>
+						출판일: <span><fmt:formatDate value="${book.bo_date}" pattern="yy년 MM월 dd일"/></span>
+					</p>
+					<p>
+						ISBN: <span>${book.bo_isbn}</span>
+					</p>
+				</div>
 			</div>
-			<div>${bo_contents}</div>
+			<hr class="bar">
+			<div>
+			<h5>책 소개</h5>
+			${book.bo_contents}
+			</div>
+			<hr class="bar">
 			<div>
 				<ul>
 					<c:forEach items="${code}" var="co">
@@ -125,17 +146,20 @@ ol.colorlist {
 			</div>
 			<div>
 				<ol class="colorlist">
+					<h4>※이용안내※</h4>
 					<li>책을 대출할 시 만기일은 대출한 날로부터 1주일 후로 지정됩니다.</li>
 					<li>연장은 만기일까지 3일 남았을 때부터 누를 수 있습니다.</li>
 					<li>책이 예약된 경우 연장을 할 수 없습니다.</li>
 					<li>연체일시 대출권 수 X 연체일 수 만큼 대출,예약에 제한이 생깁니다.</li>
+					<li style="color:black; font-weight: bold;">반납 기한이 얼마 안 남았거나 예약된 책이 반납된 경우 안내 문자를 드리오니 확인 부탁드립니다.</li>
 					<li style="color:red; font-weight: bold;">※ 예약은 약속입니다. : 필요한 도서만 예약하고, 예약도서는 꼭 대출해 주시기 바랍니다.</li>
 				</ol>
 			</div>
+			<hr class="bar">
 			<div class="container-review mt-3 mb-3">
-				<h2>
+				<h3>
 					리뷰(<span class="review-total">2</span>)
-				</h2>
+				</h3>
 				<div class="box-review-list">
 					<div class="box-review row">
 						<div class="col-3">아이디</div>
@@ -358,17 +382,19 @@ function displayReviewList(list){
         stars += `</div>`;
 		str += 
 		`
-			<div class="box-review input-group">
-				<div class="col-3">\${item.me_nick}</div>
-				<div class="col-3">\${stars}</div>
-				<div class="col-6 clearfix input-group">
-					<span class="text-review">\${item.rv_content}</span>
-					\${btns}
-				</div>
-				<span style="font-size: small;" class="mr-4">작성시간 : \${moment(item.rv_date).format('YY/MM/DD HH:mm')}<br />
-				<i class="bi bi-hand-thumbs-up btn-up" style="font-size : 20px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}">추천(<span class="text-up">\${item.rv_up}</span>)</i>
-				<i class="bi bi-hand-thumbs-down btn-down" style="font-size : 20px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}">비추천(<span class="text-down">\${item.rv_down}</span>)</i>
-			</div>
+	 		<div class="box-review d-flex justify-content-between align-items-center">
+                <div class="review-section">
+                    <div style="font-size: 15px">\${item.me_nick}</div>
+                    <div>\${stars}</div>
+                    <div class="text-review" style="font-size: 15px;">\${item.rv_content}</div>
+                    <span style="font-size: medium;">작성시간 : \${moment(item.rv_date).format('YY/MM/DD HH:mm')}<br />
+                </div>
+                \${btns}
+            </div>
+            <i class="bi bi-hand-thumbs-up btn-up" style="font-size : 20px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}">추천(<span class="text-up">\${item.rv_up}</span>)</i>
+            <i class="bi bi-hand-thumbs-down btn-down" style="font-size : 20px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}">비추천(<span class="text-down">\${item.rv_down}</span>)</i>
+            <hr>
+            <div style="clear: both;"></div>
 		`
 	}
 	$('.box-review-list').html(str);
