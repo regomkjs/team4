@@ -19,12 +19,14 @@ import kr.kh.team4.model.dto.LoginDTO;
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.pagination.Criteria;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 import kr.kh.team4.pagination.MemberCriteria;
+import kr.kh.team4.pagination.MyReportCriteria;
 
 
 @Service
@@ -430,6 +432,15 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	@Override
+	public void updateMemberCount(MemberVO user, int count) {
+		memberDao.updateMemberCount(user, count);
+	}
+
+	@Override
+	public void updateMemberLoanBlock(MemberVO user) {
+		memberDao.updateMemberLoanBlock(user);
+	}
+	
 	public boolean appointMember(MemberVO member) {
 		if(member == null) {
 			return false;
@@ -444,5 +455,39 @@ public class MemberServiceImp implements MemberService {
 		}
 		return memberDao.updateMemberRight(member.getMe_id(), CommonMember);
 	}
-	
+
+	@Override
+	public void updateMemberCookie(MemberVO user) {
+		if(user == null)
+			return;
+		memberDao.updateMemberCookie(user);
+	}
+
+	@Override
+	public MemberVO getMemberByCookie(String sessionId) {
+		return memberDao.selectMemberByCookie(sessionId);
+	}
+
+	@Override
+	public ArrayList<ReportVO> getMyReportList(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return null;
+		}
+		return memberDao.selectMyReportList(cri, user);
+	}
+
+	@Override
+	public int totalCountMyReport(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return 0;
+		}
+		return memberDao.selectTotalCountMyReport(cri, user);
+	}
+
 }

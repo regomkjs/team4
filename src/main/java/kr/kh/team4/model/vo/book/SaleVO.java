@@ -20,4 +20,5 @@ public class SaleVO {
 	
 	private String sa_state;
 	private String sa_nick;
+	private String me_phone;
 }

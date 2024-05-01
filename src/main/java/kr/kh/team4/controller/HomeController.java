@@ -3,8 +3,10 @@ package kr.kh.team4.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.kh.team4.model.dto.LoginDTO;
 import kr.kh.team4.model.vo.book.BookVO;
+import kr.kh.team4.model.vo.book.LoanVO;
+import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.pagination.MyBookCriteria;
+import kr.kh.team4.pagination.MyReportCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.BookService;
 import kr.kh.team4.service.MemberService;
@@ -64,7 +70,13 @@ public class HomeController {
 	}
 	
 	@GetMapping("/login")
-	public String login(Model model) {
+	public String login(Model model, HttpServletRequest request) {
+		//로그인 페이지로 넘어오기 이전 경로를 가져옴
+		String url = request.getHeader("Referer");
+		//이전 url에 login이 들어가 있는 경우를 제외
+		if(url != null && !url.contains("login")) {
+			request.getSession().setAttribute("prevUrl", url);
+		}
 		model.addAttribute("title", "로그인");
 		return "/member/login";
 	}
@@ -73,9 +85,16 @@ public class HomeController {
 	public String loginPost(Model model, LoginDTO loginDto) {
 		MemberVO user = memberService.login(loginDto);
 		ArrayList<GradeVO> gradeList = memberService.getGradeList();
+		ArrayList<ReserveVO> reserveList = bookService.getReList(user);
+		ArrayList<LoanVO> loanList = bookService.getLoan();
 		if(user != null) {
 			if(user.getMe_ms_num() == 3) {
 				model.addAttribute("msg", "현재 계정이 [정지] 상태라서 로그인이 불가능합니다.");
+				model.addAttribute("url", "/login");
+				return "message";
+			}
+			if(user.getMe_ms_num() == 1) {
+				model.addAttribute("msg", "[영구정지] 된 계정입니다.");
 				model.addAttribute("url", "/login");
 				return "message";
 			}
@@ -88,12 +107,45 @@ public class HomeController {
 			if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) < 0) {
 				memberService.resetBlockToNull(user.getMe_id());
 			}
+			
+			Date date = new Date();
+			for (LoanVO loan : loanList) {
+			    for (ReserveVO reserve : reserveList) {
+			        if (reserve.getRe_bo_num() == loan.getLo_bo_num()) {
+			            Date re_date = reserve.getRe_date();
+			            boolean isExpired = date.after(re_date);
+
+			            if (loan.getLo_state() == 1 && isExpired) {
+			                bookService.updateReserve(reserve);
+			            } else if (loan.getLo_state() == 0 && isExpired) {
+			                int count = user.getMe_count() + 1;
+			                memberService.updateMemberCount(user, count);
+			                bookService.deleteReserve(reserve, user);
+			            }
+			        }
+			    }
+			}
+			
+			if(user.getMe_count() > 2) {
+				memberService.updateMemberLoanBlock(user);
+				memberService.updateMemberCount(user, 0);
+				model.addAttribute("user", user);
+				model.addAttribute("msg", "예약 후 3회 이상 대출 안 했으므로 대출/예약이 정지됩니다.");
+				model.addAttribute("url", "/");
+				return "message";
+			}else if(user.getMe_count() == 2) {
+				model.addAttribute("user", user);
+				model.addAttribute("msg", "예약 후 2회 이상 대출 안 했으므로 1번 더 안 할 때 대출/예약이 정지됩니다.");
+				model.addAttribute("url", "/");
+				return "message";
+			}
+			//등급 변경
 			for(GradeVO grade : gradeList) {
 				if(user.getMe_loan_count() >= grade.getGr_loan_condition() && user.getMe_post_count() >= grade.getGr_post_condition()) {
 					memberService.updateMemberGrade(user.getMe_id(), grade);
 				}
 			}
-			
+			user.setAutoLogin(loginDto.isAutoLogin());
 			model.addAttribute("user", user);
 			model.addAttribute("msg", "로그인 성공");
 			model.addAttribute("url", "/");
@@ -122,6 +174,12 @@ public class HomeController {
 	
 	@GetMapping("logout")
 	public String logout(Model model, HttpSession session) {
+		//DB에서 쿠키정보 삭제
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		user.setMe_cookie(null);
+		user.setMe_cookie_limit(null);
+		memberService.updateMemberCookie(user);
+		
 		session.removeAttribute("user");
 		model.addAttribute("msg", "로그아웃 했습니다.");
 		model.addAttribute("url", "/");
@@ -196,5 +254,17 @@ public class HomeController {
 		model.addAttribute("pm", pm);
 		model.addAttribute("title", "내가 대출한 도서");
 		return "/member/loan";
+	}
+	
+	@GetMapping("/mypage/report")
+	public String myReport(Model model, HttpSession session, MyReportCriteria cri) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<ReportVO> list = memberService.getMyReportList(cri, user);
+		int totalCount = memberService.totalCountMyReport(cri, user);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("reportList", list);
+		model.addAttribute("pm", pm);
+		model.addAttribute("title", "내가 대출한 도서");
+		return "/member/report";
 	}
 }
