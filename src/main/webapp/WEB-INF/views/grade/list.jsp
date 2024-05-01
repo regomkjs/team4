@@ -6,8 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>등급 관리</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <style>
     .container {
@@ -80,6 +78,7 @@
 				<th>할인율</th>
 				<th>대출조건</th>
 				<th>게시글조건</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
