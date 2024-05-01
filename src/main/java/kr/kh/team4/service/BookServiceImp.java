@@ -580,7 +580,8 @@ public class BookServiceImp implements BookService {
 		ReserveVO re = bookDao.selectReserve(reserve.getRe_bo_num());
 		bookDao.deleteReserve(re.getRe_me_id(), re.getRe_bo_num());
 		if(re != null) {
-			bookDao.updateRe(re.getRe_bo_num(), re.getRe_me_id());
+			ReserveVO re2 = bookDao.selectReserve(reserve.getRe_bo_num());
+			bookDao.updateRe(re2.getRe_bo_num(), re2.getRe_me_id());
 			String api_key = "NCSJAUZLM1DHEWEW";
 			String api_secret = "RM7CHJOAGAI3S9CBNC92JDBHOPO8LTFV";
 			Message coolsms = new Message(api_key, api_secret);

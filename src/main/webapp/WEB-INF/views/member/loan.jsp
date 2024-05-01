@@ -44,7 +44,15 @@
 					<tr>
 				  		<td>${pm.totalCount - vs.index - pm.cri.pageStart}</td>
 				  		<td>
-					  		<img src="${loan.bo_thumbnail}">
+				  			<c:url value="/library/book/detail?num=${loan.bo_num}" var="detailUrl">
+				  				<c:param name="num">${loan.bo_num}</c:param>
+				  				<c:param name="page" value="${pm.cri.page}"/>
+								<c:param name="type" value="${pm.cri.type}"/>
+								<c:param name="search" value="${pm.cri.search}"/>
+				  			</c:url>
+					  		<a href="${detailUrl }">
+						  		<img src="${loan.bo_thumbnail}">
+					  		</a>
 				  		</td>
 				  		<td> 
 				  			<c:url value="/library/book/detail?num=${loan.bo_num}" var="detailUrl">

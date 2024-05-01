@@ -67,13 +67,14 @@ ol.colorlist {
 .star-rating .filled-star::after {
     content: "\2605";
 }
+img {width: 30%;}
 </style>
 <meta charset="UTF-8">
 <body>
 	<div class="container mt-5">
 		<div class="main">
 			<img alt="${book.bo_title}" src="${book.bo_thumbnail}" />
-			<div>
+			<div class="text-group">
 				<h5>${book.bo_title}</h5>
 				<p>
 					출판사:<span>${book.bo_publisher}</span>
