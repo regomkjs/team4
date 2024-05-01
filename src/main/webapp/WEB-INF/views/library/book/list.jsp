@@ -1,7 +1,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>	
+<style>
+.category-list{line-height:30px; font-weight:500;}
+.book-list{border: 1px solid #aaa; border-radius: 10px; margin-top: 10px}
+.book{height: 140px; margin: 10px 0px; border-bottom: 1px solid #000; box-sizing: border-box;}
+.book-img>img{height: 130px; width: 100px; margin-left: 20px}
+.book-title{font-size: 20px;font-weight: bold;}
+.book-content{box-sizing: border-box;}
+.book-content>ul{padding: 20px; margin: 0;}
+.book-content>ul>li{margin-top: 5px;}
+.side-bar>.frame{ border: 1px solid #aaa; margin: 10px; padding: 10px; border-radius: 10px;} 
 
+</style>
 <body>
 	<div class="container mt-5">
 		<div class="input-group">
@@ -16,27 +26,27 @@
 				<button class="btn btn-success search-btn" type="button">검색</button>
 			</div>
 		</div>
-		<div class="main">
-			<div class="side-bar">
-				<c:forEach items="${upList}" var="category">
-					<c:if test="${category.up_num != 100 }">
-						<div class="dropdown">
-						  <button type="button" class="btn btn-primary dropdown-toggle list-btn" data-toggle="dropdown"
-						  data-num="${category.up_num}">
-						    ${category.up_name}
-						  </button>
-						  <div class="dropdown-menu type-btn">
-						   
-						  </div>
-						</div>
-					</c:if>	
-				</c:forEach>
+
+		<div class="main mt-3">
+			<div class="side-bar left w-25">
+				<div class="frame">
+					<c:forEach items="${upList}" var="category">
+						<c:if test="${category.up_num != 100 }">
+							<div class="category-list click"  data-num="${category.up_num}">
+							    <i class="fa-regular fa-square-plus"></i> ${category.up_name} 
+							  <div class="genre-list">
+							   
+							  </div>
+							</div>
+						</c:if>	
+					</c:forEach>
+				</div>
 			</div>
-			<div class="book-main">
+			<div class="book-main right w-75">
 				<div class="book-list">
 					
 				</div>
-				<div class="pagination-box">
+				<div class="pagination-box mt-3">
 					<ul class="pagination justify-content-center pagination-sm""></ul>
 				</div>
 			</div>
@@ -50,30 +60,39 @@
 			bo_code:2	
 		};
 		
-		$("select[name=type]").change(function() {
-			cri.type=$(this).val();
-		});
-		
 		$(".search-btn").click(function() {
 			cri.search=$("input[name=search]").val();
+			cri.type=$("select[name=type]").val();
 			displayBookView(cri);
 		})
 		
 		//카테고리에 맞는 장르를 추가함
-		$(".list-btn").click(function() {
+		$(".category-list").click(function() {
+			$(".category-list").addClass("click");
+			$(".category-list>i").addClass("fa-square-plus");
+			$(".category-list>i").removeClass("fa-square-minus");
+			$(this).removeClass("click");
+			
+			let num=$(this).data("num");
+			
+			$('.category-list[data-num='+num+']>i').removeClass("fa-square-plus");
+			$('.category-list[data-num='+num+']>i').addClass("fa-square-minus");
 			$.ajax({
 				async : true,
 				url : '<c:url value="/management/manager/category" />', 
 				type : 'post', 
-				data : {num:$(this).data("num")}, 
+				data : {num}, 
 				success : function (data){
 					let str="";
 					for(un of data.list){
 					str+=`
-				    	<a value='\${un.un_num}' class="dropdown-item select-btn">[\${un.un_code}] \${un.un_name}</a>
+				    	<li value='\${un.un_num}' class="select-btn display-block click">[\${un.un_code}] \${un.un_name}</li>
 					`;
 					}
-					$(".type-btn").html(str);
+					$(".genre-list>li").removeClass("display-block");
+					$(".genre-list>li").addClass("display-none");
+					$('.category-list[data-num='+num+']>.genre-list').html(str);
+					
 				}, 
 				error : function(jqXHR, textStatus, errorThrown){
 
@@ -104,13 +123,21 @@
 					let str="";
 					for(book of data.bookList){
 						str+=`
-							<div class="book clearfix">
-								<div class="float-left">
-									<img alt="\${book.bo_title}" src="\${book.bo_thumbnail}"/>
-								</div>
-								<a class="float-right" href='<c:url value="/library/book/detail?num=\${book.bo_num}"/>'>
-									\${book.bo_title}
-								</a>
+							<div class="book cf">
+									<div class="book-img left">
+										<img alt="\${book.bo_title}" src="\${book.bo_thumbnail}"/>
+									</div>
+									<div class="book-content left">
+										<ul>
+											<li class="book-title">
+												<a href='<c:url value="/library/book/detail?num=\${book.bo_num}"/>'>
+												\${book.bo_title}
+												</a>
+											</li>
+											<li>저자: \${book.bo_au_name}</li>
+											<li>출판사: \${book.bo_publisher}</li>
+										</ul>
+									</div>
 							</div>
 						`;
 					}

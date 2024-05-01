@@ -408,7 +408,7 @@
 	</select>
 	
 	<select id="getSale" resultType="SaleVO">
-		select * from sale where sa_merchant_uid=#{sa_merchant_uid}
+		select sale.*, me_phone from sale join member on sa_me_id = me_id where sa_merchant_uid=#{sa_merchant_uid}
 	</select>
 	
 	<select id="getSaleStateList" resultType="kr.kh.team4.model.vo.book.SaleStateVO">
@@ -419,6 +419,14 @@
 		update sale set sa_ss_num=#{sa.sa_ss_num} where 
 		sa_merchant_uid=#{sa.sa_merchant_uid} and
 		sa_uid=#{sa.sa_uid}
+	</update>
+	
+	<select id="selectReList" resultType="ReserveVO">
+		select * from reserve where re_me_id = #{user.me_id}
+	</select>
+	
+	<update id="updateRe">
+		update reserve set re_date = date_add(now() , interval 7 day) where re_bo_num = #{re_bo_num} and re_me_id = #{re_me_id}
 	</update>
 	
 	<select id="selectSaleList" resultType="SaleVO">
@@ -447,5 +455,9 @@
 				where sa_date like concat( #{cri.year},'%')	
 			</when>
 		</choose>	
+	</select>
+	
+	<select id="selectLoanState" resultType="LoanVO">
+		select * from loan
 	</select>
 </mapper>

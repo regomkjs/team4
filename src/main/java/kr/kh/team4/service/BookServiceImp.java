@@ -511,7 +511,7 @@ public class BookServiceImp implements BookService {
 		if (cri == null) {
 			cri = new Criteria();
 		}
-		if (user.getMe_ms_num() != 1) {
+		if (user.getMe_mr_num() > 1) {
 			return null;
 		}
 		return bookDao.selectLoanBookList(cri, user);
@@ -522,9 +522,7 @@ public class BookServiceImp implements BookService {
 		if (cri == null) {
 			cri = new Criteria();
 		}
-		if (user.getMe_ms_num() != 1) {
-			return 0;
-		}
+
 		return bookDao.selectTotalCountLoanBook(cri, user);
 	}
 
@@ -568,6 +566,42 @@ public class BookServiceImp implements BookService {
 	}
 
 	@Override
+	public ArrayList<ReserveVO> getReList(MemberVO user) {
+		if(user == null) {
+			return null;
+		}
+		return bookDao.selectReList(user);
+	}
+
+	@Override
+	public void deleteReserve(ReserveVO reserve, MemberVO user) {
+		ReserveVO re = bookDao.selectReserve(reserve.getRe_bo_num());
+		bookDao.deleteReserve(re.getRe_me_id(), re.getRe_bo_num());
+		if(re != null) {
+			ReserveVO re2 = bookDao.selectReserve(reserve.getRe_bo_num());
+			bookDao.updateRe(re2.getRe_bo_num(), re2.getRe_me_id());
+			String api_key = "NCSJAUZLM1DHEWEW";
+			String api_secret = "RM7CHJOAGAI3S9CBNC92JDBHOPO8LTFV";
+			Message coolsms = new Message(api_key, api_secret);
+			
+			// 4 params(to, from, type, text) are mandatory. must be filled
+			HashMap<String, String> params = new HashMap<String, String>();
+			params.put("to", re.getMe_phone());	// 수신전화번호
+			params.put("from", "01050602154");	// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+			params.put("type", "SMS");	// 타입
+			params.put("text", "예약하신 책이 반납되었습니다. 대출하러 와 주세요."); //내용
+			params.put("app_version", "test app 1.2"); // application name and version
+			
+			try {
+				JSONObject obj = (JSONObject) coolsms.send(params);
+				System.out.println(obj.toString());
+			} catch (CoolsmsException e) {
+				System.out.println(e.getMessage());
+				System.out.println(e.getCode());
+			}
+		}
+	}
+	
 	public ArrayList<SaleVO> selectSaleList(SaleListCriteria cri) {
 		if(cri==null) {
 			cri=new SaleListCriteria(1,"all","all");
@@ -581,5 +615,16 @@ public class BookServiceImp implements BookService {
 			cri=new SaleListCriteria(1,"all","all");
 		}
 		return bookDao.selectSaleTotalCount(cri);
+	}
+
+	@Override
+	public ArrayList<LoanVO> getLoan() {
+		return bookDao.selectLoanState();
+	}
+
+	@Override
+	public void updateReserve(ReserveVO reserve) {
+		ReserveVO re = bookDao.selectReserve(reserve.getRe_bo_num());
+		bookDao.updateRe(re.getRe_bo_num(), re.getRe_me_id());
 	}
 }

@@ -7,5 +7,6 @@
 		<h1>Bootstrap Tutorial</h1>
 		<p>Bootstrap is the most popular HTML, CSS, and JS framework for
 			developing responsive, mobile-first projects on the web.</p>
+			</a> icon by <a href="https://icons8.com">Icons8</a>
 	</div>
 </div>

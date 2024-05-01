@@ -11,15 +11,13 @@
 <body>
 <div class="container">
 	<h1>
-	내가 대출한 도서
+	내가 신고한 내역
 	</h1>
 	
-	<form action="<c:url value="/mypage/loan"/>" method="get" class="input-group" id="searchForm">
+	<form action="<c:url value="/mypage/report"/>" method="get" class="input-group" id="searchForm">
 		<div class="input-group mb-1">
 			<select name="type" class="input-group-prepend" >
 				<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
-				<option value="title" <c:if test='${pm.cri.type == "title"}'>selected</c:if>>제목</option>
-				<option value="publisher" <c:if test='${pm.cri.type == "publisher"}'>selected</c:if>>출판사</option>
 			</select>
 			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
 			<button type="submit" class="input-group-append btn btn-outline-success">검색</button>
@@ -30,46 +28,38 @@
 		<thead>
 			<tr>
 				<th class="col-1">번호</th>
-				<th class="col-2">이미지</th>
-				<th class="col-2">제목</th>
-				<th class="col-2">출판사</th>
-				<th class="col-2">도서코드</th>
-				<th class="col-1">대출일</th>
-				<th class="col-1">만기일</th>
+				<th class="col-2">신고유형</th>
+				<th class="col-2">신고내용</th>
+				<th class="col-2">신고</th>
+				<th class="col-2">상태</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${loanList}" var="loan" varStatus="vs">
-				<c:if test="${loan.bo_num > 0}">
+			<c:forEach items="${reportList}" var="report" varStatus="vs">
+				<c:if test="${report.rp_num > 0}">
 					<tr>
 				  		<td>${pm.totalCount - vs.index - pm.cri.pageStart}</td>
+				  		<td>${report.rp_type}</td>
+				  		<td>${report.rp_note}</td>
+				  		<td>${report.rp_writer}</td>
 				  		<td>
-				  			<c:url value="/library/book/detail?num=${loan.bo_num}" var="detailUrl">
-				  				<c:param name="num">${loan.bo_num}</c:param>
-				  				<c:param name="page" value="${pm.cri.page}"/>
-								<c:param name="type" value="${pm.cri.type}"/>
-								<c:param name="search" value="${pm.cri.search}"/>
-				  			</c:url>
-					  		<a href="${detailUrl }">
-						  		<img src="${loan.bo_thumbnail}">
-					  		</a>
-				  		</td>
-				  		<td> 
-				  			<c:url value="/library/book/detail?num=${loan.bo_num}" var="detailUrl">
-				  				<c:param name="num">${loan.bo_num}</c:param>
-				  				<c:param name="page" value="${pm.cri.page}"/>
-								<c:param name="type" value="${pm.cri.type}"/>
-								<c:param name="search" value="${pm.cri.search}"/>
-				  			</c:url>
-				  			<a href="${detailUrl}">${loan.bo_title}</a>
-				  		</td>
-				  		<td>${loan.bo_publisher}</td>
-				  		<td>${loan.bo_code}</td>
-				  		<td>
-				  			<fmt:formatDate value="${loan.lo_date}" pattern="yy/MM/dd"/><br/>
-			  			</td>
-				  		<td>
-				  			<fmt:formatDate value="${loan.lo_limit}" pattern="yy/MM/dd"/><br/>
+					  		<c:choose>
+						  		<c:when test="${report.rp_state == 0}">
+						  			<span>접수</span>
+						  		</c:when>
+					  			<c:when test="${report.rp_state == 1}">
+						  			<span>게시글 삭제</span>
+						  		</c:when>
+						  		<c:when test="${report.rp_state == 2}">
+						  			<span>피신고자 처리</span>
+						  		</c:when>
+						  		<c:when test="${report.rp_state == 3}">
+						  			<span>신고자 처리</span>
+						  		</c:when>
+						  		<c:when test="${report.rp_state == 4}">
+						  			<span>신고 반려</span>
+						  		</c:when>
+					  		</c:choose>
 				  		</td>
 					</tr>
 				</c:if>
@@ -77,12 +67,12 @@
 		</tbody>
 	</table>
 	<c:if test="${pm.totalCount == 0}">
-		<h1 class="text-center">대출한 책이 없습니다.</h1>
+		<h1 class="text-center">신고한 내역이 없습니다.</h1>
 	</c:if>
 	<ul class="pagination justify-content-center">
 		<c:if test="${pm.prev}">
 		    <li class="page-item">
-		    	<c:url value="/mypage/loan" var="prev">
+		    	<c:url value="/mypage/report" var="prev">
 		    		<c:param name="type" value="${pm.cri.type}" />
 		    		<c:param name="search" value="${pm.cri.search}" />
 		    		<c:param name="page" value="${pm.startPage - 1}"/>
@@ -91,7 +81,7 @@
 	    	</li>
 		</c:if>
     	<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
-    		<c:url value="/mypage/loan" var="url">
+    		<c:url value="/mypage/report" var="url">
     			<c:param name="type" value="${pm.cri.type}" />
 	    		<c:param name="search" value="${pm.cri.search}" />
 	    		<c:param name="page" value="${i}"/>
@@ -103,7 +93,7 @@
     	</c:forEach>
     	<c:if test="${pm.next}">
 			<li class="page-item">
-		    	<c:url value="/mypage/loan" var="next">
+		    	<c:url value="/mypage/report" var="next">
 		    		<c:param name="type" value="${pm.cri.type}" />
 		    		<c:param name="search" value="${pm.cri.search}" />
 		    		<c:param name="page" value="${pm.endPage + 1}"/>
