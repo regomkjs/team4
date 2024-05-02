@@ -7,6 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.mail-btn{ position: relative; float: right;}
+</style>
 </head>
 <body>
 <div class="container">
@@ -66,7 +69,6 @@
 					</tr>
 				</c:if>
 			</c:forEach>
-			<button class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">문자 전송</button>
 		</tbody>
 		<c:if test="${pm.totalCount == 0}">
 			<h1 class="text-center">대출한 책이 없습니다.</h1>
@@ -95,6 +97,9 @@
 			</div>
 		</div>
 	</table>
+	<div class="text-right">
+   		<button class="btn btn-outline-primary mail-btn" data-toggle="modal" data-target="#myModal">문자 전송</button>
+	</div>
 	<ul class="pagination justify-content-center">
 		<c:if test="${pm.prev}">
 		    <li class="page-item">
