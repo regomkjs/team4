@@ -432,8 +432,14 @@ public class BookServiceImp implements BookService {
 			return false;
 		}
 		ReviewVO dbReview = bookDao.selectReview(review.getRv_num());
-		if (dbReview == null || !dbReview.getRv_me_id().equals(user.getMe_id()))
+		if(user.getMe_mr_num() <= 1) {
+			bookDao.deleteReview(review.getRv_num());
+			return true;
+		}
+		
+		if (dbReview == null || !dbReview.getRv_me_id().equals(user.getMe_id())) {
 			return false;
+		}
 
 		return bookDao.deleteReview(review.getRv_num());
 	}

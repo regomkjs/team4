@@ -375,12 +375,17 @@ function displayReviewList(list){
 		return;
 	}
 	for(item of list){
-		let boxBtns =
-			`<span class="box-btn float-right">
-				<button class="btn btn-outline-warning btn-review-update" data-num="\${item.rv_num}">수정</button>
-				<button class="btn btn-outline-danger btn-review-del" data-num="\${item.rv_num}">삭제</button>
-			</span>`;
-		let btns = '${user.me_id}' == item.rv_me_id ? boxBtns : '';
+		let updateBtn = `<button class="btn btn-outline-warning btn-review-update" data-num="\${item.rv_num}">수정</button>`;
+        let deleteBtn = `<button class="btn btn-outline-danger btn-review-del" data-num="\${item.rv_num}">삭제</button>`;
+        
+        let boxBtns = `<span class="box-btn float-right">`;
+        if('${user.me_id}' == item.rv_me_id){
+            boxBtns += updateBtn;
+        }
+        if('${user.me_mr_num}' <= 1 || '${user.me_id}' == item.rv_me_id){
+            boxBtns += deleteBtn;
+        }
+        boxBtns += `</span>`;
 		 // 별 표시
         let stars = '<div class="star-rating">';
         for(let i = 1; i <= 5; i++){
@@ -396,10 +401,10 @@ function displayReviewList(list){
                     <div class="text-review" style="font-size: 20px;">\${item.rv_content}</div>
                     <span style="font-size: medium;">작성시간 : \${moment(item.rv_date).format('YY/MM/DD HH:mm')}<br />
                 </div>
-                \${btns}
+                \${boxBtns}
             </div>
-            <i class="bi bi-hand-thumbs-up btn-up" style="font-size : 15px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}">추천(<span class="text-up">\${item.rv_up}</span>)</i>
-            <i class="bi bi-hand-thumbs-down btn-down" style="font-size : 15px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}">비추천(<span class="text-down">\${item.rv_down}</span>)</i>
+            <i class="bi bi-hand-thumbs-up btn-up" style="font-size : 15px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}"><span class="text-up">\${item.rv_up}</span></i>
+            <i class="bi bi-hand-thumbs-down btn-down" style="font-size : 15px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}"><span class="text-down">\${item.rv_down}</span></i>
             <hr>
             <div style="clear: both;"></div>
 		`
@@ -641,38 +646,37 @@ $(document).on("click",".btn-up,.btn-down",function(){
 			console.error("에러 발생2");
 		}
 	});
-	
-	function getOpinion(rv_num) {
-		$.ajax({
-			async : true,
-			url : '<c:url value="/opinion"/>', 
-			type : 'post', 
-			data : {rv_num : rv_num}, 
-			dataType : "json", 
-			success : function (data){
-				displayUpdateOpinion(data.review, rv_num);
-				displayOpinion(data.state, rv_num);
-			}, 
-			error : function(jqXHR, textStatus, errorThrown){
-
-			}
-		});
-	}
-
-	function displayUpdateOpinion(review, rv_num) {
-		$('.btn-up').text(review.rv_up);
-	    $('.btn-down').text(review.rv_down)
-	}
-	function displayOpinion(state, rv_num) {
-	    $('.btn-up').addClass("bi-hand-thumbs-up").removeClass("bi-hand-thumbs-up-fill");
-	    $('.btn-down').addClass("bi-hand-thumbs-down").removeClass("bi-hand-thumbs-down-fill");
-	    
-	    if (state == 1) {
-	        $('.btn-up').removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
-	    } else if (state == -1) {
-	        $('.btn-down').removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
-	    }
-	}
-	getOpinion(rv_num);
 });
+	
+function getOpinion(rv_num) {
+	$.ajax({
+		async : true,
+		url : '<c:url value="/opinion"/>', 
+		type : 'post', 
+		data : {rv_num : rv_num}, 
+		dataType : "json", 
+		success : function (data){
+			displayUpdateOpinion(data.review, rv_num);
+			displayOpinion(data.state, rv_num);
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+}
+
+function displayUpdateOpinion(review, rv_num) {
+	$(`.btn-up[data-num=\${rv_num}]`).text(review.rv_up);
+    $(`.btn-down[data-num=\${rv_num}]`).text(review.rv_down);
+}
+function displayOpinion(state, rv_num) {
+    $(`.btn-up[data-num=\${rv_num}]`).addClass("bi-hand-thumbs-up").removeClass("bi-hand-thumbs-up-fill");
+    $(`.btn-down[data-num=\${rv_num}]`).addClass("bi-hand-thumbs-down").removeClass("bi-hand-thumbs-down-fill");
+    
+    if (state == 1) {
+        $(`.btn-up[data-num=\${rv_num}]`).removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+    } else if (state == -1) {
+        $(`.btn-down[data-num=\${rv_num}]`).removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
+    }
+}
 </script>
