@@ -23,6 +23,7 @@
 .book-item:after{padding-bottom:5px; border-bottom: 1px solid #ccc; }
 
 .book-img{width: 15%; height:100%;}
+.book-img img{max-width:80%; height:100%;}
 .book-content{width: 85%; height:100%; font-size: 12px;}
 .content-text{width:80%; height:100%;  padding: 5px 0; box-sizing: border-box;}
 .content-text ul{margin: 0;}
@@ -153,7 +154,7 @@
 				<div class="book-list">
 				
 				</div>
-				<div class="pagination-box">
+				<div class="pagination-box mt-3">
 					<ul class="pagination justify-content-center pagination-sm""></ul>
 				</div>
 			</div>
@@ -223,82 +224,6 @@
 		BookList();
 	});
 	</script>
-	<!-- 구매,장바구니 -->
-	<script type="text/javascript">
-	let basket=[];
-	let nick=${user.me_nick!=null}?"${user.me_nick}":"guest";
-	let data=JSON.parse(localStorage.getItem(nick));
-	if(data!=null){
-		basket=data;
-		console.log(basket);
-	}
-	$(document).on("click",".basket-btn",function(){
-		let isbn=$(this).data("isbn");
-		for(let i=0;i<basket.length;i++){
-			if(basket[i].isbn13==isbn){
-				return;
-			}
-		}
-		for(let i=0;i<books.length;i++){
-			if(books[i].isbn13==isbn){
-				basket.push(books[i]);
-			}
-		}
-		displayBasketView();
-		let basketJson=JSON.stringify(basket);
-		localStorage.setItem(nick,basketJson);
-	});
-	
-	$(".basket>p").click(function() {
-		location.href = '<c:url value="/library/book/sale" />';	
-	});
-	
-	$(document).on("click",".purchase-btn",function(){
-		let isbn=$(this).data("isbn");
-		for(let i=0;i<basket.length;i++){
-			if(basket[i].isbn13==isbn){
-				let basketJson=JSON.stringify(basket);
-				localStorage.setItem(nick,basketJson);
-				location.href = '<c:url value="/library/book/sale" />';
-				return;
-			}
-		}
-		for(let i=0;i<books.length;i++){
-			if(books[i].isbn13==isbn){
-				basket.push(books[i]);
-			}
-		}
-		let basketJson=JSON.stringify(basket);
-		localStorage.setItem(nick,basketJson);
-		location.href = '<c:url value="/library/book/sale" />';	
-	});
-	
-	
-	function displayBasketView() {
-		let i=0;
-		let str=`
-			<p>장바구니(\${basket.length})</p>
-			<div><ul>
-			`;
-			for(baskets of basket){
-				str+=`
-					<li>\${baskets.title} <button type="button" data-index="\${i}" class="close">&times;</button></li>
-				`;
-				i++;
-			}
-		str+=`</ul></div>`;
-		$(".basket").html(str);
-	}
-	displayBasketView();
-	
-	$(document).on("click",".close",function(){
-		let index=$(this).data("index");
-		basket.splice(index,1);
-		displayBasketView();
-		let basketJson=JSON.stringify(basket);
-		localStorage.setItem(nick,basketJson);
-	});
-	</script>
 	<script type="text/javascript">
 	function displayView(data) {
 		let str="";
@@ -318,7 +243,7 @@
 								\${book.title} </a></li>
 							<li>\${book.author} | \${book.publisher}</li>
 							<li>\${book.pubDate}</li>
-							<li>판매가: \${book.priceStandard}원</li>
+							<li>판매가: \${priceToString(book.priceStandard)}</li>
 						</ul>
 					</div>
 					<div  class="content-btn right">

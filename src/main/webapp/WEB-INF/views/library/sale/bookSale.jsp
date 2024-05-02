@@ -3,7 +3,9 @@
 	pageEncoding="UTF-8"%>
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-
+<style>
+*{margin: 0; padding: 0;}
+</style>
 <body>
 	<div class="container mt-5">
 		<div class="list">
@@ -34,8 +36,6 @@
 	</div>
 	<!-- 장바구니 -->
 	<script type="text/javascript">
-		let nick=${user.me_nick!=null}?"${user.me_nick}":"guest";
-		let data=JSON.parse(localStorage.getItem(nick));
 		displayView();
 		function displayView() {
 			let str="";
@@ -51,7 +51,7 @@
 						<img alt="\${book.title}" src="\${book.cover}">
 					</td>
 					<td>\${book.title}</td>
-					<td>\${book.priceStandard}원</td>
+					<td>\${priceToString(book.priceStandard)}</td>
 					<td>
 						<select class="sale-count">
 							<c:forEach begin="1" var="i" end="10">
@@ -177,6 +177,7 @@
 		displaySeleView();
 	});
 	
+	//삭제버튼 클릭
 	$(document).on("click",".del-btn",function(){
 		let value=$(this).closest("tr").data("index");
 		for(let i = 0; i < selectedBook.length; i++) {
@@ -186,6 +187,12 @@
 		}
 		data.splice(value, 1);
 		window.localStorage.setItem(nick, JSON.stringify(data));
+		displayView();
+		displaySeleView();
+		$(".close").click();
+	});
+	
+	$(document).on("click",".close",function(){
 		displayView();
 		displaySeleView();
 	});
@@ -203,15 +210,15 @@
 		let str=`
 			<tr>
 				<td>총 상품가격:</td>
-				<td>\${price}</td>
+				<td>\${priceToString(price)}</td>
 			</tr>
 			<tr>
 				<td>총 주문 상품수:</td>
-				<td>\${count}</td>
+				<td>\${count}개</td>
 			</tr>
 			<tr>
 				<td>할인된 가격:</td>
-				<td>\${Goods.total}</td>
+				<td>\${priceToString(Goods.total)}</td>
 			</tr>
 		`;
 		$(".total-sale").html(str);
