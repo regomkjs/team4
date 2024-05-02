@@ -27,8 +27,9 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 import kr.kh.team4.pagination.MemberCriteria;
 import kr.kh.team4.pagination.MyReportCriteria;
+import lombok.extern.log4j.Log4j;
 
-
+@Log4j
 @Service
 public class MemberServiceImp implements MemberService {
 	
@@ -497,17 +498,30 @@ public class MemberServiceImp implements MemberService {
 		String tmpPhone = "0" + tmp[1];
 		//닉네임 설정
 		boolean ok = true;
+		int count = 1;
 		while(ok) {
 			MemberVO tmpMember = memberDao.selectMemberByNick(nick);
 			if(tmpMember == null) {
 				 ok = !ok;
 			}
 			else {
-				
+				String countStr = ""+ (count - 1);
+				if(nick.endsWith(countStr)) {
+					++count;
+					countStr = "" + count;
+					String tmpNick = nick.substring(0, (nick.length() - countStr.length()));
+					nick = tmpNick + countStr;
+				}
+				else {
+					countStr = "" + count;
+					nick += countStr;
+					count++;
+				}
 			}
 		}
 		
 		MemberVO memberVO = new MemberVO(id, email,tmpPhone, nick);
+		log.info(memberVO);
 		return memberDao.insertSnsMember(memberVO);
 	}
 

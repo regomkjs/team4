@@ -114,11 +114,11 @@ function getInfo() {
 		    var phone_number = res.kakao_account.phone_number;
 		    var nick = res.kakao_account.profile.nickname;
 		    var sns = "kakao";
-		    console.log(nick);
+		    console.log(id);
 		    
 		    if(!checkMember(sns, id)){
 		    	if(confirm("회원이 아닙니다. 가입하시겠습니까?")){
-		    		signupSns(sns, id, email, phone_number,nick);
+		    		signupSns(sns, id, email, phone_number ,nick);
 		    	}else{
 		    		return;
 		    	}
@@ -151,12 +151,12 @@ function checkMember(sns, id){
 	return res;
 }
 
-function signupSns(sns, id, email, phone_number){
+function signupSns(sns, id, email, phone_number, nick){
 	$.ajax({
 		async : false,
 		url : `<c:url value="/sns"/>/\${sns}/signup`, 
 		type : 'post', 
-		data : {id, email, phone_number}, 
+		data : {id, email, phone_number, nick}, 
 		success : function (data){
 			
 		}, 
