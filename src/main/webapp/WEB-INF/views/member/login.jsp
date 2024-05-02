@@ -93,22 +93,31 @@
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <script type="text/javascript">
 
-$(document).on("click","#naverIdLogin_loginButton", function name() {
-	localStorage.removeItem("com.naver.nid.oauth.state_token");
-	localStorage.removeItem("com.naver.nid.access_token");
-	
-	naverLogin.init();
+var naverLogin = new naver.LoginWithNaverId(
+		{
+			clientId: "3RbkwaA5KcTEafbQoSws", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
+			callbackUrl: "http://localhost:8080/team4/login", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
+			isPopup: false,
+			callbackHandle: true
+		}
+	);	
+
+naverLogin.init();
+
+$(document).on("click","#naverIdLogin_loginButton", naverIdLogin())
+
+
+function naverIdLogin() {
 	
 	naverLogin.getLoginStatus(function (status) {
+		
 		if (status) {
 			var sns = "naver";
 			var email = naverLogin.user.getEmail(); // 필수로 설정할것을 받아와 아래처럼 조건문을 줍니다.
 			var id = naverLogin.user.id;
 		    var phone_number = naverLogin.user.mobile;
 		    var nick = naverLogin.user.nickname;
-			console.log(phone_number); 
-    		
-            if( email == undefined || email == null ||
+            if(email == undefined || email == null ||
             		id == undefined || id == null ||
             		phone_number == undefined || phone_number == null ||
             		nick == undefined || nick == null) {
@@ -124,30 +133,17 @@ $(document).on("click","#naverIdLogin_loginButton", function name() {
 		    		return;
 		    	}
 		    }
+			
 			snsLogin(sns, id);
 			location.href = '<c:url value="/"/>';
-            
 		} else {
 			console.log("callback 처리에 실패하였습니다.");
 		}
 	});
-	
-})
-
-var naverLogin = new naver.LoginWithNaverId(
-		{
-			clientId: "3RbkwaA5KcTEafbQoSws", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
-			callbackUrl: "http://localhost:8080/team4/login", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
-			isPopup: false,
-			callbackHandle: true
-		}
-	);	
-
-
-
-window.onload = ()=>{
-	
+	localStorage.removeItem("com.naver.nid.oauth.state_token");
+	localStorage.removeItem("com.naver.nid.access_token");
 }
+
 
 
 </script>
