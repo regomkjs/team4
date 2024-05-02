@@ -81,11 +81,76 @@
 		<button class="btn btn-outline-success col-12 btn-submit" style="margin-top: 40px">로그인</button>
 	</form>
 	<div class="mt-3 text-center " style="width: 100%">
-		<a id="kakao-login-btn" href="javascript:loginWithKakao()">
+		<a id="kakao-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;">
 			<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="200" style="min-width: 100; max-width: 300;" alt="카카오 로그인 버튼" />
 		</a>
+		<a id="naverIdLogin_loginButton" href="javascript:void(0)" style="text-decoration: none;">
+	    	<img alt="네이버 로그인 버튼" src="<c:url value="/resources/img/btnG.png"/>"  width="180" style="min-width: 100; max-width: 300;">
+	    </a>
 	</div>
 </div>
+
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+$(document).on("click","#naverIdLogin_loginButton", function name() {
+	localStorage.removeItem("com.naver.nid.oauth.state_token");
+	localStorage.removeItem("com.naver.nid.access_token");
+	
+	naverLogin.init();
+	
+	naverLogin.getLoginStatus(function (status) {
+		if (status) {
+			var sns = "naver";
+			var email = naverLogin.user.getEmail(); // 필수로 설정할것을 받아와 아래처럼 조건문을 줍니다.
+			var id = naverLogin.user.id;
+		    var phone_number = naverLogin.user.mobile;
+		    var nick = naverLogin.user.nickname;
+			console.log(phone_number); 
+    		
+            if( email == undefined || email == null ||
+            		id == undefined || id == null ||
+            		phone_number == undefined || phone_number == null ||
+            		nick == undefined || nick == null) {
+				alert("정보제공을 동의해주세요.");
+				naverLogin.reprompt();
+				return;
+			}
+            
+            if(!checkMember(sns, id)){
+		    	if(confirm("회원이 아닙니다. 가입하시겠습니까?")){
+		    		signupSns(sns, id, email, phone_number ,nick);
+		    	}else{
+		    		return;
+		    	}
+		    }
+			snsLogin(sns, id);
+			location.href = '<c:url value="/"/>';
+            
+		} else {
+			console.log("callback 처리에 실패하였습니다.");
+		}
+	});
+	
+})
+
+var naverLogin = new naver.LoginWithNaverId(
+		{
+			clientId: "3RbkwaA5KcTEafbQoSws", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
+			callbackUrl: "http://localhost:8080/team4/login", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
+			isPopup: false,
+			callbackHandle: true
+		}
+	);	
+
+
+
+window.onload = ()=>{
+	
+}
+
+
+</script>
 
 
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
