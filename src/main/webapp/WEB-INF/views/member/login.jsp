@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <!-- jquery validtaion -->	
-<script src="https://fastly.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-<script src="https://fastly.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
 <style type="text/css">
 	.login-box {
 	    margin: auto;
@@ -77,6 +77,8 @@
 			<a href="<c:url value="/find/id"/>" style="color: gray;">아이디찾기</a>
 		    <span style="color: gray; opacity: 60%">|</span>
 		    <a href="<c:url value="/find/pw"/>" style="color: gray;">비밀번호찾기</a>
+		    <span style="color: gray; opacity: 60%">|</span>
+		    <a href="<c:url value="/signup"/>" style="color: gray;">회원가입</a>
 		</div>
 		<button class="btn btn-outline-success col-12 btn-submit" style="margin-top: 40px">로그인</button>
 	</form>

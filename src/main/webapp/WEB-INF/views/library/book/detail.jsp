@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
 ol.colorlist {
 	list-style: none !important;
@@ -73,7 +73,7 @@ ol.colorlist {
 
 img{ width: 220px;}
 
-.container { background-color: #F4FFFF;}
+.main { background-color: #F4FFFF;}
 
 .media{ position: relative;}
 
@@ -87,7 +87,7 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 </style>
 <meta charset="UTF-8">
 <body>
-	<div class="container mt-5">
+	<div class="container mt-5 main">
 		<h3>상세정보</h3>
 		<hr class="bar">
 		<div class="main">
