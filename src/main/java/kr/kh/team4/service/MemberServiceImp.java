@@ -494,8 +494,14 @@ public class MemberServiceImp implements MemberService {
 			id = sns + "!" + id;
 		}
 		//전화번호 설정
-		String[] tmp = phone.split(" ");
-		String tmpPhone = "0" + tmp[1];
+		String tmpPhone = "";
+		if(phone.charAt(0) != '0') {
+			String[] tmp = phone.split(" ");
+			tmpPhone = "0" + tmp[1];
+		}
+		else {
+			tmpPhone = phone;
+		}
 		//닉네임 설정
 		boolean ok = true;
 		int count = 1;
