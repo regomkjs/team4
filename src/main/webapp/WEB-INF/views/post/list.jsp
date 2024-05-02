@@ -5,6 +5,43 @@
 <head>
 	<title>게시글 목록</title>
 	<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
+	<style type="text/css">
+		.hovertext-box{
+			position: relative;
+		}
+		.hovertext {
+			display: inline-block;
+		    overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			width: 250px;
+			height: 20px;
+		}
+		
+		.hovertext-box:before {
+		    content: attr(data-hover);
+		    visibility: hidden;
+		    opacity: 0;
+		    width: max-content;
+		    background-color: black;
+		    color: #fff;
+		    text-align: center;
+		    border-radius: 5px;
+		    padding: 5px 5px;
+		    transition: opacity 1s ease-in-out;
+		
+		    position: absolute;
+		    z-index: 1;
+		    left: 0;
+		    top: 110%;
+		}
+		
+		.hovertext-box:hover:before {
+		    opacity: 1;
+		    visibility: visible;
+		}
+	</style>
+	
 </head>
 <body>
 <div class="container">
@@ -47,12 +84,12 @@
 					<tr>		<!-- pm.cri.perPageNum * (pm.cri.page-1)) == pm.cri.startPage -->
 				  		<td>${(pm.totalCount - (pm.cri.perPageNum * (pm.cri.page-1))) - vs.index}</td>
 				  		<td>${post.ca_name}</td>
-				  		<td> 
+				  		<td class="hovertext-box" data-hover="${post.po_title}"> 
 				  			<c:url value="/post/detail" var="detailUrl">
 				  				<c:param name="num">${post.po_num}</c:param>
 				  			</c:url>
 				  			
-				  			<a href="${detailUrl}" style="cursor: pointer; color: black; text-decoration: none;">
+				  			<a href="${detailUrl}" style="cursor: pointer; color: black; text-decoration: none;" class="hovertext">
 				  				${post.po_title}
 				  			</a> 
 				  			<c:if test="${post.po_votePost}">
