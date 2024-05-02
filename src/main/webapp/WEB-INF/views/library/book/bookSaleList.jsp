@@ -3,12 +3,12 @@
 	pageEncoding="UTF-8"%>
 <style>
 *{margin: 0; padding: 0;}
-.side-bar{border: 1px solid #000; height: 1000px;}
+.side-bar{ }
 .side-bar>.frame{ border: 1px solid #aaa; margin: 10px; padding: 10px; border-radius: 10px; height: 100%;} 
-.side-bar>.frame li{line-height: 50px;} 
+.side-bar>.frame .click{line-height: 50px; border-bottom: 1px solid #ccc;} 
 .side-bar>.frame ul{margin: 0;} 
 .sub-menu li:hover{background-color:#ddd;}
-.sub-menu{display: none; border: 2px solid #557; box-sizing: border-box; padding: 5px;}
+.sub-menu{display: none; border: 2px solid #557; box-sizing: border-box; padding: 5px; border-radius: 10px;}
 .main-menu:nth-child(1):hover .sub-menu{display: block;}
 .main-menu:nth-child(2):hover .sub-menu{display: block;}
 .main-menu:nth-child(3):hover .sub-menu{display: block;}
@@ -16,6 +16,21 @@
 .main-menu:nth-child(5):hover .sub-menu{display: block;}
 .main-menu:nth-child(6):hover .sub-menu{display: block;}
 .main-menu:nth-child(7):hover .sub-menu{display: block;}
+
+.book-main .book-list{margin: 10px}
+.book-main{border: 1px solid #aaa; border-radius: 10px; margin-top: 10px}
+.book-item{height:130px; margin-top: 15px;  }
+.book-item:after{padding-bottom:5px; border-bottom: 1px solid #ccc; }
+
+.book-img{width: 15%; height:100%;}
+.book-content{width: 85%; height:100%; font-size: 12px;}
+.content-text{width:80%; height:100%;  padding: 5px 0; box-sizing: border-box;}
+.content-text ul{margin: 0;}
+.content-text li{margin-top: 5px}
+.content-btn{width: 20%; height:100%; padding: 10px 0; box-sizing: border-box;}
+.content-btn button{margin: 5px;}
+.title{font-weight:500; font-size: 16px; }
+
 </style>
 <body>
 	<div class="container mt-5">
@@ -138,8 +153,10 @@
 					</ul>
 				</div>
 			</div>
-			<div class="book-main">
-				<div class="book-list"></div>
+			<div class="book-main right w-75">
+				<div class="book-list">
+				
+				</div>
 				<div class="pagination-box">
 					<ul class="pagination justify-content-center pagination-sm""></ul>
 				</div>
@@ -292,22 +309,26 @@
 		for(book of data){
 			books.push(book);
 			str+=`
-			<div class="book-item">
-				<div class="book-img">
+			<div class="book-item cf">
+				<div class="book-img left">
 					<a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
 						<img alt="\${book.title}" src="\${book.cover}"/>
 					</a>
 				</div>
-				<div class="book-content">
-					<ul>
-						<li><a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
-							\${book.title} </a></li>
-						<li>\${book.author} | \${book.publisher}</li>
-						<li>\${book.pubDate}</li>
-						<li>판매가: \${book.priceStandard}원</li>
-					</ul>
-					<button class="btn btn-outline-warning basket-btn" data-isbn="\${book.isbn13}">장바구니</button>
-					<a class="btn btn-outline-warning purchase-btn" data-isbn="\${book.isbn13}">구매</a>
+				<div class="book-content left">
+					<div class="content-text left">
+						<ul>
+							<li class="title"><a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
+								\${book.title} </a></li>
+							<li>\${book.author} | \${book.publisher}</li>
+							<li>\${book.pubDate}</li>
+							<li>판매가: \${book.priceStandard}원</li>
+						</ul>
+					</div>
+					<div  class="content-btn right">
+						<button class="btn btn-outline-warning basket-btn " data-isbn="\${book.isbn13}">장바구니</button>
+						<button class="btn btn-outline-warning purchase-btn " data-isbn="\${book.isbn13}">바로구매</button>
+					</div>
 				</div>
 			</div>
 			`;
