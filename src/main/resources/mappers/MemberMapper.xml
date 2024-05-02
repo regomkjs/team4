@@ -292,4 +292,9 @@
 				and rp_note like concat('%', #{cri.search}, '%')
 			</if>
 	</select>
+	
+	<insert id="insertSnsMember">
+		insert into member(me_id, me_email, me_phone, me_nick, me_date, me_ms_num, me_gr_num)
+		values(#{member.me_id}, #{member.me_email}, #{member.me_phone}, #{member.me_nick}, now(), '2', '2')
+	</insert>
 </mapper>

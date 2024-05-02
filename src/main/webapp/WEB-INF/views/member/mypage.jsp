@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,12 +106,14 @@
 				</c:choose>
 			</div>
 		</div>
-		<div class="form-group" style="margin-bottom: 10px">
-			<label for="id">아이디</label>
-			<div class="input-group">
-				<input type="text" class="form-control" id="id" name="me_id" readonly value="${user.me_id }">
+		<c:if test="${!fn:contains(user.me_id, '!')}">
+			<div class="form-group" style="margin-bottom: 10px">
+				<label for="id">아이디</label>
+				<div class="input-group">
+					<input type="text" class="form-control" id="id" name="me_id" readonly value="${user.me_id }">
+				</div>
 			</div>
-		</div>
+		</c:if>
 		<div class="form-group" style="margin-bottom: 10px">
 			<label for="id">커뮤니티 정지일</label>
 			<div class="input-group">
@@ -143,16 +146,18 @@
 			<label id="nickName-error" class="error text-danger" for="nickName"></label>
 			<label id="nickName-error2" class="error text-danger"></label>
 		</div>
-		<div class="form-group" style="margin-bottom: 10px">
-			<label for="pw">비밀번호</label>
-			<input type="password" class="form-control" id="pw" name="me_pw" placeholder="비밀번호">
-			<label id="pw-error" class="error text-danger" for="pw"></label>
-		</div>
-		<div class="form-group" style="margin-bottom: 10px">
-			<label for="pw2">비밀번호 확인</label>
-			<input type="password" class="form-control" id="pw2" name="me_pw2" placeholder="비밀번호 확인">
-			<label id="pw2-error" class="error text-danger" for="pw2"></label>
-		</div>
+		<c:if test="${!fn:contains(user.me_id, '!')}">
+			<div class="form-group" style="margin-bottom: 10px">
+				<label for="pw">비밀번호</label>
+				<input type="password" class="form-control" id="pw" name="me_pw" placeholder="비밀번호">
+				<label id="pw-error" class="error text-danger" for="pw"></label>
+			</div>
+			<div class="form-group" style="margin-bottom: 10px">
+				<label for="pw2">비밀번호 확인</label>
+				<input type="password" class="form-control" id="pw2" name="me_pw2" placeholder="비밀번호 확인">
+				<label id="pw2-error" class="error text-danger" for="pw2"></label>
+			</div>
+		</c:if>
 		<div class="form-group" style="margin-bottom: 10px">
 			<label for="email">이메일</label>
 			<input type="text" class="form-control" id="email" name="me_email" value="${user.me_email }">

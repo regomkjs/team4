@@ -25,7 +25,7 @@
 			</li>
 		</c:if>
 		<c:choose>
-			<c:when test="${user.me_mr_num == 2}">
+			<c:when test="${user.me_mr_num > 0}">
 				<li class="dropdown">
 					<a type="button" class="nav-link dropdown-toggle" data-toggle="dropdown">
 				    	마이페이지

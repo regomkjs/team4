@@ -27,8 +27,9 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 import kr.kh.team4.pagination.MemberCriteria;
 import kr.kh.team4.pagination.MyReportCriteria;
+import lombok.extern.log4j.Log4j;
 
-
+@Log4j
 @Service
 public class MemberServiceImp implements MemberService {
 	
@@ -467,6 +468,75 @@ public class MemberServiceImp implements MemberService {
 	public MemberVO getMemberByCookie(String sessionId) {
 		return memberDao.selectMemberByCookie(sessionId);
 	}
+	
+	@Override
+	public boolean idCheck(String sns, String id) {
+		try {
+			int num = Integer.parseInt(id);
+			num = num * 2;
+			id = sns + "!" + num;
+		}catch(Exception e) {
+			id = sns + "!" + id;
+		}
+		MemberVO user = memberDao.selectMember(id);
+		System.out.println(id);
+		return user != null;
+	}
+
+	@Override
+	public boolean signupSns(String sns, String id, String email, String phone, String nick) {
+		//아이디 설정
+		try {
+			int num = Integer.parseInt(id);
+			num = num * 2;
+			id = sns + "!" + num;
+		}catch(Exception e) {
+			id = sns + "!" + id;
+		}
+		//전화번호 설정
+		String[] tmp = phone.split(" ");
+		String tmpPhone = "0" + tmp[1];
+		//닉네임 설정
+		boolean ok = true;
+		int count = 1;
+		while(ok) {
+			MemberVO tmpMember = memberDao.selectMemberByNick(nick);
+			if(tmpMember == null) {
+				 ok = !ok;
+			}
+			else {
+				String countStr = ""+ (count - 1);
+				if(nick.endsWith(countStr)) {
+					++count;
+					countStr = "" + count;
+					String tmpNick = nick.substring(0, (nick.length() - countStr.length()));
+					nick = tmpNick + countStr;
+				}
+				else {
+					countStr = "" + count;
+					nick += countStr;
+					count++;
+				}
+			}
+		}
+		
+		MemberVO memberVO = new MemberVO(id, email,tmpPhone, nick);
+		log.info(memberVO);
+		return memberDao.insertSnsMember(memberVO);
+	}
+
+	@Override
+	public MemberVO loginSns(String sns, String id) {
+		try {
+			int num = Integer.parseInt(id);
+			num = num * 2;
+			id = sns + "!" + num;
+		}catch(Exception e) {
+			id = sns + "!" + id;
+		}
+		return memberDao.selectMember(id);
+	}
+	
 
 	@Override
 	public ArrayList<ReportVO> getMyReportList(Criteria cri, MemberVO user) {

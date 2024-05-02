@@ -1,0 +1,23 @@
+.cf:after{
+	clear: both; display: block; content: "";
+}
+
+.display-block{ display: block; }
+
+.click{ cursor: pointer; }
+
+.display-none{ display: none; }
+
+.left{ float: left;}
+
+.right{ float: right;}
+
+.main{max-height: 100%;}
+
+li{list-style: none;}
+
+a{text-decoration: none; color: #000; }
+
+.side-bar{box-sizing: border-box;}
+
+.book-main{box-sizing: border-box;}
