@@ -10,7 +10,6 @@
 <h1>
 	Hello world!  
 </h1>
-<a href="<c:url value="/mail"/>">문자 테스트 하러 가기</a>
 <P>  The time on the server is ${serverTime}. </P>
 
 
