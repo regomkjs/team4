@@ -55,12 +55,57 @@
 	.card-1:hover {
 	  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 	}
+	
+	hr{ margin-bottom: 35px; margin-top: 40px;}
+	
+	img{ width: 35px;}
+	
+    .input-group img:hover {
+        transform: scale(1.1); /* 이미지가 조금 커지는 효과 */
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 18px; /* 라벨의 폰트 크기 */
+        color: #333; /* 라벨의 색상 */
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        background-color: #f9f9f9; /* 배경색 */
+        padding: 10px;
+        border-radius: 5px; /* 테두리 둥글게 */
+        border: 1px solid #ddd; /* 테두리 색상 */
+    }
 </style>
 </head>
 <body>
 <div class="container col-5 p-5 mt-3 card-1" style="padding: 50px;">
 	<form action="<c:url value="/mypage"/>" method="post">
-		<h2 style="margin-bottom: 50px; font-weight: bold">내 정보</h2>
+		<h4 style="margin-bottom: 30px; font-weight: bold">내 정보</h4>
+		<div class="form-group" style="margin-bottom: 10px">
+			<label for="id">등급</label>
+			<div class="input-group">
+				<c:choose>
+					<c:when test="${user.me_gr_num == 2}">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABJElEQVR4nO2ZTWoCQRCF+xiWie4kS4/hBXISYQpc6wVcZu/KDFnmDlkY6BZEELfqRvwBEUSs0IREAs6iW5juJu+DWs97U696hi6lAAAgWqrtcY3Y5MR6T2yk3NL7Cuu3aqafvMVXWK/LF27+lNXwwPrR2cD3mw8rnq419DAQIjamKE47nw5ITKVggNEBQYRcCB0ZimGIm92J9N6Xstie0jLQ6s/kdbSR0/kiPyRjYLo6yi2SMVBEMgY2h7MMPtby/DJP00C9M77ZjWQMUEGcYMAVdIARIcEQE06hKzhGXcExyvd/ySn0rwQMMDpggkeH/vEM6HgudzOzdTZglwvBhfNv5c4G7GYkmgVH9tlQPtjNiF0u2Pv58sVr+8zcWzwAAKgy+ALGkks5M3xO2gAAAABJRU5ErkJggg==">
+					</c:when>
+					<c:when test="${user.me_gr_num == 3}">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABqUlEQVR4nO2Zy4rCMBSG8yAzy2EeR5JSRQRREZe+gY+gK9F1t4N04VY3Cq7c6ULwBcSFMF4q9vRyhlSm1QHRVmlTJj8cKGlp/+/kJCkJIVJSUlLC6pjJvAOlPZOxHTCGcYZ5/qZ+UtXPyOZNSjdxG4e/IJRuDErfQgPwzCdtHoL4Cg2QRNnA7V7Yhu8BAYzDRUgAkD3AZAmF0v8dxIqCdreL7nKJuN97wa/tTse7JzaAoqAzHuMtOaOR2AB2q4X3ZDeb4gK4s1mQ7cEAoVxGKBTQGQ79dv6MsABoGL5RKBb9dqtWC7rAMMQFgFtRqQQAu136AGxNC0poPk8XgFWtIh6PwSBut1MEkM16Gfezv1oh5HIpAVBVdCaTi0XAQavRiPw+EitAPo/OdHo9/2vaUwkhsQGUSuguFtcrcL//dDmSOACseh3d9fravK4/P5ZYXAvZ4XD3V8Jb5IQFeFAS4BG9om5fGSSskjYMEoAln3WQJcRSPIhNsTZ3v6PMQnrSxuE3KO2FBuAnI6IccJwY+yBRxE9G+OEC359PwPiWZz6yeSkpKSkSh34A766mybHzuzMAAAAASUVORK5CYII=">
+					</c:when>
+					<c:when test="${user.me_gr_num == 4}">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABiElEQVR4nO2ZwUrEMBCG8yB6FA824M0XUHwUD+7DKI3C6mW9SvGgfQL1UterNq4rrLRepAvu0ihUSmSKjahUTcU2wfnhh5JL/y8zaUuHEBQKhTJWW9cLs4w7nsvplHEqm7QL9wzpwXZI538Rno6bDs4+e7w5oDPaALDzBoSXr97XBmijbViVQzqpUQEDgvM3IwDDClBsIS3960Psxx0ZizOZ5Y+FYxEUa1YAnCe7skr9ZMdsAD/uyO9UtxKkCQBom1Kj9Fj2hsuFR+mJWo9EYC5AlgsVFIKX673hilrP8tRcAFbhvZtVBSCeE3sAuoMleRityfunSwVwNfHtAfioaXb3rrUYAnwhbCFu4SHObH+MxiJQQeHlBcHBt+mpHS8y/wefEkfRurkAjNPig61K/aRb+5FMmgIoKwGtAmcCDNd1d561AfAXJgjAsQISW0hH1h9i16Cfu27oPGgDwHCh7eBM2fG0AWAyYsqAY+NicY7UEUxGYLgA/+cbDx7CPR2vdngUCoUiTegFU2aJ1Yt8CosAAAAASUVORK5CYII=">
+					</c:when>
+					<c:when test="${user.me_gr_num == 5}">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABMUlEQVR4nO2ZTQrCQAyFe4yO1aUIKngYjyYi4g1EPIPSClO3HsG6FPzDTeNERrRaiuAU6UwgD7Lppu97STYTz2OxWCxnhctaA0IxS0NxgkhglZU+/unPMaq1SptPQ39ftXEogPh7lEHdGEAnb9s8vGtqDGBjbOD7OB3NO+CAcfgoBgDugOARMpLtkQHrSyzbiHDCT5ECUNtBzjwtAKnTP9MFUMmwYJ4OQNzJ0leHFT0AlYwyw7dNnxhA3EWES5a+/kYKQO3GufRpAax7iLdrLn1SAGo3KaRPCgCf6f8iNwFQUQdA2gDwA5jTOwAMINzswL/KY4CIO4A8QiYiv8SpW4+7B2MAfVywbRxeFYqZMYC+jDhz4FgETWOAB4QM6vq4oN/nLYzNUSdf2jyLxWJ5VegOSOS+C4MgG8YAAAAASUVORK5CYII=">
+					</c:when>
+					<c:when test="${user.me_gr_num == 6}">
+						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABf0lEQVR4nO2ZsUoDQRCG90G00V1S+Qhq7QPIbVDsTKGWWtjamT7BZ5Bw4COIRTq1SOUjCCEmahR27kZG1BVMPHbBvV2cH4ZLFeab+Wfv2BGCxWKxolW2jIuZgp6WZqIVYNCQZpJJyDcb2PBOXkszDJ64+gEy3JK44A5Ala87efUV584AtdhGzY5MmbE7QASJ62/BAJo7AGwhJ/3bIT47LrBKUQPknTJtgKuLxAHuri3AyXaR3gyM7m2lD9YhLYCdFcDyowH0fBwhvk4RB/0S260ifoDDDfjV+3m3jBugc1R9hPp2QoQAmBV7q4A3l3awyU5JAWgFuL9mrTV9ivwY1XMiiffAy7NNkqyTXAcGfet18j0lTnGbygy0W9Wn0Olu5KdQ3p3/LUQfer7/K0IBfHaCrEIzQUG/fSuv6wD4ixAMoLgDyBZyUfpDLOO53NXKPDgD0HKh/sThPeiq3xmANiOxLDiaS6iEj2gzQssFup8PX3Uzpsp7J89isVgihN4AZZD+JaDC0u8AAAAASUVORK5CYII=">
+					</c:when>
+				</c:choose>
+			</div>
+		</div>
 		<c:if test="${!fn:contains(user.me_id, '!')}">
 			<div class="form-group" style="margin-bottom: 10px">
 				<label for="id">아이디</label>
@@ -73,7 +118,7 @@
 			<label for="id">커뮤니티 정지일</label>
 			<div class="input-group">
 				<c:if test="${user.me_block != null}">
-					<input type="text" class="form-control" id="block" name="me_block" readonly value="<fmt:formatDate value="${user.me_block}" pattern="yy/MM/dd"/>">
+					<input type="text" class="form-control" id="block" name="me_block" readonly value="${user.me_block}">
 				</c:if>
 				<c:if test="${user.me_block == null}">
 					<input type="text" class="form-control" id="block" name="me_block" readonly value="X">
@@ -91,6 +136,8 @@
 				</c:if>
 			</div>
 		</div>
+		<hr>
+		<h4 style="margin-bottom: 30px; font-weight: bold">내 정보 수정</h4>
 		<div class="form-group" style="margin-bottom: 10px">
 			<label for="nick">닉네임</label>
 			<div class="input-group">
@@ -116,16 +163,29 @@
 			<input type="text" class="form-control" id="email" name="me_email" value="${user.me_email }">
 			<label id="email-error" class="error text-danger" for="email"></label>
 		</div>
-		<div class="form-group">
-			<label for="phone">전화번호</label>
-			<input type="text" class="form-control" id="phone" name="me_phone" value="${user.me_phone }">
-			<label id="phone-error" class="error text-danger" for="phone"></label>
-			<button type="button" class="btn btn-outline-primary check-phone">인증번호 보내기</button>
+		<div class="form-group phone-group">
+		    <label for="phone">전화번호</label>
+		    <div class="row">
+		        <div class="col-8">
+		            <input type="text" class="form-control" id="phone" name="me_phone" value="${user.me_phone }">
+		            <label id="phone-error" class="error text-danger" for="phone"></label>
+		        </div>
+		        <div class="col-4">
+		            <button type="button" class="btn btn-outline-primary check-phone">인증번호 보내기</button>
+		        </div>
+		    </div>
 		</div>
 		<div class="form-group" id="verification-section">
-		    <input type="text" class="form-control" id="code" name="code" placeholder="인증번호">
-		    <label id="code-error" class="error text-danger" for="code"></label>
-		    <button type="button" class="btn btn-outline-primary complete-phone" id="verifyButton" type="button">확인</button>
+		    <label for="code">인증번호</label>
+		    <div class="row">
+		        <div class="col-8">
+		            <input type="text" class="form-control" id="code" name="code" placeholder="인증번호">
+		            <label id="code-error" class="error text-danger" for="code"></label>
+		        </div>
+		        <div class="col-4">
+		            <button type="button" class="btn btn-outline-primary complete-phone" id="verifyButton">확인</button>
+		        </div>
+		    </div>
 		</div>
 		<button class="btn btn-outline-success col-12 btn-submit" style="margin-top: 40px">내 정보 수정</button>
 	</form>
