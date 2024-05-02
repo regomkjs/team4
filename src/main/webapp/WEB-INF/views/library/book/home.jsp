@@ -6,7 +6,7 @@
 	
 	.post{ background: green; height: 300px;}
 	
-	.book{ background: aliceblue; height: 600px;}
+	.book-tab { border-bottom: 2px solid #f36c4f; position: relative;}
 </style>
 <body>
 	<div class="main">
@@ -17,7 +17,14 @@
 	<div class="post">
 		커뮤	
 	</div>
-	<div class="book">
-		책	
+	<div class="main-book">
+		<ul class="book-tap">
+			<li class="new-title">
+				<a href="#">새로 들어온 책</a>
+			</li>
+			<li class="popular-title">
+				<a href="#">대출이 많은 책</a>
+			</li>
+		</ul>
 	</div>
 </body>
