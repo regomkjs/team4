@@ -80,11 +80,11 @@
 		</div>
 		<button class="btn btn-outline-success col-12 btn-submit" style="margin-top: 40px">로그인</button>
 	</form>
-	<div class="mt-3 text-center " style="width: 100%">
-		<a id="kakao-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;">
+	<div class="mt-3 text-center" style="width: 100%">
+		<a id="kakao-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;" class="mt-2">
 			<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="180" height="48" style="min-width: 100; max-width: 300;" alt="카카오 로그인 버튼" />
 		</a>
-		<a id="naverIdLogin_loginButton" href="javascript:void(0)" style="text-decoration: none;">
+		<a id="naverIdLogin_loginButton" href="javascript:void(0)" style="text-decoration: none;" class="mt-2">
 	    	<img alt="네이버 로그인 버튼" src="<c:url value="/resources/img/btnG.png"/>"  width="180" height="48"  style="min-width: 100; max-width: 300;">
 	    </a>
 	</div>

@@ -10,6 +10,39 @@
 		.order-btn:hover {
 			cursor: pointer;
 		}
+		.hovertext-box{
+			position: relative;
+		}
+		.hovertext {
+		    overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			width: 80px;
+			height: 20px;
+		}
+		
+		.hovertext-box:before {
+		    content: attr(data-hover);
+		    visibility: hidden;
+		    opacity: 0;
+		    width: max-content;
+		    background-color: black;
+		    color: #fff;
+		    text-align: center;
+		    border-radius: 5px;
+		    padding: 5px 5px;
+		    transition: opacity 1s ease-in-out;
+		
+		    position: absolute;
+		    z-index: 1;
+		    left: 0;
+		    top: 110%;
+		}
+		
+		.hovertext-box:hover:before {
+		    opacity: 1;
+		    visibility: visible;
+		}
 	</style>
 </head>
 <body>
@@ -1135,7 +1168,7 @@ function getMemberList(me_cri, where){
 					`
 						<tr>
 							<td>\${member.me_mr_name}</td>
-							<td class="small">\${member.me_id}</td>
+							<td class="small hovertext-box" data-hover="\${member.me_id}"><p class="hovertext">\${member.me_id}</p></td>
 							<td class="small">\${member.me_nick}</td>
 							<td>\${member.me_gr_name}</td>
 							<td class="small">\${member.me_date}</td>

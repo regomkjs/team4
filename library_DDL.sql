@@ -250,7 +250,7 @@ DROP TABLE IF EXISTS `post`;
 
 CREATE TABLE `post` (
   `po_num` int NOT NULL AUTO_INCREMENT,
-  `po_title` varchar(50) NOT NULL,
+  `po_title` varchar(255) NOT NULL,
   `po_content` longtext NOT NULL,
   `po_view` int NOT NULL DEFAULT '0',
   `po_datetime` datetime NOT NULL,
