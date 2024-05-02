@@ -13,8 +13,8 @@
 	
 	
 	<!-- 
-	 <context:property-placeholder location="/WEB-INF/spring/config.properties" />
 	 --> 
+	 <context:property-placeholder location="/WEB-INF/spring/config.properties" />
 	
 	
 	<bean id="dataSource"
