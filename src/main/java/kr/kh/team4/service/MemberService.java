@@ -82,6 +82,12 @@ public interface MemberService {
 
 	void updateMemberCookie(MemberVO user);
 
+	boolean idCheck(String sns, String id);
+
+	boolean signupSns(String sns, String id, String email, String phone_number, String nick);
+
+	MemberVO loginSns(String sns, String id);
+	
 	ArrayList<ReportVO> getMyReportList(Criteria cri, MemberVO user);
 
 	int totalCountMyReport(Criteria cri, MemberVO user);

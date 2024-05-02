@@ -83,6 +83,8 @@ public interface MemberDAO {
 
 	MemberVO selectMemberByCookie(@Param("me_cookie")String sessionId);
 
+	boolean insertSnsMember(@Param("member")MemberVO member);
+	
 	ArrayList<ReportVO> selectMyReportList(@Param("cri")Criteria cri, @Param("user")MemberVO user);
 
 	int selectTotalCountMyReport(@Param("cri")Criteria cri, @Param("user")MemberVO user);

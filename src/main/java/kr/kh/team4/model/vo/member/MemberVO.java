@@ -34,4 +34,14 @@ public class MemberVO {
 	private String me_ms_name;
 	//권한명
 	private String me_mr_name;
+	
+	//sns로그인용 생성자
+	public MemberVO(String me_id, String me_email, String me_phone, String me_nick) {
+		this.me_id = me_id;
+		this.me_email = me_email;
+		this.me_phone = me_phone;
+		this.me_nick = me_nick;
+	}
+	
+	
 }
