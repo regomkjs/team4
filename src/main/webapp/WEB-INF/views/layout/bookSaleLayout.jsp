@@ -10,7 +10,7 @@
 <title>
 <c:choose>
 	<c:when test="${title != null }">${title}</c:when>
-	<c:otherwise>도서관</c:otherwise>
+	<c:otherwise>도서판매점</c:otherwise>
 </c:choose>
 </title>
 <!-- Latest compiled and minified CSS -->
@@ -30,8 +30,12 @@
 <script src="http://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
 <!-- 폰트어썸 -->
-<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+<link
+    rel="stylesheet"
+    href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+ />
 
+<link href="${path}/resources/css/bookCss/test.css" rel="stylesheet"/> 
 </head>
 <body>
     <tiles:insertAttribute name="header"/>

@@ -9,10 +9,16 @@
         <put-attribute name="body" value="/WEB-INF/views/popup/{1}/{2}.jsp" />
     </definition>
  	<!-- 도서관 레이아웃 -->
-  	<definition name="/library/*/*" template="/WEB-INF/views/layout/libraryLayout.jsp">
+  	<definition name="/library/book/*" template="/WEB-INF/views/layout/libraryLayout.jsp">
         <put-attribute name="header" value="/WEB-INF/views/common/libraryHeader.jsp" />   
         <put-attribute name="footer" value="/WEB-INF/views/common/libraryFooter.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/library/{1}/{2}.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/library/book/{1}.jsp" />
+    </definition>
+ 	<!-- 도서판매 레이아웃 -->
+  	<definition name="/library/sale/*" template="/WEB-INF/views/layout/bookSaleLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/common/bookSaleHeader.jsp" />   
+        <put-attribute name="footer" value="/WEB-INF/views/common/libraryFooter.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/library/sale/{1}.jsp" />
     </definition>
      <!--레이아웃을 적용하는화면-->
     <definition name="/*/*" template="/WEB-INF/views/layout/baseLayout.jsp">
