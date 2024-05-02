@@ -82,10 +82,10 @@
 	</form>
 	<div class="mt-3 text-center " style="width: 100%">
 		<a id="kakao-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;">
-			<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="200" style="min-width: 100; max-width: 300;" alt="카카오 로그인 버튼" />
+			<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="180" height="48" style="min-width: 100; max-width: 300;" alt="카카오 로그인 버튼" />
 		</a>
 		<a id="naverIdLogin_loginButton" href="javascript:void(0)" style="text-decoration: none;">
-	    	<img alt="네이버 로그인 버튼" src="<c:url value="/resources/img/btnG.png"/>"  width="180" style="min-width: 100; max-width: 300;">
+	    	<img alt="네이버 로그인 버튼" src="<c:url value="/resources/img/btnG.png"/>"  width="180" height="48"  style="min-width: 100; max-width: 300;">
 	    </a>
 	</div>
 </div>
