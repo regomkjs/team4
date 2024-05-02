@@ -23,6 +23,7 @@
 .book-item:after{padding-bottom:5px; border-bottom: 1px solid #ccc; }
 
 .book-img{width: 15%; height:100%;}
+.book-img img{max-width:80%; height:100%;}
 .book-content{width: 85%; height:100%; font-size: 12px;}
 .content-text{width:80%; height:100%;  padding: 5px 0; box-sizing: border-box;}
 .content-text ul{margin: 0;}
@@ -48,105 +49,101 @@
 				<button class="btn btn-success search-btn" type="submit">검색</button>
 			</div>
 		</form>
-		<div class="basket">
-			<p>장바구니</p>
-			<div></div>
-		</div>
 		<div class="main">
 			<div class="side-bar w-25 left cf">
 				<div class="frame">
 					<ul class="main-menu">
-						<li data-num="55890" class="search1 click">건강/취미</li>
+						<li data-num="55890" class="click">건강/취미</li>
 						<li class="sub-menu">
 							<div>		
 								<ul>
-									<li data-num="53521" class="search1 click">건강정보</li>
-									<li data-num="53471" class="search1 click">건강요리</li>
-									<li data-num="55890" class="search1 click">건강/취미/레저</li>
-									<li data-num="53562" class="search1 click">건강에세이/건강정보</li>
-									<li data-num="53514" class="search1 click">다이어트</li>
+									<li data-num="53521" class="click">건강정보</li>
+									<li data-num="53471" class="click">건강요리</li>
+									<li data-num="55890" class="click">건강/취미/레저</li>
+									<li data-num="53562" class="click">건강에세이/건강정보</li>
+									<li data-num="53514" class="click">다이어트</li>
 								</ul>
 							</div>
 						</li>
 					</ul>
 					<ul class="main-menu">
-						<li data-num="170" class="search1  click">경제경영</li>
+						<li data-num="170" class="  click">경제경영</li>
 						<li class="sub-menu">
 							<div>
 								<ul>
-									<li data-num="3057" class="search1 click">경제학/경제일반</li>
-									<li data-num="2172" class="search1 click">기업 경영</li>
-									<li data-num="2028" class="search1 click">기업/경영자 스토리</li>
-									<li data-num="261" class="search1 click">마케팅/세일즈</li>
-									<li data-num="172" class="search1 click">재테크/투자</li>
+									<li data-num="3057" class="click">경제학/경제일반</li>
+									<li data-num="2172" class="click">기업 경영</li>
+									<li data-num="2028" class="click">기업/경영자 스토리</li>
+									<li data-num="261" class="click">마케팅/세일즈</li>
+									<li data-num="172" class="click">재테크/투자</li>
 								</ul>
 							</div>
 						</li>
 					</ul>
 					<ul class="main-menu">
-						<li data-num="987" class="search1 click">과학</li>
+						<li data-num="987" class=" click">과학</li>
 						<li class="sub-menu">
 							<div>
 								<ul>
-									<li data-num="51002" class="search1 click">기초과학/교양과학</li>
-									<li data-num="51010" class="search1 click">과학자의 생애</li>
-									<li data-num="51013" class="search1 click">뇌과학</li>
-									<li data-num="51024" class="search1 click">물리학</li>
-									<li data-num="51272" class="search1 click">의학</li>
+									<li data-num="51002" class="click">기초과학/교양과학</li>
+									<li data-num="51010" class="click">과학자의 생애</li>
+									<li data-num="51013" class="click">뇌과학</li>
+									<li data-num="51024" class="click">물리학</li>
+									<li data-num="51272" class="click">의학</li>
 								</ul>
 							</div>
 						</li>
 					</ul>
 					<ul class="main-menu">
-						<li data-num="2551" class="search1 click">만화</li>
+						<li data-num="2551" class="click">만화</li>
 						<li class="sub-menu">
 							<div>
 								<ul>
-									<li data-num="4668" class="search1 click">교양만화</li>
-									<li data-num="36192" class="search1 click">그래픽노블</li>
-									<li data-num="3728" class="search1 click">본격장르만화</li>
-									<li data-num="3727" class="search1 click">소년만화</li>
-									<li data-num="7443" class="search1 click">인터넷 연재 만화</li>
+									<li data-num="4668" class="click">교양만화</li>
+									<li data-num="36192" class="click">그래픽노블</li>
+									<li data-num="3728" class="click">본격장르만화</li>
+									<li data-num="3727" class="click">소년만화</li>
+									<li data-num="7443" class="click">인터넷 연재 만화</li>
 								</ul>
 							</div>
 						</li>
 					</ul>
 					<ul class="main-menu">
-						<li data-num="1" class="search1 click">소설/시/희곡</li>
+						<li data-num="1" class="click">소설/시/희곡</li>
 						<li class="sub-menu">
 							<div>
 								<ul>
-									<li data-num="50927" class="search1 click">라이트 노벨</li>
-									<li data-num="50940" class="search1 click">시</li>
-									<li data-num="50918" class="search1 click">일본소설</li>
-									<li data-num="50917" class="search1 click">한국소설</li>
-									<li data-num="50948" class="search1 click">희곡</li>
+									<li data-num="50927" class="click">라이트 노벨</li>
+									<li data-num="50940" class="click">시</li>
+									<li data-num="50918" class="click">일본소설</li>
+									<li data-num="50917" class="click">한국소설</li>
+									<li data-num="50948" class="click">희곡</li>
 								</ul>
 							</div>
 						</li>
 					</ul>
 					<ul class="main-menu">
-						<li data-num="74" class="search1 click">역사</li>
+						<li data-num="74" class="click">역사</li>
 						<li class="sub-menu">
 							<div>
 								<ul>
-									<li data-num="2177" class="search1 click">문화/역사기행</li>
-									<li data-num="5242" class="search1 click">서양사</li>
-									<li data-num="148" class="search1 click">아시아사</li>
-									<li data-num="169" class="search1 click">세계사 일반</li>
+									<li data-num="2177" class="click">문화/역사기행</li>
+									<li data-num="5242" class="click">서양사</li>
+									<li data-num="148" class="click">아시아사</li>
+									<li data-num="169" class="click">세계사 일반</li>
 								</ul>
 							</div>
 						</li>
 					</ul>
 					<ul class="main-menu">
-						<li data-num="656" class="search1 click">인문학</li>
+						<li data-num="656" class="click">인문학</li>
 						<li class="sub-menu">
 							<div>
 								<ul>
-									<li data-num="51378" class="search1 click">교양 인문학</li>
-									<li data-num="51387" class="search1 click">철학 일반</li>
-									<li data-num="51395" class="search1 click">심리학/정신분석하</li>
-									<li data-num="51399" class="search1 click">신화/종교학</li>
+									<li data-num="51378" class="click">교양 인문학</li>
+									<li data-num="51387" class="click">철학 일반</li>
+									<li data-num="51395" class="click">심리학/정신분석하</li>
+									<li data-num="51399" class="click">신화/종교학</li>
 								</ul>
 							</div>
 						</li>
@@ -157,7 +154,7 @@
 				<div class="book-list">
 				
 				</div>
-				<div class="pagination-box">
+				<div class="pagination-box mt-3">
 					<ul class="pagination justify-content-center pagination-sm""></ul>
 				</div>
 			</div>
@@ -180,7 +177,7 @@
 
 	let books=[];
 	
-	$(".search1").click(function() {
+	$(".click").click(function() {
 		APIdata.CategoryId=$(this).data("num");
 		APIdata.Start=1;
 		bookListCri.startPage=1;
@@ -227,82 +224,6 @@
 		BookList();
 	});
 	</script>
-	<!-- 구매,장바구니 -->
-	<script type="text/javascript">
-	let basket=[];
-	let nick=${user.me_nick!=null}?"${user.me_nick}":"guest";
-	let data=JSON.parse(localStorage.getItem(nick));
-	if(data!=null){
-		basket=data;
-		console.log(basket);
-	}
-	$(document).on("click",".basket-btn",function(){
-		let isbn=$(this).data("isbn");
-		for(let i=0;i<basket.length;i++){
-			if(basket[i].isbn13==isbn){
-				return;
-			}
-		}
-		for(let i=0;i<books.length;i++){
-			if(books[i].isbn13==isbn){
-				basket.push(books[i]);
-			}
-		}
-		displayBasketView();
-		let basketJson=JSON.stringify(basket);
-		localStorage.setItem(nick,basketJson);
-	});
-	
-	$(".basket>p").click(function() {
-		location.href = '<c:url value="/library/book/sale" />';	
-	});
-	
-	$(document).on("click",".purchase-btn",function(){
-		let isbn=$(this).data("isbn");
-		for(let i=0;i<basket.length;i++){
-			if(basket[i].isbn13==isbn){
-				let basketJson=JSON.stringify(basket);
-				localStorage.setItem(nick,basketJson);
-				location.href = '<c:url value="/library/book/sale" />';
-				return;
-			}
-		}
-		for(let i=0;i<books.length;i++){
-			if(books[i].isbn13==isbn){
-				basket.push(books[i]);
-			}
-		}
-		let basketJson=JSON.stringify(basket);
-		localStorage.setItem(nick,basketJson);
-		location.href = '<c:url value="/library/book/sale" />';	
-	});
-	
-	
-	function displayBasketView() {
-		let i=0;
-		let str=`
-			<p>장바구니(\${basket.length})</p>
-			<div><ul>
-			`;
-			for(baskets of basket){
-				str+=`
-					<li>\${baskets.title} <button type="button" data-index="\${i}" class="close">&times;</button></li>
-				`;
-				i++;
-			}
-		str+=`</ul></div>`;
-		$(".basket").html(str);
-	}
-	displayBasketView();
-	
-	$(document).on("click",".close",function(){
-		let index=$(this).data("index");
-		basket.splice(index,1);
-		displayBasketView();
-		let basketJson=JSON.stringify(basket);
-		localStorage.setItem(nick,basketJson);
-	});
-	</script>
 	<script type="text/javascript">
 	function displayView(data) {
 		let str="";
@@ -322,7 +243,7 @@
 								\${book.title} </a></li>
 							<li>\${book.author} | \${book.publisher}</li>
 							<li>\${book.pubDate}</li>
-							<li>판매가: \${book.priceStandard}원</li>
+							<li>판매가: \${priceToString(book.priceStandard)}</li>
 						</ul>
 					</div>
 					<div  class="content-btn right">
