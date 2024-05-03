@@ -1,15 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="jumbotron jumbotron-fluid" style="margin:0">
-<!-- Section: Social media -->
-  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-    <!-- Left -->
-    <div class="me-5 d-none d-lg-block">
-      <span></span>
-    </div>
-    <!-- Left -->
-
+<style type="text/css">
+.footer{ background: #d5d5d5;}
+</style>
+<div class="main" style="margin:0">
     <!-- Right -->
     <div>
       <a class="me-4 text-reset" style="text-decoration: none">
@@ -34,9 +29,9 @@
     <!-- Right -->
   </section>
   <!-- Section: Social media -->
-
+	<hr class="bar">
   <!-- Section: Links  -->
-  <section class="">
+  <section class="footer">
     <div class="container text-center text-md-start mt-5">
       <!-- Grid row -->
       <div class="row mt-3">
@@ -52,6 +47,9 @@
           <p>
             Be not afraid of greatness:<br>
             some men are born great, some achieve greatness and some have greatness thrust upon them.
+          </p>
+          <p>
+            icon by <a href="https://icons8.com">Icons8</a>
           </p>
         </div>
         <!-- Grid column -->
