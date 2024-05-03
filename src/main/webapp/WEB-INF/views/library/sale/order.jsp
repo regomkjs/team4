@@ -3,7 +3,18 @@
 	pageEncoding="UTF-8"%>
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-
+<style>
+.order table thead tr{background-color:#ccc;}
+.order table tr{text-align: center; line-height: 30px;}
+.order table tbody tr td:nth-child(2)  a{
+	color: #66c;
+}
+.modal table th{background-color:#eee;}
+.modal-body:nth-child(2) table {text-align: center;}
+.modal-body:nth-child(2) table tbody tr td{line-height: 60px;}
+.modal-body:nth-child(2) table tbody tr td img{height: 60px;}
+.modal-body:nth-child(2) table tbody tr:last-child td{padding: 0;}
+</style>
 <body>
 	<div class="container mt-5">
 		<div class="input-group">
@@ -19,7 +30,7 @@
 				<button class="btn btn-success search-btn" type="button">검색</button>
 			</div>
 		</div>
-		<div class="Order">
+		<div class="order mt-4">
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -190,7 +201,7 @@
 								}
 							str+=`</tr>`;
 					}
-					$(".Order>.table>tbody").html(str);
+					$(".order>.table>tbody").html(str);
 					
 					let pm = data.pm;
 					let pmStr = "";
