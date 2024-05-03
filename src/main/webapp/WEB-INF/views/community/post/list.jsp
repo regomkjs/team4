@@ -33,7 +33,7 @@
 		    transition: opacity 1s ease-in-out;
 		
 		    position: absolute;
-		    z-index: 1;
+		    z-index: 3;
 		    left: 0;
 		    top: 110%;
 		}
