@@ -85,8 +85,10 @@
 	</div>
 	<div class="text-center" style="width: 100%">
 		<a href="<c:url value="/find/id"/>" style="color: gray;">아이디찾기</a>
-	    <span style="color: gray; opacity: 60%">|</span>
-	    <a href="<c:url value="/find/pw"/>" style="color: gray;">비밀번호찾기</a>
+		<span style="color: gray; opacity: 60%">|</span>
+		<a href="<c:url value="/find/pw"/>" style="color: gray;">비밀번호찾기</a>
+		<span style="color: gray; opacity: 60%">|</span>
+		<a href="<c:url value="/signup"/>" style="color: gray;">회원가입</a>
 	</div>
 </div>
 

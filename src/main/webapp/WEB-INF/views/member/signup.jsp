@@ -31,6 +31,7 @@
 	<form action="<c:url value="/signup"/>" method="post">
 		<h2 style="margin-bottom: 50px; font-weight: bold">회원가입</h2>
 		<div class="form-group" style="margin-bottom: 10px">
+			<label for="phone">아이디</label>
 			<div class="input-group">
 				<input type="text" class="form-control" id="id" name="me_id" placeholder="아이디">
 			</div>
@@ -38,6 +39,7 @@
 			<label id="id-error2" class="error text-danger"></label>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
+			<label for="phone">닉네임</label>
 			<div class="input-group">
 				<input type="text" class="form-control" id="nickName" name="me_nick" placeholder="닉네임">
 			</div>
@@ -45,27 +47,44 @@
 			<label id="nickName-error2" class="error text-danger"></label>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
+			<label for="phone">비밀번호</label>
 			<input type="password" class="form-control" id="pw" name="me_pw" placeholder="비밀번호">
 			<label id="pw-error" class="error text-danger" for="pw"></label>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
+			<label for="phone">비밀번호 확인</label>
 			<input type="password" class="form-control" id="pw2" name="me_pw2" placeholder="비밀번호 확인">
 			<label id="pw2-error" class="error text-danger" for="pw2"></label>
 		</div>
 		<div class="form-group" style="margin-bottom: 10px">
+			<label for="phone">이메일</label>
 			<input type="text" class="form-control" id="email" name="me_email" placeholder="이메일">
 			<label id="email-error" class="error text-danger" for="email"></label>
 			<label id="email-error2" class="error text-danger"></label>
 		</div>
-		<div class="form-group">
-			<input type="text" class="form-control" id="phone" name="me_phone" placeholder="전화번호">
-			<label id="phone-error" class="error text-danger" for="phone"></label>
-			<button type="button" class="btn btn-outline-primary check-phone">인증번호 보내기</button>
+		<div class="form-group phone-group">
+		    <label for="phone">전화번호</label>
+		    <div class="row">
+		        <div class="col-8">
+		            <input type="text" class="form-control" id="phone" name="me_phone" value="${user.me_phone }">
+		            <label id="phone-error" class="error text-danger" for="phone"></label>
+		        </div>
+		        <div class="col-4">
+		            <button type="button" class="btn btn-outline-primary check-phone">인증번호 보내기</button>
+		        </div>
+		    </div>
 		</div>
 		<div class="form-group" id="verification-section">
-		    <input type="text" class="form-control" id="code" name="code" placeholder="인증번호">
-		    <label id="code-error" class="error text-danger" for="code"></label>
-		    <button type="button" class="btn btn-outline-primary complete-phone" id="verifyButton" type="button">확인</button>
+		    <label for="code">인증번호</label>
+		    <div class="row">
+		        <div class="col-8">
+		            <input type="text" class="form-control" id="code" name="code" placeholder="인증번호">
+		            <label id="code-error" class="error text-danger" for="code"></label>
+		        </div>
+		        <div class="col-4">
+		            <button type="button" class="btn btn-outline-primary complete-phone" id="verifyButton">확인</button>
+		        </div>
+		    </div>
 		</div>
 		<button class="btn btn-outline-success col-12 btn-submit" style="margin-top: 40px">회원가입</button>
 	</form>
