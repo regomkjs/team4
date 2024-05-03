@@ -136,7 +136,7 @@
 		</div>
 		
 	</div>
-	<div class="side-category" style="width: 100%; min-height: calc(100% - 266px); margin-top: 1px">
+	<div class="side-category" style="width: 100%; min-height: calc(100% - 276px); margin-top: 1px">
 		
 	</div>
 	<c:if test="${user.me_mr_num < 2 }">
