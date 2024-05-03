@@ -8,6 +8,15 @@
 	<title>게시글 상세</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 	<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
+	
+	<style type="text/css">
+		.line-hr{
+			border: 2px solid;
+			border-color: #dcdcdc;
+		}
+	
+	</style>
+	
 </head>
 <body>
 <c:set var="now" value="<%=new java.util.Date()%>" />
@@ -26,116 +35,121 @@
 	<div class="container mt-3 mb-3">
 		
 		<div class="mb-3 mt-3">
-			<div class="d-flex">
-				<label for="category" style="margin-top: 10px">게시판:</label>
-				<div class="ml-auto mb-2">
+			<div class="d-flex mb-1">
+				<div class="ml-auto">
 					<c:if test="${user.me_id == post.po_me_id}">
 						<c:url value="/post/update" var="updateUrl">
 							<c:param name="num"  value="${post.po_num}"/>
 						</c:url>
-						<a href="${updateUrl}" class="btn btn-success mr-3">수정</a>
+						<a href="${updateUrl}" class="btn btn-sm btn-success mr-3">수정</a>
 					</c:if>
 					<c:if test="${user.me_ms_num < 2 || user.me_id == post.po_me_id}">					
 						<c:url value="/post/delete" var="deleteUrl">
 							<c:param name="num"  value="${post.po_num}"/>
 						</c:url>
-						<a href="${deleteUrl}" class="btn btn-danger">삭제</a>
+						<a href="${deleteUrl}" class="btn btn-sm btn-danger">삭제</a>
 					</c:if>	
 				</div>
 			</div>
-			<div class="form-control" id="category">${post.ca_name}</div>
+			<div style="display: block; border: 1px solid; padding: 10px; border-radius: 5px">
+				<div>
+					<div id="title" style="font-size: large; font-weight: bold;"><span class="mr-2">[${post.ca_name}]</span><span>${post.po_title}</span></div>
+					
+				</div>
+				<div class="mt-2 d-flex justify-content-between">
+					<div id="writer">작성자 : ${post.me_nick}</div>
+					<div id="date-box" style="margin-left: 20%">작성일자 : ${post.po_datetime}</div>
+					<div class="mr-3">조회수 : ${post.po_view}</div> 
+				</div>
+			</div>
 		</div>
 		
-		<div class="mb-3 mt-3">
-			<label for="title">제목:</label>
-			<div class="form-control" id="title">${post.po_title}</div>
-		</div>
-		<div class="mb-3 mt-3 d-flex justify-content-between form-control">
-			<div id="date-box">${post.po_datetime}</div>
-			<div class="mr-3">조회수 : ${post.po_view}</div> 
-		</div>
-		<div class="mb-3 mt-3">
-			<label for="writer">작성자:</label>
-			<div class="form-control" id="writer">${post.me_nick}</div>
-		</div>
-		<c:if test="${voteList.size() != 0 && voteList != null}">
-			<c:forEach items="${voteList}" var="vote">
-				<c:if test="${vote.vo_state == 1}">
-					<div class="vote-box mb-3 container" style="border: 1px solid #aaaaaa; border-radius: 5px;" data-num="${vote.vo_num}" data-date="${vote.vo_date}">
-						<c:if test="${vote.vo_dup}">
-							<div class="d-flex mt-1" style="margin-bottom: 0">
-								<label class="ml-auto" style="font-size: small; color: gray;">다중선택 허용</label>
-								<input value="${vote.vo_dup}" id="vo_dup" readonly style="display: none;">
-							</div>	
-						</c:if>
-						<c:if test="${vote.vo_title != null && vote.vo_title.length() != 0}">
-							<div class="input-group mt-1">
-								<div class="input-group-prepend">
-									<label for="vote-title" class="input-group-text">투표명</label>				
-								</div>
-								<div id="vote-title" class="input-group form-control">${vote.vo_title}</div>
-							</div>
-						</c:if>
-						<div class="input-group mb-2 mt-1">
-							<div class="input-group-prepend">
-								<label for="vote-date" class="input-group-text">투표기한</label>				
-							</div>
-							<div id="vote-date" class="input-group form-control">${vote.vo_date}</div>
-						</div>
-						<div class="select-list">
-							<c:forEach items="${itemList}" var="item">
-								<c:if test="${vote.vo_num == item.it_vo_num}">
-									<button class="select-item form-control btn btn-outline-secondary mb-1" value="${item.it_num}" name="${item.it_num}" type="button" data-dup="${item.vo_dup}">${item.it_name}</button>
-								</c:if>
-							</c:forEach>
-						</div>
-						<c:if test="${post.po_me_id == user.me_id}">
-							<button class="btn btn-outline-success form-control mt-2 mb-2 btn-close-vote" type="button">투표 마감</button>
-						</c:if>
-						<div class="d-flex mt-1" style="margin-bottom: 0">
-							<label class="ml-auto mr-2 member-count-label" style="font-size: small;">${vote.vo_totalMember}명 참여중</label>
-						</div>	
-					</div>
-				</c:if>
-				<c:if test="${vote.vo_state == 0}">
-					<div class="vote-box mb-3 container" data-num="${vote.vo_num}" data-date="${vote.vo_date}" style="border: 1px solid #aaaaaa; border-radius: 5px;">
-						<c:if test="${vote.vo_dup}">
-							<div class="d-flex mt-1" >
-								<label class="ml-auto" style="font-size: small; color: gray;">다중선택 허용</label>
-							</div>	
-						</c:if>
-						<c:if test="${vote.vo_title != null && vote.vo_title.length() != 0}">
-							<div class="input-group mt-1">
-								<div class="input-group-prepend">
-									<label for="vote-title" class="input-group-text">투표명</label>				
-								</div>
-								<div id="vote-title" class="input-group form-control">${vote.vo_title}</div>
-							</div>
-						</c:if>
-						<c:forEach items="${itemList}" var="item">
-							<c:if test="${vote.vo_num == item.it_vo_num}">
-								<div class="d-flex">
-									<div class="mr-1 col-2">
-										<label>${item.it_name} :</label>
-									</div>
-									<div class="flex-grow-1">
-										<div class="progress mt-1" style="height:25px;">
-											<div class="progress-bar bg-success" style="width: ${item.it_count / vote.vo_totalMember * 100}%; height: 100%; font-size: large;">${item.it_count}</div>
+		<div class="mb-3">
+			<div style="min-height: 250px; display: block; border: 1px solid; padding: 10px; border-radius: 5px">
+				<c:if test="${voteList.size() != 0 && voteList != null}">
+					<div class="vote-container d-flex flex-wrap">
+						<c:forEach items="${voteList}" var="vote">
+							<c:if test="${vote.vo_state == 1}">
+								<div class="vote-box mb-3" style="margin: 0 auto; height: 100%; width: 30%; min-width: 300px" data-num="${vote.vo_num}" data-date="${vote.vo_date}">
+									<c:if test="${vote.vo_dup}">
+										<div class="d-flex mt-1" style="margin-bottom: 0">
+											<label class="ml-auto" style="font-size: small; color: gray;">다중선택 허용</label>
+											<input value="${vote.vo_dup}" id="vo_dup" readonly style="display: none;">
+										</div>	
+									</c:if>
+									<c:if test="${vote.vo_title != null && vote.vo_title.length() != 0}">
+										<div class="input-group mt-1">
+											<div class="input-group-prepend">
+												<label for="vote-title" class="input-group-text">투표명</label>				
+											</div>
+											<div id="vote-title" class="input-group form-control">${vote.vo_title}</div>
 										</div>
+									</c:if>
+									<div class="input-group mb-2 mt-1">
+										<div class="input-group-prepend">
+											<label for="vote-date" class="input-group-text">투표기한</label>				
+										</div>
+										<div id="vote-date" class="input-group form-control">${vote.vo_date}</div>
 									</div>
+									<div class="select-list">
+										<c:forEach items="${itemList}" var="item">
+											<c:if test="${vote.vo_num == item.it_vo_num}">
+												<button class="select-item form-control btn btn-outline-secondary mb-1" value="${item.it_num}" name="${item.it_num}" type="button" data-dup="${item.vo_dup}">${item.it_name}</button>
+											</c:if>
+										</c:forEach>
+									</div>
+									<c:if test="${post.po_me_id == user.me_id}">
+										<button class="btn btn-outline-success form-control mt-2 mb-2 btn-close-vote" type="button">투표 마감</button>
+									</c:if>
+									<div class="d-flex mt-1" style="margin-bottom: 0">
+										<label class="ml-auto mr-2 member-count-label" style="font-size: small;">${vote.vo_totalMember}명 참여중</label>
+									</div>	
+								</div>
+							</c:if>
+							<c:if test="${vote.vo_state == 0}">
+								<div class="vote-box mb-3 container" data-num="${vote.vo_num}" data-date="${vote.vo_date}" style="border: 1px solid #aaaaaa; border-radius: 5px;">
+									<c:if test="${vote.vo_dup}">
+										<div class="d-flex mt-1" >
+											<label class="ml-auto" style="font-size: small; color: gray;">다중선택 허용</label>
+										</div>	
+									</c:if>
+									<c:if test="${vote.vo_title != null && vote.vo_title.length() != 0}">
+										<div class="input-group mt-1">
+											<div class="input-group-prepend">
+												<label for="vote-title" class="input-group-text">투표명</label>				
+											</div>
+											<div id="vote-title" class="input-group form-control">${vote.vo_title}</div>
+										</div>
+									</c:if>
+									<c:forEach items="${itemList}" var="item">
+										<c:if test="${vote.vo_num == item.it_vo_num}">
+											<div class="d-flex">
+												<div class="mr-1 col-2">
+													<label>${item.it_name} :</label>
+												</div>
+												<div class="flex-grow-1">
+													<div class="progress mt-1" style="height:25px;">
+														<div class="progress-bar bg-success" style="width: ${item.it_count / vote.vo_totalMember * 100}%; height: 100%; font-size: large;">${item.it_count}</div>
+													</div>
+												</div>
+											</div>
+										</c:if>
+									</c:forEach>
+									<div class="d-flex mt-1" style="margin-bottom: 0">
+										<label class="ml-auto mr-2" style="font-size: small;">총 ${vote.vo_totalMember}명 참여</label>
+									</div>	
 								</div>
 							</c:if>
 						</c:forEach>
-						<div class="d-flex mt-1" style="margin-bottom: 0">
-							<label class="ml-auto mr-2" style="font-size: small;">총 ${vote.vo_totalMember}명 참여</label>
-						</div>	
 					</div>
+					<hr class="line-hr">
 				</c:if>
-			</c:forEach>
-		</c:if>
-		<div class="mb-3">
-			<label for="content">내용:</label>
-			<div class="form-control" style="min-height: 250px">${post.po_content}</div>
+				<div class="container" >
+					<div style="min-height: 150px">
+						${post.po_content}
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="mb-3 mt-3 d-flex justify-content-between">
 			<div class="d-flex">
@@ -152,7 +166,7 @@
 		
 		<div class="mt-3 mb-3 comment-box container">
 			<h4>댓글(<span class="comment-total">0</span>)</h4>
-			<hr>
+			<hr class="line-hr">
 			<!-- 댓글 리스트를 보여주는 박스 -->
 			<div class="comment-list">
 				
@@ -430,7 +444,7 @@ function getCommentList(cri, today) {
 					}
 					str +=
 					`
-							<hr>
+							<hr class="line-hr">
 						</div>				
 					`
 				}
@@ -793,13 +807,11 @@ $(document).on("click",".select-item", function(){
 				alert("투표 실패");
 				break;
 			case 1:
-				alert("투표 완료");
 				break;
 			case 2:
 				alert("투표 취소");
 				break;
 			case 3:
-				alert("투표 수정");
 				break;
 			}
 			getChooseByPost();

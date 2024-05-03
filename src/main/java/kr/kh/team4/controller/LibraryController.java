@@ -106,7 +106,7 @@ public class LibraryController {
 		MemberVO user=(MemberVO) session.getAttribute("user");
 		model.addAttribute("user",user);
 		model.addAttribute("api",aladinAPI);
-		return "/library/book/bookSaleList";
+		return "/library/sale/bookSaleList";
 	}
 
 	@GetMapping("/library/book/sale")
@@ -116,7 +116,7 @@ public class LibraryController {
 		model.addAttribute("imp",imp);
 		model.addAttribute("user",user);
 		model.addAttribute("grade",grade);
-		return "/library/book/bookSale";
+		return "/library/sale/bookSale";
 	}
 	
 	@GetMapping("/library/bookSale/search")
@@ -159,7 +159,7 @@ public class LibraryController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/library/book/bookSaleSearch";
+		return "/library/sale/bookSaleSearch";
 	}
 	
 	@GetMapping("/library/management/loan")
@@ -209,13 +209,13 @@ public class LibraryController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/library/book/bookSaleDetail";
+		return "/library/sale/bookSaleDetail";
 	}
 	
 	@GetMapping("/library/order/list")
 	public String SaleList() {
 		
-		return "/library/book/order";
+		return "/library/sale/order";
 	}
 
 	

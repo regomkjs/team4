@@ -2,15 +2,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>	
 <style>
 .category-list{line-height:30px; font-weight:500;}
-.book-list{border: 1px solid #aaa; border-radius: 10px; margin-top: 10px}
-.book{height: 140px; margin: 10px 0px; border-bottom: 1px solid #000; box-sizing: border-box;}
-.book-img>img{height: 130px; width: 100px; margin-left: 20px}
-.book-title{font-size: 20px;font-weight: bold;}
-.book-content{box-sizing: border-box;}
-.book-content>ul{padding: 20px; margin: 0;}
-.book-content>ul>li{margin-top: 5px;}
 .side-bar>.frame{ border: 1px solid #aaa; margin: 10px; padding: 10px; border-radius: 10px;} 
 
+.book-main .book-list{margin: 10px}
+.book-main{border: 1px solid #aaa; border-radius: 10px; margin-top: 10px}
+.book-item{height:130px; margin-top: 15px;  }
+.book-item:after{padding-bottom:5px; border-bottom: 1px solid #ccc; }
+
+.book-img{width: 15%; height:100%;}
+.book-img img{ height:100%; margin-left: 20px;}
+.book-content{width: 85%; height:100%; font-size: 16px;}
+.content-text{width:80%; height:100%;  padding: 5px 0; box-sizing: border-box;}
+.content-text ul{margin: 0;}
+.content-text li{margin-top: 5px}
+.content-btn{width: 20%; height:100%; padding: 10px 0; box-sizing: border-box;}
+.content-btn button{margin: 5px;}
+.title{font-weight:500; font-size: 18px; }
 </style>
 <body>
 	<div class="container mt-5">
@@ -123,13 +130,13 @@
 					let str="";
 					for(book of data.bookList){
 						str+=`
-							<div class="book cf">
+							<div class="book-item cf">
 									<div class="book-img left">
 										<img alt="\${book.bo_title}" src="\${book.bo_thumbnail}"/>
 									</div>
 									<div class="book-content left">
 										<ul>
-											<li class="book-title">
+											<li class="title">
 												<a href='<c:url value="/library/book/detail?num=\${book.bo_num}"/>'>
 												\${book.bo_title}
 												</a>
