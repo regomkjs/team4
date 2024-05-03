@@ -49,7 +49,7 @@
 				<button class="btn btn-success search-btn" type="submit">검색</button>
 			</div>
 		</form>
-		<div class="main">
+		<div class="main cf">
 			<div class="side-bar w-25 left cf">
 				<div class="frame">
 					<ul class="main-menu">

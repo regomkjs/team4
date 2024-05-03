@@ -20,7 +20,7 @@
 .title{font-weight:500; font-size: 18px; }
 </style>
 <body>
-	<div class="container mt-5">
+	<div class="container mt-5 cf">
 		<div class="input-group">
 			<select class="form-control" name="type">
 				<option value="all">전체</option>

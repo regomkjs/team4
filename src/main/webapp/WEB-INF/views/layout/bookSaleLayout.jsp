@@ -39,9 +39,9 @@
 </head>
 <body>
     <tiles:insertAttribute name="header"/>
-    <div style="min-height: 100vh">
+    <div style="min-height: 100vh" class="mb-5">
     	<tiles:insertAttribute name="body" />
     </div>
-    <tiles:insertAttribute name="footer" />
+   		<tiles:insertAttribute name="footer" />
 </body>
 </html>

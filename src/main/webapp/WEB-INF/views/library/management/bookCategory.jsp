@@ -1,7 +1,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<style>
+.nav .nav-item{border: 1px solid #000; width: 19% ; }
+.nav .nav-item>a{line-height: 50px; text-align: center; }
+.nav{display: flex;justify-content :space-between;}
 
+.category-list{border-bottom: 2px solid #ccc; border-top: 2px solid #ccc; }
+.genre-list{display:block; width: 20%;}
+.genre-list>li{line-height:30px; border-bottom: 1px solid #ccc; margin: 5px;}
+.add-box{text-align: right;}
+.management-add-type{display: inline;}
+</style>
 <body>
 	<div class="container mt-5">
 		<div class="main">
@@ -21,9 +31,12 @@
 					</li>			
 				</ul>
 			</div>
-			<div class="list">
+			<div class="add-box  mt-5 ">
+		
+			</div>
+			<div class="category-list mb-5 mt-2 cf">
 				
-		    </table>
+		   
 			</div>
 		</div>
 	</div>
@@ -70,7 +83,7 @@
 					let num=0;
 					for(un of data.list){
 						if(un.un_code%10==0){
-							str+=`</ul><ul>`;
+							str+=`</ul><ul class="genre-list left cf">`;
 							num++;
 						}
 						str+=`
@@ -82,12 +95,13 @@
 							num++;
 						}
 					}
-					str+=`</ul>
-					<ul>
-						<li class="management-add-type"
-						 data-toggle="modal" data-target="#myModal">장르 추가 +</li>
-					</ul>`;
-					$(".list").html(str);
+					$(".category-list").html(str);
+					str=`
+					<div class="management-add-type click" data-toggle="modal" data-target="#myModal">
+						장르추가+
+					</div>
+					`;
+					$(".add-box").html(str);
 				}, 
 				error : function(jqXHR, textStatus, errorThrown){
 
@@ -153,25 +167,30 @@
 	
 	//카테고리 삭제
 	$(document).on("click",".category-del-btn",function(){
-		$.ajax({
-			async : true,
-			url : '<c:url value="/management/bookCategory/delete"/>', 
-			type : 'post', 
-			data : {
-				caNum:$(".category").val()
-			}, 
-			success : function (data){
-				if(data.res){
-					alert("삭제가 되었습니다");
-				}else{
-					alert("삭제에 실패했습니다");
+		let res=confirm("삭제 하시겠습니까?");
+		if(res){
+			$.ajax({
+				async : true,
+				url : '<c:url value="/management/bookCategory/delete"/>', 
+				type : 'post', 
+				data : {
+					caNum:$(".category").val()
+				}, 
+				success : function (data){
+					if(data.res){
+						alert("삭제가 되었습니다");
+					}else{
+						alert("삭제에 실패했습니다");
+					}
+					location.reload();
+				}, 
+				error : function(jqXHR, textStatus, errorThrown){
+	
 				}
-				location.reload();
-			}, 
-			error : function(jqXHR, textStatus, errorThrown){
-
-			}
-		});
+			});
+		}else{
+			alert("취소 했습니다");
+		}
 	});
 	</script>
 	<!-- 장르 추가,삭제 -->
@@ -225,23 +244,28 @@
 	
 	//장르 삭제
 	$(document).on("click",".type-del-btn",function(){
-		$.ajax({
-			async : true,
-			url : '<c:url value="/management/bookType/delete "/>', 
-			type : 'post', 
-			data : {num:$(this).data("num")}, 
-			success : function (data){
-				if(data.res){
-					alert("삭제가 되었습니다");
-				}else{
-					alert("삭제에 실패했습니다");
+		let res=confirm("삭제 하시겠습니까?");
+		if(res){
+			$.ajax({
+				async : true,
+				url : '<c:url value="/management/bookType/delete "/>', 
+				type : 'post', 
+				data : {num:$(this).data("num")}, 
+				success : function (data){
+					if(data.res){
+						alert("삭제가 되었습니다");
+					}else{
+						alert("삭제에 실패했습니다");
+					}
+					displayTypeView(upNum);
+				}, 
+				error : function(jqXHR, textStatus, errorThrown){
+	
 				}
-				displayTypeView(upNum);
-			}, 
-			error : function(jqXHR, textStatus, errorThrown){
-
-			}
-		});
+			});
+		}else{
+			alert("취소했습니다");
+		}
 	});
 	</script>
 </body>
