@@ -49,7 +49,7 @@ public class PostController {
 		ArrayList<CategoryVO> list = postService.getCategoryList();
 		model.addAttribute("categoryList", list);
 		model.addAttribute("title", "커뮤니티");
-		return "/post/main";
+		return "/community/post/main";
 	}
 	
 	@GetMapping("/post/list")
@@ -62,7 +62,7 @@ public class PostController {
 		model.addAttribute("pm", pm);
 		model.addAttribute("title", "게시글 목록");
 		
-		return "/post/list";
+		return "/community/post/list";
 	}
 	
 	
@@ -79,7 +79,7 @@ public class PostController {
 		
 		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
 			model.addAttribute("msg", "커뮤니티 이용이 정지됐습니다.                                                 정지기한 : "+ user.getMe_block());
-			model.addAttribute("url", "/post/list");
+			model.addAttribute("url", "/community/post/list");
 			return "message";
 		}
 		ArrayList<CategoryVO> list = postService.getCategoryList();
@@ -87,7 +87,7 @@ public class PostController {
 		if(ca != 0) {
 			model.addAttribute("ca_num", ca);
 		}
-		return "/post/insert";
+		return "/community/post/insert";
 	}
 	
 	
@@ -104,7 +104,7 @@ public class PostController {
 		}
 		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
 			model.addAttribute("msg", "커뮤니티 이용이 정지됐습니다.                                                 정지기한 : "+ user.getMe_block());
-			model.addAttribute("url", "/post/list");
+			model.addAttribute("url", "/community/post/list");
 			return "message";
 		}
 		
@@ -113,11 +113,11 @@ public class PostController {
 		boolean res = postService.insertPost(post, votes, items);
 		if(res) {
 			model.addAttribute("msg", "게시글을 등록했습니다.");
-			model.addAttribute("url", "/post/list?ca=" + post.getPo_ca_num());
+			model.addAttribute("url", "/community/post/list?ca=" + post.getPo_ca_num());
 		}
 		else {
 			model.addAttribute("msg", "게시글 등록에 실패했습니다.");
-			model.addAttribute("url", "/post/insert?ca="+ post.getPo_ca_num());
+			model.addAttribute("url", "/community/post/insert?ca="+ post.getPo_ca_num());
 		}
 		return "message";
 	}
@@ -130,7 +130,7 @@ public class PostController {
 				post.getPo_title() == null || post.getPo_title().length() == 0 ||
 				post.getPo_content() == null || post.getPo_content().length() == 0) {
 			model.addAttribute("msg", "삭제되거나 없는 게시글입니다.");
-			model.addAttribute("url", "/post/list");
+			model.addAttribute("url", "/community/post/list");
 			return "message";
 		}
 		ArrayList<VoteVO> voteList = postService.getVoteList(post.getPo_num());
@@ -147,7 +147,7 @@ public class PostController {
 		}
 		model.addAttribute("title", "게시글 상세");
 		model.addAttribute("post", post);
-		return "/post/detail";
+		return "/community/post/detail";
 	}
 	
 	@GetMapping("/post/update")
@@ -159,18 +159,18 @@ public class PostController {
 				post.getPo_title() == null || post.getPo_title().length() == 0 ||
 				post.getPo_content() == null || post.getPo_content().length() == 0) {
 			model.addAttribute("msg", "삭제되거나 없는 게시글입니다.");
-			model.addAttribute("url", "/post/list");
+			model.addAttribute("url", "/community/post/list");
 			return "message";
 		}
 		if(user == null || 
 				!post.getPo_me_id().equals(user.getMe_id())) {
 			model.addAttribute("msg", "수정 권한이 없습니다.");
-			model.addAttribute("url", "/post/detail?num="+num);
+			model.addAttribute("url", "/community/post/detail?num="+num);
 			return "message";
 		}
 		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
 			model.addAttribute("msg", "커뮤니티 이용이 정지됐습니다.                                                 정지기한 : "+ user.getMe_block());
-			model.addAttribute("url", "/post/detail?num="+num);
+			model.addAttribute("url", "/community/post/detail?num="+num);
 			return "message";
 		}
 		
@@ -178,7 +178,7 @@ public class PostController {
 		model.addAttribute("categoryList", list);
 		model.addAttribute("title", "게시글 수정");
 		model.addAttribute("post", post);
-		return "/post/update";
+		return "/community/post/update";
 	}
 	
 	@PostMapping("/post/update")
@@ -195,12 +195,12 @@ public class PostController {
 		if(user == null || 
 				!post.getPo_me_id().equals(user.getMe_id())) {
 			model.addAttribute("msg", "수정 권한이 없습니다.");
-			model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
+			model.addAttribute("url", "/community/post/detail?num=" + post.getPo_num());
 			return "message";
 		}
 		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
 			model.addAttribute("msg", "커뮤니티 이용이 정지됐습니다.                                                 정지기한 : "+ user.getMe_block());
-			model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
+			model.addAttribute("url", "/community/post/detail?num=" + post.getPo_num());
 			return "message";
 		}
 		boolean res = postService.updatePost(post, votes, items);
@@ -210,7 +210,7 @@ public class PostController {
 		else {
 			model.addAttribute("msg", "게시글 수정에 실패했습니다.");
 		}
-		model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
+		model.addAttribute("url", "/community/post/detail?num=" + post.getPo_num());
 		return "message";
 	}
 	
@@ -223,23 +223,23 @@ public class PostController {
 				post.getPo_title() == null || post.getPo_title().length() == 0 ||
 				post.getPo_content() == null || post.getPo_content().length() == 0) {
 			model.addAttribute("msg", "이미 삭제되거나 없는 게시글입니다.");
-			model.addAttribute("url", "/post/list");
+			model.addAttribute("url", "/community/post/list");
 			return "message";
 		}
 		if(user == null) {
 			model.addAttribute("msg", "삭제 권한이 없습니다.");
-			model.addAttribute("url", "/post/detail?num="+num);
+			model.addAttribute("url", "/community/post/detail?num="+num);
 			return "message";
 		}
 		if(user.getMe_id().equals(post.getPo_me_id())) {
 			boolean res = postService.deletePost(post);
 			if(res) {
 				model.addAttribute("msg", "게시글이 삭제되었습니다.");
-				model.addAttribute("url", "/post/list");
+				model.addAttribute("url", "/community/post/list");
 			}
 			else {
 				model.addAttribute("msg", "게시글 삭제에 실패했습니다.");
-				model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
+				model.addAttribute("url", "/community/post/detail?num=" + post.getPo_num());
 			}
 			return "message";
 		}
@@ -252,7 +252,7 @@ public class PostController {
 			}
 			else {
 				model.addAttribute("msg", "게시글 삭제에 실패했습니다.");
-				model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
+				model.addAttribute("url", "/community/post/detail?num=" + post.getPo_num());
 			}
 			return "message";
 		} 
@@ -260,24 +260,24 @@ public class PostController {
 			MemberVO writer = memberService.getMember(post.getPo_me_id());
 			if(writer.getMe_mr_num() <= user.getMe_mr_num()) {
 				model.addAttribute("msg", "다른 운영진의 글은 지울 수 없습니다.");
-				model.addAttribute("url", "/post/detail?num="+num);
+				model.addAttribute("url", "/community/post/detail?num="+num);
 				return "message";
 			}
 			else {
 				boolean res = postService.deletePost(post);
 				if(res) {
 					model.addAttribute("msg", "게시글이 삭제되었습니다.");
-					model.addAttribute("url", "/post/list");
+					model.addAttribute("url", "/community/post/list");
 				}
 				else {
 					model.addAttribute("msg", "게시글 삭제에 실패했습니다.");
-					model.addAttribute("url", "/post/detail?num=" + post.getPo_num());
+					model.addAttribute("url", "/community/post/detail?num=" + post.getPo_num());
 				}
 				return "message";
 			}
 		}
 		model.addAttribute("msg", "삭제 권한이 없습니다.");
-		model.addAttribute("url", "/post/detail?num="+num);
+		model.addAttribute("url", "/community/post/detail?num="+num);
 		return "message";
 
 	}
