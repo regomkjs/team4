@@ -1,7 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<style>
+.nav .nav-item{border: 1px solid #000; border-right: 0; width: ;height: 25%;}
+.nav .nav-item:nth-of-type(4n) {
+	border-right: 1px solid #000;
+}
+</style>
 <body>
 	<div class="container mt-5">
 		<div class="main">

@@ -31,7 +31,7 @@
 </head>
 <body>
     <tiles:insertAttribute name="header"/>
-    <div style="min-height: calc(100vh - 290px)">
+    <div style="min-height: 100vh" class="mb-5">
     	<tiles:insertAttribute name="body" />
     </div>
     <tiles:insertAttribute name="footer" />

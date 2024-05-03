@@ -2,6 +2,8 @@
 	clear: both; display: block; content: "";
 }
 
+*{margin: 0;padding: 0;}
+
 .display-block{ display: block; }
 
 .click{ cursor: pointer; }

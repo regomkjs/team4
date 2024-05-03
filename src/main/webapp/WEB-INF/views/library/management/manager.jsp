@@ -1,7 +1,30 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+.book-list thead{background-color: #ddd;}
+.book-list thead  th:nth-child(1){width: 80px;}
+.book-list thead  th:nth-child(2){width: 250px;}
+.book-list thead  th:nth-child(3){width: 150px;}
+.book-list thead  th:nth-child(4){width: 100px;}
+.book-list thead  th:nth-child(5){width: 150px;}
+.book-list thead  th:nth-child(6){width: 100px;}
+.book-list thead  th:nth-child(7){width: 100px;}
+.book-list img{height: 100px; max-width: 80px}
+table{text-align: center;}
+.book-list tbody td{  display: table-cell;
+    vertical-align: middle}
 
+.modal-body table thead th:nth-child(1){width: 30px;}
+.modal-body table thead th:nth-child(2){width: 30%-30px;}
+.modal-body table thead th:nth-child(3){width: 20%;}
+.modal-body table thead th:nth-child(4){width: 10%;}
+.modal-body table thead th:nth-child(5){width: 10%;}
+.modal-body table thead th:nth-child(6){width: 10%;}
+.modal-body table thead th:nth-child(7){width: 10%;}
+.modal-body table tbody td{display: table-cell;
+    vertical-align: middle}
+</style>
 <body>
 <div class="container mt-5">
 	<div class="search input-group">
@@ -22,12 +45,13 @@
 	    data-toggle="modal" data-target="#myModal">추가</button>
 	</div>
 	<div class="main">
-		<div class="list">
+		<div class="book-list">
 		    <table class="table table-bordered">
 		    	<thead>
 		        	<tr>
+			          	<th>이미지</th>
 			          	<th>도서명</th>
-			          	<th class="order-by">도서코드</th>
+			          	<th class="order-by click">도서코드</th>
 			          	<th>표준번호</th>
 			          	<th>출판사</th>
 			          	<th>저자</th>
@@ -429,6 +453,7 @@ $(document).on("click",".updateBook",function(){
 				for(book of data.bookList){
 					str+=`
 						<tr>
+				          <td><img alt="\${book.bo_title}" src="\${book.bo_thumbnail}"></td>
 				          <td>\${book.bo_title}</td>
 				          <td>\${book.bo_code}</td>
 				      	  <td>\${book.bo_isbn}</td>
@@ -436,15 +461,14 @@ $(document).on("click",".updateBook",function(){
 				      	  <td>\${book.bo_au_name}</td>
 				      	  <td>\${book.bo_tr_name}</td>
 				      	  <td>
-				       		<div class="updateBook-btn" data-num="\${book.bo_num}"
+				       		<div class="updateBook-btn click" data-num="\${book.bo_num}"
 				       		data-toggle="modal" data-target="#myModal">수정</div>
-				       		<span>/</span>
-				       		<div class="deleteBook-btn" data-num="\${book.bo_num}">삭제</div>
+				       		<div class="deleteBook-btn click" data-num="\${book.bo_num}">삭제</div>
 				      	  </td>
 				     	</tr>
 					`;
 				}
-				$(".main>.list>table>tbody").html(str);
+				$(".book-list>table>tbody").html(str);
 				let pm = data.pm;
 				let pmStr = "";
 				if(pm.prev){
