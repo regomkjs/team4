@@ -61,22 +61,22 @@
 	img{ width: 35px;}
 	
     .input-group img:hover {
-        transform: scale(1.1); /* 이미지가 조금 커지는 효과 */
+        transform: scale(1.1);
     }
 
     .form-group label {
         display: block;
         margin-bottom: 5px;
-        font-size: 18px; /* 라벨의 폰트 크기 */
-        color: #333; /* 라벨의 색상 */
+        font-size: 18px;
+        color: #333;
     }
 
     .form-group {
         margin-bottom: 20px;
-        background-color: #f9f9f9; /* 배경색 */
+        background-color: #f9f9f9;
         padding: 10px;
-        border-radius: 5px; /* 테두리 둥글게 */
-        border: 1px solid #ddd; /* 테두리 색상 */
+        border-radius: 5px;
+        border: 1px solid #ddd;
     }
 </style>
 </head>

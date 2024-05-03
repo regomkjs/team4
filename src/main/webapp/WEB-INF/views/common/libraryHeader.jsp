@@ -26,7 +26,6 @@
 				<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
 			</li>
 		</c:if>
-		
 		<li class="nav-item dropdown">
 	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
 	        관리자 기능용
