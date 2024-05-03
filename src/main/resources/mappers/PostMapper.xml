@@ -9,7 +9,7 @@
  	
  	<select id="selectPostList" resultType="PostVO">
  		select 
- 			post.*, category.*, member.me_nick,
+ 			post.*, category.*, member.me_nick, member.me_mr_num, member.me_gr_num,
 				(select 
 					count(*) 
 				from 
@@ -103,7 +103,7 @@
  	
  	<select id="selectPost" resultType="PostVO">
  		select
- 			post.*, category.*, member.me_nick, member.me_mr_num,
+ 			post.*, category.*, member.me_nick, member.me_mr_num, member.me_gr_num,
  				(select 
 					count(*) 
 				from 

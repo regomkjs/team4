@@ -30,6 +30,8 @@ public class PostVO {
 	private String me_nick;
 	//작성자 권한
 	private int me_mr_num;
+	//작성자 활동등급
+	private int me_gr_num;
 	//투표 포함 여부
 	private boolean po_votePost;
 	
