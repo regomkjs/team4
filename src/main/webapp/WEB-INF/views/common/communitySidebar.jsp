@@ -1,67 +1,159 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<html>
-<head>
-	<title>메인</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-	<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
-	<style type="text/css">
-		.order-btn:hover {
-			cursor: pointer;
-		}
-		.hovertext-box{
-			position: relative;
-		}
-		.hovertext {
-		    overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			width: 80px;
-			height: 20px;
-		}
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
+<style>
+
+	* {
+	  margin: 0;
+	  padding: 0;
+	  list-style: none;
+	  text-decoration: none;
+	}
+	
+	.side-tab-navi {
+	  display: flex;
+	  width: 250px;
+	  height: 30px;
+	  border: 1px solid #dedede;
+	  border-bottom: none;
+	  box-sizing: border-box;
+	  margin-bottom: 0;
+	  padding-bottom: 0;
+	}
+	
+	.side-tab-navi li {
+	  width: 100%;
+	  cursor: pointer;
+	  border-right: 1px solid #dedede;
+	  border-bottom: 3px solid rgb(250, 208, 203);
+	  box-sizing: border-box;
+	}
+	
+	.side-tab-navi li:last-child {
+	  border-right: none;
+	}
+	
+	.side-tab-navi li:hover {
+	  background-color: #f3f3f3;
+	}
+	
+	.side-tab-navi li.active {
+	  border-bottom: 3px solid salmon;
+	  box-sizing: border-box;
+	}
+	
+	.side-tab-contents {
+	  width: 250px;
+	  height: 200px;
+	  border: 1px solid #dedede;
+	  border-top: none;
+	  box-sizing: border-box;
+	}
+	
+	.side-tab-content {
+	  display: none;
+	  width: 100%;
+	  height: 100%;
+	  box-sizing: border-box;
+	}
+	
+	.side-tab-content.active {
+	  display: block;
+	}
+	
+	.order-btn:hover {
+		cursor: pointer;
+	}
+	.hovertext-box{
+		position: relative;
+	}
+	.hovertext {
+	    overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 70px;
+		height: 20px;
+	}
+	
+	.hovertext-box:before {
+	    content: attr(data-hover);
+	    visibility: hidden;
+	    opacity: 0;
+	    width: max-content;
+	    background-color: black;
+	    color: #fff;
+	    text-align: center;
+	    border-radius: 5px;
+	    padding: 5px 5px;
+	    transition: opacity 1s ease-in-out;
+	
+	    position: absolute;
+	    z-index: 100;
+	    left: 0;
+	    top: 110%;
+	}
+	
+	.hovertext-box:hover:before {
+	    opacity: 1;
+	    visibility: visible;
+	}
+	
+	.pagination{
+		 z-index: 1;
+	}
+	
+	.side-category{
+		border: 1px solid black;
+		box-sizing: border-box;
+	}
+	
+</style>
+
+<div style="height: 100%;">
+	<div class="side-tab">
+		<ul class="side-tab-navi">
+			<li class="text-center active">카페</li>
+			<li class="text-center">회원</li>
+		</ul>
+		<div class="side-tab-contents">
+			<div class="side-tab-content active">
+	    		카페 정보
+		    	<div>
+		    	
+		    	</div>
+		    	
+		    </div>
+		    <div class="side-tab-content" >
+		    	
+		    	회원 정보
+	    		<div>
+	    		
+	    		</div>
+	    	</div>
+		</div>
 		
-		.hovertext-box:before {
-		    content: attr(data-hover);
-		    visibility: hidden;
-		    opacity: 0;
-		    width: max-content;
-		    background-color: black;
-		    color: #fff;
-		    text-align: center;
-		    border-radius: 5px;
-		    padding: 5px 5px;
-		    transition: opacity 1s ease-in-out;
+	</div>
+	<div class="side-category" style="width: 100%; min-height: calc(100% - 266px); margin-top: 1px">
 		
-		    position: absolute;
-		    z-index: 1;
-		    left: 0;
-		    top: 110%;
-		}
-		
-		.hovertext-box:hover:before {
-		    opacity: 1;
-		    visibility: visible;
-		}
-	</style>
-</head>
-<body>
-<div class="container">
-	<h1>
-		커뮤니티 관리페이지
-	</h1>
-	
-	<ul>
-		<li><a href="#" data-toggle="modal" data-target="#adminModal" class="adminModal">게시판 관리</a></li>
-		<li><a href="#" data-toggle="modal" data-target="#reportModal" class="reportModal">신고 관리</a></li>
-		<li><a href="#" data-toggle="modal" data-target="#userModal" class="userModal">회원 관리</a></li>
-	</ul>
-	
-	
-	
-	
+	</div>
+	<c:if test="${user.me_mr_num < 2 }">
+			<div class="dropup " style="width: 100%; height: 35px">
+			    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" style="width: 100%;">
+			      관리자 메뉴
+			    </button>
+				<div class="dropdown-menu" style="width: 100%;">
+					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#adminModal" class="adminModal dropdown-item">게시판 관리</a>
+					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#reportModal" class="reportModal dropdown-item">신고 관리</a>
+					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#userModal" class="userModal dropdown-item">회원 관리</a>
+				</div>
+			</div>
+		</c:if>
 </div>
 
+	
 
 <!-- 커뮤니티 관리 Modal -->
 <div class="modal fade" id="adminModal">
@@ -433,17 +525,17 @@ $(document).on("click",".category-delete-btn",function(){
 //체크된 신고 번호를 담을 배열
 const reportArr = []
 
-let cri = {
+let rp_cri = {
 	page : 1,
 	perPageNum : 5
 }
 
-getReportList(cri)
-function getReportList(cri) {
+getReportList(rp_cri)
+function getReportList(rp_cri) {
 	$.ajax({
 		url : '<c:url value="/report/list"/>',
 		method : "post",
-		data : JSON.stringify(cri),
+		data : JSON.stringify(rp_cri),
 		contentType : "application/json; charset=utf-8",
 		dataType : "json", 
 		success : function (data) {
@@ -538,7 +630,7 @@ function getReportList(cri) {
 						`
 							<input hidden class="report-post-category" value="\${report.rp_post.ca_name}">
 							<input hidden class="report-post-title" value="\${report.rp_post.po_title}">
-							<input hidden class="report-post-content" value="\${report.rp_post.po_content}">
+							<input hidden class="report-post-content" value='\${report.rp_post.po_content}'>
 							<input hidden class="report-post-id" value="\${report.rp_post.po_me_id}">
 						`
 					} else{
@@ -591,7 +683,7 @@ function getReportList(cri) {
 						`
 							<input hidden class="report-post-category" value="\${report.rp_post.ca_name}">
 							<input hidden class="report-post-title" value="\${report.rp_post.po_title}">
-							<input hidden class="report-post-content" value="\${report.rp_post.po_content}">
+							<input hidden class="report-post-content" value='\${report.rp_post.po_content}'>
 							<input hidden class="report-post-id" value="\${report.rp_post.po_me_id}">
 						
 						`
@@ -1396,5 +1488,33 @@ $(document).on("click", ".btn-dismiss", function () {
 
 </script>
 
-</body>
-</html>
+
+
+<script type="text/javascript">
+$(".side-tab-navi li").click(function () {
+	let tabIdx = $(this).index();
+	$(".side-tab-navi li").removeClass("active");
+	$(".side-tab-content").removeClass("active");
+	$(".side-tab-navi li").eq(tabIdx).addClass("active");
+	$(".side-tab-content").eq(tabIdx).addClass("active");
+});
+</script>
+
+<script type="text/javascript">
+
+
+//카페정보, 회원정보, 게시판 리스트 호출 
+function getEverything() {
+	$.ajax({
+		url : '<c:url value="/community/sidebar/info"/>',
+		method : "post",
+		dataType : "json", 
+		success : function (data) {
+			
+		},
+		error : function (a, b, c) {
+			console.error("에러 발생")
+		}
+	});
+}
+</script>

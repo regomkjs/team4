@@ -50,7 +50,7 @@ public class CommunityController {
 			model.addAttribute("url", "/post/main");
 			return "message";
 		}
-		return "/community/main";
+		return "/community/community/main";
 	}
 	
 	
@@ -156,11 +156,11 @@ public class CommunityController {
 	
 	@ResponseBody
 	@PostMapping("/report/list")
-	public Map<String, Object> reportListPost(@RequestBody Criteria cri){
+	public Map<String, Object> reportListPost(@RequestBody Criteria rp_cri){
 		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<ReportVO> reportList = postService.getReportList(cri);
+		ArrayList<ReportVO> reportList = postService.getReportList(rp_cri);
 		int totalCount = postService.getTotalCountReport();
-		PageMaker pm = new PageMaker(5,cri, totalCount);
+		PageMaker pm = new PageMaker(5,rp_cri, totalCount);
 		map.put("reportList", reportList);
 		map.put("pm", pm);
 		return map;
