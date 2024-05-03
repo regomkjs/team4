@@ -53,7 +53,7 @@
 			</div>
 			<div style="display: block; border: 1px solid; padding: 10px; border-radius: 5px">
 				<div>
-					<div id="title" style="font-size: large; font-weight: bold;"><span class="mr-2">[${post.ca_name}]</span><span>${post.po_title}</span></div>
+					<div id="title" style="font-size: 25px; font-weight: bold;"><span class="mr-2">[${post.ca_name}]</span><span>${post.po_title}</span></div>
 					
 				</div>
 				<div class="mt-2 d-flex justify-content-between">

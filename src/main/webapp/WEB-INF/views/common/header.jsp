@@ -24,32 +24,29 @@
 				<a class="nav-link" href="<c:url value="/login"/>">로그인</a>
 			</li>
 		</c:if>
-		<c:choose>
-			<c:when test="${user.me_mr_num > 0}">
-				<li class="dropdown">
-					<a type="button" class="nav-link dropdown-toggle" data-toggle="dropdown">
-				    	마이페이지
-					</a>
-					<div class="dropdown-menu">
-					    <a class="dropdown-item" href="<c:url value="/mypage"/>">내 정보</a>
-					    <a class="dropdown-item" href="<c:url value="/mypage/post"/>">내가 쓴 게시글</a>
-					    <a class="dropdown-item" href="<c:url value="/mypage/comment"/>">내가 쓴 댓글</a>
-					    <a class="dropdown-item" href="<c:url value="/mypage/report"/>">내가 신고한 내역</a>
-					    <a class="dropdown-item" href="<c:url value="/mypage/loan"/>">내가 대출한 도서</a>
-				  	</div>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
-				</li>
-			</c:when>
-			<c:when test="${user.me_mr_num <= 1}">
-				<li class="nav-item">
-					<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
-				</li>
-			</c:when>
-		</c:choose>
+		<c:if test="${user.me_mr_num > 0}">
+			<li class="dropdown">
+				<a type="button" class="nav-link dropdown-toggle" data-toggle="dropdown">
+			    	마이페이지
+				</a>
+				<div class="dropdown-menu">
+				    <a class="dropdown-item" href="<c:url value="/mypage"/>">내 정보</a>
+				    <a class="dropdown-item" href="<c:url value="/mypage/post"/>">내가 쓴 게시글</a>
+				    <a class="dropdown-item" href="<c:url value="/mypage/comment"/>">내가 쓴 댓글</a>
+				    <a class="dropdown-item" href="<c:url value="/mypage/report"/>">내가 신고한 내역</a>
+				    <a class="dropdown-item" href="<c:url value="/mypage/loan"/>">내가 대출한 도서</a>
+			  	</div>
+			</li>
+		</c:if>
+		<c:if test="${user.me_mr_num <= 1}">
+			<li class="nav-item">
+				<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
+			</li>
+		</c:if>
+		<c:if test="${user != null}">
+			<li class="nav-item">
+				<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
+			</li>
+		</c:if>
 	</ul>
 </nav>
