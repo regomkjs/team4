@@ -2,7 +2,6 @@ package kr.kh.team4.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Member;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
@@ -24,12 +24,14 @@ import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.PageMaker;
 import kr.kh.team4.service.BookService;
 import kr.kh.team4.service.MemberService;
+import kr.kh.team4.service.PostService;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -45,12 +47,24 @@ public class LibraryController {
 	@Autowired
 	MemberService memberService;
 	
+	@Autowired
+	PostService postService;
+	
 	@GetMapping("/library")
-	public String home(Model model) {
-		
+	public String home(Model model, HttpSession session, BookVO book) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<PostVO> noticeList = postService.getNoticeList();
+		ArrayList<PostVO> hotList = postService.getHotList();
+		ArrayList<GradeVO> gradeList = memberService.getUserGradeList(user);
+		ArrayList<GradeVO> grade = memberService.getGradeList();
+		ArrayList<BookVO> bookList = bookService.getBookLoanList(book);
+		model.addAttribute("book", bookList);
+		model.addAttribute("grade", grade);
+		model.addAttribute("gradeList", gradeList);
+		model.addAttribute("hotList", hotList);
+		model.addAttribute("noticeList", noticeList);
 		return "/library/book/home";
 	}
-	
 	
 	@GetMapping("/library/management/manager")
 	public String libraryManagement(Model model) {	

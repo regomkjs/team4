@@ -460,4 +460,12 @@
 	<select id="selectLoanState" resultType="LoanVO">
 		select * from loan
 	</select>
+	
+	<update id="updateLoanCount">
+		update book set bo_loan_count = bo_loan_count + 1 where bo_num = #{bo_num}
+	</update>
+	
+	<select id="selectBookLoanList" resultType="BookVO">
+		select * from book group by bo_isbn order by bo_loan_count desc limit 4;
+	</select>
 </mapper>

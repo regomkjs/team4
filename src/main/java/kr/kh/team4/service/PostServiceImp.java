@@ -686,4 +686,14 @@ public class PostServiceImp implements PostService {
 		return postDAO.updateReportBlockWriter(rp_num);
 	}
 
+	@Override
+	public ArrayList<PostVO> getNoticeList() {
+		return postDAO.selectNoticeList();
+	}
+
+	@Override
+	public ArrayList<PostVO> getHotList() {
+		return postDAO.selectHotList();
+	}
+
 }

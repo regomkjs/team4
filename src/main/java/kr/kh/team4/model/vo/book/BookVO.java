@@ -19,6 +19,7 @@ public class BookVO {
 	private String bo_isbn; 
 	private int bo_un_num;
 	private String bo_code;
+	private int bo_loan_count;
 	
 	private String bo_au_name;
 	private String bo_tr_name;

@@ -550,4 +550,21 @@
  	<select id="selectReportListByTarget" resultType="ReportVO">
  		select * from report where rp_target = #{rp_target} and rp_state = 0
  	</select>
+ 	
+ 	<select id="selectNoticeList" resultType="PostVO">
+ 		select * from post where po_ca_num = 1 order by po_num desc limit 5
+ 	</select>
+ 	
+ 	<select id="selectHotList" resultType="PostVO">
+ 		select *,(select
+	 				count(*)
+				from
+					heart
+				where 
+					heart.he_po_num = post.po_num) 
+			as po_totalHeart from post group by po_num
+		having po_totalHeart > 1
+		order by po_totalHeart desc
+		limit 5
+ 	</select>
 </mapper>

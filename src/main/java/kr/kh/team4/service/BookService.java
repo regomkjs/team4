@@ -110,5 +110,9 @@ public interface BookService {
 
 	void updateReserve(ReserveVO reserve);
 
+	void updateLoanCount(int bo_loan_count, int bo_num);
+
+	ArrayList<BookVO> getBookLoanList(BookVO book);
+
 
 }

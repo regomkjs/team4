@@ -89,4 +89,6 @@ public interface MemberDAO {
 
 	int selectTotalCountMyReport(@Param("cri")Criteria cri, @Param("user")MemberVO user);
 
+	ArrayList<GradeVO> selectUserGradeList(@Param("me_id")String me_id);
+
 }

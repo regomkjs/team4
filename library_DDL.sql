@@ -118,6 +118,7 @@ CREATE TABLE `book` (
   `bo_thumbnail` longtext NOT NULL,
   `bo_isbn` varchar(13) NOT NULL,
   `bo_code` varchar(30) default null,
+  `bo_loan_count` int NOT NULL default 0,
   `bo_un_num` int NOT NULL,
   PRIMARY KEY (`bo_num`),
   KEY `FK_under_TO_book_1` (`bo_un_num`),

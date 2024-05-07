@@ -297,4 +297,8 @@
 		insert into member(me_id, me_email, me_phone, me_nick, me_date, me_ms_num, me_gr_num)
 		values(#{member.me_id}, #{member.me_email}, #{member.me_phone}, #{member.me_nick}, now(), '2', '2')
 	</insert>
+	
+	<select id="selectUserGradeList" resultType="GradeVO">
+		select * from grade join member on me_gr_num = gr_num where me_id = #{me_id}
+	</select>
 </mapper>

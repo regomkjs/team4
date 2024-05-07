@@ -633,4 +633,17 @@ public class BookServiceImp implements BookService {
 		ReserveVO re = bookDao.selectReserve(reserve.getRe_bo_num());
 		bookDao.updateRe(re.getRe_bo_num(), re.getRe_me_id());
 	}
+
+	@Override
+	public void updateLoanCount(int bo_loan_count, int bo_num) {
+		bookDao.updateLoanCount(bo_num, bo_loan_count);
+	}
+
+	@Override
+	public ArrayList<BookVO> getBookLoanList(BookVO book) {
+		if(book == null) {
+			return null;
+		}
+		return bookDao.selectBookLoanList(book);
+	}
 }
