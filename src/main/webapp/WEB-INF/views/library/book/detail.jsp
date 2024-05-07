@@ -355,7 +355,7 @@ function getReviewList(cri){
 		//서버로 보낼 데이터 타입
 		contentType : "application/json; charset=utf-8",
 		//서버에서 보낸 데이터의 타입
-		dataType : "json", 
+		dataType : "json",
 		success : function (data){
 			displayReviewList(data.list);
 			displayReviewPagination(data.pm);
@@ -399,7 +399,7 @@ function displayReviewList(list){
 		`
 	 		<div class="box-review d-flex justify-content-between align-items-center">
                 <div class="review-section">
-                    <div style="font-size: 20px">\${item.me_nick}</div>
+                    <div style="font-size: 20px">\${item.me_nick} \${item.me_gr_num}</div>
                     <div style="font-size: 15px">\${stars}</div>
                     <div class="text-review" style="font-size: 20px;">\${item.rv_content}</div>
                     <span style="font-size: medium;">작성시간 : \${moment(item.rv_date).format('YY/MM/DD HH:mm')}<br />
