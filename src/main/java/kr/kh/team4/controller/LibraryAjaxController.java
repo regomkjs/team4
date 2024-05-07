@@ -158,6 +158,9 @@ public class LibraryAjaxController {
 			if(!res) {
 				message = "이미 대출된 책이거나 예약된 책입니다.";
 				map.put("message", message);
+			}else {
+				res = true;
+				bookService.updateLoanCount(book.getBo_loan_count(),book.getBo_num());
 			}
 			map.put("result", res);
 			return map;
@@ -432,5 +435,7 @@ public class LibraryAjaxController {
 		map.put("result", user);
 		return map;
 	}
+	
+
 
 }

@@ -274,8 +274,10 @@
 			e.preventDefault();
 			
 			$(".new-btn, .loan-btn, .hot-btn").removeClass("active-btn");
-
+			
 			$(this).addClass("active-btn");
+			
+			
 		});
 	</script>
 	<!-- 신규 책 -->

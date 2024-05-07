@@ -139,4 +139,6 @@ public interface BookDAO {
 
 	ArrayList<LoanVO> selectLoanState();
 
+	void updateLoanCount(@Param("bo_num")int bo_num, @Param("count")int bo_loan_count);
+
 }
