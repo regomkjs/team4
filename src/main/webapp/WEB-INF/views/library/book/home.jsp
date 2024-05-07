@@ -119,6 +119,42 @@
 	text-decoration: underline;
 	color: #848484;
 }
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  height: 350px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 </style>
 <body>
 	<div class="main">
@@ -199,14 +235,68 @@
 								</c:if>
 								${grade.gr_name}
 							</c:forEach>
+							<a href="#" id="gradeInfoLink" class="grade-info" style="color: gray; opacity: 60%; text-decoration: none;">등급 안내</a>
 						</li>
 						<li>내가 쓴 게시글 : ${user.me_post_count}개</li>
-						<li>내가 대출한 책 : ${user.me_loan_count}개</li>
+						<li>내가 대출한 책 : ${user.me_loan_count}권</li>
 					</ul>
 					<a href="<c:url value="logout"/>"
 						class="btn btn-outline-success col-8">로그아웃</a>
 				</div>
 			</c:if>
+		</div>
+		<div id="gradeModal" class="modal">
+		  <div class="modal-content">
+		    <span class="close">&times;</span>
+		    <table class="grade-container table-hover">
+		<thead>
+			<tr>
+				<th></th>
+				<th>등급명</th>
+				<th>할인율</th>
+				<th>대출조건</th>
+				<th>게시글조건</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${grade}" var="grade" begin="1" end="5" varStatus="status">
+				<tr class="grade-list">
+					<td class="col-1">
+						<c:choose>
+							<c:when test="${status.index == 1}">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABJElEQVR4nO2ZTWoCQRCF+xiWie4kS4/hBXISYQpc6wVcZu/KDFnmDlkY6BZEELfqRvwBEUSs0IREAs6iW5juJu+DWs97U696hi6lAAAgWqrtcY3Y5MR6T2yk3NL7Cuu3aqafvMVXWK/LF27+lNXwwPrR2cD3mw8rnq419DAQIjamKE47nw5ITKVggNEBQYRcCB0ZimGIm92J9N6Xstie0jLQ6s/kdbSR0/kiPyRjYLo6yi2SMVBEMgY2h7MMPtby/DJP00C9M77ZjWQMUEGcYMAVdIARIcEQE06hKzhGXcExyvd/ySn0rwQMMDpggkeH/vEM6HgudzOzdTZglwvBhfNv5c4G7GYkmgVH9tlQPtjNiF0u2Pv58sVr+8zcWzwAAKgy+ALGkks5M3xO2gAAAABJRU5ErkJggg==">
+							</c:when>
+							<c:when test="${status.index == 2}">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABqUlEQVR4nO2Zy4rCMBSG8yAzy2EeR5JSRQRREZe+gY+gK9F1t4N04VY3Cq7c6ULwBcSFMF4q9vRyhlSm1QHRVmlTJj8cKGlp/+/kJCkJIVJSUlLC6pjJvAOlPZOxHTCGcYZ5/qZ+UtXPyOZNSjdxG4e/IJRuDErfQgPwzCdtHoL4Cg2QRNnA7V7Yhu8BAYzDRUgAkD3AZAmF0v8dxIqCdreL7nKJuN97wa/tTse7JzaAoqAzHuMtOaOR2AB2q4X3ZDeb4gK4s1mQ7cEAoVxGKBTQGQ79dv6MsABoGL5RKBb9dqtWC7rAMMQFgFtRqQQAu136AGxNC0poPk8XgFWtIh6PwSBut1MEkM16Gfezv1oh5HIpAVBVdCaTi0XAQavRiPw+EitAPo/OdHo9/2vaUwkhsQGUSuguFtcrcL//dDmSOACseh3d9fravK4/P5ZYXAvZ4XD3V8Jb5IQFeFAS4BG9om5fGSSskjYMEoAln3WQJcRSPIhNsTZ3v6PMQnrSxuE3KO2FBuAnI6IccJwY+yBRxE9G+OEC359PwPiWZz6yeSkpKSkSh34A766mybHzuzMAAAAASUVORK5CYII=">
+							</c:when>
+							<c:when test="${status.index == 3}">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABiElEQVR4nO2ZwUrEMBCG8yB6FA824M0XUHwUD+7DKI3C6mW9SvGgfQL1UterNq4rrLRepAvu0ihUSmSKjahUTcU2wfnhh5JL/y8zaUuHEBQKhTJWW9cLs4w7nsvplHEqm7QL9wzpwXZI538Rno6bDs4+e7w5oDPaALDzBoSXr97XBmijbViVQzqpUQEDgvM3IwDDClBsIS3960Psxx0ZizOZ5Y+FYxEUa1YAnCe7skr9ZMdsAD/uyO9UtxKkCQBom1Kj9Fj2hsuFR+mJWo9EYC5AlgsVFIKX673hilrP8tRcAFbhvZtVBSCeE3sAuoMleRityfunSwVwNfHtAfioaXb3rrUYAnwhbCFu4SHObH+MxiJQQeHlBcHBt+mpHS8y/wefEkfRurkAjNPig61K/aRb+5FMmgIoKwGtAmcCDNd1d561AfAXJgjAsQISW0hH1h9i16Cfu27oPGgDwHCh7eBM2fG0AWAyYsqAY+NicY7UEUxGYLgA/+cbDx7CPR2vdngUCoUiTegFU2aJ1Yt8CosAAAAASUVORK5CYII=">
+							</c:when>
+							<c:when test="${status.index == 4}">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABMUlEQVR4nO2ZTQrCQAyFe4yO1aUIKngYjyYi4g1EPIPSClO3HsG6FPzDTeNERrRaiuAU6UwgD7Lppu97STYTz2OxWCxnhctaA0IxS0NxgkhglZU+/unPMaq1SptPQ39ftXEogPh7lEHdGEAnb9s8vGtqDGBjbOD7OB3NO+CAcfgoBgDugOARMpLtkQHrSyzbiHDCT5ECUNtBzjwtAKnTP9MFUMmwYJ4OQNzJ0leHFT0AlYwyw7dNnxhA3EWES5a+/kYKQO3GufRpAax7iLdrLn1SAGo3KaRPCgCf6f8iNwFQUQdA2gDwA5jTOwAMINzswL/KY4CIO4A8QiYiv8SpW4+7B2MAfVywbRxeFYqZMYC+jDhz4FgETWOAB4QM6vq4oN/nLYzNUSdf2jyLxWJ5VegOSOS+C4MgG8YAAAAASUVORK5CYII=">
+							</c:when>
+							<c:when test="${status.index == 5}">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABf0lEQVR4nO2ZsUoDQRCG90G00V1S+Qhq7QPIbVDsTKGWWtjamT7BZ5Bw4COIRTq1SOUjCCEmahR27kZG1BVMPHbBvV2cH4ZLFeab+Wfv2BGCxWKxolW2jIuZgp6WZqIVYNCQZpJJyDcb2PBOXkszDJ64+gEy3JK44A5Ala87efUV584AtdhGzY5MmbE7QASJ62/BAJo7AGwhJ/3bIT47LrBKUQPknTJtgKuLxAHuri3AyXaR3gyM7m2lD9YhLYCdFcDyowH0fBwhvk4RB/0S260ifoDDDfjV+3m3jBugc1R9hPp2QoQAmBV7q4A3l3awyU5JAWgFuL9mrTV9ivwY1XMiiffAy7NNkqyTXAcGfet18j0lTnGbygy0W9Wn0Olu5KdQ3p3/LUQfer7/K0IBfHaCrEIzQUG/fSuv6wD4ixAMoLgDyBZyUfpDLOO53NXKPDgD0HKh/sThPeiq3xmANiOxLDiaS6iEj2gzQssFup8PX3Uzpsp7J89isVgihN4AZZD+JaDC0u8AAAAASUVORK5CYII=">
+							</c:when>
+						</c:choose>
+					</td>
+					<td class="col-2 grade-item">
+						<input type="text" readonly value="${grade.gr_name}" style="width: 170px; border: 0;" maxlength="10" class="name edit-input" readonly>
+					</td>
+					<td class="col-2 grade-item">
+						<input type="text" readonly value="${grade.gr_discount}" style="width: 50px; border: 0;" maxlength="5" class="discount edit-input" readonly>%
+					</td>
+					<td class="col-2 grade-item">
+						<input type="text" readonly value="${grade.gr_loan_condition}" style="width: 50px; border: 0;" maxlength="5" class="loan edit-input" readonly>개
+					</td>
+					<td class="col-2 grade-item">
+						<input type="text" readonly value="${grade.gr_post_condition}" style="width: 50px; border: 0;" maxlength="5" class="post edit-input" readonly>개
+					</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+		  </div>
 		</div>
 		<div class="mt-5">
 			<div class="row justify-content-center">
@@ -297,36 +387,63 @@
 			</ul>
 		</div>
 	</div>
-	<!-- 대출 책 -->
-	<script type="text/javascript">
-		$(document).on("click", ".loan-btn", function(e) {
-			e.preventDefault();
-			
-			$(".new-btn, .loan-btn, .hot-btn").removeClass("active-btn");
-			
-			$(this).addClass("active-btn");
-			
-			
-		});
-	</script>
-	<!-- 신규 책 -->
-	<script type="text/javascript">
-		$(document).on("click", ".new-btn", function(e) {
-			e.preventDefault();
-			
-			$(".new-btn, .loan-btn, .hot-btn").removeClass("active-btn");
-
-			$(this).addClass("active-btn");
-		});
-	</script>
-	<!-- 인기 책 -->
-	<script type="text/javascript">
-		$(document).on("click", ".hot-btn", function(e) {
-			e.preventDefault();
-
-			$(".new-btn, .loan-btn, .hot-btn").removeClass("active-btn");
-
-			$(this).addClass("active-btn");
-		});
-	</script>
 </body>
+<!-- 대출 책 -->
+<script type="text/javascript">
+	$(document).on("click", ".loan-btn", function(e) {
+		e.preventDefault();
+		
+		$(".new-btn, .loan-btn, .hot-btn").removeClass("active-btn");
+		
+		$(this).addClass("active-btn");
+		
+		
+	});
+</script>
+<!-- 신규 책 -->
+<script type="text/javascript">
+	$(document).on("click", ".new-btn", function(e) {
+		e.preventDefault();
+		
+		$(".new-btn, .loan-btn, .hot-btn").removeClass("active-btn");
+
+		$(this).addClass("active-btn");
+	});
+</script>
+<!-- 인기 책 -->
+<script type="text/javascript">
+	$(document).on("click", ".hot-btn", function(e) {
+		e.preventDefault();
+
+		$(".new-btn, .loan-btn, .hot-btn").removeClass("active-btn");
+
+		$(this).addClass("active-btn");
+	});
+</script>
+<script type="text/javascript">
+//모달을 가져옵니다
+var modal = document.getElementById("gradeModal");
+
+// 모달을 열 링크를 가져옵니다
+var link = document.getElementById("gradeInfoLink");
+
+// <span> 요소 (x)를 가져와서 모달을 닫습니다
+var span = document.getElementsByClassName("close")[0];
+
+// 사용자가 링크를 클릭하면 모달을 엽니다
+link.onclick = function() {
+  modal.style.display = "block";
+}
+
+// 사용자가 <span> (x)를 클릭하면 모달을 닫습니다
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// 사용자가 모달 외부를 클릭하면 모달을 닫습니다
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
