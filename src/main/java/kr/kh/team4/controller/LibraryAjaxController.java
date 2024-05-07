@@ -436,5 +436,4 @@ public class LibraryAjaxController {
 		return map;
 	}
 	
-
 }

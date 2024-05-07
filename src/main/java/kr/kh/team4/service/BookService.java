@@ -112,5 +112,7 @@ public interface BookService {
 
 	void updateLoanCount(int bo_loan_count, int bo_num);
 
+	ArrayList<BookVO> getBookLoanList(BookVO book);
+
 
 }

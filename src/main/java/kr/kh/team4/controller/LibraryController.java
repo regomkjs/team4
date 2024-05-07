@@ -51,12 +51,14 @@ public class LibraryController {
 	PostService postService;
 	
 	@GetMapping("/library")
-	public String home(Model model, HttpSession session) {
+	public String home(Model model, HttpSession session, BookVO book) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		ArrayList<PostVO> noticeList = postService.getNoticeList();
 		ArrayList<PostVO> hotList = postService.getHotList();
 		ArrayList<GradeVO> gradeList = memberService.getUserGradeList(user);
 		ArrayList<GradeVO> grade = memberService.getGradeList();
+		ArrayList<BookVO> bookList = bookService.getBookLoanList(book);
+		model.addAttribute("book", bookList);
 		model.addAttribute("grade", grade);
 		model.addAttribute("gradeList", gradeList);
 		model.addAttribute("hotList", hotList);

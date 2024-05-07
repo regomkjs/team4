@@ -638,4 +638,12 @@ public class BookServiceImp implements BookService {
 	public void updateLoanCount(int bo_loan_count, int bo_num) {
 		bookDao.updateLoanCount(bo_num, bo_loan_count);
 	}
+
+	@Override
+	public ArrayList<BookVO> getBookLoanList(BookVO book) {
+		if(book == null) {
+			return null;
+		}
+		return bookDao.selectBookLoanList(book);
+	}
 }

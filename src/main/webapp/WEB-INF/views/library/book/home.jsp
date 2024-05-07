@@ -100,16 +100,6 @@
 	text-decoration: none;
 }
 
-.box1 {
-	padding: 10px;
-	width: 220px;
-	height: 100%;
-	float: left;
-	margin-top: 50px;
-	margin-left: 60px;
-	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-}
-
 .aTag-home {
 	text-decoration: none;
 	color: #046582;
@@ -154,6 +144,22 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.book-tap {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.book-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.book-item {
+    flex: 1 0 21%;
+    margin: 10px;
+    text-align: center;
 }
 </style>
 <body>
@@ -367,23 +373,24 @@
 			</div>
 		</div>
 		<div class="main-book">
-			<ul class="book-tap">
-				<li class="new-title">
-					<button class="new-btn">
-						새로 들어온 책<span class="badge bg-success">New</span>
-					</button>
-				</li>
-				<li class="popular-title">
-					<button class="loan-btn">
-						대출이 많은 책<span class="badge bg-danger">Hot</span>
-					</button>
-				</li>
-				<li class="popular-title">
-					<button class="hot-btn">
-						인기 많은 책<span class="badge bg-warning">Best</span>
-					</button>
-				</li>
-			</ul>
+		    <div class="book-tap">
+		        <button class="new-btn">새로 들어온 책<span class="badge bg-success">New</span></button>
+		        <button class="loan-btn">대출이 많은 책<span class="badge bg-danger">Hot</span></button>
+		        <button class="hot-btn">인기 많은 책<span class="badge bg-warning">Best</span></button>
+		    </div>
+		    <div class="book-list loan-books" style="display: none;">
+		        <c:forEach items="${book}" var="book">
+		            <c:if test="${book != null}">
+		                <div class="book-item">
+		                    <a href="<c:url value="/library/book/detail?num=${book.bo_num}"/>"><img src="${book.bo_thumbnail}"></a>
+		                    <a href="<c:url value="/library/book/detail?num=${book.bo_num}"/>" style="text-decoration: none; color: black;"><p>${book.bo_title}</p></a>
+		                </div>
+		            </c:if>
+		            <c:if test="${book == null}">
+		                <p>대출된 책이 없습니다.</p>
+		            </c:if>
+		        </c:forEach>
+		    </div>
 		</div>
 	</div>
 </body>
@@ -395,8 +402,8 @@
 		$(".new-btn, .loan-btn, .hot-btn").removeClass("active-btn");
 		
 		$(this).addClass("active-btn");
-		
-		
+		$(".book-list").hide();
+		$(".loan-books").show();;
 	});
 </script>
 <!-- 신규 책 -->
@@ -407,6 +414,7 @@
 		$(".new-btn, .loan-btn, .hot-btn").removeClass("active-btn");
 
 		$(this).addClass("active-btn");
+		$(".book-list").hide();
 	});
 </script>
 <!-- 인기 책 -->
@@ -417,15 +425,16 @@
 		$(".new-btn, .loan-btn, .hot-btn").removeClass("active-btn");
 
 		$(this).addClass("active-btn");
+		$(".book-list").hide();
 	});
 </script>
 <!-- 등급 안내 -->
 <script type="text/javascript">
-var modal = document.getElementById("gradeModal");
+let modal = document.getElementById("gradeModal");
 
-var link = document.getElementById("gradeInfoLink");
+let link = document.getElementById("gradeInfoLink");
 
-var span = document.getElementsByClassName("close")[0];
+let span = document.getElementsByClassName("close")[0];
 
 link.onclick = function() {
   modal.style.display = "block";
