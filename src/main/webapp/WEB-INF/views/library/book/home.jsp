@@ -44,6 +44,7 @@
 	width: 20%;
 	height: 250px;
 	position: relative;
+	box-sizing: border-box;
 }
 
 .main-post {
@@ -290,13 +291,13 @@
 						<input type="text" readonly value="${grade.gr_name}" style="width: 170px; border: 0;" maxlength="10" class="name edit-input" readonly>
 					</td>
 					<td class="col-2 grade-item">
-						<input type="text" readonly value="${grade.gr_discount}" style="width: 50px; border: 0;" maxlength="5" class="discount edit-input" readonly>%
+						<input type="text" readonly value="${grade.gr_discount}" style="width: 50px; border: 0; text-align: right;" maxlength="5" class="discount edit-input" readonly>%
 					</td>
 					<td class="col-2 grade-item">
-						<input type="text" readonly value="${grade.gr_loan_condition}" style="width: 50px; border: 0;" maxlength="5" class="loan edit-input" readonly>개
+						<input type="text" readonly value="${grade.gr_loan_condition}" style="width: 50px; border: 0; text-align: right;" maxlength="5" class="loan edit-input" readonly>개
 					</td>
 					<td class="col-2 grade-item">
-						<input type="text" readonly value="${grade.gr_post_condition}" style="width: 50px; border: 0;" maxlength="5" class="post edit-input" readonly>개
+						<input type="text" readonly value="${grade.gr_post_condition}" style="width: 50px; border: 0; text-align: right;" maxlength="5" class="post edit-input" readonly>개
 					</td>
 				</tr>
 			</c:forEach>
