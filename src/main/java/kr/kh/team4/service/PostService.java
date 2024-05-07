@@ -112,4 +112,8 @@ public interface PostService {
 
 	boolean blockWriter(int rp_num);
 
+	ArrayList<PostVO> getNoticeList();
+
+	ArrayList<PostVO> getHotList();
+
 }

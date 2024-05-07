@@ -153,6 +153,10 @@ public interface PostDAO {
 
 	ArrayList<ReportVO> selectReportListByTarget(@Param("rp_target")String rp_target);
 
+	ArrayList<PostVO> selectNoticeList();
+
+	ArrayList<PostVO> selectHotList();
+
 	
 	
 

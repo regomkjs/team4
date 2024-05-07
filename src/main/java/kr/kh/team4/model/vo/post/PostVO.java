@@ -1,7 +1,7 @@
 package kr.kh.team4.model.vo.post;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.logging.SimpleFormatter;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,4 +46,9 @@ public class PostVO {
 		return "" + format.format(po_datetime);
 	}
 	*/
+	
+	public String dateFormat(String po_datetime) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return "" + format.format(po_datetime);
+	}
 }
