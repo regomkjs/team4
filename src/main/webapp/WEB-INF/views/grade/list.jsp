@@ -118,7 +118,6 @@
 					</td>
 					<td>
 						<button type="submit" class="btn btn-outline-warning btn-update">수정</button>
-						<button type="submit" class="btn btn-outline-danger btn-delete">삭제</button>
 					</td>
 				</tr>
 			</c:forEach>

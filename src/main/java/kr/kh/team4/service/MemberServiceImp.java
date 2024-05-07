@@ -566,4 +566,12 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.selectTotalCountMyReport(cri, user);
 	}
 
+	@Override
+	public ArrayList<GradeVO> getUserGradeList(MemberVO user) {
+		if(user == null) {
+			return null;
+		}
+		return memberDao.selectUserGradeList(user.getMe_id());
+	}
+
 }

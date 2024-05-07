@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.kh.team4.model.vo.book.BookVO;
 import kr.kh.team4.model.vo.book.LoanVO;
@@ -50,14 +51,16 @@ public class LibraryController {
 	PostService postService;
 	
 	@GetMapping("/library")
-	public String home(Model model) {
+	public String home(Model model, GradeVO grade, HttpSession session) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
 		ArrayList<PostVO> noticeList = postService.getNoticeList();
 		ArrayList<PostVO> hotList = postService.getHotList();
+		ArrayList<GradeVO> gradeList = memberService.getUserGradeList(user);
+		model.addAttribute("gradeList", gradeList);
 		model.addAttribute("hotList", hotList);
 		model.addAttribute("noticeList", noticeList);
 		return "/library/book/home";
 	}
-	
 	
 	@GetMapping("/library/management/manager")
 	public String libraryManagement(Model model) {	

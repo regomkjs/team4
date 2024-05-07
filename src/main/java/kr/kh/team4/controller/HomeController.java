@@ -213,15 +213,17 @@ public class HomeController {
 	}
 	
 	@GetMapping("/mypage")
-	public String mypage(Model model) {
+	public String mypage(Model model, HttpSession session) {
 		model.addAttribute("title", "내 정보");
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<GradeVO> gradeList = memberService.getUserGradeList(user);
+		model.addAttribute("gradeList", gradeList);
 		return "/member/mypage";
 	}
 	
 	@PostMapping("/mypage")
 	public String mypagePost(Model model, MemberVO member, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		ArrayList<GradeVO> gradeList = memberService.getGradeList();
 		boolean res = memberService.updateMember(member, user);
 		if(res) {
 			model.addAttribute("msg", "회원 정보를 수정했습니다.");
@@ -233,7 +235,6 @@ public class HomeController {
 		}
 		//세션에 회원 정보 수정
 		session.setAttribute("user", user);
-		model.addAttribute("gradeList", gradeList);
 		return "message";
 	}
 	

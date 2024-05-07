@@ -92,4 +92,6 @@ public interface MemberService {
 
 	int totalCountMyReport(Criteria cri, MemberVO user);
 
+	ArrayList<GradeVO> getUserGradeList(MemberVO user);
+
 }

@@ -11,4 +11,5 @@ public class GradeVO {
 	private int gr_discount; 
 	private int gr_loan_condition; 
 	private int gr_post_condition;
+	private MemberVO user;
 }
