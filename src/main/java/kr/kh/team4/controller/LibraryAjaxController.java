@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.kh.team4.dao.BookDAO;
 import kr.kh.team4.model.dto.BookDTO;
 import kr.kh.team4.model.dto.SaleDTO;
 import kr.kh.team4.model.dto.UnderDTO;
@@ -30,6 +29,7 @@ import kr.kh.team4.model.vo.book.ReviewVO;
 import kr.kh.team4.model.vo.book.SaleStateVO;
 import kr.kh.team4.model.vo.book.SaleVO;
 import kr.kh.team4.model.vo.book.UnderVO;
+import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.PageMaker;
@@ -236,10 +236,12 @@ public class LibraryAjaxController {
 	@PostMapping("/review/list")
 	public Map<String, Object> reviewListPost(@RequestBody ReviewCriteria cri) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<GradeVO> grade = memberService.getGradeList();
 		cri.setPerPageNum(4);
 		ArrayList<ReviewVO> list = bookService.getReviewList(cri);
 		int totalCount = bookService.getTotalCountReview(cri);
 		PageMaker pm = new PageMaker(5, cri, totalCount);
+		map.put("gradeList", grade);
 		map.put("list", list);
 		map.put("pm", pm);
 		return map;

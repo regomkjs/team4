@@ -392,6 +392,9 @@ function displayReviewList(list){
             stars += i <= item.rv_score ? `<span class="filled-star"></span>` : `<span class="empty-star"></span>`;
         }
         stars += `</div>`;
+        
+        let gradeText = '';
+       
 		str += 
 		`
 	 		<div class="box-review d-flex justify-content-between align-items-center">
