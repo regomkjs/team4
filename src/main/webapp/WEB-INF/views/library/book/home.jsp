@@ -383,7 +383,6 @@
 						인기 많은 책<span class="badge bg-warning">Best</span>
 					</button>
 				</li>
-				<div>123</div>
 			</ul>
 		</div>
 	</div>
@@ -420,27 +419,22 @@
 		$(this).addClass("active-btn");
 	});
 </script>
+<!-- 등급 안내 -->
 <script type="text/javascript">
-//모달을 가져옵니다
 var modal = document.getElementById("gradeModal");
 
-// 모달을 열 링크를 가져옵니다
 var link = document.getElementById("gradeInfoLink");
 
-// <span> 요소 (x)를 가져와서 모달을 닫습니다
 var span = document.getElementsByClassName("close")[0];
 
-// 사용자가 링크를 클릭하면 모달을 엽니다
 link.onclick = function() {
   modal.style.display = "block";
 }
 
-// 사용자가 <span> (x)를 클릭하면 모달을 닫습니다
 span.onclick = function() {
   modal.style.display = "none";
 }
 
-// 사용자가 모달 외부를 클릭하면 모달을 닫습니다
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
