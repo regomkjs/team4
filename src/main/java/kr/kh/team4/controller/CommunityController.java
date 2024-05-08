@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.model.vo.post.CategoryVO;
@@ -249,6 +250,8 @@ public class CommunityController {
 		int cafeMemberNum = memberService.totalCountMemberNum();
 		int cafePostNum = postService.totalCountPostNum();
 		int cafeLentalBook = bookService.totalCountBookNum();
+		ArrayList<GradeVO> gradeList = memberService.getGradeList();
+		map.put("gradeList", gradeList);
 		map.put("cafeMemberNum", cafeMemberNum);
 		map.put("cafePostNum", cafePostNum);
 		map.put("cafeLentalBook", cafeLentalBook);
