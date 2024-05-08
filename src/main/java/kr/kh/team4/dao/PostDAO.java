@@ -159,6 +159,10 @@ public interface PostDAO {
 
 	int totalCountPostNum();
 
+	ArrayList<PostVO> selectPopularPostList(@Param("cri")Criteria cri);
+
+	int totalCountPopularPost(@Param("cri")Criteria cri);
+
 	
 	
 

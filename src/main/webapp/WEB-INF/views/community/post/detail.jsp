@@ -28,7 +28,7 @@
 </c:set>
 <input value="${today}" id="today" readonly style="display: none;">
 <input value="${time}" id="time" readonly style="display: none;">
-<div class="container">
+<div>
 	<h1>
 		게시글 상세
 	</h1>

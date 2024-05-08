@@ -1667,7 +1667,7 @@ function getEverything() {
 			`
 				<ul>
 					<li class="category-item"><a class="category-link" href='<c:url value="/post/list"/>' style="text-decoration: none; color: black;">전체 게시글</a></li>
-					<li class="category-item">인기 게시글 <i class="fa-solid fa-fire" style="color: #ff3333;"></i></li>
+					<li class="category-item"><a class="category-link" href='<c:url value="/post/popular"/>' style="text-decoration: none; color: black;">인기 게시글 <i class="fa-solid fa-fire" style="color: #ff3333;"></i></a></li>
 				</ul>
 				<div class="mt-4" style="font-size: small; color: gray"><i class="fa-solid fa-list"></i> 게시판</div>
 				<ul>

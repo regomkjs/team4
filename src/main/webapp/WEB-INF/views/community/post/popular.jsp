@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
 <html>
 <head>
-	<title>게시글 목록</title>
+	<title>인기글 목록</title>
 	<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
 	<style type="text/css">
 		
@@ -52,32 +52,22 @@
 <body>
 <div>
 	<h1>
-		게시글 목록
+		인기글 목록
 	</h1>
 	
-	<form action="<c:url value="/post/list"/>" method="get" class="input-group" id="searchForm">
-		<input name="ca" style="display: none;" value="${pm.cri.ca}">
+	<form action="<c:url value="/post/popular"/>" method="get" class="input-group" id="searchForm">
 		<div class="input-group mb-1">
-			<select name="type" class="input-group-prepend" >
-				<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
-				<option value="text" <c:if test='${pm.cri.type == "text"}'>selected</c:if>>제목+내용</option>
-				<option value="writer" <c:if test='${pm.cri.type == "writer"}'>selected</c:if>>작성자</option>
-			</select>
+			
 			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
 			<button type="submit" class="input-group-append btn btn-success search-btn"><i class="fa-solid fa-magnifying-glass mr-1 mt-1"  style="--fa-animation-duration: 1.5s;"></i>검색</button>
 		</div>
-	 	<select class="form-control col-4 offset-8 mt-1 mb-2" name="order">
-	 		<option value="new" <c:if test='${pm.cri.order == "new"}'>selected</c:if>>최신순</option>
-	 		<option value="view" <c:if test='${pm.cri.order == "view"}'>selected</c:if>>조회수순</option>
-	 		<option value="heart" <c:if test='${pm.cri.order == "heart"}'>selected</c:if>>좋아요순</option>
-	 	</select>
+	 	
 	</form>
 
 	<table class="table table-hover text-center">
 		<thead>
 			<tr>
-				<th class="col-1">번호</th>
-				<th class="col-1">게시판</th>
+				<th class="col-2">게시판</th>
 				<th>제목</th>
 				<th class="col-2">작성자</th>
 				<th class="col-1.5">작성일</th>
@@ -86,10 +76,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${postList}" var="post" varStatus="vs">
+			<c:forEach items="${postList}" var="post">
 				<c:if test="${post.po_num > 0}">
-					<tr>		<!-- pm.cri.perPageNum * (pm.cri.page-1)) == pm.cri.startPage -->
-				  		<td>${(pm.totalCount - (pm.cri.perPageNum * (pm.cri.page-1))) - vs.index}</td>
+					<tr>
+				  		
 				  		<td>${post.ca_name}</td>
 				  		<td class="hovertext1-box title-box" data-hover="${post.po_title}"> 
 				  			<c:url value="/post/detail" var="detailUrl">
@@ -172,21 +162,9 @@
 		<h1 class="text-center">등록된 게시글이 없습니다.</h1>
 	</c:if>
 	<ul class="pagination justify-content-center">
-		<c:if test="${pm.prev}">
-		    <li class="page-item">
-		    	<c:url value="/post/list" var="prev">
-		    		<c:param name="ca" value="${pm.cri.ca}"/>
-		    		<c:param name="type" value="${pm.cri.type}" />
-		    		<c:param name="search" value="${pm.cri.search}" />
-		    		<c:param name="order" value="${pm.cri.order}"/>
-		    		<c:param name="page" value="${pm.startPage - 1}"/>
-		    	</c:url>
-		    	<a class="page-link" href="${prev}">이전</a>
-	    	</li>
-		</c:if>
+		
     	<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
-    		<c:url value="/post/list" var="url">
-	    		<c:param name="ca" value="${pm.cri.ca}"/>
+    		<c:url value="/post/popular" var="url">
     			<c:param name="type" value="${pm.cri.type}" />
 	    		<c:param name="search" value="${pm.cri.search}" />
 	    		<c:param name="order" value="${pm.cri.order}"/>
@@ -197,18 +175,7 @@
     			<a class="page-link" href="${url}">${i}</a>
    			</li>
     	</c:forEach>
-    	<c:if test="${pm.next}">
-			<li class="page-item">
-		    	<c:url value="/post/list" var="next">
-		    		<c:param name="ca" value="${pm.cri.ca}"/>
-		    		<c:param name="type" value="${pm.cri.type}" />
-		    		<c:param name="search" value="${pm.cri.search}" />
-		    		<c:param name="order" value="${pm.cri.order}"/>
-		    		<c:param name="page" value="${pm.endPage + 1}"/>
-		    	</c:url>
-		    	<a class="page-link" href="${next}">다음</a>
-	    	</li>
-		</c:if>
+    	
 	</ul>
 	<c:url value="/post/insert" var="insertUrl">
 		<c:param name="ca" value="${pm.cri.ca}"/>
