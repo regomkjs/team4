@@ -24,6 +24,7 @@ import kr.kh.team4.model.vo.book.ReserveVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.member.ReportVO;
+import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.MyReportCriteria;
 import kr.kh.team4.pagination.PageMaker;
@@ -45,8 +46,22 @@ public class HomeController {
 	@Autowired
 	PostService postService;
 	
+	private static String aladinAPI="ttbquddjcho1722001";
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(Model model, HttpSession session, BookVO book) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<PostVO> noticeList = postService.getNoticeList();
+		ArrayList<PostVO> hotList = postService.getHotList();
+		ArrayList<GradeVO> gradeList = memberService.getUserGradeList(user);
+		ArrayList<GradeVO> grade = memberService.getGradeList();
+		ArrayList<BookVO> bookList = bookService.getBookLoanList(book);
+		model.addAttribute("book", bookList);
+		model.addAttribute("grade", grade);
+		model.addAttribute("gradeList", gradeList);
+		model.addAttribute("hotList", hotList);
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("api",aladinAPI);
 		return "/main/home";
 	}
 	
