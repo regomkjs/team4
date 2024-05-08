@@ -12,6 +12,10 @@
 .genre-list>li{line-height:30px; border-bottom: 1px solid #ccc; margin: 5px;}
 .add-box{text-align: right;}
 .management-add-type{display: inline;}
+
+.select .nav-item:nth-of-type(1){
+	background: #fdfdfd url(../../resources/img/k_icon09.png) no-repeat 40px 20px ;
+}
 </style>
 <body>
 	<div class="container mt-5">
