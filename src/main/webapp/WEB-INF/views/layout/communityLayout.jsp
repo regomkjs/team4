@@ -55,7 +55,7 @@
 	<div class="header-box">
 	    <tiles:insertAttribute name="header"/>
 	</div>
-    <div style="min-height: calc(100vh - 290px);" class="community-box-container">
+    <div style="min-height: calc(100vh - 290px); min-width: 1196px; padding: 0 20px" class="community-box-container">
     	<div class="box-sidebar" style="min-height: calc(100vh - 290px);">
 	    	<tiles:insertAttribute name="sidebar" />
     	</div>

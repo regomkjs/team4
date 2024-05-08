@@ -116,4 +116,6 @@ public interface PostService {
 
 	ArrayList<PostVO> getHotList();
 
+	int totalCountPostNum();
+
 }

@@ -574,4 +574,9 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.selectUserGradeList(user.getMe_id());
 	}
 
+	@Override
+	public int totalCountMemberNum() {
+		return memberDao.totalCountMemberNum();
+	}
+
 }

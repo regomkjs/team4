@@ -91,4 +91,6 @@ public interface MemberDAO {
 
 	ArrayList<GradeVO> selectUserGradeList(@Param("me_id")String me_id);
 
+	int totalCountMemberNum();
+
 }
