@@ -20,6 +20,7 @@ import kr.kh.team4.model.vo.post.ItemVO;
 import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.model.vo.post.VoteVO;
 import kr.kh.team4.pagination.Criteria;
+import kr.kh.team4.pagination.PostCriteria;
 
 @Service
 public class PostServiceImp implements PostService {
@@ -699,6 +700,25 @@ public class PostServiceImp implements PostService {
 	@Override
 	public int totalCountPostNum() {
 		return postDAO.totalCountPostNum();
+	}
+
+	@Override
+	public ArrayList<PostVO> getPopularPostList(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		
+		
+		return postDAO.selectPopularPostList(cri);
+	}
+
+	@Override
+	public int totalCountPopularPost(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		
+		return postDAO.totalCountPopularPost(cri);
 	}
 
 }

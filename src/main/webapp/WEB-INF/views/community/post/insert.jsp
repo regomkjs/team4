@@ -7,7 +7,7 @@
 	<title>게시글 작성</title>
 </head>
 <body>
-<div class="container">
+<div>
 	<h1>
 		게시글 작성
 	</h1>

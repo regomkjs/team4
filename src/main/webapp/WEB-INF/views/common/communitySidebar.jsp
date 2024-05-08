@@ -92,7 +92,7 @@
 	    text-align: center;
 	    border-radius: 5px;
 	    padding: 5px 5px;
-	    transition: opacity 1s ease-in-out;
+	    transition: opacity 0.5s ease-in-out;
 	
 	    position: absolute;
 	    z-index: 100;
@@ -114,6 +114,7 @@
 		box-sizing: border-box;
 		border-radius: 5px;
 		padding: 10px;
+		margin-bottom: 1px;
 	}
 	.side-category ul{
 		margin: 0;
@@ -125,7 +126,8 @@
 	}
 	
 	.side-category li{
-		line-height: 50px; border-bottom: 1px solid #ccc;
+		line-height: 50px; 
+		border-bottom: 1px solid #ccc;
 		box-sizing: border-box;
 		
 	}
@@ -1665,7 +1667,7 @@ function getEverything() {
 			`
 				<ul>
 					<li class="category-item"><a class="category-link" href='<c:url value="/post/list"/>' style="text-decoration: none; color: black;">전체 게시글</a></li>
-					<li class="category-item">인기 게시글 <i class="fa-solid fa-fire" style="color: #ff3333;"></i></li>
+					<li class="category-item"><a class="category-link" href='<c:url value="/post/popular"/>' style="text-decoration: none; color: black;">인기 게시글 <i class="fa-solid fa-fire" style="color: #ff3333;"></i></a></li>
 				</ul>
 				<div class="mt-4" style="font-size: small; color: gray"><i class="fa-solid fa-list"></i> 게시판</div>
 				<ul>

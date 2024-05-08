@@ -65,17 +65,20 @@ public class PostController {
 		return "/community/post/list";
 	}
 	
-	@GetMapping("/post/popluar")
-	public String postPopluar(Model model, PostCriteria cri) {
-		ArrayList<PostVO> list = postService.getPostList(cri);
+	@GetMapping("/post/popular")
+	public String postPopular(Model model, PostCriteria cri) {
+		if(cri.getPage() > 5) {
+			cri.setPage(5);
+		}
+		ArrayList<PostVO> list = postService.getPopularPostList(cri);
 		
-		int totalCount = postService.totalCountPost(cri);
+		int totalCount = postService.totalCountPopularPost(cri);
 		PageMaker pm = new PageMaker(5, cri, totalCount);
 		model.addAttribute("postList", list);
 		model.addAttribute("pm", pm);
 		model.addAttribute("title", "인기글 목록");
 		
-		return "/community/post/popluar";
+		return "/community/post/popular";
 	}
 	
 	
