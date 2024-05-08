@@ -17,19 +17,21 @@
 	  display: flex;
 	  width: 250px;
 	  height: 30px;
-	  border: 1px solid #dedede;
+	  border: 1px solid #aaa;
 	  border-bottom: none;
 	  box-sizing: border-box;
 	  margin-bottom: 0;
 	  padding-bottom: 0;
+	 
 	}
 	
 	.side-tab-navi li {
 	  width: 100%;
 	  cursor: pointer;
-	  border-right: 1px solid #dedede;
+	  border-right: 1px solid #aaa;
 	  border-bottom: 3px solid rgb(250, 208, 203);
 	  box-sizing: border-box;
+	  
 	}
 	
 	.side-tab-navi li:last-child {
@@ -41,16 +43,18 @@
 	}
 	
 	.side-tab-navi li.active {
-	  border-bottom: 3px solid salmon;
-	  box-sizing: border-box;
+		background-color: #f5f5f5;
+		border-bottom: 3px solid salmon;
+		box-sizing: border-box;
 	}
 	
 	.side-tab-contents {
 	  width: 250px;
 	  height: 200px;
-	  border: 1px solid #dedede;
+	  border: 1px solid #aaa;
 	  border-top: none;
 	  box-sizing: border-box;
+	  border-radius: 5px;
 	}
 	
 	.side-tab-content {
@@ -106,8 +110,25 @@
 	}
 	
 	.side-category{
-		border: 1px solid black;
+		border: 1px solid #aaa;
 		box-sizing: border-box;
+		border-radius: 5px;
+		padding: 10px;
+	}
+	.side-category ul{
+		margin: 0;
+		text-decoration: none;
+	
+		
+	}
+	.side-category li{
+		line-height: 50px; border-bottom: 1px solid #ccc;
+		
+	}
+	.side-category li:hover {
+		border: 2px solid #557; box-sizing: border-box; padding: 0px;
+		background-color:#ddd;
+		cursor: pointer;
 	}
 	
 </style>
@@ -127,11 +148,23 @@
 		    	
 		    </div>
 		    <div class="side-tab-content" >
-		    	
-		    	회원 정보
-	    		<div>
-	    		
-	    		</div>
+	    		<c:if test="${user == null}">
+					<div class="login-box text-center">
+						<a href="<c:url value='/login'/>" class="btn btn-outline-success login-btn col-8" style="margin-top: 60px">로그인</a>
+						<div style="width: 100%; font-size: small;" class="mt-4">
+							<a href="<c:url value="/find/id"/>" style="color: gray;">아이디찾기</a>
+							<span style="color: gray; opacity: 60%">|</span> <a
+								href="<c:url value="/find/pw"/>" style="color: gray;">비밀번호찾기</a>
+							<span style="color: gray; opacity: 60%">|</span> <a
+								href="<c:url value="/signup"/>" style="color: gray;">회원가입</a>
+						</div>
+					</div>
+				</c:if>
+				<c:if test="${user != null}">
+					<div class="login-box text-center">
+						
+					</div>
+				</c:if>
 	    	</div>
 		</div>
 		
@@ -221,9 +254,6 @@
 	</div>
 </div>
 
-
-
-
 <!-- 유저 관리 Modal -->
 <div class="modal fade" id="userModal">
 	<div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -298,9 +328,6 @@
 	</div>
 </div>
 
-
-
-
 <!-- 신고 내용 상세보기 Modal -->
 <div class="modal fade" id="reportDetailModal">
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -329,10 +356,6 @@
 		</div>
 	</div>
 </div>
-
-
-
-
 
 
 <!-- 게시판 관리 스크립트 -->
@@ -1489,7 +1512,7 @@ $(document).on("click", ".btn-dismiss", function () {
 </script>
 
 
-
+<!-- 카페, 회원정보 박스 스크립트 -->
 <script type="text/javascript">
 $(".side-tab-navi li").click(function () {
 	let tabIdx = $(this).index();
@@ -1500,9 +1523,10 @@ $(".side-tab-navi li").click(function () {
 });
 </script>
 
+
+<!-- 카페,회원정보, 게시판 리스트 스크립트 -->
 <script type="text/javascript">
-
-
+getEverything()
 //카페정보, 회원정보, 게시판 리스트 호출 
 function getEverything() {
 	$.ajax({
@@ -1510,11 +1534,59 @@ function getEverything() {
 		method : "post",
 		dataType : "json", 
 		success : function (data) {
+			let memberInfo = data.memberInfo;
+			let categoryList = data.categoryList;
+			let cafeMemberNum = data.cafeMemberNum;
+			let cafePostNum = data.cafePostNum;
+			let cafeLentalBook = data.cafeLentalBook;
+
+			console.log(memberInfo)
+			let meStr = "";
 			
+			
+			
+			
+			console.log(categoryList)
+			
+			let caStr = "";
+			
+			caStr += 
+			`
+				<ul>
+					<li class="category-item"><a class="category-link" href='<c:url value="/post/list"/>' style="text-decoration: none; color: black;">전체 게시글</a></li>
+					<li class="category-item">인기 게시글</li>
+			`
+			if(categoryList != null && categoryList.length != 0){
+				for(category of categoryList){
+					caStr +=
+					`
+						<li class="category-item">
+							<a class="category-link" href='<c:url value="/post/list?ca=\${category.ca_num}" />' style="text-decoration: none; color: black;">
+								\${category.ca_name}
+							</a>
+						</li>
+					`
+				}
+			}
+			caStr +=
+			`
+				</ul>
+			`
+			$(".side-category").html(caStr);
+			
+			
+			console.log(cafeMemberNum)
+			console.log(cafePostNum)
+			console.log(cafeLentalBook)
 		},
 		error : function (a, b, c) {
 			console.error("에러 발생")
 		}
 	});
 }
+
+$(document).on("click",".category-item", function () {
+	$(this).find(".category-link").get(0).click();
+})
+
 </script>

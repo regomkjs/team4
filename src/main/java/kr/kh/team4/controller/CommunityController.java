@@ -22,6 +22,7 @@ import kr.kh.team4.model.vo.post.PostVO;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.MemberCriteria;
 import kr.kh.team4.pagination.PageMaker;
+import kr.kh.team4.service.BookService;
 import kr.kh.team4.service.MemberService;
 import kr.kh.team4.service.PostService;
 import lombok.extern.log4j.Log4j;
@@ -36,6 +37,8 @@ public class CommunityController {
 	@Autowired
 	MemberService memberService;
 	
+	@Autowired
+	BookService bookService;
 	
 	@GetMapping("/community/main")
 	public String communityMain (Model model, HttpSession session) {
@@ -235,5 +238,25 @@ public class CommunityController {
 		return map;
 	}
 	
+	
+	@ResponseBody
+	@PostMapping("/community/sidebar/info")
+	public Map<String, Object> communitySidebarInfoPost(HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<CategoryVO> categoryList = postService.getCategoryList();
+		map.put("categoryList", categoryList);
+		int cafeMemberNum = memberService.totalCountMemberNum();
+		int cafePostNum = postService.totalCountPostNum();
+		int cafeLentalBook = bookService.totalCountBookNum();
+		map.put("cafeMemberNum", cafeMemberNum);
+		map.put("cafePostNum", cafePostNum);
+		map.put("cafeLentalBook", cafeLentalBook);
+		if(user != null) {
+			MemberVO memberInfo = memberService.getMember(user.getMe_id());
+			map.put("memberInfo", memberInfo);
+		}
+		return map;
+	}
 	
 }	

@@ -8,6 +8,7 @@
 	<title>게시글 목록</title>
 	<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
 	<style type="text/css">
+		
 		.hovertext-box{
 			position: relative;
 		}
@@ -41,6 +42,9 @@
 		.hovertext-box:hover:before {
 		    opacity: 1;
 		    visibility: visible;
+		}
+		.title-box:hover {
+			cursor: pointer;
 		}
 	</style>
 	
@@ -87,7 +91,7 @@
 					<tr>		<!-- pm.cri.perPageNum * (pm.cri.page-1)) == pm.cri.startPage -->
 				  		<td>${(pm.totalCount - (pm.cri.perPageNum * (pm.cri.page-1))) - vs.index}</td>
 				  		<td>${post.ca_name}</td>
-				  		<td class="hovertext-box" data-hover="${post.po_title}"> 
+				  		<td class="hovertext-box title-box" data-hover="${post.po_title}"> 
 				  			<c:url value="/post/detail" var="detailUrl">
 				  				<c:param name="num">${post.po_num}</c:param>
 				  			</c:url>
@@ -238,6 +242,10 @@ $(document).on("mouseover", ".search-btn", function () {
 
 $(document).on("mouseleave", ".search-btn", function () {
 	$(this).find("i").removeClass("fa-beat")
+})
+
+$(document).on("click", ".title-box", function () {
+	$(this).find("a").get(0).click();
 })
 </script>
 

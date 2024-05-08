@@ -301,4 +301,8 @@
 	<select id="selectUserGradeList" resultType="GradeVO">
 		select * from grade join member on me_gr_num = gr_num where me_id = #{me_id}
 	</select>
+	
+	<select id="totalCountMemberNum" resultType="int">
+		select count(*) from member where me_ms_num > 1
+	</select>
 </mapper>

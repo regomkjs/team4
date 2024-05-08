@@ -114,5 +114,7 @@ public interface BookService {
 
 	ArrayList<BookVO> getBookLoanList(BookVO book);
 
+	int totalCountBookNum();
+
 
 }

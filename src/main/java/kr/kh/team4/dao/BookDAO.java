@@ -143,4 +143,6 @@ public interface BookDAO {
 
 	ArrayList<BookVO> selectBookLoanList(@Param("book")BookVO book);
 
+	int totalCountBookNum();
+
 }

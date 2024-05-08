@@ -468,4 +468,8 @@
 	<select id="selectBookLoanList" resultType="BookVO">
 		select * from book group by bo_isbn order by bo_loan_count desc limit 4;
 	</select>
+	
+	<select id="totalCountBookNum" resultType="int">
+		select count(*) from book
+	</select>
 </mapper>
