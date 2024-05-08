@@ -24,6 +24,10 @@ table{text-align: center;}
 .modal-body table thead th:nth-child(7){width: 10%;}
 .modal-body table tbody td{display: table-cell;
     vertical-align: middle}
+    
+.updateBook-btn{border: 2px solid #83c67a; border-radius: 5px; box-sizing: border-box; 
+margin-bottom: 10px;}
+.deleteBook-btn{border: 2px solid #e18393; border-radius: 5px; box-sizing: border-box;}
 </style>
 <body>
 <div class="container mt-5">

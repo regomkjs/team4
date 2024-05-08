@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>	
+	
 <style>
 .nav .nav-item{border: 1px solid #000; width: 19% ; }
 .nav .nav-item>a{line-height: 50px; text-align: center; }
@@ -11,6 +12,10 @@
 .genre-list>li{line-height:30px; border-bottom: 1px solid #ccc; margin: 5px;}
 .add-box{text-align: right;}
 .management-add-type{display: inline;}
+
+.select .nav-item:nth-of-type(1){
+	background: #fdfdfd url(../../resources/img/k_icon09.png) no-repeat 40px 20px ;
+}
 </style>
 <body>
 	<div class="container mt-5">

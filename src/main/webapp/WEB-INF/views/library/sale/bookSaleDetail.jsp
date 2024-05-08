@@ -124,6 +124,10 @@
 	</div>	
 </body>
 <script type="text/javascript">
+let tmp=JSON.stringify(${book});
+tmp=JSON.parse(tmp);
+let books=tmp.item;
+console.log(books);
 $(document).ready(function(){
   $('.toggle-button').click(function(){
     $(this).toggleClass('active');
