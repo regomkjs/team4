@@ -28,6 +28,19 @@
 .text-group{ margin: 10px; padding: 10px;}
 
 .text-group li{ font-size: 20px;}
+
+.text-group,.content li{ font-size: 14px;}
+
+.sales-point .toggle-button {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sales-point .content {
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-top: 5px;
+}
 </style>
 <body>
 	<div class="container mt-5">
@@ -46,26 +59,31 @@
 		</form>
 		<div class="main">
 			<div class="book-main">
-				<div class="book-title">
-					<ul>
-						<li class="mt-3"><h3 style="font-weight: bold;">${book.item[0].title}</h3></li>
-						<li>
-							<span class="book-author">${book.item[0].author}</span>
-						    <span class="book-publisher">${book.item[0].publisher}</span>
-						    <span class="book-pubDate">${book.item[0].pubDate}</span>
-					   	 	<span class="book-originalTitle">원제: ${book.item[0].subInfo.originalTitle}</span>
-						</li>
-					</ul>
-					<hr style="border: 1px solid A2A2A2; margin-top: 30px; margin-bottom: 35px;">
-				</div>
+				<hr style="border: 1px solid A2A2A2; margin-top: 30px; margin-bottom: 35px;">
 				<div class="book-content">
 					<div class="media">
-						<img alt="${book.title}" src="${book.item[0].cover}" style="width: 30%;">
+						<img alt="${book.title}" src="${book.item[0].cover}" style="width: 20%;">
 						<div class="text-group">
 							<ul>
+								<li class="mt-3"><h3 style="font-weight: bold;">${book.item[0].title}</h3></li>
+								<li>
+									<span class="book-author">${book.item[0].author}</span>
+								    <span class="book-publisher">${book.item[0].publisher}</span>
+								    <span class="book-pubDate">${book.item[0].pubDate}</span>
+							   	 	<span class="book-originalTitle">원제: ${book.item[0].subInfo.originalTitle}</span>
+								</li>
 								<li>평점 : <span style="color: #eb217c;"> ${book.item[0].customerReviewRank}</span></li>
-								<li>Sales Point : ${book.item[0].salesPoint} 
-									<i class="bi bi-arrow-down-square"></i>
+								<li class="sales-point">Sales Point : ${book.item[0].salesPoint} 
+									<i class="bi bi-arrow-down-square toggle-button"></i>
+									<div class="content" style="display: none;">
+									  	<ul>
+									  		<h3 style="color: #444; text-align: center; font-size: 17px;">세일즈 포인트</h3>
+									  		<li>SalesPoint는 판매량과 판매기간에 근거하여 해당 상품의 판매도를 산출한 판매지수법입니다.</li>
+									  		<li>최근 판매분에 가중치를 준 판매점수. 팔릴수록 올라가고 덜 팔리면 내려갑니다.</li>
+									  		<li>그래서 최근 베스트셀러는 높은 점수이며, 꾸준히 팔리는 스테디셀러들도 어느 정도 포인트를 유지합니다.</li>
+									  		<li>`SalesPoint`는 매일매일 업데이트됩니다.</li>
+									  	</ul>
+									</div>
 								</li>
 								<li>정가 : ﻿<fmt:formatNumber value="${book.item[0].priceStandard}" pattern="#,###"/></li>
 								<li><a href="${book.item[0].link}">책 보러 가기</a></li>
@@ -80,9 +98,9 @@
 						<div class="book-info-horizontal">
 							<h4>기본정보</h4>
 							<ul class="ml-5">
-								<li>타입:${book.item[0].mallType}</li>
-								<li>ISBN:${book.item[0].isbn13}</li>
-								<li>쪽수:${book.item[0].subInfo.itemPage}</li>
+								<li>타입 : ${book.item[0].mallType}</li>
+								<li>ISBN : ${book.item[0].isbn13}</li>
+								<li>쪽수 : ${book.item[0].subInfo.itemPage}</li>
 							</ul>
 						</div>
 						<div>
@@ -97,8 +115,17 @@
 				<div class="book-description">
 					<h4>책 소개</h4>
 					<p>${book.item[0].description}</p>
+					<p>${book.item[0].adult}</p>
 				</div>
 			</div>
 		</div>
 	</div>	
 </body>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.toggle-button').click(function(){
+    $(this).toggleClass('active');
+    $(this).next('.content').slideToggle(200);
+  });
+});
+</script>

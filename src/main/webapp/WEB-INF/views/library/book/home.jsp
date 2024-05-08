@@ -350,7 +350,7 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${hotList}" var="post">
-								<c:if test="${post.po_totalHeart >= 2}">
+								<c:if test="${post.po_totalHeart >= 5}">
 									<tr>
 										<td style="text-align: left;"><a class="aTag-home"
 											href="<c:url value="/post/detail?num=${post.po_num}"/>">${post.po_title}</a>
