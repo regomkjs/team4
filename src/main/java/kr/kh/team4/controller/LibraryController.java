@@ -76,10 +76,9 @@ public class LibraryController {
 	}
 	
 	@GetMapping("/library/book/list")
-	public String libraryList(Model model,BookCriteria boCri) {	
+	public String libraryList(Model model,BookCriteria boCri,BookVO book) {	
 		boCri.setPerPageNum(10);
 		boCri.setBo_code(2);
-		System.out.println(boCri);
 		if(boCri.getSearch()!=null||boCri.getSearch().length()!=0) {			
 			ArrayList<BookVO> bookList=bookService.getBookList(boCri);
 			model.addAttribute("bookList",bookList);
