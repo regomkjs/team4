@@ -8,6 +8,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <style type="text/css">
+ul{padding: 0;}
 .main-box {
 	display: flex;
 	justify-content: space-around;
@@ -299,8 +300,8 @@ a:hover{text-decoration: none; color: #000;}
 				</c:if>
 				<c:if test="${user != null}">
 					<div class="profile-box text-center">
-						[회원 정보]
-						<ul style="text-align: left">
+						<ul style="text-align: center;">
+							<li>[회원 정보]</li>
 							<li>닉네임 : ${user.me_nick}</li>
 							<li>가입일 : ${user.me_date}</li>
 							<hr>
@@ -588,7 +589,7 @@ function newBook() {
 				}
 			}
 			if(res){
-				str=`<div class="book-item">3개월 동안 추가된 책이 없습니다.</div>`;
+				str=`<h1 style="text-align:center;">3개월 동안 추가된 책이 없습니다.</h1>`;
 			}
 			$(".new-books").html(str);
 		}, 
