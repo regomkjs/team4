@@ -94,4 +94,6 @@ public interface MemberService {
 
 	ArrayList<GradeVO> getUserGradeList(MemberVO user);
 
+	int totalCountMemberNum();
+
 }

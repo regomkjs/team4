@@ -696,4 +696,9 @@ public class PostServiceImp implements PostService {
 		return postDAO.selectHotList();
 	}
 
+	@Override
+	public int totalCountPostNum() {
+		return postDAO.totalCountPostNum();
+	}
+
 }

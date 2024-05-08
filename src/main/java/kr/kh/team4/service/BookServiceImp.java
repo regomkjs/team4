@@ -646,4 +646,9 @@ public class BookServiceImp implements BookService {
 		}
 		return bookDao.selectBookLoanList(book);
 	}
+
+	@Override
+	public int totalCountBookNum() {
+		return bookDao.totalCountBookNum();
+	}
 }

@@ -157,6 +157,8 @@ public interface PostDAO {
 
 	ArrayList<PostVO> selectHotList();
 
+	int totalCountPostNum();
+
 	
 	
 
