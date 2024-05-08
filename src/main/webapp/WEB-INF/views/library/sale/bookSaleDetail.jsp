@@ -62,7 +62,7 @@
 		</form>
 		<div class="main">
 			<div class="book-main">
-				<hr style="border: 2px solid #404040; border-radius: 10px; margin-top: 30px; margin-bottom: 35px;">
+				<hr style="border: 1px solid #404040; border-radius: 10px; margin-top: 30px; margin-bottom: 35px;">
 				<div class="book-content">
 					<div class="media">
 						<img alt="${book.title}" src="${book.item[0].cover}" style="width: 20%;">
@@ -96,7 +96,7 @@
 							</ul>
 						</div>
 					</div>
-					<hr style="border: 2px solid #404040; border-radius: 10px; margin-top: 30px; margin-bottom: 35px;">
+					<hr style="border: 1px solid #404040; border-radius: 10px; margin-top: 30px; margin-bottom: 35px;">
 					<div class="book-info mt-5">
 						<div class="book-info-horizontal">
 							<h4>기본정보</h4>
@@ -111,7 +111,7 @@
 							<ul>
 								<li>분류:${book.item[0].categoryName}</li>
 							</ul>
-							<hr style="border: 2px solid #404040; border-radius: 10px; margin-top: 30px; margin-bottom: 35px;">
+							<hr style="border: 1px solid #404040; border-radius: 10px; margin-top: 30px; margin-bottom: 35px;">
 						</div>
 					</div>
 				</div>
