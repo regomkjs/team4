@@ -12,6 +12,7 @@ public class BookVO {
 	private String bo_title; 
 	private String bo_contents; 
 	private Date bo_date; 
+	private Date bo_in_date; 
 	private String bo_publisher; 
 	private int bo_price; 
 	private int bo_sale_price;

@@ -112,6 +112,7 @@ CREATE TABLE `book` (
   `bo_title` varchar(100) NOT NULL,
   `bo_contents` longtext NOT NULL,
   `bo_date` date NOT NULL,
+  `bo_in_date` date NOT NULL,
   `bo_publisher` varchar(50) NOT NULL,
   `bo_price` int NOT NULL,
   `bo_sale_price` int NOT NULL,

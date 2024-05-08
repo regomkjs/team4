@@ -37,7 +37,7 @@
 						<li>타입:${book.item[0].mallType}</li>
 						<li>ISBN:${book.item[0].isbn13}</li>
 						<li>쪽수:${book.item[0].subInfo.itemPage}</li>
-						<li>정가:${priceToString(book.item[0].priceStandard)}</li>
+						<li>정가:${book.item[0].priceStandard}원</li>
 						<li>
 							<button class="btn btn-outline-warning basket-btn" data-isbn="${book.item[0].isbn13}">장바구니</button>
 							<a class="btn btn-outline-warning purchase-btn" data-isbn="${book.item[0].isbn13}">구매</a>
