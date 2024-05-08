@@ -65,6 +65,20 @@ public class PostController {
 		return "/community/post/list";
 	}
 	
+	@GetMapping("/post/popluar")
+	public String postPopluar(Model model, PostCriteria cri) {
+		ArrayList<PostVO> list = postService.getPostList(cri);
+		
+		int totalCount = postService.totalCountPost(cri);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("postList", list);
+		model.addAttribute("pm", pm);
+		model.addAttribute("title", "인기글 목록");
+		
+		return "/community/post/popluar";
+	}
+	
+	
 	
 	@GetMapping("/post/insert")
 	public String postInsert(Model model, int ca, HttpSession session) {
