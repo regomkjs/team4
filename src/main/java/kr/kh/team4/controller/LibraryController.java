@@ -63,6 +63,7 @@ public class LibraryController {
 		model.addAttribute("gradeList", gradeList);
 		model.addAttribute("hotList", hotList);
 		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("api",aladinAPI);
 		return "/library/book/home";
 	}
 	
