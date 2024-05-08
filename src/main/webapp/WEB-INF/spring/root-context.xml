@@ -13,7 +13,8 @@
 	
 	
 	
-	 <context:property-placeholder location="/WEB-INF/spring/config.properties" />
+	<context:property-placeholder location="/WEB-INF/spring/config.properties" />
+	
 	
 	
 	<bean id="dataSource"
@@ -41,10 +42,10 @@
 	
 	<!-- 구글 이메일 전송 -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-	    <property name="host" value="smtp.gmail.com" />
-	    <property name="port" value="587" />
-	    <property name="username" value="${email.username}" />
-	    <property name="password" value="${email.password}" />
+	    <property name="host" value="smtp.gmail.com"/>
+	    <property name="port" value="587"/>
+	    <property name="username" value="${email.username}"/>
+	    <property name="password" value="${email.password}"/>
 	    <property name="javaMailProperties">
 	        <props>
 	            <prop key="mail.transport.protocol">smtp</prop>
