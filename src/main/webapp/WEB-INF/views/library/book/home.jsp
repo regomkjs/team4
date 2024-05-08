@@ -13,38 +13,41 @@
 	justify-content: space-around;
 	align-items: flex-start;
 	margin-bottom: 20px;
+	background-color: #e5fdff;
+	padding-bottom: 30px;
 }
 
 .banner-box {
 	margin-top: 20px;
-	width: 40%;
-	height: 300px;
+	width: 60%;
+	height: 350px;
 	position: relative;
 }
 
 .banner-box img {
 	width: 100%;
-	height: 300px;
-	object-fit: contain;
+	height: 350px;
 }
 
 .login-box {
-	margin-top: 20px;
+	margin-top: 60px;
 	border: 1px solid black;
 	border-radius: 10px;
-	width: 20%;
+	width: 30%;
 	height: 150px;
 	position: relative;
+	background-color:#fff;
 }
 
 .profile-box {
-	margin-top: 20px;
+	margin-top: 60px;
 	border: 1px solid black;
 	border-radius: 10px;
-	width: 20%;
+	width: 30%;
 	height: 250px;
 	position: relative;
 	box-sizing: border-box;
+	background-color:#fff;
 }
 
 .main-post {
@@ -147,29 +150,110 @@
   cursor: pointer;
 }
 
+.community-box{ width: 50%;  max-height:500px;}
+
 .book-tap {
     display: flex;
-    margin-bottom: 20px;
 }
 
 .book-list {
     display: flex;
     flex-wrap: wrap;
+    padding: 30px 0; border-bottom: 1px solid #000;  border-top: 1px solid #000;
 }
 
 .book-item {
-    flex: 1 0 21%;
-    margin: 10px;
-    text-align: center;
+   	width:15%; margin: 0 2.5%;
+    text-align: center;}
+.book-item ul{margin: 0; padding: 0;}
+.book-item ul li{text-overflow: ellipsis; overflow: hidden;  white-space: nowrap; width: 100%; margin: 5px 0;}
+.book-item img{ width:100%; height: 270px;}
+.book-item ul li:nth-child(2){font-weight: 700;}
+
+a{text-decoration: none; color: #000;}
+a:hover{text-decoration: none; color: #000;}
+
+.nav-box {height: 60px; background-color: #f0f0f0;}
+.nav-box ul,li{padding: 0; margin: 0; text-align: center;}
+.nav-list{width: 20%; position: relative;}
+.nav-item{display: block;}
+.nav-list li{ background-color: #fff; z-index:5; position:absolute;
+ line-height: 60px; width: 100%; background-color: #f0f0f0;}
+
+.nav-option div ul li{ padding: 0 1px; border: 1px solid #000; display: none;}
+.nav-list:hover .nav-option div ul li{display: block;}
+
+.nav-list li:after{
+  position: absolute;
+  top: 100%;
+  left: 20%;
+  width: 60%;
+  height: 3px;
+  background: rgba(0, 0, 0, 1);
+  content: '';
+  opacity: 0;
+  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+  -moz-transition: opacity 0.3s, -moz-transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
+  -webkit-transform: translateY(0px);
+  -moz-transform: translateY(0px);
+  transform: translateY(0);
+}
+.nav-list li:hover:after{
+   opacity: 1;
+  -webkit-transform: translateY(-10px);
+  -moz-transform: translateY(-10px);
+  transform: translateY(-10px);
 }
 
-.book-item img{
-	height:170px; width: 120px;
-}
+
+
+.nav-list:nth-of-type(1) {left: 0;}
+.nav-list:nth-of-type(2) {left: 20%;}
+.nav-list:nth-of-type(3) {left: 40%;}
+.nav-list li:nth-of-type(1){top: 0;}
+.nav-list li:nth-of-type(2){top: 60px;}
+.nav-list li:nth-of-type(3){top: 120px;}
 </style>
 <body>
 	<div class="container">
-		<div class="main">
+		<div class="title mt-5">
+			<h1>책책책</h1>
+		</div>
+		<div class="main mt-5">
+			<div class="nav-box">
+				<ul class="nav-list">
+					<li>도서관</li>
+					<li class="nav-option">
+						<div>
+							<ul>							
+								<li>도서관1</li>
+								<li>도서관2</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+				<ul class="nav-list">
+					<li class="nav-item">커뮤니티</li>
+					<li class="nav-option">
+						<div>
+							<ul>							
+								<li>커뮤</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+				<ul class="nav-list">
+					<li class="nav-item">도서판매</li>
+					<li class="nav-option">
+						<div>
+							<ul>							
+								<li>판매</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
 			<div class="main-box">
 				<div id="demo" class="carousel slide banner-box"
 					data-bs-ride="carousel">
@@ -201,7 +285,7 @@
 					</button>
 				</div>
 				<c:if test="${user == null}">
-					<div class="login-box text-center mt-5">
+					<div class="login-box text-center">
 						<a href="<c:url value='/login'/>" style="top: 30px;"
 							class="btn btn-outline-success login-btn col-8 mt-2">로그인</a>
 						<div style="width: 100%;" class="mt-5">
@@ -310,9 +394,8 @@
 		</table>
 			  </div>
 			</div>
-			<div class="mt-5">
-				<div class="row justify-content-center">
-					<div class="col-sm-4">
+				<div class="row justify-content-center mt-5">
+					<div class="community-box">
 						<table class="table table-hover table-bordered">
 							<thead>
 								<tr>
@@ -342,7 +425,7 @@
 						</table>
 						<hr class="d-sm-none">
 					</div>
-					<div class="col-sm-4">
+					<div class="community-box">
 						<table class="table table-hover table-bordered">
 							<thead>
 								<tr>
@@ -378,9 +461,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="main-book">
+			<div class="main-book mt-5">
 			    <div class="book-tap">
-			        <button class="new-btn">새로 들어온 책<span class="badge bg-success">New</span></button>
+			        <button class="new-btn active-btn">새로 들어온 책<span class="badge bg-success">New</span></button>
 			        <button class="loan-btn">대출이 많은 책<span class="badge bg-danger">Hot</span></button>
 			        <button class="hot-btn">인기 많은 책<span class="badge bg-warning">Best</span></button>
 			    </div>
@@ -390,8 +473,12 @@
 			        <c:forEach items="${book}" var="book">
 			            <c:if test="${book != null}">
 			                <div class="book-item">
-			                    <a href="<c:url value="/library/book/detail?num=${book.bo_num}"/>"><img src="${book.bo_thumbnail}"></a>
-			                    <a href="<c:url value="/library/book/detail?num=${book.bo_num}"/>" style="text-decoration: none; color: black;"><p>${book.bo_title}</p></a>
+				                <ul>
+			                   		<a href="<c:url value="/library/book/detail?num=${book.bo_num}"/>">
+				                   		<li><img src="${book.bo_thumbnail}"></li>
+				                   		<li>${book.bo_title}</li>
+			                   		</a>
+				                </ul>
 			                </div>
 			            </c:if>
 			            <c:if test="${book == null}">
@@ -403,7 +490,6 @@
 			    </div>
 			</div>
 		</div>
-	</div>
 </body>
 <!-- 대출 책 -->
 <script type="text/javascript">
@@ -486,7 +572,7 @@ function newBook() {
 			let res=true;
 			let str="";
 			console.log(data);
-			for(let i=0;i<4;i++){
+			for(let i=0;i<5;i++){
 				if(toStringFormatting(data.bookList[i].bo_in_date)>=toStringFormatting(a)){
 					str+=`
 					<div class="book-item">
@@ -519,7 +605,7 @@ function Bestseller() {
 			QueryType:"Bestseller",
 			SearchTarget:"Book",
 			Start:1,
-			MaxResults:4,
+			MaxResults:5,
 			Cover:"Big",
 			Output:"JS",
 			Version:20131101
