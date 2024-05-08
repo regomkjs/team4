@@ -136,7 +136,7 @@
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="#">Link 1</a>
 									<a class="dropdown-item" href="#">Link 2</a>
-									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num <= 1}">
+									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num <= 1 && post.me_mr_num == 2}">
 										<c:url value="/popup/member/punish" var="popupURL">
 											<c:param name="nick" value="${post.me_nick}"/>
 										</c:url>
