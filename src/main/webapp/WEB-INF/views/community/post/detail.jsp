@@ -416,14 +416,17 @@ function getCommentList(cri, today) {
 						</div>
 						`
 					}
-					else if('${user.me_ms_num}' <= '1' && '${user}' != null){
+					else if(('${user.me_mr_num}' == 1 || '${user.me_mr_num}' == 0) && '${user}' != ''){
 						btns += 
 						`
 						<div class="btn-comment-group ml-auto ">
 							<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
 						</div>
 						`
-					}	
+					}
+					else{
+						
+					}
 					
 					
 					
