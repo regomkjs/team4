@@ -41,6 +41,9 @@
   border: 1px solid #ddd;
   margin-top: 5px;
 }
+
+.main{ background-color: #F7F7F7;}
+
 </style>
 <body>
 	<div class="container mt-5">
@@ -59,7 +62,7 @@
 		</form>
 		<div class="main">
 			<div class="book-main">
-				<hr style="border: 1px solid A2A2A2; margin-top: 30px; margin-bottom: 35px;">
+				<hr style="border: 2px solid #404040; border-radius: 10px; margin-top: 30px; margin-bottom: 35px;">
 				<div class="book-content">
 					<div class="media">
 						<img alt="${book.title}" src="${book.item[0].cover}" style="width: 20%;">
@@ -70,10 +73,9 @@
 									<span class="book-author">${book.item[0].author}</span>
 								    <span class="book-publisher">${book.item[0].publisher}</span>
 								    <span class="book-pubDate">${book.item[0].pubDate}</span>
-							   	 	<span class="book-originalTitle">원제: ${book.item[0].subInfo.originalTitle}</span>
 								</li>
-								<li>평점 : <span style="color: #eb217c;"> ${book.item[0].customerReviewRank}</span></li>
-								<li class="sales-point">Sales Point : ${book.item[0].salesPoint} 
+								<li>평점 : <span style="color: #eb217c; font-size: 24px;"> ${book.item[0].customerReviewRank}</span></li>
+								<li class="sales-point">Sales Point : <span style="font-size: 24px;"><fmt:formatNumber value="${book.item[0].salesPoint}" pattern="#,###"/></span> 
 									<i class="bi bi-arrow-down-square toggle-button"></i>
 									<div class="content" style="display: none;">
 									  	<ul>
@@ -85,15 +87,16 @@
 									  	</ul>
 									</div>
 								</li>
-								<li>정가 : ﻿<fmt:formatNumber value="${book.item[0].priceStandard}" pattern="#,###"/></li>
+								<li>정가 : ﻿<span style="font-size: 24px;"><fmt:formatNumber value="${book.item[0].priceStandard}" pattern="#,###"/>원</span></li>
 								<li><a href="${book.item[0].link}">책 보러 가기</a></li>
 								<li>
 									<button class="btn btn-outline-warning basket-btn" data-isbn="${book.item[0].isbn13}">장바구니</button>
-									<a class="btn btn-outline-warning purchase-btn" data-isbn="${book.item[0].isbn13}">구매</a>
+									<a class="btn btn-outline-danger purchase-btn" data-isbn="${book.item[0].isbn13}">구매</a>
 								</li>
 							</ul>
 						</div>
 					</div>
+					<hr style="border: 2px solid #404040; border-radius: 10px; margin-top: 30px; margin-bottom: 35px;">
 					<div class="book-info mt-5">
 						<div class="book-info-horizontal">
 							<h4>기본정보</h4>
@@ -108,14 +111,13 @@
 							<ul>
 								<li>분류:${book.item[0].categoryName}</li>
 							</ul>
-							<hr style="border: 1px solid A2A2A2; margin-top: 30px; margin-bottom: 35px;">
+							<hr style="border: 2px solid #404040; border-radius: 10px; margin-top: 30px; margin-bottom: 35px;">
 						</div>
 					</div>
 				</div>
 				<div class="book-description">
 					<h4>책 소개</h4>
 					<p>${book.item[0].description}</p>
-					<p>${book.item[0].adult}</p>
 				</div>
 			</div>
 		</div>
