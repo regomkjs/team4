@@ -69,11 +69,11 @@ ol.colorlist {
     content: "\2605";
 }
 
-.bar {border: 2px solid skyblue; border-radius: 10px;}
+.bar {border: 2px solid #404040; border-radius: 10px;}
 
 img{ width: 220px;}
 
-.main { background-color: #F4FFFF;}
+.main { background-color: #F7F7F7;}
 
 .media{ position: relative;}
 
