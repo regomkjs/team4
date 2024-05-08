@@ -46,7 +46,7 @@
  				po_me_id like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
- 				po_me_id like concat("%",#{cri.search},"%")
+ 				member.me_nick like concat("%",#{cri.search},"%")
  			</if>
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
@@ -74,6 +74,8 @@
  			count(*)
 		from 
 			post
+				join
+			member on po_me_id = me_id
 				join 
 			category on po_ca_num = ca_num
 		where
@@ -83,7 +85,7 @@
  				po_me_id like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
- 				po_me_id like concat("%",#{cri.search},"%")
+ 				member.me_nick like concat("%",#{cri.search},"%")
  			</if>
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or

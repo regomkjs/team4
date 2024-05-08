@@ -92,7 +92,7 @@
 	    text-align: center;
 	    border-radius: 5px;
 	    padding: 5px 5px;
-	    transition: opacity 1s ease-in-out;
+	    transition: opacity 0.5s ease-in-out;
 	
 	    position: absolute;
 	    z-index: 100;
@@ -114,6 +114,7 @@
 		box-sizing: border-box;
 		border-radius: 5px;
 		padding: 10px;
+		margin-bottom: 1px;
 	}
 	.side-category ul{
 		margin: 0;
@@ -125,7 +126,8 @@
 	}
 	
 	.side-category li{
-		line-height: 50px; border-bottom: 1px solid #ccc;
+		line-height: 50px; 
+		border-bottom: 1px solid #ccc;
 		box-sizing: border-box;
 		
 	}

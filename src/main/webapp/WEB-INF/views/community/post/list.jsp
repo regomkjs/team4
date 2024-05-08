@@ -9,10 +9,10 @@
 	<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
 	<style type="text/css">
 		
-		.hovertext-box{
+		.hovertext1-box{
 			position: relative;
 		}
-		.hovertext {
+		.hovertext1 {
 			display: inline-block;
 		    overflow: hidden;
 			text-overflow: ellipsis;
@@ -21,7 +21,7 @@
 			height: 20px;
 		}
 		
-		.hovertext-box:before {
+		.hovertext1-box:before {
 		    content: attr(data-hover);
 		    visibility: hidden;
 		    opacity: 0;
@@ -31,7 +31,7 @@
 		    text-align: center;
 		    border-radius: 5px;
 		    padding: 5px 5px;
-		    transition: opacity 1s ease-in-out;
+		    transition: opacity 0.5s ease-in-out;
 		
 		    position: absolute;
 		    z-index: 3;
@@ -39,7 +39,7 @@
 		    top: 110%;
 		}
 		
-		.hovertext-box:hover:before {
+		.hovertext1-box:hover:before {
 		    opacity: 1;
 		    visibility: visible;
 		}
@@ -91,12 +91,12 @@
 					<tr>		<!-- pm.cri.perPageNum * (pm.cri.page-1)) == pm.cri.startPage -->
 				  		<td>${(pm.totalCount - (pm.cri.perPageNum * (pm.cri.page-1))) - vs.index}</td>
 				  		<td>${post.ca_name}</td>
-				  		<td class="hovertext-box title-box" data-hover="${post.po_title}"> 
+				  		<td class="hovertext1-box title-box" data-hover="${post.po_title}"> 
 				  			<c:url value="/post/detail" var="detailUrl">
 				  				<c:param name="num">${post.po_num}</c:param>
 				  			</c:url>
 				  			
-				  			<a href="${detailUrl}" style="cursor: pointer; color: black; text-decoration: none;" class="hovertext">
+				  			<a href="${detailUrl}" style="cursor: pointer; color: black; text-decoration: none;" class="hovertext1">
 					  			<c:if test="${post.po_votePost}">
 					  				<i class="fa-solid fa-check-to-slot" style="color: #ee9953;"></i>
 					  			</c:if>
