@@ -5,9 +5,9 @@
 <mapper namespace="kr.kh.team4.dao.BookDAO">
 	<insert id="insertBook">
 		insert into book(bo_title,bo_contents,bo_date,bo_publisher,bo_price,bo_sale_price,bo_thumbnail,
-		bo_isbn,bo_un_num,bo_code) 
+		bo_isbn,bo_un_num,bo_code,bo_in_date) 
 		value(#{book.title},#{book.contents},#{book.datetime},#{book.publisher},#{book.price},
-		#{book.sale_price},#{book.thumbnail},#{book.isbn},1,"미정")
+		#{book.sale_price},#{book.thumbnail},#{book.isbn},1,"미정",now())
 	</insert>
 	<select id="getUpperList" resultType="kr.kh.team4.model.vo.book.UpperVO">
 		select * from upper
@@ -63,6 +63,9 @@
 		</if>
 		<if test='cri.bo_code==3'>
 			order by case bo_code when "미정" then 1 else 2 end
+		</if>
+		<if test='cri.bo_code==4'>
+			order by bo_num desc
 		</if>
 		LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
