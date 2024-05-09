@@ -41,7 +41,7 @@
 				<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
 			</li>
 		</c:if>
-    	<c:if test="${user.me_mr_num == 0 }">  
+    	<c:if test="${user.me_mr_num >= 0 }">  
 			<li class="nav-item dropdown">
 			  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">관리자 기능용</a>
 			  <ul class="dropdown-menu">

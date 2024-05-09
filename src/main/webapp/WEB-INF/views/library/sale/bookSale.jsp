@@ -10,7 +10,7 @@
 	<div class="container mt-5">
 		<div class="list">
 			<table class="table table-bordered">
-				<thead>
+				<thead class="table-dark">
 					<tr>
 						<th><input type="checkbox" class="allChkBtn" /></th>
 						<th colspan="2">상품명</th>
