@@ -242,7 +242,7 @@
 							<li class="title"><a href='<c:url value="/library/bookSale/detail?isbn=\${book.isbn13}"/>'>
 								\${book.title} </a></li>
 							<li>\${book.author} | \${book.publisher}</li>
-							<li>\${book.pubDate}</li>
+							<li>\${book.pubDate} 평점 : <span style="color: #eb217c;"> \${book.customerReviewRank}</span></li>
 							<li>판매가: \${priceToString(book.priceStandard)}</li>
 						</ul>
 					</div>

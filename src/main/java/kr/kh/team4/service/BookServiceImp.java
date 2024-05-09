@@ -27,6 +27,7 @@ import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.ReviewCriteria;
 import kr.kh.team4.pagination.SaleListCriteria;
@@ -364,7 +365,11 @@ public class BookServiceImp implements BookService {
 				int diffDay = bookDao.selectDiffDay(loan);
 				int loanCount = bookDao.selectTotalCountLoan(user);
 				int blockDay =  diffDay * loanCount;
-				bookDao.addLoanBlock(user, blockDay);
+				if(user.getMe_loan_block() == null) {
+					bookDao.addLoanBlock(user, blockDay);
+				}else {
+					bookDao.updateLoanBlock(user, blockDay);
+				}
 			}
 			
 			
@@ -651,4 +656,13 @@ public class BookServiceImp implements BookService {
 	public int totalCountBookNum() {
 		return bookDao.totalCountBookNum();
 	}
+
+	@Override
+	public ArrayList<BookVO> getReBookList(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		return bookDao.getReBookList(cri);
+	}
+
 }

@@ -46,7 +46,10 @@ public class PostController {
 	
 	@GetMapping("/post")
 	public String postMain(Model model) {
+		PostCriteria tmp = new PostCriteria(-2);
+		PageMaker pm = new PageMaker(5, tmp, 5);
 		ArrayList<CategoryVO> list = postService.getCategoryList();
+		model.addAttribute("pm", pm);
 		model.addAttribute("categoryList", list);
 		model.addAttribute("title", "커뮤니티");
 		return "/community/post/main";
@@ -84,7 +87,7 @@ public class PostController {
 	
 	
 	@GetMapping("/post/insert")
-	public String postInsert(Model model, int ca, HttpSession session) {
+	public String postInsert(Model model, PostCriteria cri, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user == null || 
 				user.getMe_id() == null || 
@@ -99,10 +102,13 @@ public class PostController {
 			model.addAttribute("url", "/post/list");
 			return "message";
 		}
+		int totalCount = postService.totalCountPost(cri);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("pm", pm);
 		ArrayList<CategoryVO> list = postService.getCategoryList();
 		model.addAttribute("categoryList", list);
-		if(ca != 0) {
-			model.addAttribute("ca_num", ca);
+		if(cri.getCa() != 0) {
+			model.addAttribute("ca_num", cri.getCa());
 		}
 		return "/community/post/insert";
 	}
@@ -140,7 +146,7 @@ public class PostController {
 	}
 	
 	@GetMapping("/post/detail")
-	public String postDetail(Model model, int num) {
+	public String postDetail(Model model, int num, PostCriteria cri) {
 		PostVO post = postService.getPost(num);
 		if(post == null || 
 				post.getPo_me_id() == null || post.getPo_me_id().length() == 0 ||
@@ -162,13 +168,16 @@ public class PostController {
 				model.addAttribute("itemList", itemList);
 			}
 		}
+		int totalCount = postService.totalCountPost(cri);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("pm", pm);
 		model.addAttribute("title", "게시글 상세");
 		model.addAttribute("post", post);
 		return "/community/post/detail";
 	}
 	
 	@GetMapping("/post/update")
-	public String postUpdate(Model model, HttpSession session, int num) {
+	public String postUpdate(Model model, HttpSession session, int num, PostCriteria cri) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		PostVO post = postService.getPost(num);
 		if(post == null || 
@@ -190,7 +199,9 @@ public class PostController {
 			model.addAttribute("url", "/post/detail?num="+num);
 			return "message";
 		}
-		
+		int totalCount = postService.totalCountPost(cri);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("pm", pm);
 		ArrayList<CategoryVO> list = postService.getCategoryList();
 		model.addAttribute("categoryList", list);
 		model.addAttribute("title", "게시글 수정");

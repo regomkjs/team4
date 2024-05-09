@@ -56,7 +56,7 @@
 	</h1>
 	
 	<form action="<c:url value="/post/popular"/>" method="get" class="input-group" id="searchForm">
-		<div class="input-group mb-1">
+		<div class="input-group mb-1 w-50 ms-auto">
 			
 			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
 			<button type="submit" class="input-group-append btn btn-success search-btn"><i class="fa-solid fa-magnifying-glass mr-1 mt-1"  style="--fa-animation-duration: 1.5s;"></i>검색</button>
@@ -65,7 +65,7 @@
 	</form>
 
 	<table class="table table-hover text-center">
-		<thead>
+		<thead class="table-secondary">
 			<tr>
 				<th class="col-2">게시판</th>
 				<th>제목</th>
@@ -120,12 +120,18 @@
 										<img width="25"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABf0lEQVR4nO2ZsUoDQRCG90G00V1S+Qhq7QPIbVDsTKGWWtjamT7BZ5Bw4COIRTq1SOUjCCEmahR27kZG1BVMPHbBvV2cH4ZLFeab+Wfv2BGCxWKxolW2jIuZgp6WZqIVYNCQZpJJyDcb2PBOXkszDJ64+gEy3JK44A5Ala87efUV584AtdhGzY5MmbE7QASJ62/BAJo7AGwhJ/3bIT47LrBKUQPknTJtgKuLxAHuri3AyXaR3gyM7m2lD9YhLYCdFcDyowH0fBwhvk4RB/0S260ifoDDDfjV+3m3jBugc1R9hPp2QoQAmBV7q4A3l3awyU5JAWgFuL9mrTV9ivwY1XMiiffAy7NNkqyTXAcGfet18j0lTnGbygy0W9Wn0Olu5KdQ3p3/LUQfer7/K0IBfHaCrEIzQUG/fSuv6wD4ixAMoLgDyBZyUfpDLOO53NXKPDgD0HKh/sThPeiq3xmANiOxLDiaS6iEj2gzQssFup8PX3Uzpsp7J89isVgihN4AZZD+JaDC0u8AAAAASUVORK5CYII=">
 									</c:if>
 								</c:if>
-								<a type="button" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; color: black; text-decoration: none;">
+								<a type="button" class="dropdown-toggle" data-bs-toggle="dropdown" style="cursor: pointer; color: black; text-decoration: none;">
 							    	${post.me_nick}
 								</a>
 								<div class="dropdown-menu">
-									<a class="dropdown-item" href="#">Link 1</a>
-									<a class="dropdown-item" href="#">Link 2</a>
+									<c:url value="/post/list" var="targetUrl">
+										<c:param name="type" value="target" />
+										<c:param name="search" value="${post.me_nick}" />
+									</c:url>
+									<a class="dropdown-item" href="${targetUrl}">작성글</a>
+									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num == 2 && post.me_mr_num == 2}">
+										<a href="#" class="dropdown-item btn-report" data-bs-toggle="modal" data-bs-target="#reportingModal" class="reportingModal" data-writer="${post.me_nick}" data-what="po" data-num="${post.po_num}">게시글 신고</a>
+									</c:if>
 									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num <= 1 && post.me_mr_num == 2}">
 										<c:url value="/popup/member/punish" var="popupURL">
 											<c:param name="nick" value="${post.me_nick}"/>
@@ -159,7 +165,7 @@
 		</tbody>
 	</table>
 	<c:if test="${pm.totalCount == 0}">
-		<h1 class="text-center">등록된 게시글이 없습니다.</h1>
+		<h1 class="text-center">조건에 해당하는 인기글이 없습니다.</h1>
 	</c:if>
 	<ul class="pagination justify-content-center">
 		
@@ -181,6 +187,36 @@
 		<c:param name="ca" value="${pm.cri.ca}"/>
 	</c:url>
 	<a class="btn btn-outline-primary" href="${insertUrl}">글 작성</a>
+	
+	<!-- 신고 Modal -->
+	<div class="modal fade" id="reportingModal">
+		<div class="modal-dialog modal-lg modal-dialog-scrollable">
+			<div class="modal-content">
+	   
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">신고</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="report-container">
+						
+					</div>
+				
+				
+				</div>
+	
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-reporting" data-dismiss="modal">신고하기</button>
+				</div>
+	
+			</div>
+		</div>
+	</div>
+	
 	
 </div>
 
@@ -214,6 +250,102 @@ $(document).on("mouseleave", ".search-btn", function () {
 $(document).on("click", ".title-box", function () {
 	$(this).find("a").get(0).click();
 })
+</script>
+
+<!-- 신고 스크립트 -->
+<script type="text/javascript">
+$(document).on("click",".btn-report",function(){
+	if('${user.me_id}' == ''){
+		if(confirm("로그인이 필요한 서비스 입니다. 로그인으로 이동하시겠습니까?")){
+			location.href = "<c:url value='/login'/>"
+			return;
+		}
+		else{
+			return;
+		}
+	}
+	
+	
+	let who = $(this).data("writer");
+	let what = $(this).data("what");
+	let num = $(this).data("num");
+	let str ="";
+	str += 
+	`
+		<div>
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<label class="input-group-text ">닉네임</label>
+				</div>
+				<input type="text" class="report-nick input-group form-control" value="\${who}" readonly>
+			</div>
+			<input hidden type="text" value="\${what+'_'+num}" class="report-target">
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<label class="input-group-text ">신고 항목</label>
+				</div>
+				<select class="form-control report-type">
+					<option>부적절한 닉네임</option>
+					<option>욕설 사용</option>
+					<option>광고성 글 작성</option>
+					<option>게시판에 맞지 않는 글</option>
+				</select>
+			</div>
+			<label>신고 내용:</label>
+			<textarea class="form-control report-note mb-2" placeholder="신고 이유를 자세하게 적어주세요."></textarea>
+			
+		</div>
+	`
+	$(".report-container").html(str);
+	
+})
+
+$(document).on("click",".btn-reporting",function(){
+	if('${user.me_id}' == ''){
+		if(confirm("세션이 만료되었습니다. 로그인으로 이동하시겠습니까?")){
+			location.href = "<c:url value='/login'/>"
+			return;
+		}
+		else{
+			return;
+		}
+	}
+	
+	let writer = $(this).parents(".modal-content").find(".report-nick").val()
+	let target = $(this).parents(".modal-content").find(".report-target").val()
+	let type = $(this).parents(".modal-content").find(".report-type").val()
+	let note = $(this).parents(".modal-content").find(".report-note").val()
+	if(note == null){
+		note = "";
+	}
+	
+	console.log(writer);
+	console.log(target);
+	console.log(type);
+	console.log(note);
+	
+	$.ajax({
+		url : '<c:url value="/report/insert"/>',
+		method : "post",
+		data : {
+			"writer" : writer,
+			"target" : target,
+			"type" : type,
+			"note" : note
+		},
+		dataType : "json", 
+		success : function (data) {
+			let result = data.result;
+			let message = data.message;
+			alert(message);
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생2");
+		}
+	});
+	
+})
+
 </script>
 
 

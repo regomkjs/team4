@@ -16,6 +16,7 @@ import kr.kh.team4.model.vo.book.SaleVO;
 import kr.kh.team4.model.vo.book.UnderVO;
 import kr.kh.team4.model.vo.book.UpperVO;
 import kr.kh.team4.model.vo.member.MemberVO;
+import kr.kh.team4.pagination.BookCriteria;
 import kr.kh.team4.pagination.CommentCriteria;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.MyBookCriteria;
@@ -116,5 +117,6 @@ public interface BookService {
 
 	int totalCountBookNum();
 
+	ArrayList<BookVO> getReBookList(Criteria cri);
 
 }

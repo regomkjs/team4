@@ -23,7 +23,10 @@
     margin-right: 20px;
 }
 
-.media{ position: relative;}
+.media{ position: relative;
+  display: flex;
+  align-items: flex-start;
+  }
 
 .text-group{ margin: 10px; padding: 10px;}
 
@@ -118,6 +121,9 @@
 				<div class="book-description">
 					<h4>책 소개</h4>
 					<p>${book.item[0].description}</p>
+					<c:if test="${book.item[0].description == null}">
+						<p>없음</p>
+					</c:if>
 				</div>
 			</div>
 		</div>

@@ -48,7 +48,6 @@
 			</div>
 			<div class="book-main right w-75">
 				<div class="book-list">
-					
 				</div>
 				<div class="pagination-box mt-3">
 					<ul class="pagination justify-content-center pagination-sm""></ul>
@@ -118,7 +117,7 @@
 			console.log(cri);
 			$.ajax({
 				async : true,
-				url : '<c:url value="/management/manager/list"/>', 
+				url : '<c:url value="/management/manager/bookList"/>', 
 				type : 'post', 
 				data : JSON.stringify(cri),
 				contentType : "application/json; charset=utf-8",
@@ -140,6 +139,7 @@
 											</li>
 											<li>저자: \${book.bo_au_name}</li>
 											<li>출판사: \${book.bo_publisher}</li>
+											<li>평점 : <span style="color: #eb217c; font-size: 20px;">\${book.avgScore}</span></li>
 										</ul>
 									</div>
 							</div>

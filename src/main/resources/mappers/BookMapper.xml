@@ -475,4 +475,59 @@
 	<select id="totalCountBookNum" resultType="int">
 		select count(*) from book
 	</select>
+	
+	<update id="updateLoanBlock">
+		update member set
+			me_loan_block = date_add(#{user.me_loan_block}, interval #{day} day)
+		where
+			me_id = #{user.me_id}
+	</update>
+	
+	<select id="getReBookList" resultType="BookVO">
+		SELECT book.*,(au_name)as bo_au_name,(tr_name)as bo_tr_name, round(avg(rv_score), 1) as avgScore FROM 
+		book 
+		left join authors 
+			on bo_num=au_bo_num 
+		left join translators 
+			on bo_num=tr_bo_num
+		left join review
+			on bo_num = rv_bo_num
+		where
+		<choose>
+			<when test='cri.type=="all"'>
+				bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%') or
+				au_name like concat('%', #{cri.search}, '%')
+			</when>
+			<when test='cri.type=="title"'>
+				bo_title like concat('%', #{cri.search}, '%') 
+			</when>
+			<when test='cri.type=="authors"'>
+				au_name like concat('%', #{cri.search}, '%')
+			</when>
+			<when test='cri.type=="code"'>
+				bo_un_num=#{cri.search}
+			</when>
+			<otherwise>
+				bo_publisher like concat('%', #{cri.search}, '%') 
+			</otherwise>
+		</choose>
+		<if test='cri.bo_code==1'>
+			GROUP BY bo_title
+			order by bo_title, bo_code
+		</if>
+		<if test='cri.bo_code==2'>
+			GROUP BY bo_title
+			order by bo_title, bo_code
+		</if>
+		<if test='cri.bo_code==3'>
+			GROUP BY bo_title
+			order by case bo_code when "미정" then 1 else 2 end
+		</if>
+		<if test='cri.bo_code==4'>
+			GROUP BY bo_title
+			order by bo_num desc
+		</if>
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
 </mapper>

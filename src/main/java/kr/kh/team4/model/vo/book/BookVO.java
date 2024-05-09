@@ -27,6 +27,7 @@ public class BookVO {
 	
 	private Date lo_date;
 	private Date lo_limit;
+	private double avgScore;
 	private String me_nick;
 	private String me_phone;
 	public BookVO(int bo_num) {
