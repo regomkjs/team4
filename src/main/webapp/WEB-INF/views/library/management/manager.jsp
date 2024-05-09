@@ -44,9 +44,9 @@ margin-bottom: 10px;}
 	      <button class="btn btn-success list-btn" type="button">검색</button>
 	    </div>
 	</div>
-	<div class="insert">
-	    <button type="button" class="btn btn-primary btn-addBook" 
-	    data-toggle="modal" data-target="#myModal">추가</button>
+	<div class="insert mt-4 right">
+	    <a class="btn-addBook" data-toggle="modal" data-target="#myModal">
+	    <i class="fa-regular fa-square-plus"></i> 도서 추가</a>
 	</div>
 	<div class="main">
 		<div class="book-list">
