@@ -23,19 +23,17 @@
 				<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
 			</li>
 		</c:if>
-		<c:if test="${user.me_mr_num > 0}">
-			<li class="dropdown">
-				<a type="button" class="nav-link dropdown-toggle" data-toggle="dropdown">
-			    	마이페이지
-				</a>
-				<div class="dropdown-menu">
-				    <a class="dropdown-item" href="<c:url value="/mypage"/>">내 정보</a>
-				    <a class="dropdown-item" href="<c:url value="/mypage/post"/>">내가 쓴 게시글</a>
-				    <a class="dropdown-item" href="<c:url value="/mypage/comment"/>">내가 쓴 댓글</a>
-				    <a class="dropdown-item" href="<c:url value="/mypage/report"/>">내가 신고한 내역</a>
-				    <a class="dropdown-item" href="<c:url value="/library/order/list"/>">내 주문내역</a>
-				    <a class="dropdown-item" href="<c:url value="/mypage/loan"/>">내가 대출한 도서</a>
-			  	</div>
+		<c:if test="${user.me_mr_num >= 0}">  
+			<li class="nav-item dropdown">
+			  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">마이페이지</a>
+			  <ul class="dropdown-menu">
+			    <li><a class="dropdown-item" href="<c:url value="/mypage"/>">내 정보</a></li>
+			    <li> <a class="dropdown-item" href="<c:url value="/mypage/post"/>">내가 쓴 게시글</a></li>
+			    <li><a class="dropdown-item" href="<c:url value="/mypage/comment"/>">내가 쓴 댓글</a></li>
+			    <li><a class="dropdown-item" href="<c:url value="/mypage/report"/>">내가 신고한 내역</a></li>
+			    <li><a class="dropdown-item" href="<c:url value="/library/order/list"/>">내 주문내역</a></li>
+			    <li><a class="dropdown-item" href="<c:url value="/mypage/loan"/>">내가 대출한 도서</a></li>
+			  </ul>
 			</li>
 		</c:if>
 		<c:if test="${user.me_mr_num <= 1}">
@@ -43,16 +41,16 @@
 				<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
 			</li>
 		</c:if>
-		<li class="nav-item dropdown">
-	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	        관리자 기능용
-	      </a>
-	      <div class="dropdown-menu">
-	        <a class="dropdown-item" href="<c:url value="/library/management/manager"/>">도서 관리</a>
-	        <a class="dropdown-item" href="<c:url value="/library/management/bookCategory"/>">도서 카테고리 관리</a>
-	        <a class="dropdown-item" href="<c:url value="/library/management/order"/>">관리자 주문관리</a>
-	        <a class="dropdown-item" href="<c:url value="/library/management/loan"/>">대출 관리</a>
-	      </div>
-    	</li>
+    	<c:if test="${user.me_mr_num == 0 }">  
+			<li class="nav-item dropdown">
+			  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">관리자 기능용</a>
+			  <ul class="dropdown-menu">
+			    <li><a class="dropdown-item" href="<c:url value="/library/management/manager"/>">도서 관리</a></li>
+			    <li> <a class="dropdown-item" href="<c:url value="/library/management/bookCategory"/>">도서 카테고리 관리</a></li>
+			    <li><a class="dropdown-item" href="<c:url value="/library/management/order"/>">관리자 주문관리</a></li>
+			    <li><a class="dropdown-item" href="<c:url value="/library/management/loan"/>">대출 관리</a></li>
+			  </ul>
+			</li>
+		</c:if>
 	</ul>
 </nav>

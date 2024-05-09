@@ -3,14 +3,14 @@
     pageEncoding="UTF-8"%>
 <style>
 .book-list thead{background-color: #ddd;}
-.book-list thead  th:nth-child(1){width: 80px;}
+.book-list thead  th:nth-child(1){width: 100px;}
 .book-list thead  th:nth-child(2){width: 250px;}
 .book-list thead  th:nth-child(3){width: 150px;}
 .book-list thead  th:nth-child(4){width: 100px;}
 .book-list thead  th:nth-child(5){width: 150px;}
 .book-list thead  th:nth-child(6){width: 100px;}
 .book-list thead  th:nth-child(7){width: 100px;}
-.book-list img{height: 100px; max-width: 80px}
+.book-list img{height: 100px; max-width: 100px}
 table{text-align: center;}
 .book-list tbody td{  display: table-cell;
     vertical-align: middle}
@@ -27,26 +27,30 @@ table{text-align: center;}
     
 .updateBook-btn{border: 2px solid #83c67a; border-radius: 5px; box-sizing: border-box; 
 margin-bottom: 10px;}
+.updateBook-btn:hover{color: #fff; background-color: #cae39a; font-weight: bold;}
 .deleteBook-btn{border: 2px solid #e18393; border-radius: 5px; box-sizing: border-box;}
+.deleteBook-btn:hover{color: #fff; background-color: #e594a1; font-weight: bold;}
+
+.fa-solid{margin-left:5px; }
 </style>
 <body>
 <div class="container mt-5">
-	<div class="search input-group">
+	<div class="search input-group ">
 	  	<select  class="form-control" name="type">
 	  		<option value="all">전체</option>
 	  		<option value="title">도서명</option>
 	  		<option value="authors">저자</option>
 	  		<option value="publisher">출판사</option>
 	  	</select>
-	    <input type="text" class="form-control" placeholder="Search"
+	    <input type="text" class="form-control w-75" placeholder="도서 검색"
 	    name="search">
-	    <div class="input-group-append">
+	    <div class="input-group-append ">
 	      <button class="btn btn-success list-btn" type="button">검색</button>
 	    </div>
 	</div>
-	<div class="insert">
-	    <button type="button" class="btn btn-primary btn-addBook" 
-	    data-toggle="modal" data-target="#myModal">추가</button>
+	<div class="insert mt-4 right">
+	    <a class="btn-addBook" data-bs-toggle="modal" data-bs-target="#myModal">
+	    <i class="fa-regular fa-square-plus"></i> 도서 추가</a>
 	</div>
 	<div class="main">
 		<div class="book-list">
@@ -55,7 +59,7 @@ margin-bottom: 10px;}
 		        	<tr>
 			          	<th>이미지</th>
 			          	<th>도서명</th>
-			          	<th class="order-by click">도서코드</th>
+			          	<th class="order-by click">도서코드<i class="fa-solid fa-book"></i></th>
 			          	<th>표준번호</th>
 			          	<th>출판사</th>
 			          	<th>저자</th>
@@ -79,7 +83,7 @@ margin-bottom: 10px;}
         	<!-- Modal Header -->
         		<div class="modal-header">
           			<h4 class="modal-title"></h4>
-          			<button type="button" class="close" data-dismiss="modal">×</button>
+          			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         		</div>
         		<!-- Modal body -->
         		<div class="modal-body">
@@ -103,7 +107,7 @@ $(".btn-addBook").click(function() {
 	let str="";
 	str+=`
 	<div class="input-group">
-		<select class="bookTarget form-control">
+		<select class="bookTarget form-control" name="type">
 			<option value="all">전체</option>
 			<option value="title">제목</option>
 			<option value="publisher">출판사</option>
@@ -116,7 +120,7 @@ $(".btn-addBook").click(function() {
 	      <button class="btn btn-success search-btn2" type="button">검색</button>
 	    </div>
 	</div>
-  	<div class="list">
+  	<div class="list mt-4">
   	 	<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -153,15 +157,17 @@ $(document).on("click",".updateBook-btn",function() {
 	$(".modal-title").text("도서 수정");
 	let str="";
 	str=`
-	<select class="form-control category">
-		<option value="none">카테고리 선택</option>
-    	<c:forEach items="${upList}" var="up">
-    	 	<option value="${up.up_num}">[${up.up_num}] ${up.up_name}</option>
-    	</c:forEach>
-	</select>
-	<select class="form-control type">
-		<option>카테고리를 정해주세요</option>
-	</select>
+	<div class="input-group">
+		<select class="form-control category w-50">
+			<option value="none">카테고리 선택</option>
+	    	<c:forEach items="${upList}" var="up">
+	    	 	<option value="${up.up_num}">[${up.up_num}] ${up.up_name}</option>
+	    	</c:forEach>
+		</select>
+		<select class="form-control type w-50">
+			<option>카테고리를 정해주세요</option>
+		</select>
+	</div>
 	`;
 	$(".modal-body").html(str);
 	str="";
@@ -433,10 +439,12 @@ $(document).on("click",".updateBook",function(){
 	});
 	$(".order-by").click(function() {
 		if(cri.bo_code==3){
-			$(this).text("도서 번호");
+			let str=`도서 번호<i class="fa-solid fa-book"></i>`;
+			$(this).html(str);
 			cri.bo_code=1
 		}else{
-			$(this).text("미정 도서");
+			let str=`미정 도서<i class="fa-solid fa-tag"></i>`;
+			$(this).html(str);
 			cri.bo_code=3
 		}
 		displayBookView(cri);
@@ -466,7 +474,7 @@ $(document).on("click",".updateBook",function(){
 				      	  <td>\${book.bo_tr_name}</td>
 				      	  <td>
 				       		<div class="updateBook-btn click" data-num="\${book.bo_num}"
-				       		data-toggle="modal" data-target="#myModal">수정</div>
+				       		data-bs-toggle="modal" data-bs-target="#myModal">수정</div>
 				       		<div class="deleteBook-btn click" data-num="\${book.bo_num}">삭제</div>
 				      	  </td>
 				     	</tr>

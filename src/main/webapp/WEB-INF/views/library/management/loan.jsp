@@ -81,7 +81,7 @@
 					<!-- Modal Header -->
 					<div class="modal-header">
 					  <h4 class="modal-title">문자 전송</h4>
-					  <button type="button" class="close" data-dismiss="modal">&times;</button>
+					  <button type="button" class="btn-close" data-dismiss="modal"></button>
 					</div>
 				
 					<!-- Modal body -->
