@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+<script src="https://kit.fontawesome.com/6830e64ec8.js"
+	crossorigin="anonymous"></script>
 <style>
 
 	* {
@@ -92,7 +94,7 @@
 	    text-align: center;
 	    border-radius: 5px;
 	    padding: 5px 5px;
-	    transition: opacity 1s ease-in-out;
+	    transition: opacity 0.5s ease-in-out;
 	
 	    position: absolute;
 	    z-index: 100;
@@ -114,6 +116,7 @@
 		box-sizing: border-box;
 		border-radius: 5px;
 		padding: 10px;
+		margin-bottom: 1px;
 	}
 	.side-category ul{
 		margin: 0;
@@ -125,7 +128,8 @@
 	}
 	
 	.side-category li{
-		line-height: 50px; border-bottom: 1px solid #ccc;
+		line-height: 50px; 
+		border-bottom: 1px solid #ccc;
 		box-sizing: border-box;
 		
 	}
@@ -136,6 +140,9 @@
 		box-sizing: border-box; padding: 0px;
 		background-color:#ddd;
 		cursor: pointer;
+	}
+	.select-category{
+		font-weight: bolder;
 	}
 	.dropdown-menu{
 		border: 2px solid #bbb; box-sizing: border-box;
@@ -157,14 +164,14 @@
 		</ul>
 		<div class="side-tab-contents">
 			<div class="side-tab-content active">
-		    	<div class="cafe-info-box">
-		    	
-		    	</div>
-		    </div>
-		    <div class="side-tab-content" >
-	    		<c:if test="${user == null}">
+				<div class="cafe-info-box"></div>
+			</div>
+			<div class="side-tab-content">
+				<c:if test="${user == null}">
 					<div class="login-box text-center">
-						<a href="<c:url value='/login'/>" class="btn btn-outline-success login-btn col-8" style="margin-top: 60px">로그인</a>
+						<a href="<c:url value='/login'/>"
+							class="btn btn-outline-success login-btn col-8"
+							style="margin-top: 60px">로그인</a>
 						<div style="width: 100%; font-size: small;" class="mt-4">
 							<a href="<c:url value="/find/id"/>" style="color: gray;">아이디찾기</a>
 							<span style="color: gray; opacity: 60%">|</span> <a
@@ -175,55 +182,56 @@
 					</div>
 				</c:if>
 				<c:if test="${user != null}">
-					<div class="login-box text-center">
-						
-					</div>
+					<div class="login-box text-center"></div>
 				</c:if>
-	    	</div>
+			</div>
 		</div>
-		
+
 	</div>
-	<div class="side-category" style="width: 100%; min-height: calc(100% - 276px); margin-top: 1px">
-		
+	<div class="side-category"
+		style="width: 100%; min-height: calc(100% - 276px); margin-top: 1px">
+
 	</div>
 	<c:if test="${user.me_mr_num < 2 }">
-			<div class="dropup mb-3" style="width: 100%; height: 35px">
-			    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" style="width: 100%;">
-			      관리자 메뉴
-			    </button>
-				<div class="dropdown-menu" style="width: 100%;">
-					<a style="width: 100%;"  href="<c:url value="/grade/list"/>" class="dropdown-item">등급 관리</a>
-					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#adminModal" class="adminModal dropdown-item">게시판 관리</a>
-					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#reportModal" class="reportModal dropdown-item">신고 관리</a>
-					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#userModal" class="userModal dropdown-item">회원 관리</a>
-				</div>
+		<div class="dropup mb-3" style="width: 100%; height: 35px">
+		    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" style="width: 100%;">
+		      관리자 메뉴
+		    </button>
+			<div class="dropdown-menu" style="width: 100%;">
+				<a style="width: 100%;"  href="<c:url value="/grade/list"/>" class="dropdown-item">등급 관리</a>
+				<a style="width: 100%;" href="#" data-toggle="modal" data-target="#adminModal" class="adminModal dropdown-item">게시판 관리</a>
+				<a style="width: 100%;" href="#" data-toggle="modal" data-target="#reportModal" class="reportModal dropdown-item">신고 관리</a>
+				<a style="width: 100%;" href="#" data-toggle="modal" data-target="#userModal" class="userModal dropdown-item">회원 관리</a>
 			</div>
-		</c:if>
+		</div>
+	</c:if>
 </div>
 
-	
+
 
 <!-- 커뮤니티 관리 Modal -->
 <div class="modal fade" id="adminModal">
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
 		<div class="modal-content">
-   
+
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<h4 class="modal-title">게시판 관리</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			
+
 			<!-- Modal body -->
 			<div class="modal-body">
 				<div class="category-container"></div>
-			
+
 				<div class="input-group category-input-box" hidden>
 					<input type="text" class="form-control">
-					<button type="button" class="btn btn-primary category-input-btn col-2">입력</button>
+					<button type="button"
+						class="btn btn-primary category-input-btn col-2">입력</button>
 				</div>
-				
-				<button type="button" class="btn btn-primary form-control" id="category-add">추가</button>
+
+				<button type="button" class="btn btn-primary form-control"
+					id="category-add">추가</button>
 			</div>
 
 			<!-- Modal footer -->
@@ -239,23 +247,21 @@
 <div class="modal fade" id="reportModal">
 	<div class="modal-dialog modal-xl modal-dialog-scrollable">
 		<div class="modal-content">
-   
+
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<h4 class="modal-title">신고 관리</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			
+
 			<!-- Modal body -->
 			<div class="modal-body">
-				<div class="report-container">
-				
-				</div>
-				
+				<div class="report-container"></div>
+
 				<!-- 신고글 페이지네이션 박스 -->
 				<div class="report-pagination">
 					<ul class="pagination justify-content-center">
-					
+
 					</ul>
 				</div>
 			</div>
@@ -273,62 +279,53 @@
 <div class="modal fade" id="userModal">
 	<div class="modal-dialog modal-xl modal-dialog-scrollable">
 		<div class="modal-content">
-   
+
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<h4 class="modal-title">회원 관리</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			
+
 			<!-- Modal body -->
 			<div class="modal-body">
 				<div class="container col-12">
 					<div class="d-flex">
 						<!-- Nav tabs -->
 						<ul class="nav flex-column nav-pills text-center" role="tablist">
-							<li class="nav-item">
-								<a class="nav-link active member-tab" data-toggle="tab" href="#all" data-type="all">회원</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link member-tab" data-toggle="tab" href="#prison" data-type="prisoner">수감소</a>
-							</li>
+							<li class="nav-item"><a class="nav-link active member-tab"
+								data-toggle="tab" href="#all" data-type="all">회원</a></li>
+							<li class="nav-item"><a class="nav-link member-tab"
+								data-toggle="tab" href="#prison" data-type="prisoner">수감소</a></li>
 							<c:if test="${user.me_mr_num == 0}">
-								<li class="nav-item">
-									<a class="nav-link member-tab" data-toggle="tab" href="#master" data-type="admin">운영진</a>
-								</li>
+								<li class="nav-item"><a class="nav-link member-tab"
+									data-toggle="tab" href="#master" data-type="admin">운영진</a></li>
 							</c:if>
 						</ul>
 
 						<!-- Tab panes -->
 						<div class="tab-content" style="min-height: 300px; width: 90%">
-							<div id="all" class="container tab-pane active" >
+							<div id="all" class="container tab-pane active">
 								<h3>이용중인 회원</h3>
-								<div class="all-container">
-								
-								</div>
-								
+								<div class="all-container"></div>
+
 							</div>
 							<div id="prison" class="container tab-pane fade">
 								<h3>정지된 회원</h3>
-								<div class="prisoner-container">
-								
-								</div>
-								
+								<div class="prisoner-container"></div>
+
 							</div>
 							<c:if test="${user.me_mr_num == 0}">
 								<div id="master" class="container tab-pane fade">
-						 			<h3>운영진 관리</h3>
-						 			<div class="admin-container">
-								
-									</div>
-									
+									<h3>운영진 관리</h3>
+									<div class="admin-container"></div>
+
 								</div>
 							</c:if>
 						</div>
 					</div>
 					<div class="member-pagination">
 						<ul class="pagination justify-content-center">
-						
+
 						</ul>
 					</div>
 				</div>
@@ -347,24 +344,23 @@
 <div class="modal fade" id="reportDetailModal">
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
 		<div class="modal-content">
-   
+
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<h4 class="modal-title">신고 상세</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			
+
 			<!-- Modal body -->
 			<div class="modal-body">
-				<div class="report-detail-container">
-					
-				</div>
-			
+				<div class="report-detail-container"></div>
+
 			</div>
 
 			<!-- Modal footer -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success mr-auto complete-report-btn">처리완료</button>
+				<button type="button"
+					class="btn btn-success mr-auto complete-report-btn">처리완료</button>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
 
@@ -789,8 +785,8 @@ function getReportList(rp_cri) {
 }
 
 $(document).on("click", ".report-pagination .page-link", function () {
-	cri.page = $(this).data("page");
-	getReportList(cri);
+	rp_cri.page = $(this).data("page");
+	getReportList(rp_cri);
 })
 
 
@@ -817,7 +813,7 @@ $(document).on("change", ".check-report-all",function(){
 			}
 		}
 	}
-	getReportList(cri);
+	getReportList(rp_cri);
 })
 
 
@@ -840,11 +836,11 @@ $(document).on("change", ".check-report",function(){
 		if(count == checkedCount){
 			$(".check-report-all").prop("checked", true);
 		}
-		getReportList(cri);
+		getReportList(rp_cri);
 		return
 	}
 	$(".check-report-all").prop("checked", false);
-	getReportList(cri);
+	getReportList(rp_cri);
 })
 
 $(document).on("click",".reportDetailModal",function(){
@@ -971,8 +967,8 @@ $(document).on("click",".report-delete-btn",function(){
 			success : function (data) {
 				alert("신고내역 "+data.count+"개가 반려됐습니다.");
 				reportArr.splice(0);
-				cri.page = 1;
-				getReportList(cri);
+				rp_cri.page = 1;
+				getReportList(rp_cri);
 			},
 			error : function (a,b,c) {
 				console.error("에러 발생");
@@ -995,8 +991,8 @@ $(document).on("click",".complete-report-btn",function(){
 				if(data.result){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("해당 신고 내역이 반려처리 됐습니다.")
 				}
 				else{
@@ -1030,8 +1026,8 @@ $(document).on("click",".delete-post-btn",function(){
 				if(data.result1){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("신고된 게시글이 삭제됐습니다. [신고내역 처리완료]")
 				}
 				else{
@@ -1065,8 +1061,8 @@ $(document).on("click",".delete-comment-btn",function(){
 				if(data.result1){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("신고된 댓글이 삭제됐습니다. [신고내역 처리완료]")
 				}
 				else{
@@ -1127,8 +1123,8 @@ $(document).on("click",".writer-punish-btn",function(){
 				if(data.result){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("해당 신고건이 처리됐습니다.")
 				}
 				else{
@@ -1161,8 +1157,8 @@ $(document).on("click",".reporter-punish-btn",function(){
 				if(data.result){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("해당 신고건이 처리됐습니다.")
 				}
 				else{
@@ -1544,9 +1540,11 @@ $(".side-tab-navi li").click(function () {
 
 <!-- 카페,회원정보, 게시판 리스트 스크립트 -->
 <script type="text/javascript">
+
 getEverything()
 //카페정보, 회원정보, 게시판 리스트 호출 
 function getEverything() {
+	
 	$.ajax({
 		url : '<c:url value="/community/sidebar/info"/>',
 		method : "post",
@@ -1664,18 +1662,24 @@ function getEverything() {
 			caStr += 
 			`
 				<ul>
-					<li class="category-item"><a class="category-link" href='<c:url value="/post/list"/>' style="text-decoration: none; color: black;">전체 게시글</a></li>
-					<li class="category-item">인기 게시글 <i class="fa-solid fa-fire" style="color: #ff3333;"></i></li>
+					<li class="category-item"><a class="category-link <c:if test='${pm.cri.ca == 0}'>select-category</c:if>" href='<c:url value="/post/list"/>' style="text-decoration: none; color: black;">전체 게시글</a></li>
+					<li class="category-item"><a class="category-link <c:if test='${pm.cri.ca == -1}'>select-category</c:if>" href='<c:url value="/post/popular?ca=-1"/>' style="text-decoration: none; color: black;">인기 게시글 <i class="fa-solid fa-fire" style="color: #ff3333;"></i></a></li>
 				</ul>
 				<div class="mt-4" style="font-size: small; color: gray"><i class="fa-solid fa-list"></i> 게시판</div>
 				<ul>
 			`
 			if(categoryList != null && categoryList.length != 0){
 				for(category of categoryList){
+					
+					let ca_num = category.ca_num;
+					let selected = '';
+					if(${pm.cri.ca} == ca_num){
+						selected = 'select-category'
+					}
 					caStr +=
 					`
 						<li class="category-item">
-							<a class="category-link" href='<c:url value="/post/list?ca=\${category.ca_num}" />' style="text-decoration: none; color: black;">
+							<a class="category-link \${selected}" href='<c:url value="/post/list?ca=\${category.ca_num}" />' style="text-decoration: none; color: black;">
 								\${category.ca_name}
 							</a>
 						</li>

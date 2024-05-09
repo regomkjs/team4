@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
 <html>
 <head>
-	<title>게시글 목록</title>
+	<title>인기글 목록</title>
 	<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
 	<style type="text/css">
 		
@@ -52,38 +52,22 @@
 <body>
 <div>
 	<h1>
-		<c:if test='${pm.cri.type == "target"}'>${pm.cri.search} 작성글 목록</c:if>
-		<c:if test='${pm.cri.type != "target"}'>게시글 목록</c:if>
+		인기글 목록
 	</h1>
 	
-	<form action="<c:url value="/post/list"/>" method="get" class="input-group" id="searchForm">
-		<input name="ca" style="display: none;" value="${pm.cri.ca}">
-		<div class="input-group mb-1"  <c:if test='${pm.cri.type == "target"}'>hidden</c:if>>
-			<select name="type" class="input-group-prepend" >
-				<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
-				<option value="text" <c:if test='${pm.cri.type == "text"}'>selected</c:if>>제목+내용</option>
-				<c:if test='${pm.cri.type == "target"}'>
-					<option value="target" <c:if test='${pm.cri.type == "target"}'>selected</c:if>>작성자</option>
-				</c:if>
-				<c:if test='${pm.cri.type != "target"}'>
-					<option value="writer" <c:if test='${pm.cri.type == "writer"}'>selected</c:if>>작성자</option>
-				</c:if>
-			</select>
+	<form action="<c:url value="/post/popular"/>" method="get" class="input-group" id="searchForm">
+		<div class="input-group mb-1">
+			
 			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
 			<button type="submit" class="input-group-append btn btn-success search-btn"><i class="fa-solid fa-magnifying-glass mr-1 mt-1"  style="--fa-animation-duration: 1.5s;"></i>검색</button>
 		</div>
-	 	<select class="form-control col-4 offset-8 mt-1 mb-2" name="order">
-	 		<option value="new" <c:if test='${pm.cri.order == "new"}'>selected</c:if>>최신순</option>
-	 		<option value="view" <c:if test='${pm.cri.order == "view"}'>selected</c:if>>조회수순</option>
-	 		<option value="heart" <c:if test='${pm.cri.order == "heart"}'>selected</c:if>>좋아요순</option>
-	 	</select>
+	 	
 	</form>
 
 	<table class="table table-hover text-center">
 		<thead>
 			<tr>
-				<th class="col-1">번호</th>
-				<th class="col-1">게시판</th>
+				<th class="col-2">게시판</th>
 				<th>제목</th>
 				<th class="col-2">작성자</th>
 				<th class="col-1.5">작성일</th>
@@ -92,10 +76,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${postList}" var="post" varStatus="vs">
+			<c:forEach items="${postList}" var="post">
 				<c:if test="${post.po_num > 0}">
-					<tr>		<!-- pm.cri.perPageNum * (pm.cri.page-1)) == pm.cri.startPage -->
-				  		<td>${(pm.totalCount - (pm.cri.perPageNum * (pm.cri.page-1))) - vs.index}</td>
+					<tr>
+				  		
 				  		<td>${post.ca_name}</td>
 				  		<td class="hovertext1-box title-box" data-hover="${post.po_title}"> 
 				  			<c:url value="/post/detail" var="detailUrl">
@@ -140,14 +124,8 @@
 							    	${post.me_nick}
 								</a>
 								<div class="dropdown-menu">
-									<c:url value="/post/list" var="targetUrl">
-										<c:param name="type" value="target" />
-										<c:param name="search" value="${post.me_nick}" />
-									</c:url>
-									<a class="dropdown-item" href="${targetUrl}">작성글</a>
-									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num == 2 && post.me_mr_num == 2}">
-										<a href="#" class="dropdown-item btn-report" data-toggle="modal" data-target="#reportingModal" class="reportingModal" data-writer="${post.me_nick}" data-what="po" data-num="${post.po_num}">게시글 신고</a>
-									</c:if>
+									<a class="dropdown-item" href="#">Link 1</a>
+									<a class="dropdown-item" href="#">Link 2</a>
 									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num <= 1 && post.me_mr_num == 2}">
 										<c:url value="/popup/member/punish" var="popupURL">
 											<c:param name="nick" value="${post.me_nick}"/>
@@ -184,21 +162,9 @@
 		<h1 class="text-center">등록된 게시글이 없습니다.</h1>
 	</c:if>
 	<ul class="pagination justify-content-center">
-		<c:if test="${pm.prev}">
-		    <li class="page-item">
-		    	<c:url value="/post/list" var="prev">
-		    		<c:param name="ca" value="${pm.cri.ca}"/>
-		    		<c:param name="type" value="${pm.cri.type}" />
-		    		<c:param name="search" value="${pm.cri.search}" />
-		    		<c:param name="order" value="${pm.cri.order}"/>
-		    		<c:param name="page" value="${pm.startPage - 1}"/>
-		    	</c:url>
-		    	<a class="page-link" href="${prev}">이전</a>
-	    	</li>
-		</c:if>
+		
     	<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
-    		<c:url value="/post/list" var="url">
-	    		<c:param name="ca" value="${pm.cri.ca}"/>
+    		<c:url value="/post/popular" var="url">
     			<c:param name="type" value="${pm.cri.type}" />
 	    		<c:param name="search" value="${pm.cri.search}" />
 	    		<c:param name="order" value="${pm.cri.order}"/>
@@ -209,53 +175,12 @@
     			<a class="page-link" href="${url}">${i}</a>
    			</li>
     	</c:forEach>
-    	<c:if test="${pm.next}">
-			<li class="page-item">
-		    	<c:url value="/post/list" var="next">
-		    		<c:param name="ca" value="${pm.cri.ca}"/>
-		    		<c:param name="type" value="${pm.cri.type}" />
-		    		<c:param name="search" value="${pm.cri.search}" />
-		    		<c:param name="order" value="${pm.cri.order}"/>
-		    		<c:param name="page" value="${pm.endPage + 1}"/>
-		    	</c:url>
-		    	<a class="page-link" href="${next}">다음</a>
-	    	</li>
-		</c:if>
+    	
 	</ul>
 	<c:url value="/post/insert" var="insertUrl">
 		<c:param name="ca" value="${pm.cri.ca}"/>
 	</c:url>
 	<a class="btn btn-outline-primary" href="${insertUrl}">글 작성</a>
-	
-	
-	<!-- 신고 Modal -->
-	<div class="modal fade" id="reportingModal">
-		<div class="modal-dialog modal-lg modal-dialog-scrollable">
-			<div class="modal-content">
-	   
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h4 class="modal-title">신고</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				
-				<!-- Modal body -->
-				<div class="modal-body">
-					<div class="report-container">
-						
-					</div>
-				
-				
-				</div>
-	
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary btn-reporting" data-dismiss="modal">신고하기</button>
-				</div>
-	
-			</div>
-		</div>
-	</div>
 	
 </div>
 
@@ -291,101 +216,6 @@ $(document).on("click", ".title-box", function () {
 })
 </script>
 
-<!-- 신고 스크립트 -->
-<script type="text/javascript">
-$(document).on("click",".btn-report",function(){
-	if('${user.me_id}' == ''){
-		if(confirm("로그인이 필요한 서비스 입니다. 로그인으로 이동하시겠습니까?")){
-			location.href = "<c:url value='/login'/>"
-			return;
-		}
-		else{
-			return;
-		}
-	}
-	
-	
-	let who = $(this).data("writer");
-	let what = $(this).data("what");
-	let num = $(this).data("num");
-	let str ="";
-	str += 
-	`
-		<div>
-			<div class="input-group mb-2">
-				<div class="input-group-prepend">
-					<label class="input-group-text ">닉네임</label>
-				</div>
-				<input type="text" class="report-nick input-group form-control" value="\${who}" readonly>
-			</div>
-			<input hidden type="text" value="\${what+'_'+num}" class="report-target">
-			<div class="input-group mb-2">
-				<div class="input-group-prepend">
-					<label class="input-group-text ">신고 항목</label>
-				</div>
-				<select class="form-control report-type">
-					<option>부적절한 닉네임</option>
-					<option>욕설 사용</option>
-					<option>광고성 글 작성</option>
-					<option>게시판에 맞지 않는 글</option>
-				</select>
-			</div>
-			<label>신고 내용:</label>
-			<textarea class="form-control report-note mb-2" placeholder="신고 이유를 자세하게 적어주세요."></textarea>
-			
-		</div>
-	`
-	$(".report-container").html(str);
-	
-})
-
-$(document).on("click",".btn-reporting",function(){
-	if('${user.me_id}' == ''){
-		if(confirm("세션이 만료되었습니다. 로그인으로 이동하시겠습니까?")){
-			location.href = "<c:url value='/login'/>"
-			return;
-		}
-		else{
-			return;
-		}
-	}
-	
-	let writer = $(this).parents(".modal-content").find(".report-nick").val()
-	let target = $(this).parents(".modal-content").find(".report-target").val()
-	let type = $(this).parents(".modal-content").find(".report-type").val()
-	let note = $(this).parents(".modal-content").find(".report-note").val()
-	if(note == null){
-		note = "";
-	}
-	
-	console.log(writer);
-	console.log(target);
-	console.log(type);
-	console.log(note);
-	
-	$.ajax({
-		url : '<c:url value="/report/insert"/>',
-		method : "post",
-		data : {
-			"writer" : writer,
-			"target" : target,
-			"type" : type,
-			"note" : note
-		},
-		dataType : "json", 
-		success : function (data) {
-			let result = data.result;
-			let message = data.message;
-			alert(message);
-		},
-		error : function (a,b,c) {
-			console.error("에러 발생2");
-		}
-	});
-	
-})
-
-</script>
 
 </body>
 </html>

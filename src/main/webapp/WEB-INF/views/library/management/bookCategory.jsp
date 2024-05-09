@@ -1,16 +1,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>	
+	
 <style>
-.nav .nav-item{border: 1px solid #000; width: 19% ; }
-.nav .nav-item>a{line-height: 50px; text-align: center; }
+.nav .nav-item{border: 1px solid #000; width: 19% ; margin-top: 10px;}
+.nav .nav-item>a{line-height: 50px; text-align: center; color:#000; text-decoration: none;}
 .nav{display: flex;justify-content :space-between;}
-
 .category-list{border-bottom: 2px solid #ccc; border-top: 2px solid #ccc; }
 .genre-list{display:block; width: 20%;}
 .genre-list>li{line-height:30px; border-bottom: 1px solid #ccc; margin: 5px;}
 .add-box{text-align: right;}
 .management-add-type{display: inline;}
+
+.select .nav-item:nth-of-type(1){
+	background: #fdfdfd url(../../resources/img/k_icon09.png) no-repeat 40px 20px ;
+}
+
+.type-del-btn{
+	float:right; width:14px; height: 14px; padding: 0; margin:7px 5px 0 0; 
+}
+.fa-regular{ margin-right: 5px;}
 </style>
 <body>
 	<div class="container mt-5">
@@ -26,7 +35,7 @@
 						</c:if>	
 					</c:forEach>
 					<li class="nav-item">
-					    <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal">
+					    <a class="nav-link category-control" href="#" data-bs-toggle="modal" data-bs-target="#myModal">
 					    카테고리 관리</a>
 					</li>			
 				</ul>
@@ -46,16 +55,11 @@
       		<div class="modal-content modal-dialog modal-xl">
         	<!-- Modal Header -->
         		<div class="modal-header">
-          			<h4 class="modal-title">카테고리 관리</h4>
-          			<button type="button" class="close" data-dismiss="modal">×</button>
+          			
         		</div>
         		<!-- Modal body -->
         		<div class="modal-body">
-        			<div class="input-group ca-menu">
-						<a href="#" class="management-add-category btn">카테고리 추가</a>
-						<a href="#" class="management-del-category btn">카테고리 삭제</a>
-					</div>
-					<div class="event-box"></div>
+        			
 		        </div>
         		<!-- Modal footer -->
         		<div class="modal-footer">
@@ -63,6 +67,23 @@
       		</div>
     	</div>
 	</div>
+	<!-- 카테고리 관리 클릭시 -->
+	<script type="text/javascript">
+	$(".category-control").click(function() {
+		let str=`
+			<h4 class="modal-title">카테고리 관리</h4>
+  			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>`;
+  		$(".modal-header").html(str);
+  		
+  		str=`
+  		<div class="input-group ca-menu">
+			<a href="#" class="management-add-category btn">카테고리 추가</a>
+			<a href="#" class="management-del-category btn">카테고리 삭제</a>
+		</div>
+		<div class="event-box"></div>`;
+  		$(".modal-body").html(str);
+	});
+	</script>
 	<!-- 카테고리 클릭시 목록출력 -->
 	<script type="text/javascript">
 	let upNum;
@@ -88,8 +109,8 @@
 						}
 						str+=`
 					        <li>[\${un.un_up_num}\${un.un_code<10?'0'+un.un_code:un.un_code}] \${un.un_name}
-					        <button type="button" class="close type-del-btn" data-num="\${un.un_num}">&times;</button></li>
-						`;
+					        <button type="button" class="btn-close type-del-btn" data-num="\${un.un_num}"></button></li>
+						`; 
 						if(un.un_code/10>=num){
 							str+=`</ul>`;
 							num++;
@@ -97,8 +118,8 @@
 					}
 					$(".category-list").html(str);
 					str=`
-					<div class="management-add-type click" data-toggle="modal" data-target="#myModal">
-						장르추가+
+					<div class="management-add-type click" data-bs-toggle="modal" data-bs-target="#myModal">
+						 <i class="fa-regular fa-square-plus"></i>장르추가
 					</div>
 					`;
 					$(".add-box").html(str);
@@ -111,7 +132,7 @@
 	</script>
 	<!-- 카테고리 추가 -->
 	<script type="text/javascript">
-	$(".management-add-category").click(function() {
+	$(document).on("click",".management-add-category",function() {
 		$(".modal-title").text("카테고리 추가");
 		let str=`
 		<div class="input-group">
@@ -119,7 +140,7 @@
 			<input type="text" class="form-control" placeholder="카테고리명" name="caName">
 		</div>`;
 		$(".modal-body>.event-box").html(str);
-		str=`<button type="button" class="btn btn-danger category-add-btn" data-dismiss="modal">등록</button>`;
+		str=`<button type="button" class="btn btn-danger category-add-btn" data-bs-dismiss="modal">등록</button>`;
 		$(".modal-footer").html(str);
 	});
 	
@@ -149,7 +170,7 @@
 	</script>
 	<!-- 카테고리 삭제 -->
 	<script type="text/javascript">
-	$(".management-del-category").click(function() {
+	$(document).on("click",".management-del-category",function() {
 		$(".modal-title").text("카테고리 삭제");
 		let str=`<select class="form-control category">
 			<option value="none">카테고리 선택</option>
@@ -161,7 +182,7 @@
 			</c:if>	
 		</c:forEach></select>`;
 		$(".modal-body>.event-box").html(str);
-		str=`<button type="button" class="btn btn-danger category-del-btn" data-dismiss="modal">삭제</button>`;
+		str=`<button type="button" class="btn btn-danger category-del-btn" data-bs-dismiss="modal">삭제</button>`;
 		$(".modal-footer").html(str);
 	});
 	
@@ -204,7 +225,7 @@
 			<input type="text" class="form-control" placeholder="장르명" name="tyName">
 		</div>`;
 		$(".modal-body>.event-box").html(str);
-		str=`<button type="button" class="btn btn-danger type-add-btn" data-dismiss="modal">등록</button>`;
+		str=`<button type="button" class="btn btn-danger type-add-btn" data-bs-dismiss="modal">등록</button>`;
 		$(".modal-footer").html(str);
 	});
 	

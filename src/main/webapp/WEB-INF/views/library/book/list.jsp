@@ -9,14 +9,11 @@
 .book-item{height:130px; margin-top: 15px;  }
 .book-item:after{padding-bottom:5px; border-bottom: 1px solid #ccc; }
 
-.book-img{width: 15%; height:100%;}
-.book-img img{ height:100%; margin-left: 20px;}
-.book-content{width: 85%; height:100%; font-size: 16px;}
-.content-text{width:80%; height:100%;  padding: 5px 0; box-sizing: border-box;}
-.content-text ul{margin: 0;}
-.content-text li{margin-top: 5px}
-.content-btn{width: 20%; height:100%; padding: 10px 0; box-sizing: border-box;}
-.content-btn button{margin: 5px;}
+.book-img{width: 15%; height:100%; margin-left: 20px;}
+.book-img img{ height:100%; }
+.book-content{width: 60%; height:100%; font-size: 16px;}
+
+
 .title{font-weight:500; font-size: 18px; }
 </style>
 <body>
