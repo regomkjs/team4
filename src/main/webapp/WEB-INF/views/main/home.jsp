@@ -171,7 +171,7 @@ a{text-decoration: none; color: #000;}
 a:hover{text-decoration: none; color: #000;}
 
 .nav-box {height: 60px; background-color: #f0f0f0;}
-.nav-box ul li{padding: 0; margin: 0; text-align: center;}
+.nav-box ul,li{padding: 0; margin: 0; text-align: center;}
 .nav-list{width: 20%; position: relative;}
 .nav-item{display: block;}
 .nav-list li{ background-color: #fff; z-index:5; position:absolute;
@@ -297,8 +297,8 @@ a:hover{text-decoration: none; color: #000;}
 				</c:if>
 				<c:if test="${user != null}">
 					<div class="profile-box text-center">
-						<p>[회원 정보]</p>
-						<ul style="text-align: left;">
+						<ul style="text-align: center;">
+							<li>[회원 정보]</li>
 							<li>닉네임 : ${user.me_nick}</li>
 							<li>가입일 : ${user.me_date}</li>
 							<hr>
