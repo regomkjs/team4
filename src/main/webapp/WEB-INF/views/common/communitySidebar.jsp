@@ -189,18 +189,18 @@
 		
 	</div>
 	<c:if test="${user.me_mr_num < 2 }">
-			<div class="dropup mb-3" style="width: 100%; height: 35px">
-			    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" style="width: 100%;">
-			      관리자 메뉴
-			    </button>
-				<div class="dropdown-menu" style="width: 100%;">
-					<a style="width: 100%;"  href="<c:url value="/grade/list"/>" class="dropdown-item">등급 관리</a>
-					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#adminModal" class="adminModal dropdown-item">게시판 관리</a>
-					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#reportModal" class="reportModal dropdown-item">신고 관리</a>
-					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#userModal" class="userModal dropdown-item">회원 관리</a>
-				</div>
+		<div class="dropup mb-3" style="width: 100%; height: 35px">
+		    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" style="width: 100%;">
+		      관리자 메뉴
+		    </button>
+			<div class="dropdown-menu" style="width: 100%;">
+				<a style="width: 100%;"  href="<c:url value="/grade/list"/>" class="dropdown-item">등급 관리</a>
+				<a style="width: 100%;" href="#" data-toggle="modal" data-target="#adminModal" class="adminModal dropdown-item">게시판 관리</a>
+				<a style="width: 100%;" href="#" data-toggle="modal" data-target="#reportModal" class="reportModal dropdown-item">신고 관리</a>
+				<a style="width: 100%;" href="#" data-toggle="modal" data-target="#userModal" class="userModal dropdown-item">회원 관리</a>
 			</div>
-		</c:if>
+		</div>
+	</c:if>
 </div>
 
 	
@@ -791,8 +791,8 @@ function getReportList(rp_cri) {
 }
 
 $(document).on("click", ".report-pagination .page-link", function () {
-	cri.page = $(this).data("page");
-	getReportList(cri);
+	rp_cri.page = $(this).data("page");
+	getReportList(rp_cri);
 })
 
 
@@ -819,7 +819,7 @@ $(document).on("change", ".check-report-all",function(){
 			}
 		}
 	}
-	getReportList(cri);
+	getReportList(rp_cri);
 })
 
 
@@ -842,11 +842,11 @@ $(document).on("change", ".check-report",function(){
 		if(count == checkedCount){
 			$(".check-report-all").prop("checked", true);
 		}
-		getReportList(cri);
+		getReportList(rp_cri);
 		return
 	}
 	$(".check-report-all").prop("checked", false);
-	getReportList(cri);
+	getReportList(rp_cri);
 })
 
 $(document).on("click",".reportDetailModal",function(){
@@ -973,8 +973,8 @@ $(document).on("click",".report-delete-btn",function(){
 			success : function (data) {
 				alert("신고내역 "+data.count+"개가 반려됐습니다.");
 				reportArr.splice(0);
-				cri.page = 1;
-				getReportList(cri);
+				rp_cri.page = 1;
+				getReportList(rp_cri);
 			},
 			error : function (a,b,c) {
 				console.error("에러 발생");
@@ -997,8 +997,8 @@ $(document).on("click",".complete-report-btn",function(){
 				if(data.result){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("해당 신고 내역이 반려처리 됐습니다.")
 				}
 				else{
@@ -1032,8 +1032,8 @@ $(document).on("click",".delete-post-btn",function(){
 				if(data.result1){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("신고된 게시글이 삭제됐습니다. [신고내역 처리완료]")
 				}
 				else{
@@ -1067,8 +1067,8 @@ $(document).on("click",".delete-comment-btn",function(){
 				if(data.result1){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("신고된 댓글이 삭제됐습니다. [신고내역 처리완료]")
 				}
 				else{
@@ -1129,8 +1129,8 @@ $(document).on("click",".writer-punish-btn",function(){
 				if(data.result){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("해당 신고건이 처리됐습니다.")
 				}
 				else{
@@ -1163,8 +1163,8 @@ $(document).on("click",".reporter-punish-btn",function(){
 				if(data.result){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("해당 신고건이 처리됐습니다.")
 				}
 				else{

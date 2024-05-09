@@ -183,7 +183,7 @@
 			
 			<div>
 				<c:if test="${user.me_id != post.po_me_id && user.me_mr_num == 2 && post.me_mr_num == 2}">
-					<a href="#" class="btn btn-danger btn-report" data-toggle="modal" data-target="#reportModal" class="reportModal" data-writer="${post.me_nick}" data-what="po" data-num="${post.po_num}">신고</a>
+					<a href="#" class="btn btn-danger btn-report" data-toggle="modal" data-target="#reportingModal" class="reportingModal" data-writer="${post.me_nick}" data-what="po" data-num="${post.po_num}">신고</a>
 				</c:if>
 			</div>
 		</div>
@@ -215,7 +215,7 @@
 
 
 <!-- 신고 Modal -->
-<div class="modal fade" id="reportModal">
+<div class="modal fade" id="reportingModal">
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
 		<div class="modal-content">
    
@@ -451,7 +451,7 @@ function getCommentList(cri, today) {
 					if(comment.co_me_id != '${user.me_id}' && comment.me_mr_num == 2 && '${user.me_mr_num}' == 2){
 						str +=
 						`
-							<a href="#" class="badge badge-danger btn-report" data-toggle="modal" data-target="#reportModal" class="reportModal" data-writer="\${comment.me_nick}" data-what="co" data-num="\${comment.co_num}"><i class="fa-solid fa-handcuffs" style="color: #fffff;"></i></a>						
+							<a href="#" class="badge badge-danger btn-report" data-toggle="modal" data-target="#reportingModal" class="reportingModal" data-writer="\${comment.me_nick}" data-what="co" data-num="\${comment.co_num}"><i class="fa-solid fa-handcuffs" style="color: #fffff;"></i></a>						
 						`
 					}
 					str +=
@@ -989,7 +989,7 @@ $(document).on("click",".btn-report",function(){
 					<option>부적절한 닉네임</option>
 					<option>욕설 사용</option>
 					<option>광고성 글 작성</option>
-					<option>게시판에 맞지 않는 내용</option>
+					<option>게시판에 맞지 않는 내용의 글</option>
 				</select>
 			</div>
 			<label>신고 내용:</label>

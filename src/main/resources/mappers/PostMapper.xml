@@ -43,7 +43,7 @@
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
  				po_content like concat("%",#{cri.search},"%") or
- 				po_me_id like concat("%",#{cri.search},"%"))
+ 				member.me_nick like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
  				member.me_nick like concat("%",#{cri.search},"%")
@@ -51,6 +51,9 @@
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
  				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "target"'>
+ 				member.me_nick like #{cri.search}
  			</if>
  			<if test="cri.ca != 0">
  			 	and po_ca_num = #{cri.ca}
@@ -82,7 +85,7 @@
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
  				po_content like concat("%",#{cri.search},"%") or
- 				po_me_id like concat("%",#{cri.search},"%"))
+ 				member.me_nick like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
  				member.me_nick like concat("%",#{cri.search},"%")
@@ -90,6 +93,9 @@
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
  				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "target"'>
+ 				member.me_nick like #{cri.search}
  			</if>
  			<if test="cri.ca != 0">
  			 	and po_ca_num = #{cri.ca}
@@ -248,14 +254,17 @@
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
  				po_content like concat("%",#{cri.search},"%") or 				
- 				po_me_id like concat("%",#{cri.search},"%"))
+ 				member.me_nick like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
- 				po_me_id like concat("%",#{cri.search},"%")
+ 				member.me_nick like concat("%",#{cri.search},"%")
  			</if>
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
  				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "target"'>
+ 				member.me_nick like #{cri.search}
  			</if>
  			<if test="cri.ca != 0">
  			 	and po_ca_num = #{cri.ca}
@@ -275,15 +284,18 @@
 		where 
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
- 				po_content like concat("%",#{cri.search},"%") or
- 				po_me_id like concat("%",#{cri.search},"%"))
+ 				po_content like concat("%",#{cri.search},"%") or 				
+ 				member.me_nick like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
- 				po_me_id like concat("%",#{cri.search},"%")
+ 				member.me_nick like concat("%",#{cri.search},"%")
  			</if>
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
  				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "target"'>
+ 				member.me_nick like #{cri.search}
  			</if>
  			<if test="cri.ca != 0">
  			 	po_ca_num = #{cri.ca}
