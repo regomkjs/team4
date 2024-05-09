@@ -56,7 +56,7 @@
 	</h1>
 	
 	<form action="<c:url value="/post/popular"/>" method="get" class="input-group" id="searchForm">
-		<div class="input-group mb-1">
+		<div class="input-group mb-1 w-50 ms-auto">
 			
 			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
 			<button type="submit" class="input-group-append btn btn-success search-btn"><i class="fa-solid fa-magnifying-glass mr-1 mt-1"  style="--fa-animation-duration: 1.5s;"></i>검색</button>
@@ -165,7 +165,7 @@
 		</tbody>
 	</table>
 	<c:if test="${pm.totalCount == 0}">
-		<h1 class="text-center">등록된 게시글이 없습니다.</h1>
+		<h1 class="text-center">조건에 해당하는 인기글이 없습니다.</h1>
 	</c:if>
 	<ul class="pagination justify-content-center">
 		
