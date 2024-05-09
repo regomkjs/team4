@@ -36,7 +36,7 @@
 			  </ul>
 			</li>
 		</c:if>
-		<c:if test="${user.me_mr_num <= 1}">
+		<c:if test="${user.me_mr_num == 0}">
 			<li class="nav-item">
 				<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
 			</li>
