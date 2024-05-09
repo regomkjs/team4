@@ -209,7 +209,7 @@ a:hover {
 	background-color: #f0f0f0;
 }
 
-.nav-box ul, li {
+.nav-box ul li {
 	padding: 0;
 	margin: 0;
 	text-align: center;
@@ -303,7 +303,7 @@ a:hover {
 					<li class="nav-option">
 						<div>
 							<ul>
-								<li>도서관1</li>
+								<li><a href="<c:url value="/library/book/list"/>">도서관 이용</a></li>
 								<li>도서관2</li>
 							</ul>
 						</div>
@@ -314,7 +314,7 @@ a:hover {
 					<li class="nav-option">
 						<div>
 							<ul>
-								<li>커뮤</li>
+								<li><a href="<c:url value="/post"/>">커뮤</a></li>
 							</ul>
 						</div>
 					</li>
@@ -324,11 +324,40 @@ a:hover {
 					<li class="nav-option">
 						<div>
 							<ul>
-								<li>판매</li>
+								<li><a href="<c:url value="/library/bookSale/list"/>">판매</a></li>
 							</ul>
 						</div>
 					</li>
 				</ul>
+				<c:if test="${user != null}">
+					<ul class="nav-list">
+						<li class="nav-item">마이페이지</li>
+						<li class="nav-option">
+							<div>
+								<ul>
+									<li><a href="<c:url value="/mypage"/>">내 정보</a></li>
+									<li><a href="<c:url value="/mypage/loan"/>">내가 대출한 책</a></li>
+									<li><a href="<c:url value="/library/order/list"/>">주문 내역</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</c:if>
+				<c:if test="${user.me_mr_num <= 1}">
+					<ul class="nav-list">
+						<li class="nav-item">관리</li>
+						<li class="nav-option">
+							<div>
+								<ul>
+									<li><a href="<c:url value="/library/management/manager"/>">도서 관리</a></li>
+									<li><a href="<c:url value="/library/management/bookCategory"/>">도서 카테고리 관리</a></li>
+									<li><a href="<c:url value="/library/management/order"/>">관리자 주문관리</a></li>
+									<li><a href="<c:url value="/library/management/loan"/>">대출 관리</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</c:if>
 			</div>
 			<div class="main-box">
 				<div id="demo" class="carousel slide banner-box"
@@ -375,7 +404,7 @@ a:hover {
 				</c:if>
 				<c:if test="${user != null}">
 					<div class="profile-box text-center">
-						[회원 정보]
+						<p>[회원 정보]</p>
 						<ul style="text-align: left;">
 							<li>닉네임 : ${user.me_nick}</li>
 							<li>가입일 : ${user.me_date}</li>
@@ -662,7 +691,6 @@ function newBook() {
 			a.setMonth(a.getMonth()-3);
 			let res=true;
 			let str="";
-			console.log(data);
 			for(let i=0;i<5;i++){
 				if(toStringFormatting(data.bookList[i].bo_in_date)>=toStringFormatting(a)){
 					str+=`

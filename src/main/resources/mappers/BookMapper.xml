@@ -28,14 +28,12 @@
 		insert into translators value(null,#{translators},#{bo_num})
 	</insert>
 	<select id="getBookList" resultType="BookVO">
-		SELECT book.*,(au_name)as bo_au_name,(tr_name)as bo_tr_name, (select round(avg(rv_score), 1) from review) as avgScore FROM 
+		SELECT book.*,(au_name)as bo_au_name,(tr_name)as bo_tr_name FROM 
 		book 
 		join authors 
 			on bo_num=au_bo_num 
 		join translators 
 			on bo_num=tr_bo_num
-		join review
-			on bo_num=rv_bo_num
 		where
 		<choose>
 			<when test='cri.type=="all"'>
@@ -477,4 +475,11 @@
 	<select id="totalCountBookNum" resultType="int">
 		select count(*) from book
 	</select>
+	
+	<update id="updateLoanBlock">
+		update member set
+			me_loan_block = date_add(#{user.me_loan_block}, interval #{day} day)
+		where
+			me_id = #{user.me_id}
+	</update>
 </mapper>

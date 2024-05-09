@@ -15,7 +15,7 @@ ol.colorlist {
 	color: red !important;
 	display: inline-block !important;
 	width: 1em !important;
-	margin-left: -1em !important;
+	margin-left: 4px; !important;
 }
 
 .colorlist li {

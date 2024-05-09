@@ -118,6 +118,9 @@
 				<div class="book-description">
 					<h4>책 소개</h4>
 					<p>${book.item[0].description}</p>
+					<c:if test="${book.item[0].description == null}">
+						<p>없음</p>
+					</c:if>
 				</div>
 			</div>
 		</div>
