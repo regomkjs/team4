@@ -41,16 +41,5 @@
 				<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
 			</li>
 		</c:if>
-    	<c:if test="${user.me_mr_num >= 0 }">  
-			<li class="nav-item dropdown">
-			  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">관리자 기능용</a>
-			  <ul class="dropdown-menu">
-			    <li><a class="dropdown-item" href="<c:url value="/library/management/manager"/>">도서 관리</a></li>
-			    <li> <a class="dropdown-item" href="<c:url value="/library/management/bookCategory"/>">도서 카테고리 관리</a></li>
-			    <li><a class="dropdown-item" href="<c:url value="/library/management/order"/>">관리자 주문관리</a></li>
-			    <li><a class="dropdown-item" href="<c:url value="/library/management/loan"/>">대출 관리</a></li>
-			  </ul>
-			</li>
-		</c:if>
 	</ul>
 </nav>

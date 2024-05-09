@@ -55,7 +55,6 @@
 			<mapping path="/signup"/>
 			<mapping path="/find/pw"/>
 			<mapping path="/find/id"/>
-			<mapping path="/library/book/sale"/>
 			<beans:ref bean="guestInterceptor"/>
 		</interceptor>
 		<!-- AutoLoginInterceptor -->

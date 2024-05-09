@@ -7,9 +7,11 @@
 *{margin: 0; padding: 0;}
 .table{text-align: center;}
 .table thead th{color:#a5a5a5;}
-.table thead th:nth-of-type(1){width: 40px;}
+.list .table thead th:nth-of-type(1){width: 40px;}
 .table tbody tr{vertical-align: middle;}
-.total-sale{line-height: 30px; vertical-align: baseline; text-align: center;}
+.total-sale{margin: 0 auto;}
+.btn-box{position: relative; width: 100%;margin-top: 30px;}
+.btn-box #money-btn{position:absolute; left: 30%; }
 </style>
 <body>
 	<div class="container mt-5">
@@ -27,16 +29,14 @@
 				<tbody>
 
 				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="6" class="total-sale"></td>
-					</tr>
-				</tfoot>
+			</table>
+			<table class="table table-bordered total-sale w-50">
+				<tbody></tbody>
 			</table>
 		</div>
-		<div>
+		<div class="btn-box">
 
-			<button id="money-btn">선택한 상품 구매</button>
+			<button id="money-btn" class="btn btn-primary">선택한 상품 구매</button>
 		</div>
 	</div>
 	<!-- 장바구니 -->
@@ -64,7 +64,7 @@
 							</c:forEach>
 						</select>
 					</td>
-					<td><button class="del-btn">삭제</button></td>
+					<td><button class="del-btn btn btn-warning">삭제</button></td>
 				</tr>
 				`;
 				n++;
@@ -226,7 +226,7 @@
 				<td>\${priceToString(Goods.total)}</td>
 			</tr>
 		`;
-		$(".total-sale").html(str);
+		$(".total-sale > tbody").html(str);
 	}
 	displaySeleView();
 	</script>

@@ -9,7 +9,6 @@ ul{padding: 0;}
 	display: flex;
 	justify-content: space-around;
 	align-items: flex-start;
-	margin-bottom: 20px;
 	background-color: #f0f0f0;
 	padding-bottom: 30px;
 }
@@ -147,6 +146,7 @@ ul{padding: 0;}
   cursor: pointer;
 }
 
+.row{padding: 30px 0; border-bottom: 1px solid #000; border-top:1px solid #000; width: 100%; margin-left: 0px;}
 .community-box{ width: 50%;  max-height:500px;}
 
 .book-tap {
@@ -209,9 +209,11 @@ a:hover{text-decoration: none; color: #000;}
 .nav-list:nth-of-type(1) {left: 0;}
 .nav-list:nth-of-type(2) {left: 20%;}
 .nav-list:nth-of-type(3) {left: 40%;}
+.nav-list:nth-of-type(4) {left: 60%;}
 .nav-list li:nth-of-type(1){top: 0;}
 .nav-list li:nth-of-type(2){top: 60px;}
 .nav-list li:nth-of-type(3){top: 120px;}
+.nav-list li:nth-of-type(4){top: 180px;}
 </style>
 <body>
 	<div class="container">
@@ -252,6 +254,21 @@ a:hover{text-decoration: none; color: #000;}
 						</div>
 					</li>
 				</ul>
+				<c:if test="${user.me_mr_num<1}">
+					<ul class="nav-list">
+						<li class="nav-item">관리자</li>
+						<li class="nav-option">
+							<div>
+								<ul>							
+									<li><a href="<c:url value="/library/management/manager"/>">도서 관리</a></li>
+									<li><a href="<c:url value="/library/management/bookCategory"/>">도서 카테고리 관리</a></li>
+									<li><a href="<c:url value="/library/management/order"/>">주문 관리</a></li>
+									<li><a href="<c:url value="/library/management/loan"/>">대출 관리</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</c:if>
 			</div>
 			<div class="main-box">
 				<div id="demo" class="carousel slide banner-box"
@@ -393,7 +410,7 @@ a:hover{text-decoration: none; color: #000;}
 		</table>
 			  </div>
 			</div>
-				<div class="row justify-content-center mt-5">
+				<div class="row justify-content-center">
 					<div class="community-box">
 						<table class="table table-hover table-bordered">
 							<thead>
@@ -460,7 +477,7 @@ a:hover{text-decoration: none; color: #000;}
 					</div>
 				</div>
 			</div>
-			<div class="main-book mt-5">
+			<div class="main-book mt-4">
 			    <div class="book-tap">
 			        <button class="new-btn active-btn">새로 들어온 책<span class="badge bg-success">New</span></button>
 			        <button class="loan-btn">대출이 많은 책<span class="badge bg-danger">Hot</span></button>

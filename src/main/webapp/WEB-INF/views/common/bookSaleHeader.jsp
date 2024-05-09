@@ -60,17 +60,6 @@ height: 30px;}
 				<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
 			</li>
 		</c:if>
-		<li class="nav-item dropdown">
-	      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-	        관리자 기능용
-	      </a>
-	      <div class="dropdown-menu">
-	        <a class="dropdown-item" href="<c:url value="/library/management/manager"/>">도서 관리</a>
-	        <a class="dropdown-item" href="<c:url value="/library/management/bookCategory"/>">도서 카테고리 관리</a>
-	        <a class="dropdown-item" href="<c:url value="/library/management/order"/>">관리자 주문관리</a>
-	        <a class="dropdown-item" href="<c:url value="/library/management/loan"/>">대출 관리</a>
-	      </div>
-    	</li>
     	<li class="nav-item basket">
 			<a class="nav-link" href="<c:url value="/library/book/sale"/>">장바구니</a>
 		</li>
@@ -150,7 +139,7 @@ height: 30px;}
 	}
 	displayBasketView();
 	
-	$(document).on("click",".close",function(){
+	$(document).on("click",".btn-close",function(){
 		let index=$(this).data("index");
 		basket.splice(index,1);
 		displayBasketView();
