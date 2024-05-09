@@ -84,7 +84,7 @@
 		<tbody>
 			<c:forEach items="${gradeList}" var="grade" begin="1" end="5" varStatus="status">
 				<tr class="grade-list">
-					<td>
+					<td class="col-1">
 					<c:choose>
 						<c:when test="${status.index == 1}">
 							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABJElEQVR4nO2ZTWoCQRCF+xiWie4kS4/hBXISYQpc6wVcZu/KDFnmDlkY6BZEELfqRvwBEUSs0IREAs6iW5juJu+DWs97U696hi6lAAAgWqrtcY3Y5MR6T2yk3NL7Cuu3aqafvMVXWK/LF27+lNXwwPrR2cD3mw8rnq419DAQIjamKE47nw5ITKVggNEBQYRcCB0ZimGIm92J9N6Xstie0jLQ6s/kdbSR0/kiPyRjYLo6yi2SMVBEMgY2h7MMPtby/DJP00C9M77ZjWQMUEGcYMAVdIARIcEQE06hKzhGXcExyvd/ySn0rwQMMDpggkeH/vEM6HgudzOzdTZglwvBhfNv5c4G7GYkmgVH9tlQPtjNiF0u2Pv58sVr+8zcWzwAAKgy+ALGkks5M3xO2gAAAABJRU5ErkJggg==">
@@ -108,13 +108,13 @@
 						<input type="text" readonly value="${grade.gr_name }" style="width: 170px" maxlength="10" class="name edit-input">
 					</td>
 					<td class="col-2 grade-item">
-						<input type="text" readonly value="${grade.gr_discount }" style="width: 50px" maxlength="5" class="discount edit-input">%
+						<input type="text" readonly value="${grade.gr_discount }" style="width: 50px; text-align: right;" maxlength="5" class="discount edit-input">%
 					</td>
 					<td class="col-2 grade-item">
-						<input type="text" readonly value="${grade.gr_loan_condition }" style="width: 50px" maxlength="5" class="loan edit-input">개
+						<input type="text" readonly value="${grade.gr_loan_condition }" style="width: 50px; text-align: right;" maxlength="5" class="loan edit-input">개
 					</td>
 					<td class="col-2 grade-item">
-						<input type="text" readonly value="${grade.gr_post_condition }" style="width: 50px" maxlength="5" class="post edit-input">개
+						<input type="text" readonly value="${grade.gr_post_condition }" style="width: 50px; text-align: right;" maxlength="5" class="post edit-input">개
 					</td>
 					<td>
 						<button type="submit" class="btn btn-outline-warning btn-update">수정</button>
