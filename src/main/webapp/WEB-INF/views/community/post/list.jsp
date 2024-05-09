@@ -58,7 +58,7 @@
 	
 	<form action="<c:url value="/post/list"/>" method="get" class="input-group" id="searchForm">
 		<input name="ca" style="display: none;" value="${pm.cri.ca}">
-		<div class="input-group mb-1"  <c:if test='${pm.cri.type == "target"}'>hidden</c:if>>
+		<div class="input-group mb-1 w-75 ms-auto"  <c:if test='${pm.cri.type == "target"}'>hidden</c:if>>
 			<select name="type" class="input-group-prepend" >
 				<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
 				<option value="text" <c:if test='${pm.cri.type == "text"}'>selected</c:if>>제목+내용</option>
@@ -72,7 +72,7 @@
 			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
 			<button type="submit" class="input-group-append btn btn-success search-btn"><i class="fa-solid fa-magnifying-glass mr-1 mt-1"  style="--fa-animation-duration: 1.5s;"></i>검색</button>
 		</div>
-	 	<select class="form-control col-4 offset-8 mt-1 mb-2" name="order">
+	 	<select class="col-sm-4 ms-auto mt-1 mb-2" name="order">
 	 		<option value="new" <c:if test='${pm.cri.order == "new"}'>selected</c:if>>최신순</option>
 	 		<option value="view" <c:if test='${pm.cri.order == "view"}'>selected</c:if>>조회수순</option>
 	 		<option value="heart" <c:if test='${pm.cri.order == "heart"}'>selected</c:if>>좋아요순</option>
@@ -83,7 +83,7 @@
 		<thead>
 			<tr>
 				<th class="col-1">번호</th>
-				<th class="col-1">게시판</th>
+				<th class="col-2">게시판</th>
 				<th>제목</th>
 				<th class="col-2">작성자</th>
 				<th class="col-1.5">작성일</th>
@@ -99,6 +99,7 @@
 				  		<td>${post.ca_name}</td>
 				  		<td class="hovertext1-box title-box" data-hover="${post.po_title}"> 
 				  			<c:url value="/post/detail" var="detailUrl">
+				  				<c:param name="ca">${pm.cri.ca}</c:param>
 				  				<c:param name="num">${post.po_num}</c:param>
 				  			</c:url>
 				  			
@@ -136,7 +137,7 @@
 										<img width="25"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABf0lEQVR4nO2ZsUoDQRCG90G00V1S+Qhq7QPIbVDsTKGWWtjamT7BZ5Bw4COIRTq1SOUjCCEmahR27kZG1BVMPHbBvV2cH4ZLFeab+Wfv2BGCxWKxolW2jIuZgp6WZqIVYNCQZpJJyDcb2PBOXkszDJ64+gEy3JK44A5Ala87efUV584AtdhGzY5MmbE7QASJ62/BAJo7AGwhJ/3bIT47LrBKUQPknTJtgKuLxAHuri3AyXaR3gyM7m2lD9YhLYCdFcDyowH0fBwhvk4RB/0S260ifoDDDfjV+3m3jBugc1R9hPp2QoQAmBV7q4A3l3awyU5JAWgFuL9mrTV9ivwY1XMiiffAy7NNkqyTXAcGfet18j0lTnGbygy0W9Wn0Olu5KdQ3p3/LUQfer7/K0IBfHaCrEIzQUG/fSuv6wD4ixAMoLgDyBZyUfpDLOO53NXKPDgD0HKh/sThPeiq3xmANiOxLDiaS6iEj2gzQssFup8PX3Uzpsp7J89isVgihN4AZZD+JaDC0u8AAAAASUVORK5CYII=">
 									</c:if>
 								</c:if>
-								<a type="button" class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer; color: black; text-decoration: none;">
+								<a type="button" class="dropdown-toggle" data-bs-toggle="dropdown" style="cursor: pointer; color: black; text-decoration: none;">
 							    	${post.me_nick}
 								</a>
 								<div class="dropdown-menu">
@@ -146,7 +147,7 @@
 									</c:url>
 									<a class="dropdown-item" href="${targetUrl}">작성글</a>
 									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num == 2 && post.me_mr_num == 2}">
-										<a href="#" class="dropdown-item btn-report" data-toggle="modal" data-target="#reportingModal" class="reportingModal" data-writer="${post.me_nick}" data-what="po" data-num="${post.po_num}">게시글 신고</a>
+										<a href="#" class="dropdown-item btn-report" data-bs-toggle="modal" data-bs-target="#reportingModal" class="reportingModal" data-writer="${post.me_nick}" data-what="po" data-num="${post.po_num}">게시글 신고</a>
 									</c:if>
 									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num <= 1 && post.me_mr_num == 2}">
 										<c:url value="/popup/member/punish" var="popupURL">
@@ -236,7 +237,7 @@
 				<!-- Modal Header -->
 				<div class="modal-header">
 					<h4 class="modal-title">신고</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
 				
 				<!-- Modal body -->
