@@ -84,7 +84,7 @@
 		<tbody>
 			<c:forEach items="${gradeList}" var="grade" begin="1" end="5" varStatus="status">
 				<tr class="grade-list">
-					<td>
+					<td class="col-1">
 					<c:choose>
 						<c:when test="${status.index == 1}">
 							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABJElEQVR4nO2ZTWoCQRCF+xiWie4kS4/hBXISYQpc6wVcZu/KDFnmDlkY6BZEELfqRvwBEUSs0IREAs6iW5juJu+DWs97U696hi6lAAAgWqrtcY3Y5MR6T2yk3NL7Cuu3aqafvMVXWK/LF27+lNXwwPrR2cD3mw8rnq419DAQIjamKE47nw5ITKVggNEBQYRcCB0ZimGIm92J9N6Xstie0jLQ6s/kdbSR0/kiPyRjYLo6yi2SMVBEMgY2h7MMPtby/DJP00C9M77ZjWQMUEGcYMAVdIARIcEQE06hKzhGXcExyvd/ySn0rwQMMDpggkeH/vEM6HgudzOzdTZglwvBhfNv5c4G7GYkmgVH9tlQPtjNiF0u2Pv58sVr+8zcWzwAAKgy+ALGkks5M3xO2gAAAABJRU5ErkJggg==">
@@ -108,13 +108,13 @@
 						<input type="text" readonly value="${grade.gr_name }" style="width: 170px" maxlength="10" class="name edit-input">
 					</td>
 					<td class="col-2 grade-item">
-						<input type="text" readonly value="${grade.gr_discount }" style="width: 50px" maxlength="5" class="discount edit-input">%
+						<input type="text" readonly value="${grade.gr_discount }" style="width: 50px; text-align: right;" maxlength="5" class="discount edit-input">%
 					</td>
 					<td class="col-2 grade-item">
-						<input type="text" readonly value="${grade.gr_loan_condition }" style="width: 50px" maxlength="5" class="loan edit-input">개
+						<input type="text" readonly value="${grade.gr_loan_condition }" style="width: 50px; text-align: right;" maxlength="5" class="loan edit-input">개
 					</td>
 					<td class="col-2 grade-item">
-						<input type="text" readonly value="${grade.gr_post_condition }" style="width: 50px" maxlength="5" class="post edit-input">개
+						<input type="text" readonly value="${grade.gr_post_condition }" style="width: 50px; text-align: right;" maxlength="5" class="post edit-input">개
 					</td>
 					<td>
 						<button type="submit" class="btn btn-outline-warning btn-update">수정</button>
@@ -129,9 +129,7 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="gradeAddModalLabel">등급 추가</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	      </div>
 	      <div class="modal-body">
 	        <form id="gradeAddForm">
@@ -154,7 +152,7 @@
 	        </form>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 	        <button type="button" class="btn btn-primary grade-insert">추가하기</button>
 	      </div>
 	    </div>
@@ -192,7 +190,7 @@ $(document).on("click", ".btn-complete", function () {
         parseFloat(currentRow.prev('tr').find('.discount').val()),
         parseFloat(currentRow.next('tr').find('.discount').val())
     );
-
+    updateInputStyle(currentDiscountInput, discountValid);
     // 대출 조건
     var currentLoanConditionInput = currentRow.find('.loan');
 	var currentLoanCondition = parseFloat(currentLoanConditionInput.val());
@@ -202,7 +200,7 @@ $(document).on("click", ".btn-complete", function () {
         parseFloat(currentRow.prev('tr').find('.loan').val()),
         parseFloat(currentRow.next('tr').find('.loan').val())
     );
-
+    updateInputStyle(currentLoanConditionInput, loanValid);
     // 게시글 조건
     var currentPostConditionInput = currentRow.find('.post');
     var currentPostCondition = parseFloat(currentPostConditionInput.val());
@@ -212,7 +210,7 @@ $(document).on("click", ".btn-complete", function () {
         parseFloat(currentRow.prev('tr').find('.post').val()),
         parseFloat(currentRow.next('tr').find('.post').val())
     );
-
+    updateInputStyle(currentPostConditionInput, postValid);
     // 유효성 검사
     if (!discountValid || !loanValid || !postValid) {
         alert("[" + currentRow.find('.name').val() + "] 등급 조건은 이전 값보다 커야 하고 다음 값보다 작아야 합니다.");
@@ -255,6 +253,14 @@ function isConditionValid(currentVal, prevVal, nextVal) {
     if (isNaN(nextVal)) { nextVal = Infinity; }
 
     return !(currentVal <= prevVal || currentVal >= nextVal);
+}
+
+function updateInputStyle(inputElement, isValid) {
+    if (!isValid) {
+        inputElement.css('background-color', '#ec5353');
+    } else {
+        inputElement.css('background-color', '');
+    }
 }
 </script>
 <!-- 등급 추가 -->
