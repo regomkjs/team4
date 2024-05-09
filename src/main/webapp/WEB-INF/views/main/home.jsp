@@ -114,7 +114,7 @@ ul{padding: 0;}
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 10;
   left: 0;
   top: 0;
   width: 100%;
@@ -171,7 +171,7 @@ a{text-decoration: none; color: #000;}
 a:hover{text-decoration: none; color: #000;}
 
 .nav-box {height: 60px; background-color: #f0f0f0;}
-.nav-box ul,li{padding: 0; margin: 0; text-align: center;}
+.nav-box ul li{padding: 0; margin: 0; text-align: center;}
 .nav-list{width: 20%; position: relative;}
 .nav-item{display: block;}
 .nav-list li{ background-color: #fff; z-index:5; position:absolute;
@@ -297,8 +297,8 @@ a:hover{text-decoration: none; color: #000;}
 				</c:if>
 				<c:if test="${user != null}">
 					<div class="profile-box text-center">
-						<ul style="text-align: center;">
-							<li>[회원 정보]</li>
+						<p>[회원 정보]</p>
+						<ul style="text-align: left;">
 							<li>닉네임 : ${user.me_nick}</li>
 							<li>가입일 : ${user.me_date}</li>
 							<hr>
@@ -533,15 +533,15 @@ let link = document.getElementById("gradeInfoLink");
 
 let span = document.getElementsByClassName("close")[0];
 
-link.onClick = function() {
+link.onclick = function() {
   modal.style.display = "block";
 }
 
-span.onClick = function() {
+span.onclick = function() {
   modal.style.display = "none";
 }
 
-window.onClick = function(event) {
+window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
