@@ -154,7 +154,7 @@
 								</div>
 							</c:if>
 							<c:if test="${vote.vo_state == 0}">
-								<div class="vote-box mb-3 container" data-num="${vote.vo_num}" data-date="${vote.vo_date}" style="border: 1px solid #aaaaaa; border-radius: 5px;">
+								<div class="vote-box mb-3" data-num="${vote.vo_num}" data-date="${vote.vo_date}" style="margin: 0 auto; height: 100%; width: 30%; min-width: 300px"">
 									<c:if test="${vote.vo_dup}">
 										<div class="d-flex mt-1" >
 											<label class="ml-auto" style="font-size: small; color: gray;">다중선택 허용</label>
@@ -200,7 +200,7 @@
 		</div>
 		<div class="mb-3 mt-3 d-flex justify-content-between">
 			<div class="d-flex">
-				<i class="bi-heart btn-heart mr-2" style="font-size:1.7rem; color: red; cursor: pointer;"></i>
+				<i class="bi-heart btn-heart me-2" style="font-size:1.7rem; color: red; cursor: pointer;"></i>
 				<div style="font: bolder; font-size: x-large;" class="text-heart">${post.po_totalHeart}</div> 
 			</div>
 			
@@ -525,7 +525,7 @@ function getCommentList(cri, today) {
 					if(comment.co_me_id != '${user.me_id}' && comment.me_mr_num == 2 && '${user.me_mr_num}' == 2){
 						str +=
 						`
-							<a href="#" class="badge badge-danger btn-report" data-bs-toggle="modal" data-bs-target="#reportingModal" class="reportingModal" data-writer="\${comment.me_nick}" data-what="co" data-num="\${comment.co_num}"><i class="fa-solid fa-handcuffs" style="color: #fffff;"></i></a>						
+							<a href="#" style="height: 20px; margin-top: 5px; margin-left: 20px" class="badge bg-danger btn-report" data-bs-toggle="modal" data-bs-target="#reportingModal" class="reportingModal" data-writer="\${comment.me_nick}" data-what="co" data-num="\${comment.co_num}"><i class="fa-solid fa-handcuffs" style="color: #fffff;"></i></a>						
 						`
 					}
 					str +=
