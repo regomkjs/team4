@@ -5,6 +5,11 @@
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <style>
 *{margin: 0; padding: 0;}
+.table{text-align: center;}
+.table thead th{color:#a5a5a5;}
+.table thead th:nth-of-type(1){width: 40px;}
+.table tbody tr{vertical-align: middle;}
+.total-sale{line-height: 30px; vertical-align: baseline; text-align: center;}
 </style>
 <body>
 	<div class="container mt-5">

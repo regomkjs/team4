@@ -3,13 +3,13 @@
     pageEncoding="UTF-8"%>
 <style>
 .book-list thead{background-color: #ddd;}
-.book-list thead  th:nth-child(1){width: 100px;}
-.book-list thead  th:nth-child(2){width: 250px;}
-.book-list thead  th:nth-child(3){width: 150px;}
-.book-list thead  th:nth-child(4){width: 100px;}
-.book-list thead  th:nth-child(5){width: 150px;}
-.book-list thead  th:nth-child(6){width: 100px;}
-.book-list thead  th:nth-child(7){width: 100px;}
+.book-list thead  th:nth-child(1){width: 10%;}
+.book-list thead  th:nth-child(2){width: 20%;}
+.book-list thead  th:nth-child(3){width: 20%;}
+.book-list thead  th:nth-child(4){width: 10%;}
+.book-list thead  th:nth-child(5){width: 10%;}
+.book-list thead  th:nth-child(6){width: 10%;}
+.book-list thead  th:nth-child(7){width: 10%;}
 .book-list img{height: 100px; max-width: 100px}
 table{text-align: center;}
 .book-list tbody td{  display: table-cell;

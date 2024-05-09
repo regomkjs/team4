@@ -130,7 +130,7 @@
 					str+=`</select>`;
 					$('tr[data-uid='+merchant_uid+']>.event-box').html(str);
 					str=`
-						<button type="button" class="complate-btn">수정완료</button>
+						<button type="button" class="complate-btn btn btn-success">수정완료</button>
 					`;
 					$('tr[data-uid='+merchant_uid+']>td:last').html(str);
 				}, 

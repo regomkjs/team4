@@ -10,7 +10,7 @@ ul{padding: 0;}
 	justify-content: space-around;
 	align-items: flex-start;
 	margin-bottom: 20px;
-	background-color: #e5fdff;
+	background-color: #f0f0f0;
 	padding-bottom: 30px;
 }
 
@@ -153,15 +153,18 @@ ul{padding: 0;}
     display: flex;
 }
 
+.book-tap span{margin-left: 5px;}
+
 .book-list {
     display: flex;
     flex-wrap: wrap;
     padding: 30px 0; border-bottom: 1px solid #000;  border-top: 1px solid #000;
+    
 }
 
 .book-item {
    	width:15%; margin: 0 2.5%;
-    text-align: center;}
+    text-align: center; background-color: #f0f0f0;}
 .book-item ul{margin: 0; padding: 0;}
 .book-item ul li{text-overflow: ellipsis; overflow: hidden;  white-space: nowrap; width: 100%; margin: 5px 0;}
 .book-item img{ width:100%; height: 270px;}
@@ -170,13 +173,13 @@ ul{padding: 0;}
 a{text-decoration: none; color: #000;}
 a:hover{text-decoration: none; color: #000;}
 
-.nav-box {height: 60px; background-color: #f0f0f0;}
+.nav-box {height: 60px; background-color: #212529;}
 .nav-box ul,li{padding: 0; margin: 0; text-align: center;}
 .nav-list{width: 20%; position: relative;}
-.nav-item{display: block;}
+.nav-box .nav-item{display: block;  border-right: 1px solid #a5a5a5;}
 .nav-list li{ background-color: #fff; z-index:5; position:absolute;
- line-height: 60px; width: 100%; background-color: #f0f0f0;}
-
+ line-height: 60px; width: 100%; background-color: #212529; color:#a5a5a5;}
+.nav-list li a{color:#a5a5a5;}
 .nav-option div ul li{ padding: 0 1px; display: none;}
 .nav-list:hover .nav-option div ul li{display: block;}
 
@@ -186,7 +189,7 @@ a:hover{text-decoration: none; color: #000;}
   left: 20%;
   width: 60%;
   height: 3px;
-  background: rgba(0, 0, 0, 1);
+  background-color:#fafafa ;
   content: '';
   opacity: 0;
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
@@ -203,8 +206,6 @@ a:hover{text-decoration: none; color: #000;}
   transform: translateY(-10px);
 }
 
-
-
 .nav-list:nth-of-type(1) {left: 0;}
 .nav-list:nth-of-type(2) {left: 20%;}
 .nav-list:nth-of-type(3) {left: 40%;}
@@ -220,7 +221,7 @@ a:hover{text-decoration: none; color: #000;}
 		<div class="main mt-5">
 			<div class="nav-box">
 				<ul class="nav-list">
-					<li>도서관</li>
+					<li class="nav-item">도서관</li>
 					<li class="nav-option">
 						<div>
 							<ul>							

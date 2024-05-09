@@ -14,6 +14,9 @@ height: 30px;}
 	display: block;
 }
 .center{text-align: center; margin-top: 30px;}
+.basket-box ul{padding: 0;}
+
+.btn-close{padding: 0;}
 </style>
 <nav  class="navbar navbar-expand-sm bg-dark navbar-dark">
 	<!-- Brand/logo -->
@@ -136,7 +139,7 @@ height: 30px;}
 					str+=`
 						<li class="cf"><div class="bbn left">\${baskets.title}</div> 
 						<div class="bbc right">
-							<button type="button" data-index="\${i}" class="close">&times;</button>
+							<button type="button" data-index="\${i}" class="btn-close"></button>
 						</div></li>
 					`;
 					i++;
