@@ -1669,7 +1669,7 @@ function getEverything() {
 							<li>내가 쓴 게시글 : ${user.me_post_count}개</li>
 							<li>내가 대출한 책 : ${user.me_loan_count}권</li>
 						</ul>
-						<a href="<c:url value="logout"/>" class="btn btn-outline-success btn-sm col-8 mb-3">로그아웃</a>
+						<a href='<c:url value="/logout"/>' class="btn btn-outline-success btn-sm col-8 mb-3">로그아웃</a>
 					</div>
 					
 					

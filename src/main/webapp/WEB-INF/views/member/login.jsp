@@ -110,7 +110,10 @@ $(document).on("click","#naverIdLogin_loginButton", naverIdLogin())
 
 
 function naverIdLogin() {
-	
+	if(document.referrer){
+		//이전 페이지 정보 저장
+		sessionStorage.setItem("prevUrl", document.referrer)
+	}
 	naverLogin.getLoginStatus(function (status) {
 		
 		if (status) {
@@ -127,7 +130,7 @@ function naverIdLogin() {
 				naverLogin.reprompt();
 				return;
 			}
-            
+            //회원가입
             if(!checkMember(sns, id)){
 		    	if(confirm("회원이 아닙니다. 가입하시겠습니까?")){
 		    		signupSns(sns, id, email, phone_number ,nick);
@@ -135,9 +138,11 @@ function naverIdLogin() {
 		    		return;
 		    	}
 		    }
-			
+			// 로그인
 			snsLogin(sns, id);
-			location.href = '<c:url value="/"/>';
+			//이전 페이지로
+			location.href = sessionStorage.getItem("prevUrl");
+			
 		} else {
 			console.log("callback 처리에 실패하였습니다.");
 		}
@@ -186,9 +191,19 @@ function getInfo() {
 		    		return;
 		    	}
 		    }
+		    // 로그인
 			snsLogin(sns, id);
-			location.href = '<c:url value="/"/>';
-			
+			// 뒤로갈 히스토리가 있으면,
+			if ( document.referrer ) { 
+				// 뒤로가기 + 새로고침
+				location.href = document.referrer;
+			}
+
+			// 히스토리가 없으면,
+			else { 
+				// 메인 페이지로
+				location.href = '<c:url value="/"/>';
+			}
 	  	},
 	  	fail: function (error) {
 	  		alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
