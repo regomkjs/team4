@@ -43,7 +43,7 @@
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
  				po_content like concat("%",#{cri.search},"%") or
- 				po_me_id like concat("%",#{cri.search},"%"))
+ 				member.me_nick like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
  				member.me_nick like concat("%",#{cri.search},"%")
@@ -51,6 +51,9 @@
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
  				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "target"'>
+ 				member.me_nick like #{cri.search}
  			</if>
  			<if test="cri.ca != 0">
  			 	and po_ca_num = #{cri.ca}
@@ -82,7 +85,7 @@
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
  				po_content like concat("%",#{cri.search},"%") or
- 				po_me_id like concat("%",#{cri.search},"%"))
+ 				member.me_nick like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
  				member.me_nick like concat("%",#{cri.search},"%")
@@ -90,6 +93,9 @@
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
  				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "target"'>
+ 				member.me_nick like #{cri.search}
  			</if>
  			<if test="cri.ca != 0">
  			 	and po_ca_num = #{cri.ca}
@@ -248,14 +254,17 @@
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
  				po_content like concat("%",#{cri.search},"%") or 				
- 				po_me_id like concat("%",#{cri.search},"%"))
+ 				member.me_nick like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
- 				po_me_id like concat("%",#{cri.search},"%")
+ 				member.me_nick like concat("%",#{cri.search},"%")
  			</if>
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
  				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "target"'>
+ 				member.me_nick like #{cri.search}
  			</if>
  			<if test="cri.ca != 0">
  			 	and po_ca_num = #{cri.ca}
@@ -275,15 +284,18 @@
 		where 
 			<if test='cri.type == "all"'>
  				(po_title like concat("%",#{cri.search},"%") or
- 				po_content like concat("%",#{cri.search},"%") or
- 				po_me_id like concat("%",#{cri.search},"%"))
+ 				po_content like concat("%",#{cri.search},"%") or 				
+ 				member.me_nick like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
- 				po_me_id like concat("%",#{cri.search},"%")
+ 				member.me_nick like concat("%",#{cri.search},"%")
  			</if>
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
  				po_title like concat("%",#{cri.search},"%"))
+ 			</if>
+ 			<if test='cri.type == "target"'>
+ 				member.me_nick like #{cri.search}
  			</if>
  			<if test="cri.ca != 0">
  			 	po_ca_num = #{cri.ca}
@@ -558,14 +570,49 @@
  	</select>
  	
  	<select id="selectHotList" resultType="PostVO">
- 		select *,(select
+ 		select 
+ 			post.*, category.*, member.me_nick, member.me_mr_num, member.me_gr_num,
+				(select 
+					count(*) 
+				from 
+					comment 
+				where 
+					comment.co_po_num = post.po_num and 
+					comment.co_state = 1) 
+			as po_co_count,
+	 			(select
 	 				count(*)
 				from
 					heart
 				where 
 					heart.he_po_num = post.po_num) 
-			as po_totalHeart from post group by po_num
-		having po_totalHeart > 1
+			as po_totalHeart,
+				(select
+					count(*)
+				from
+					vote
+				where
+					vote.vo_po_num = post.po_num and vote.vo_state = 1)
+			as po_votePost
+		from 
+			post
+				join
+			member on po_me_id = me_id
+				join 
+			category on po_ca_num = ca_num
+				
+		where
+			(case 
+				when datediff(now(), po_datetime) &lt;= 1 then 1
+				when datediff(now(), po_datetime) &lt;= 3 then 2
+				when datediff(now(), po_datetime) &lt;= 7 then 3
+				when datediff(now(), po_datetime) &lt;= 15 then 4
+				when datediff(now(), po_datetime) &lt;= 30 then 5 end) &lt;= (select
+	 				count(*)
+				from
+					heart
+				where 
+					heart.he_po_num = post.po_num)
 		order by po_totalHeart desc
 		limit 5
  	</select>
@@ -610,17 +657,17 @@
 			(po_title like concat("%",#{cri.search},"%") or
 			po_content like concat("%",#{cri.search},"%")) and 
 			(case 
-				when datediff(now(), po_datetime) &lt; 1 then 1
-				when datediff(now(), po_datetime) &lt; 3 then 2
-				when datediff(now(), po_datetime) &lt; 7 then 3
-				when datediff(now(), po_datetime) &lt; 15 then 4
-				when datediff(now(), po_datetime) &lt; 30 then 5 end) &lt;= (select
+				when datediff(now(), po_datetime) &lt;= 1 then 1
+				when datediff(now(), po_datetime) &lt;= 3 then 2
+				when datediff(now(), po_datetime) &lt;= 7 then 3
+				when datediff(now(), po_datetime) &lt;= 15 then 4
+				when datediff(now(), po_datetime) &lt;= 30 then 5 end) &lt;= (select
 	 				count(*)
 				from
 					heart
 				where 
 					heart.he_po_num = post.po_num)
-			
+		order by po_view desc
  		limit #{cri.pageStart} , #{cri.perPageNum}
  	</select>
  	
@@ -638,11 +685,11 @@
 			(po_title like concat("%",#{cri.search},"%") or
 			po_content like concat("%",#{cri.search},"%")) and 
 			(case 
-				when datediff(now(), po_datetime) &lt; 1 then 1
-				when datediff(now(), po_datetime) &lt; 3 then 2
-				when datediff(now(), po_datetime) &lt; 7 then 3
-				when datediff(now(), po_datetime) &lt; 15 then 4
-				when datediff(now(), po_datetime) &lt; 30 then 5 end) &lt;= (select
+				when datediff(now(), po_datetime) &lt;= 1 then 1
+				when datediff(now(), po_datetime) &lt;= 3 then 2
+				when datediff(now(), po_datetime) &lt;= 7 then 3
+				when datediff(now(), po_datetime) &lt;= 15 then 4
+				when datediff(now(), po_datetime) &lt;= 30 then 5 end) &lt;= (select
 	 				count(*)
 				from
 					heart

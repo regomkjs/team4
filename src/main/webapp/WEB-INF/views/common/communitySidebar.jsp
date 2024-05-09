@@ -7,155 +7,153 @@
 <script src="https://kit.fontawesome.com/6830e64ec8.js"
 	crossorigin="anonymous"></script>
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	text-decoration: none;
-}
 
-.side-tab-navi {
-	display: flex;
-	width: 250px;
-	height: 30px;
-	border: 1px solid #aaa;
-	border-bottom: none;
-	box-sizing: border-box;
-	margin-bottom: 0;
-	padding-bottom: 0;
-}
-
-.side-tab-navi li {
-	width: 100%;
-	cursor: pointer;
-	border-right: 1px solid #aaa;
-	border-bottom: 3px solid rgb(250, 208, 203);
-	box-sizing: border-box;
-}
-
-.side-tab-navi li:last-child {
-	border-right: none;
-}
-
-.side-tab-navi li:hover {
-	background-color: #f3f3f3;
-}
-
-.side-tab-navi li.active {
-	background-color: #f5f5f5;
-	border-bottom: 3px solid salmon;
-	box-sizing: border-box;
-}
-
-.side-tab-contents {
-	width: 250px;
-	height: 200px;
-	border: 1px solid #aaa;
-	border-top: none;
-	box-sizing: border-box;
-	border-radius: 5px;
-}
-
-.side-tab-content {
-	display: none;
-	width: 100%;
-	height: 100%;
-	box-sizing: border-box;
-}
-
-.side-tab-content.active {
-	display: block;
-}
-
-.order-btn:hover {
-	cursor: pointer;
-}
-
-.hovertext-box {
-	position: relative;
-}
-
-.hovertext {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	width: 70px;
-	height: 20px;
-}
-
-.hovertext-box:before {
-	content: attr(data-hover);
-	visibility: hidden;
-	opacity: 0;
-	width: max-content;
-	background-color: black;
-	color: #fff;
-	text-align: center;
-	border-radius: 5px;
-	padding: 5px 5px;
-	transition: opacity 0.5s ease-in-out;
-	position: absolute;
-	z-index: 100;
-	left: 0;
-	top: 110%;
-}
-
-.hovertext-box:hover:before {
-	opacity: 1;
-	visibility: visible;
-}
-
-.pagination {
-	z-index: 1;
-}
-
-.side-category {
-	border: 1px solid #aaa;
-	box-sizing: border-box;
-	border-radius: 5px;
-	padding: 10px;
-	margin-bottom: 1px;
-}
-
-.side-category ul {
-	margin: 0;
-	text-decoration: none;
-	box-sizing: border-box;
-}
-
-.side-category ul:first-child {
-	border-bottom: 1px solid #ccc;
-}
-
-.side-category li {
-	line-height: 50px;
-	border-bottom: 1px solid #ccc;
-	box-sizing: border-box;
-}
-
-.side-category li:last-child {
-	border-bottom: none;
-}
-
-.side-category li:hover {
-	box-sizing: border-box;
-	padding: 0px;
-	background-color: #ddd;
-	cursor: pointer;
-}
-
-.dropdown-menu {
-	border: 2px solid #bbb;
-	box-sizing: border-box;
-}
-
-.profile-box {
-	padding: 5px
-}
-
-.cafe-info-box {
-	padding: 5px
-}
+	* {
+	  margin: 0;
+	  padding: 0;
+	  list-style: none;
+	  text-decoration: none;
+	}
+	
+	.side-tab-navi {
+	  display: flex;
+	  width: 250px;
+	  height: 30px;
+	  border: 1px solid #aaa;
+	  border-bottom: none;
+	  box-sizing: border-box;
+	  margin-bottom: 0;
+	  padding-bottom: 0;
+	 
+	}
+	
+	.side-tab-navi li {
+	  width: 100%;
+	  cursor: pointer;
+	  border-right: 1px solid #aaa;
+	  border-bottom: 3px solid rgb(250, 208, 203);
+	  box-sizing: border-box;
+	  
+	}
+	
+	.side-tab-navi li:last-child {
+	  border-right: none;
+	}
+	
+	.side-tab-navi li:hover {
+	  background-color: #f3f3f3;
+	}
+	
+	.side-tab-navi li.active {
+		background-color: #f5f5f5;
+		border-bottom: 3px solid salmon;
+		box-sizing: border-box;
+	}
+	
+	.side-tab-contents {
+	  width: 250px;
+	  height: 200px;
+	  border: 1px solid #aaa;
+	  border-top: none;
+	  box-sizing: border-box;
+	  border-radius: 5px;
+	}
+	
+	.side-tab-content {
+	  display: none;
+	  width: 100%;
+	  height: 100%;
+	  box-sizing: border-box;
+	}
+	
+	.side-tab-content.active {
+	  display: block;
+	}
+	
+	.order-btn:hover {
+		cursor: pointer;
+	}
+	.hovertext-box{
+		position: relative;
+	}
+	.hovertext {
+	    overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 70px;
+		height: 20px;
+	}
+	
+	.hovertext-box:before {
+	    content: attr(data-hover);
+	    visibility: hidden;
+	    opacity: 0;
+	    width: max-content;
+	    background-color: black;
+	    color: #fff;
+	    text-align: center;
+	    border-radius: 5px;
+	    padding: 5px 5px;
+	    transition: opacity 0.5s ease-in-out;
+	
+	    position: absolute;
+	    z-index: 100;
+	    left: 0;
+	    top: 110%;
+	}
+	
+	.hovertext-box:hover:before {
+	    opacity: 1;
+	    visibility: visible;
+	}
+	
+	.pagination{
+		 z-index: 1;
+	}
+	
+	.side-category{
+		border: 1px solid #aaa;
+		box-sizing: border-box;
+		border-radius: 5px;
+		padding: 10px;
+		margin-bottom: 1px;
+	}
+	.side-category ul{
+		margin: 0;
+		text-decoration: none;
+		box-sizing: border-box;
+	}
+	.side-category ul:first-child{
+		border-bottom: 1px solid #ccc;
+	}
+	
+	.side-category li{
+		line-height: 50px; 
+		border-bottom: 1px solid #ccc;
+		box-sizing: border-box;
+		
+	}
+	.side-category li:last-child{
+		border-bottom: none;
+	}
+	.side-category li:hover {
+		box-sizing: border-box; padding: 0px;
+		background-color:#ddd;
+		cursor: pointer;
+	}
+	.select-category{
+		font-weight: bolder;
+	}
+	.dropdown-menu{
+		border: 2px solid #bbb; box-sizing: border-box;
+	}
+	
+	.profile-box{
+		padding: 5px
+	}
+	.cafe-info-box{
+		padding: 5px
+	}
 </style>
 
 <div>
@@ -196,18 +194,14 @@
 	</div>
 	<c:if test="${user.me_mr_num < 2 }">
 		<div class="dropup mb-3" style="width: 100%; height: 35px">
-			<button type="button"
-				class="btn btn-outline-secondary dropdown-toggle"
-				data-toggle="dropdown" style="width: 100%;">관리자 메뉴</button>
+		    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" style="width: 100%;">
+		      관리자 메뉴
+		    </button>
 			<div class="dropdown-menu" style="width: 100%;">
-				<a style="width: 100%;" href="<c:url value="/grade/list"/>"
-					class="dropdown-item">등급 관리</a> <a style="width: 100%;" href="#"
-					data-toggle="modal" data-target="#adminModal"
-					class="adminModal dropdown-item">게시판 관리</a> <a style="width: 100%;"
-					href="#" data-toggle="modal" data-target="#reportModal"
-					class="reportModal dropdown-item">신고 관리</a> <a style="width: 100%;"
-					href="#" data-toggle="modal" data-target="#userModal"
-					class="userModal dropdown-item">회원 관리</a>
+				<a style="width: 100%;"  href="<c:url value="/grade/list"/>" class="dropdown-item">등급 관리</a>
+				<a style="width: 100%;" href="#" data-toggle="modal" data-target="#adminModal" class="adminModal dropdown-item">게시판 관리</a>
+				<a style="width: 100%;" href="#" data-toggle="modal" data-target="#reportModal" class="reportModal dropdown-item">신고 관리</a>
+				<a style="width: 100%;" href="#" data-toggle="modal" data-target="#userModal" class="userModal dropdown-item">회원 관리</a>
 			</div>
 		</div>
 	</c:if>
@@ -791,8 +785,8 @@ function getReportList(rp_cri) {
 }
 
 $(document).on("click", ".report-pagination .page-link", function () {
-	cri.page = $(this).data("page");
-	getReportList(cri);
+	rp_cri.page = $(this).data("page");
+	getReportList(rp_cri);
 })
 
 
@@ -819,7 +813,7 @@ $(document).on("change", ".check-report-all",function(){
 			}
 		}
 	}
-	getReportList(cri);
+	getReportList(rp_cri);
 })
 
 
@@ -842,11 +836,11 @@ $(document).on("change", ".check-report",function(){
 		if(count == checkedCount){
 			$(".check-report-all").prop("checked", true);
 		}
-		getReportList(cri);
+		getReportList(rp_cri);
 		return
 	}
 	$(".check-report-all").prop("checked", false);
-	getReportList(cri);
+	getReportList(rp_cri);
 })
 
 $(document).on("click",".reportDetailModal",function(){
@@ -973,8 +967,8 @@ $(document).on("click",".report-delete-btn",function(){
 			success : function (data) {
 				alert("신고내역 "+data.count+"개가 반려됐습니다.");
 				reportArr.splice(0);
-				cri.page = 1;
-				getReportList(cri);
+				rp_cri.page = 1;
+				getReportList(rp_cri);
 			},
 			error : function (a,b,c) {
 				console.error("에러 발생");
@@ -997,8 +991,8 @@ $(document).on("click",".complete-report-btn",function(){
 				if(data.result){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("해당 신고 내역이 반려처리 됐습니다.")
 				}
 				else{
@@ -1032,8 +1026,8 @@ $(document).on("click",".delete-post-btn",function(){
 				if(data.result1){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("신고된 게시글이 삭제됐습니다. [신고내역 처리완료]")
 				}
 				else{
@@ -1067,8 +1061,8 @@ $(document).on("click",".delete-comment-btn",function(){
 				if(data.result1){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("신고된 댓글이 삭제됐습니다. [신고내역 처리완료]")
 				}
 				else{
@@ -1129,8 +1123,8 @@ $(document).on("click",".writer-punish-btn",function(){
 				if(data.result){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("해당 신고건이 처리됐습니다.")
 				}
 				else{
@@ -1163,8 +1157,8 @@ $(document).on("click",".reporter-punish-btn",function(){
 				if(data.result){
 					$("#reportDetailModal").modal("hide");
 					reportArr.splice(0);
-					cri.page = 1;
-					getReportList(cri);
+					rp_cri.page = 1;
+					getReportList(rp_cri);
 					alert("해당 신고건이 처리됐습니다.")
 				}
 				else{
@@ -1546,9 +1540,11 @@ $(".side-tab-navi li").click(function () {
 
 <!-- 카페,회원정보, 게시판 리스트 스크립트 -->
 <script type="text/javascript">
+
 getEverything()
 //카페정보, 회원정보, 게시판 리스트 호출 
 function getEverything() {
+	
 	$.ajax({
 		url : '<c:url value="/community/sidebar/info"/>',
 		method : "post",
@@ -1666,18 +1662,24 @@ function getEverything() {
 			caStr += 
 			`
 				<ul>
-					<li class="category-item"><a class="category-link" href='<c:url value="/post/list"/>' style="text-decoration: none; color: black;">전체 게시글</a></li>
-					<li class="category-item"><a class="category-link" href='<c:url value="/post/popular"/>' style="text-decoration: none; color: black;">인기 게시글 <i class="fa-solid fa-fire" style="color: #ff3333;"></i></a></li>
+					<li class="category-item"><a class="category-link <c:if test='${pm.cri.ca == 0}'>select-category</c:if>" href='<c:url value="/post/list"/>' style="text-decoration: none; color: black;">전체 게시글</a></li>
+					<li class="category-item"><a class="category-link <c:if test='${pm.cri.ca == -1}'>select-category</c:if>" href='<c:url value="/post/popular?ca=-1"/>' style="text-decoration: none; color: black;">인기 게시글 <i class="fa-solid fa-fire" style="color: #ff3333;"></i></a></li>
 				</ul>
 				<div class="mt-4" style="font-size: small; color: gray"><i class="fa-solid fa-list"></i> 게시판</div>
 				<ul>
 			`
 			if(categoryList != null && categoryList.length != 0){
 				for(category of categoryList){
+					
+					let ca_num = category.ca_num;
+					let selected = '';
+					if(${pm.cri.ca} == ca_num){
+						selected = 'select-category'
+					}
 					caStr +=
 					`
 						<li class="category-item">
-							<a class="category-link" href='<c:url value="/post/list?ca=\${category.ca_num}" />' style="text-decoration: none; color: black;">
+							<a class="category-link \${selected}" href='<c:url value="/post/list?ca=\${category.ca_num}" />' style="text-decoration: none; color: black;">
 								\${category.ca_name}
 							</a>
 						</li>

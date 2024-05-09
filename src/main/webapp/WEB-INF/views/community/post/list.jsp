@@ -52,16 +52,22 @@
 <body>
 <div>
 	<h1>
-		게시글 목록
+		<c:if test='${pm.cri.type == "target"}'>${pm.cri.search} 작성글 목록</c:if>
+		<c:if test='${pm.cri.type != "target"}'>게시글 목록</c:if>
 	</h1>
 	
 	<form action="<c:url value="/post/list"/>" method="get" class="input-group" id="searchForm">
 		<input name="ca" style="display: none;" value="${pm.cri.ca}">
-		<div class="input-group mb-1">
+		<div class="input-group mb-1"  <c:if test='${pm.cri.type == "target"}'>hidden</c:if>>
 			<select name="type" class="input-group-prepend" >
 				<option value="all" <c:if test='${pm.cri.type == "all"}'>selected</c:if>>전체</option>
 				<option value="text" <c:if test='${pm.cri.type == "text"}'>selected</c:if>>제목+내용</option>
-				<option value="writer" <c:if test='${pm.cri.type == "writer"}'>selected</c:if>>작성자</option>
+				<c:if test='${pm.cri.type == "target"}'>
+					<option value="target" <c:if test='${pm.cri.type == "target"}'>selected</c:if>>작성자</option>
+				</c:if>
+				<c:if test='${pm.cri.type != "target"}'>
+					<option value="writer" <c:if test='${pm.cri.type == "writer"}'>selected</c:if>>작성자</option>
+				</c:if>
 			</select>
 			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
 			<button type="submit" class="input-group-append btn btn-success search-btn"><i class="fa-solid fa-magnifying-glass mr-1 mt-1"  style="--fa-animation-duration: 1.5s;"></i>검색</button>
@@ -134,8 +140,14 @@
 							    	${post.me_nick}
 								</a>
 								<div class="dropdown-menu">
-									<a class="dropdown-item" href="#">Link 1</a>
-									<a class="dropdown-item" href="#">Link 2</a>
+									<c:url value="/post/list" var="targetUrl">
+										<c:param name="type" value="target" />
+										<c:param name="search" value="${post.me_nick}" />
+									</c:url>
+									<a class="dropdown-item" href="${targetUrl}">작성글</a>
+									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num == 2 && post.me_mr_num == 2}">
+										<a href="#" class="dropdown-item btn-report" data-toggle="modal" data-target="#reportingModal" class="reportingModal" data-writer="${post.me_nick}" data-what="po" data-num="${post.po_num}">게시글 신고</a>
+									</c:if>
 									<c:if test="${user.me_id != post.po_me_id && user.me_mr_num <= 1 && post.me_mr_num == 2}">
 										<c:url value="/popup/member/punish" var="popupURL">
 											<c:param name="nick" value="${post.me_nick}"/>
@@ -215,6 +227,36 @@
 	</c:url>
 	<a class="btn btn-outline-primary" href="${insertUrl}">글 작성</a>
 	
+	
+	<!-- 신고 Modal -->
+	<div class="modal fade" id="reportingModal">
+		<div class="modal-dialog modal-lg modal-dialog-scrollable">
+			<div class="modal-content">
+	   
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">신고</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="report-container">
+						
+					</div>
+				
+				
+				</div>
+	
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-reporting" data-dismiss="modal">신고하기</button>
+				</div>
+	
+			</div>
+		</div>
+	</div>
+	
 </div>
 
 <script type="text/javascript">
@@ -249,6 +291,101 @@ $(document).on("click", ".title-box", function () {
 })
 </script>
 
+<!-- 신고 스크립트 -->
+<script type="text/javascript">
+$(document).on("click",".btn-report",function(){
+	if('${user.me_id}' == ''){
+		if(confirm("로그인이 필요한 서비스 입니다. 로그인으로 이동하시겠습니까?")){
+			location.href = "<c:url value='/login'/>"
+			return;
+		}
+		else{
+			return;
+		}
+	}
+	
+	
+	let who = $(this).data("writer");
+	let what = $(this).data("what");
+	let num = $(this).data("num");
+	let str ="";
+	str += 
+	`
+		<div>
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<label class="input-group-text ">닉네임</label>
+				</div>
+				<input type="text" class="report-nick input-group form-control" value="\${who}" readonly>
+			</div>
+			<input hidden type="text" value="\${what+'_'+num}" class="report-target">
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<label class="input-group-text ">신고 항목</label>
+				</div>
+				<select class="form-control report-type">
+					<option>부적절한 닉네임</option>
+					<option>욕설 사용</option>
+					<option>광고성 글 작성</option>
+					<option>게시판에 맞지 않는 글</option>
+				</select>
+			</div>
+			<label>신고 내용:</label>
+			<textarea class="form-control report-note mb-2" placeholder="신고 이유를 자세하게 적어주세요."></textarea>
+			
+		</div>
+	`
+	$(".report-container").html(str);
+	
+})
+
+$(document).on("click",".btn-reporting",function(){
+	if('${user.me_id}' == ''){
+		if(confirm("세션이 만료되었습니다. 로그인으로 이동하시겠습니까?")){
+			location.href = "<c:url value='/login'/>"
+			return;
+		}
+		else{
+			return;
+		}
+	}
+	
+	let writer = $(this).parents(".modal-content").find(".report-nick").val()
+	let target = $(this).parents(".modal-content").find(".report-target").val()
+	let type = $(this).parents(".modal-content").find(".report-type").val()
+	let note = $(this).parents(".modal-content").find(".report-note").val()
+	if(note == null){
+		note = "";
+	}
+	
+	console.log(writer);
+	console.log(target);
+	console.log(type);
+	console.log(note);
+	
+	$.ajax({
+		url : '<c:url value="/report/insert"/>',
+		method : "post",
+		data : {
+			"writer" : writer,
+			"target" : target,
+			"type" : type,
+			"note" : note
+		},
+		dataType : "json", 
+		success : function (data) {
+			let result = data.result;
+			let message = data.message;
+			alert(message);
+		},
+		error : function (a,b,c) {
+			console.error("에러 발생2");
+		}
+	});
+	
+})
+
+</script>
 
 </body>
 </html>
