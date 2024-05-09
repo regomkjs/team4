@@ -23,7 +23,10 @@
     margin-right: 20px;
 }
 
-.media{ position: relative;}
+.media{ position: relative;
+  display: flex;
+  align-items: flex-start;
+  }
 
 .text-group{ margin: 10px; padding: 10px;}
 

@@ -287,7 +287,7 @@ a:hover{text-decoration: none; color: #000;}
 				</div>
 				<c:if test="${user == null}">
 					<div class="login-box text-center">
-						<a href="<c:url value='/login'/>" style="top: 30px;"
+						<a href="<c:url value='/login'/>"
 							class="btn btn-outline-success login-btn col-8 mt-2">로그인</a>
 						<div style="width: 100%;" class="mt-5">
 							<a href="<c:url value="/find/id"/>" style="color: gray;">아이디찾기</a>
