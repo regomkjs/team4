@@ -117,4 +117,6 @@ public interface BookService {
 
 	int totalCountBookNum();
 
+	ArrayList<BookVO> getReBookList(Criteria cri);
+
 }

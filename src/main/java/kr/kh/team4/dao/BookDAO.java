@@ -147,4 +147,6 @@ public interface BookDAO {
 
 	void updateLoanBlock(@Param("user")MemberVO user, @Param("day")int blockDay);
 
+	ArrayList<BookVO> getReBookList(@Param("cri")Criteria cri);
+
 }

@@ -108,6 +108,19 @@ public class LibraryAjaxController {
 		return map;
 	}
 
+	@PostMapping("/management/manager/bookList")
+	public Map<String, Object> BookList(@RequestBody BookCriteria cri) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		cri.setPerPageNum(10);
+		System.out.println(cri);
+		ArrayList<BookVO> bookList = bookService.getReBookList(cri);
+		int totalCount = bookService.getTotalCount(cri);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		map.put("pm", pm);
+		map.put("bookList", bookList);
+		return map;
+	}
+	
 	@PostMapping("/management/manager/category")
 	public Map<String, Object> categoryType(int num) {
 		Map<String, Object> map = new HashMap<String, Object>();
