@@ -250,9 +250,13 @@ function snsLogin(sns, id){
 		url : `<c:url value="/sns"/>/\${sns}/login`, 
 		type : 'post', 
 		data : {id}, 
+		dataType : "json", 
 		success : function (data){
-			if(data){
+			if(data.result){
 				alert("로그인 되었습니다.");
+			}
+			else{
+				alert(data.message);
 			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown){

@@ -198,7 +198,9 @@
 		      관리자 메뉴
 		    </button>
 			<div class="dropdown-menu" style="width: 100%;">
-				<a style="width: 100%;"  href="<c:url value="/grade/list"/>" class="dropdown-item">등급 관리</a>
+				<c:if test="${user.me_mr_num == 0}">
+					<a style="width: 100%;"  href="<c:url value="/grade/list"/>" class="dropdown-item">등급 관리</a>
+				</c:if>
 				<a style="width: 100%;" href="#" data-bs-toggle="modal" data-bs-target="#adminModal" class="adminModal dropdown-item">게시판 관리</a>
 				<a style="width: 100%;" href="#" data-bs-toggle="modal" data-bs-target="#reportModal" class="reportModal dropdown-item">신고 관리</a>
 				<a style="width: 100%;" href="#" data-bs-toggle="modal" data-bs-target="#userModal" class="userModal dropdown-item">회원 관리</a>
@@ -291,7 +293,7 @@
 				<div class="container col-12">
 					<div class="d-flex">
 						<!-- Nav tabs -->
-						<ul class="nav flex-column nav-pills text-center" role="tablist">
+						<ul class="nav flex-column nav-pills text-center" role="tablist" style="padding: 0">
 							<li class="nav-item">
 								<a class="nav-link active member-tab" data-bs-toggle="tab" href="#all" data-type="all">회원</a>
 							</li>
