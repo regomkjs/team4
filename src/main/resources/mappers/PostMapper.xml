@@ -167,7 +167,7 @@
  	
  	<select id="selectCommentList" resultType="CommentVO">
  		select 
- 			comment.*, member.me_nick, member.me_mr_num
+ 			comment.*, member.me_nick, member.me_mr_num,member.me_gr_num
 		from 
 			comment 
 				join
@@ -654,8 +654,7 @@
 			category on po_ca_num = ca_num
 				
 		where
-			(po_title like concat("%",#{cri.search},"%") or
-			po_content like concat("%",#{cri.search},"%")) and 
+			po_title like concat("%",#{cri.search},"%") and 
 			(case 
 				when datediff(now(), po_datetime) &lt;= 1 then 1
 				when datediff(now(), po_datetime) &lt;= 3 then 2
@@ -682,8 +681,7 @@
 			category on po_ca_num = ca_num
 				
 		where
-			(po_title like concat("%",#{cri.search},"%") or
-			po_content like concat("%",#{cri.search},"%")) and 
+			po_title like concat("%",#{cri.search},"%") and 
 			(case 
 				when datediff(now(), po_datetime) &lt;= 1 then 1
 				when datediff(now(), po_datetime) &lt;= 3 then 2

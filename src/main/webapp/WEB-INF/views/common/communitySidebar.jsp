@@ -293,7 +293,7 @@
 				<div class="container col-12">
 					<div class="d-flex">
 						<!-- Nav tabs -->
-						<ul class="nav flex-column nav-pills text-center" role="tablist">
+						<ul class="nav flex-column nav-pills text-center" role="tablist" style="padding: 0">
 							<li class="nav-item">
 								<a class="nav-link active member-tab" data-bs-toggle="tab" href="#all" data-type="all">회원</a>
 							</li>

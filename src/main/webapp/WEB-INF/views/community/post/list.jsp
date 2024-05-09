@@ -80,7 +80,7 @@
 	</form>
 
 	<table class="table table-hover text-center">
-		<thead>
+		<thead class="table-secondary">
 			<tr>
 				<th class="col-1">번호</th>
 				<th class="col-2">게시판</th>
