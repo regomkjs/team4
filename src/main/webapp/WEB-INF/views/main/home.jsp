@@ -260,18 +260,16 @@ a:hover{text-decoration: none; color: #000;}
 					data-bs-ride="carousel">
 					<div class="carousel-inner">
 						<div class="carousel-item active">
-							<img
-								src="https://cdn.pixabay.com/photo/2023/08/21/03/34/droplets-8203505_640.jpg"
-								alt="1" class="d-block">
+							<img src="<c:url value="resources/img/오픈.jpg"/>" alt="1" class="d-block">
 						</div>
 						<div class="carousel-item">
 							<img
-								src="https://cdn.pixabay.com/photo/2024/03/14/08/52/pug-8632718_640.jpg"
+								src="<c:url value="resources/img/토론.jpg"/>"
 								alt="2" class="d-block">
 						</div>
 						<div class="carousel-item">
 							<img
-								src="https://cdn.pixabay.com/photo/2023/08/18/15/02/cat-8198720_640.jpg"
+								src="<c:url value="resources/img/이벤트.jpg"/>"
 								alt="3" class="d-block">
 						</div>
 					</div>
