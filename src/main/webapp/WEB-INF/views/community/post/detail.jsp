@@ -36,12 +36,13 @@
 		
 		<div class="mb-3 mt-3">
 			<div class="d-flex mb-1">
-				<div class="ml-auto">
+				<div class="ms-auto">
 					<c:if test="${user.me_id == post.po_me_id}">
 						<c:url value="/post/update" var="updateUrl">
+							<c:param name="ca">${pm.cri.ca}</c:param>
 							<c:param name="num"  value="${post.po_num}"/>
 						</c:url>
-						<a href="${updateUrl}" class="btn btn-sm btn-success mr-3">수정</a>
+						<a href="${updateUrl}" class="btn btn-sm btn-success me-2">수정</a>
 					</c:if>
 					<c:if test="${user.me_ms_num < 2 || user.me_id == post.po_me_id}">					
 						<c:url value="/post/delete" var="deleteUrl">

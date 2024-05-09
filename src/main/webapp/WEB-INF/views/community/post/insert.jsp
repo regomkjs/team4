@@ -32,7 +32,7 @@
 			</div>
 			<div id="vote-container"><div id="vote-flag"></div></div>
 			<div class="d-flex">
-				<button type="button" id="btn-vote" class="btn btn-dark ml-auto mr-2" style="margin-bottom: -20px">투표 추가</button>
+				<button type="button" id="btn-vote" class="btn btn-dark ms-auto me-2" style="margin-bottom: -20px">투표 추가</button>
 			</div>
 			<label >내용:</label> 
 			<textarea rows="10" name="po_content" id="summernote" class="form-control" required></textarea>
@@ -47,18 +47,10 @@
 <!-- 썸머노트 -->
 <script>
 $('#summernote').summernote({
-    tabsize: 2,
-    height: 200,
-    toolbar: [
-      ['style', ['style']],
-      ['font', ['bold', 'underline', 'clear']],
-      ['color', ['color']],
-      ['para', ['ul', 'ol', 'paragraph']],
-      ['table', ['table']],
-      ['insert', ['link', 'picture', 'video']],
-      ['view', ['fullscreen', 'codeview', 'help']]
-    ]
-});
+	  tabsize: 2,
+	  height: 400,
+	  lang: 'ko-KR', // default: 'en-US'
+	});
 </script>
 
 <!-- 게시글 임시저장 스크립트 -->
@@ -119,9 +111,9 @@ $(document).on("click",'#btn-vote',function () {
 		`
 			<div id="vote-box" class="mb-3 vote-box" data-count="\${count}">
 				<div class="d-flex ">
-					<label for="vo_dup" class="ml-auto" style="font-size: small;">다중선택 허용: </label>
-					<input id="vo_dup" name="vo_list[\${count}].vo_dup" type="checkbox" class="ml-2 mr-2">
-					<span class="badge bg-success mb-1 mr-4"><a href="javascript:void(0);" style="color: white; text-decoration: none;" id="btn-item" data-count="\${count}">항목추가</a></span>
+					<label for="vo_dup" class="ms-auto" style="font-size: small;">다중선택 허용: </label>
+					<input id="vo_dup" name="vo_list[\${count}].vo_dup" type="checkbox" class="ms-2 me-2">
+					<span class="badge bg-success mb-1 me-2"><a href="javascript:void(0);" style="color: white; text-decoration: none;" id="btn-item" data-count="\${count}"><i class="fa-solid fa-plus"></i></a></span>
 					<span class="badge bg-danger mb-1"><a href="javascript:void(0);" style="color: white; text-decoration: none;" id="btn-delete-vote" data-count="\${count}">X</a></span>
 				</div>	
 				<div class="container" style="border: 1px solid #aaaaaa; border-radius: 5px;">
