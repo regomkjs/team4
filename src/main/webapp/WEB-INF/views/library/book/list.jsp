@@ -117,7 +117,7 @@
 			console.log(cri);
 			$.ajax({
 				async : true,
-				url : '<c:url value="/management/manager/list"/>', 
+				url : '<c:url value="/management/manager/bookList"/>', 
 				type : 'post', 
 				data : JSON.stringify(cri),
 				contentType : "application/json; charset=utf-8",
@@ -139,6 +139,7 @@
 											</li>
 											<li>저자: \${book.bo_au_name}</li>
 											<li>출판사: \${book.bo_publisher}</li>
+											<li>평점 : <span style="color: #eb217c; font-size: 20px;">\${book.avgScore}</span></li>
 										</ul>
 									</div>
 							</div>

@@ -657,4 +657,12 @@ public class BookServiceImp implements BookService {
 		return bookDao.totalCountBookNum();
 	}
 
+	@Override
+	public ArrayList<BookVO> getReBookList(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		return bookDao.getReBookList(cri);
+	}
+
 }
