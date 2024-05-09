@@ -1,5 +1,8 @@
 package kr.kh.team4.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +37,27 @@ public class SnsController {
 	}
 	@ResponseBody
 	@PostMapping("/sns/{sns}/login")
-	public boolean snsLogin(@PathVariable("sns")String sns, @RequestParam("id")String id, HttpSession session) {
+	public Map<String, Object> snsLogin(@PathVariable("sns")String sns, @RequestParam("id")String id, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = memberService.loginSns(sns, id); 
-		session.setAttribute("user", user);
-		return user != null;
+		boolean res;
+		if(user == null) {
+			res = false;
+			String message = "회원 정보를 불러오는데 실패했습니다.";
+			map.put("message", message);
+		}
+		else {
+			if(user.getMe_ms_num() == 1) {
+				res = false;
+				String message = "[영구정지] 된 계정입니다.";
+				map.put("message", message);
+			}
+			else {
+				res = true;
+				session.setAttribute("user", user);
+			}
+		}
+		map.put("result", res);
+		return map;
 	}
 }
