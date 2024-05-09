@@ -238,7 +238,9 @@ a:hover{text-decoration: none; color: #000;}
 					<li class="nav-option">
 						<div>
 							<ul>							
-								<li>커뮤1</li>
+								<li><a href="<c:url value="/post/list"/>">전체 게시글</a></li>
+								<li><a href="<c:url value="/post/popular?ca=-1"/>">인기 게시글</a></li>
+								<li><a href="<c:url value="/post/list?ca=1"/>">공지 게시판</a></li>
 							</ul>
 						</div>
 					</li>
@@ -430,7 +432,7 @@ a:hover{text-decoration: none; color: #000;}
 							<thead>
 								<tr>
 									<th style="text-align: left;"><a
-										href="<c:url value="/post/popular" />" class="boardname">인기글게시판</a>
+										href="<c:url value="/post/popular?ca=-1" />" class="boardname">인기글게시판</a>
 									</th>
 								</tr>
 							</thead>

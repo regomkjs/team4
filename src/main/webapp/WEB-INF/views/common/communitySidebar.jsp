@@ -139,6 +139,9 @@
 		background-color:#ddd;
 		cursor: pointer;
 	}
+	.select-category{
+		font-weight: bolder;
+	}
 	.dropdown-menu{
 		border: 2px solid #bbb; box-sizing: border-box;
 	}
@@ -1546,9 +1549,11 @@ $(".side-tab-navi li").click(function () {
 
 <!-- 카페,회원정보, 게시판 리스트 스크립트 -->
 <script type="text/javascript">
+
 getEverything()
 //카페정보, 회원정보, 게시판 리스트 호출 
 function getEverything() {
+	
 	$.ajax({
 		url : '<c:url value="/community/sidebar/info"/>',
 		method : "post",
@@ -1666,18 +1671,24 @@ function getEverything() {
 			caStr += 
 			`
 				<ul>
-					<li class="category-item"><a class="category-link" href='<c:url value="/post/list"/>' style="text-decoration: none; color: black;">전체 게시글</a></li>
-					<li class="category-item"><a class="category-link" href='<c:url value="/post/popular"/>' style="text-decoration: none; color: black;">인기 게시글 <i class="fa-solid fa-fire" style="color: #ff3333;"></i></a></li>
+					<li class="category-item"><a class="category-link <c:if test='${pm.cri.ca == 0}'>select-category</c:if>" href='<c:url value="/post/list"/>' style="text-decoration: none; color: black;">전체 게시글</a></li>
+					<li class="category-item"><a class="category-link <c:if test='${pm.cri.ca == -1}'>select-category</c:if>" href='<c:url value="/post/popular?ca=-1"/>' style="text-decoration: none; color: black;">인기 게시글 <i class="fa-solid fa-fire" style="color: #ff3333;"></i></a></li>
 				</ul>
 				<div class="mt-4" style="font-size: small; color: gray"><i class="fa-solid fa-list"></i> 게시판</div>
 				<ul>
 			`
 			if(categoryList != null && categoryList.length != 0){
 				for(category of categoryList){
+					
+					let ca_num = category.ca_num;
+					let selected = '';
+					if(${pm.cri.ca} == ca_num){
+						selected = 'select-category'
+					}
 					caStr +=
 					`
 						<li class="category-item">
-							<a class="category-link" href='<c:url value="/post/list?ca=\${category.ca_num}" />' style="text-decoration: none; color: black;">
+							<a class="category-link \${selected}" href='<c:url value="/post/list?ca=\${category.ca_num}" />' style="text-decoration: none; color: black;">
 								\${category.ca_name}
 							</a>
 						</li>
