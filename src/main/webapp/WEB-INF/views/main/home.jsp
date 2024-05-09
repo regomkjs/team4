@@ -409,7 +409,7 @@ a:hover{text-decoration: none; color: #000;}
 								<c:forEach items="${noticeList}" var="post">
 									<tr>
 										<td style="text-align: left;"><a class="aTag-home"
-											href="<c:url value="/post/detail?num=${post.po_num}"/>">${post.po_title}</a> 
+											href="<c:url value="/post/detail?ca=1&num=${post.po_num}"/>">${post.po_title}</a> 
 											<span style="float: right">
 										 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
 	                							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
@@ -440,7 +440,7 @@ a:hover{text-decoration: none; color: #000;}
 									<c:if test="${post.po_totalHeart >= 1}">
 										<tr>
 											<td style="text-align: left;"><a class="aTag-home"
-												href="<c:url value="/post/detail?num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
+												href="<c:url value="/post/detail?ca=-1&num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
 												<span style="color: #FA5858; font-weight: bold;">${post.po_totalHeart}</span>
 												<span style="float: right">
 											 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
