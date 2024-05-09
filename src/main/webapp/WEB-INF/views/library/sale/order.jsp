@@ -7,13 +7,16 @@
 .order table thead tr{background-color:#ccc;}
 .order table tr{text-align: center; line-height: 30px;}
 .order table tbody tr td:nth-child(2)  a{
-	color: #66c;
+	color: #66c; cursor: pointer;
 }
 .modal table th{background-color:#eee;}
 .modal-body:nth-child(2) table {text-align: center;}
 .modal-body:nth-child(2) table tbody tr td{line-height: 60px;}
 .modal-body:nth-child(2) table tbody tr td img{height: 60px;}
 .modal-body:nth-child(2) table tbody tr:last-child td{padding: 0;}
+
+.table-order tr{line-height: 30px;}
+.day{width: 40px; line-height: 30px; box-sizing: border-box; padding: 10px;}
 </style>
 <body>
 	<div class="container mt-5">
@@ -21,18 +24,18 @@
 			<select class="form-control" name="year">
 				
 			</select>
-			년 
+			<div class="day">년</div> 
 			<select class="form-control" name="month">
 				<option value="all">전체</option>
 			</select> 
-			월
+			<div class="day">월</div>
 			<div class="input-group-append">
 				<button class="btn btn-success search-btn" type="button">검색</button>
 			</div>
 		</div>
 		<div class="order mt-4">
 			<table class="table table-bordered">
-				<thead>
+				<thead class="table-dark">
 					<tr>
 						<th>주문일</th>
 						<th>주문번호</th>
@@ -58,7 +61,7 @@
         	<!-- Modal Header -->
         		<div class="modal-header">
           			<h4 class="modal-title">주문 상세 내용</h4>
-          			<button type="button" class="close" data-dismiss="modal">×</button>
+          			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         		</div>
         		<!-- Modal body -->
         		<div class="modal-body">
@@ -186,7 +189,7 @@
 						str+=`
 							<tr data-uid="\${data.order[i].sa_merchant_uid}">
 								<td>\${toStringFormatting(data.order[i].sa_date)}</td>
-								<td><a herf="#" data-toggle="modal" data-target="#myModal"
+								<td><a herf="#" data-bs-toggle="modal" data-bs-target="#myModal"
 									class="receipt-btn"
 								>\${data.order[i].sa_merchant_uid}</a></td>
 								<td>\${data.order[i].sa_nick}</td>
@@ -194,7 +197,7 @@
 								<td>\${data.order[i].sa_state}</td>
 								`;
 								if(data.order[i].sa_state == "준비"){
-									str+=`<td><button type="button" class="del-btn"
+									str+=`<td><button type="button" class="del-btn btn btn-danger"
 									>주문취소</button></td>`;
 								}else{
 									str+=`<td></td>`;
@@ -279,7 +282,7 @@
 								<td><img alt="\${datas.title}" src="\${datas.cover}"></td>
 								<td>\${datas.title}</td>
 								<td>\${datas.count}</td>
-								<td>\${datas.priceStandard}</td>
+								<td>\${priceToString(datas.priceStandard)}</td>
 							</tr>
 						`;
 						price+=parseInt(`\${datas.priceStandard*datas.count}`);
@@ -287,7 +290,7 @@
 					str+=`
 						<tr>
 							<td colspan="2">총결제액</td>
-							<td colspan="2">\${price}</td>
+							<td colspan="2">\${priceToString(price)}</td>
 						</tr>
 					`;
 					$(".table-book>tbody").html(str);
@@ -295,15 +298,15 @@
 					str=`
 						<tr>
 							<th>총 주문 금액</th>
-							<td>\${price}</td>
+							<td>\${priceToString(price)}</td>
 						</tr>
 						<tr>
 							<th>할인 금액</th>
-							<td>\${price-data.info.amount}</td>
+							<td>\${priceToString(price-data.info.amount)}</td>
 						</tr>
 						<tr>
 							<th>실 결제 금액</th>
-							<td>\${data.info.amount}</td>
+							<td>\${priceToString(data.info.amount)}</td>
 						</tr>
 						<tr>
 							<th>결제수단</th>

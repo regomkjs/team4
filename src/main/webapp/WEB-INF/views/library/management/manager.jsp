@@ -3,13 +3,13 @@
     pageEncoding="UTF-8"%>
 <style>
 .book-list thead{background-color: #ddd;}
-.book-list thead  th:nth-child(1){width: 100px;}
-.book-list thead  th:nth-child(2){width: 250px;}
-.book-list thead  th:nth-child(3){width: 150px;}
-.book-list thead  th:nth-child(4){width: 100px;}
-.book-list thead  th:nth-child(5){width: 150px;}
-.book-list thead  th:nth-child(6){width: 100px;}
-.book-list thead  th:nth-child(7){width: 100px;}
+.book-list thead  th:nth-child(1){width: 10%;}
+.book-list thead  th:nth-child(2){width: 20%;}
+.book-list thead  th:nth-child(3){width: 20%;}
+.book-list thead  th:nth-child(4){width: 10%;}
+.book-list thead  th:nth-child(5){width: 10%;}
+.book-list thead  th:nth-child(6){width: 10%;}
+.book-list thead  th:nth-child(7){width: 10%;}
 .book-list img{height: 100px; max-width: 100px}
 table{text-align: center;}
 .book-list tbody td{  display: table-cell;
@@ -91,7 +91,7 @@ margin-bottom: 10px;}
 		        </div>
         		<!-- Modal footer -->
         		<div class="modal-footer">
-          			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          			<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
         		</div>
       		</div>
     	</div>
@@ -146,7 +146,7 @@ $(".btn-addBook").click(function() {
 	$(".modal-body").html(str);
 	str="";
 	str+=`<button type="button" class="btn btn-danger addBook" 
-		data-dismiss="modal">가져오기</button>`;
+		data-bs-dismiss="modal">가져오기</button>`;
 	$(".modal-footer").html(str);
 });
 
@@ -172,7 +172,7 @@ $(document).on("click",".updateBook-btn",function() {
 	$(".modal-body").html(str);
 	str="";
 	str+=`<button type="button" class="btn btn-danger updateBook"
-		data-dismiss="modal">수정하기</button>`;
+		data-bs-dismiss="modal">수정하기</button>`;
 	$(".modal-footer").html(str);
 });
 
