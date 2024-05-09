@@ -12,8 +12,7 @@ ul{padding: 0;}
 	display: flex;
 	justify-content: space-around;
 	align-items: flex-start;
-	margin-bottom: 20px;
-	background-color: #e5fdff;
+	background-color: #f0f0f0;
 	padding-bottom: 30px;
 }
 
@@ -150,21 +149,25 @@ ul{padding: 0;}
   cursor: pointer;
 }
 
+.row{padding: 30px 0; border-bottom: 1px solid #000; border-top:1px solid #000; width: 100%; margin-left: 0px;}
 .community-box{ width: 50%;  max-height:500px;}
 
 .book-tap {
     display: flex;
 }
 
+.book-tap span{margin-left: 5px;}
+
 .book-list {
     display: flex;
     flex-wrap: wrap;
     padding: 30px 0; border-bottom: 1px solid #000;  border-top: 1px solid #000;
+    
 }
 
 .book-item {
    	width:15%; margin: 0 2.5%;
-    text-align: center;}
+    text-align: center; background-color: #f0f0f0;}
 .book-item ul{margin: 0; padding: 0;}
 .book-item ul li{text-overflow: ellipsis; overflow: hidden;  white-space: nowrap; width: 100%; margin: 5px 0;}
 .book-item img{ width:100%; height: 270px;}
@@ -173,13 +176,13 @@ ul{padding: 0;}
 a{text-decoration: none; color: #000;}
 a:hover{text-decoration: none; color: #000;}
 
-.nav-box {height: 60px; background-color: #f0f0f0;}
+.nav-box {height: 60px; background-color: #212529;}
 .nav-box ul,li{padding: 0; margin: 0; text-align: center;}
 .nav-list{width: 20%; position: relative;}
-.nav-item{display: block;}
+.nav-box .nav-item{display: block;  border-right: 1px solid #a5a5a5;}
 .nav-list li{ background-color: #fff; z-index:5; position:absolute;
- line-height: 60px; width: 100%; background-color: #f0f0f0;}
-
+ line-height: 60px; width: 100%; background-color: #212529; color:#a5a5a5;}
+.nav-list li a{color:#a5a5a5;}
 .nav-option div ul li{ padding: 0 1px; display: none;}
 .nav-list:hover .nav-option div ul li{display: block;}
 
@@ -189,7 +192,7 @@ a:hover{text-decoration: none; color: #000;}
   left: 20%;
   width: 60%;
   height: 3px;
-  background: rgba(0, 0, 0, 1);
+  background-color:#fafafa ;
   content: '';
   opacity: 0;
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
@@ -206,14 +209,14 @@ a:hover{text-decoration: none; color: #000;}
   transform: translateY(-10px);
 }
 
-
-
 .nav-list:nth-of-type(1) {left: 0;}
 .nav-list:nth-of-type(2) {left: 20%;}
 .nav-list:nth-of-type(3) {left: 40%;}
+.nav-list:nth-of-type(4) {left: 60%;}
 .nav-list li:nth-of-type(1){top: 0;}
 .nav-list li:nth-of-type(2){top: 60px;}
 .nav-list li:nth-of-type(3){top: 120px;}
+.nav-list li:nth-of-type(4){top: 180px;}
 </style>
 <body>
 	<div class="container">
@@ -223,7 +226,7 @@ a:hover{text-decoration: none; color: #000;}
 		<div class="main mt-5">
 			<div class="nav-box">
 				<ul class="nav-list">
-					<li>도서관</li>
+					<li class="nav-item">도서관</li>
 					<li class="nav-option">
 						<div>
 							<ul>							
@@ -254,6 +257,21 @@ a:hover{text-decoration: none; color: #000;}
 						</div>
 					</li>
 				</ul>
+				<c:if test="${user.me_mr_num<1}">
+					<ul class="nav-list">
+						<li class="nav-item">관리자</li>
+						<li class="nav-option">
+							<div>
+								<ul>							
+									<li><a href="<c:url value="/library/management/manager"/>">도서 관리</a></li>
+									<li><a href="<c:url value="/library/management/bookCategory"/>">도서 카테고리 관리</a></li>
+									<li><a href="<c:url value="/library/management/order"/>">주문 관리</a></li>
+									<li><a href="<c:url value="/library/management/loan"/>">대출 관리</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</c:if>
 			</div>
 			<div class="main-box">
 				<div id="demo" class="carousel slide banner-box"
@@ -395,7 +413,7 @@ a:hover{text-decoration: none; color: #000;}
 		</table>
 			  </div>
 			</div>
-				<div class="row justify-content-center mt-5">
+				<div class="row justify-content-center">
 					<div class="community-box">
 						<table class="table table-hover table-bordered">
 							<thead>
@@ -462,7 +480,7 @@ a:hover{text-decoration: none; color: #000;}
 					</div>
 				</div>
 			</div>
-			<div class="main-book mt-5">
+			<div class="main-book mt-4">
 			    <div class="book-tap">
 			        <button class="new-btn active-btn">새로 들어온 책<span class="badge bg-success">New</span></button>
 			        <button class="loan-btn">대출이 많은 책<span class="badge bg-danger">Hot</span></button>

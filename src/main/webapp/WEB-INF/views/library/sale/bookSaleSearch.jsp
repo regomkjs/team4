@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <style>
 *{margin: 0; padding: 0;}
+.main ul{padding: 0;}
 .book-main .book-list{margin: 10px}
 .book-main{border: 1px solid #aaa; border-radius: 10px; margin-top: 10px}
 .book-item{height:130px; margin-top: 20px;  margin-left: 10px; margin-right: 10px;}

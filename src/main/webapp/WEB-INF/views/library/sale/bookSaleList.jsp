@@ -3,7 +3,7 @@
 	pageEncoding="UTF-8"%>
 <style>
 *{margin: 0; padding: 0;}
-.side-bar{ }
+.main ul{padding: 0;}
 .side-bar>.frame{ border: 1px solid #aaa; margin: 10px; padding: 10px; border-radius: 10px; height: 100%;} 
 .side-bar>.frame .click{line-height: 50px; border-bottom: 1px solid #ccc;} 
 .side-bar>.frame ul{margin: 0;} 
