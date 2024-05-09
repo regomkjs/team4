@@ -1,38 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style type="text/css">
 .footer{ background: #d5d5d5;}
 </style>
 <div class="main" style="margin:0">
-    <!-- Right -->
-    <div>
-      <a class="me-4 text-reset" style="text-decoration: none">
-        <i class="bi bi-facebook" style="font-size: large; color: gray;"></i>
-      </a>
-      <a href="" class="me-4 text-reset" style="text-decoration: none">
-        <i class="bi bi-twitter" style="font-size: large; color: gray;"></i>
-      </a>
-      <a href="" class="me-4 text-reset" style="text-decoration: none">
-        <i class="bi bi-google" style="font-size: large; color: gray;"></i>
-      </a>
-      <a href="" class="me-4 text-reset" style="text-decoration: none">
-        <i class="bi bi-instagram" style="font-size: large; color: gray;"></i>
-      </a>
-      <a href="" class="me-4 text-reset" style="text-decoration: none">
-        <i class="bi bi-linkedin" style="font-size: large; color: gray;"></i>
-      </a>
-      <a href="" class="me-4 text-reset" style="text-decoration: none">
-        <i class="bi bi-github" style="font-size: large; color: gray;"></i>
-      </a>
-    </div>
-    <!-- Right -->
-  </section>
   <!-- Section: Social media -->
 	<hr class="bar">
   <!-- Section: Links  -->
   <section class="footer">
-    <div class="container text-center text-md-start mt-5">
+    <div class="container text-center text-md-start mt-3">
       <!-- Grid row -->
       <div class="row mt-3">
         <!-- Grid column -->
