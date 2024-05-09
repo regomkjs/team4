@@ -430,16 +430,16 @@ a:hover{text-decoration: none; color: #000;}
 							<thead>
 								<tr>
 									<th style="text-align: left;"><a
-										href="#" class="boardname">인기글게시판</a>
+										href="<c:url value="/post/popular" />" class="boardname">인기글게시판</a>
 									</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${hotList}" var="post">
-									<c:if test="${post.po_totalHeart >= 2}">
+									<c:if test="${post.po_totalHeart >= 1}">
 										<tr>
 											<td style="text-align: left;"><a class="aTag-home"
-												href="<c:url value="/post/detail?num=${post.po_num}"/>">${post.po_title}</a>
+												href="<c:url value="/post/detail?num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
 												<span style="color: #FA5858; font-weight: bold;">${post.po_totalHeart}</span>
 												<span style="float: right">
 											 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
