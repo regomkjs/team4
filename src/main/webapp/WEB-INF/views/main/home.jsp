@@ -2,11 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <style type="text/css">
 ul{padding: 0;}
 .main-box {
@@ -576,7 +572,7 @@ function newBook() {
 				if(toStringFormatting(data.bookList[i].bo_in_date)>=toStringFormatting(a)){
 					str+=`
 					<div class="book-item">
-						 <a href='<c:url value="/library/bookSale/detail?isbn=\${data.bookList[i].bo_num}"/>'>
+						 <a href='<c:url value="/library/book/detail?num=\${data.bookList[i].bo_num}"/>'>
 							 <ul>
 							 	<li><img src="\${data.bookList[i].bo_thumbnail}" alt="\${data.bookList[i].bo_title}"></li>
 							 	<li>\${data.bookList[i].bo_title}</li>

@@ -1,154 +1,161 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-<script src="https://kit.fontawesome.com/6830e64ec8.js" crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+<script src="https://kit.fontawesome.com/6830e64ec8.js"
+	crossorigin="anonymous"></script>
 <style>
+* {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-decoration: none;
+}
 
-	* {
-	  margin: 0;
-	  padding: 0;
-	  list-style: none;
-	  text-decoration: none;
-	}
-	
-	.side-tab-navi {
-	  display: flex;
-	  width: 250px;
-	  height: 30px;
-	  border: 1px solid #aaa;
-	  border-bottom: none;
-	  box-sizing: border-box;
-	  margin-bottom: 0;
-	  padding-bottom: 0;
-	 
-	}
-	
-	.side-tab-navi li {
-	  width: 100%;
-	  cursor: pointer;
-	  border-right: 1px solid #aaa;
-	  border-bottom: 3px solid rgb(250, 208, 203);
-	  box-sizing: border-box;
-	  
-	}
-	
-	.side-tab-navi li:last-child {
-	  border-right: none;
-	}
-	
-	.side-tab-navi li:hover {
-	  background-color: #f3f3f3;
-	}
-	
-	.side-tab-navi li.active {
-		background-color: #f5f5f5;
-		border-bottom: 3px solid salmon;
-		box-sizing: border-box;
-	}
-	
-	.side-tab-contents {
-	  width: 250px;
-	  height: 200px;
-	  border: 1px solid #aaa;
-	  border-top: none;
-	  box-sizing: border-box;
-	  border-radius: 5px;
-	}
-	
-	.side-tab-content {
-	  display: none;
-	  width: 100%;
-	  height: 100%;
-	  box-sizing: border-box;
-	}
-	
-	.side-tab-content.active {
-	  display: block;
-	}
-	
-	.order-btn:hover {
-		cursor: pointer;
-	}
-	.hovertext-box{
-		position: relative;
-	}
-	.hovertext {
-	    overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		width: 70px;
-		height: 20px;
-	}
-	
-	.hovertext-box:before {
-	    content: attr(data-hover);
-	    visibility: hidden;
-	    opacity: 0;
-	    width: max-content;
-	    background-color: black;
-	    color: #fff;
-	    text-align: center;
-	    border-radius: 5px;
-	    padding: 5px 5px;
-	    transition: opacity 0.5s ease-in-out;
-	
-	    position: absolute;
-	    z-index: 100;
-	    left: 0;
-	    top: 110%;
-	}
-	
-	.hovertext-box:hover:before {
-	    opacity: 1;
-	    visibility: visible;
-	}
-	
-	.pagination{
-		 z-index: 1;
-	}
-	
-	.side-category{
-		border: 1px solid #aaa;
-		box-sizing: border-box;
-		border-radius: 5px;
-		padding: 10px;
-		margin-bottom: 1px;
-	}
-	.side-category ul{
-		margin: 0;
-		text-decoration: none;
-		box-sizing: border-box;
-	}
-	.side-category ul:first-child{
-		border-bottom: 1px solid #ccc;
-	}
-	
-	.side-category li{
-		line-height: 50px; 
-		border-bottom: 1px solid #ccc;
-		box-sizing: border-box;
-		
-	}
-	.side-category li:last-child{
-		border-bottom: none;
-	}
-	.side-category li:hover {
-		box-sizing: border-box; padding: 0px;
-		background-color:#ddd;
-		cursor: pointer;
-	}
-	.dropdown-menu{
-		border: 2px solid #bbb; box-sizing: border-box;
-	}
-	
-	.profile-box{
-		padding: 5px
-	}
-	.cafe-info-box{
-		padding: 5px
-	}
+.side-tab-navi {
+	display: flex;
+	width: 250px;
+	height: 30px;
+	border: 1px solid #aaa;
+	border-bottom: none;
+	box-sizing: border-box;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.side-tab-navi li {
+	width: 100%;
+	cursor: pointer;
+	border-right: 1px solid #aaa;
+	border-bottom: 3px solid rgb(250, 208, 203);
+	box-sizing: border-box;
+}
+
+.side-tab-navi li:last-child {
+	border-right: none;
+}
+
+.side-tab-navi li:hover {
+	background-color: #f3f3f3;
+}
+
+.side-tab-navi li.active {
+	background-color: #f5f5f5;
+	border-bottom: 3px solid salmon;
+	box-sizing: border-box;
+}
+
+.side-tab-contents {
+	width: 250px;
+	height: 200px;
+	border: 1px solid #aaa;
+	border-top: none;
+	box-sizing: border-box;
+	border-radius: 5px;
+}
+
+.side-tab-content {
+	display: none;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.side-tab-content.active {
+	display: block;
+}
+
+.order-btn:hover {
+	cursor: pointer;
+}
+
+.hovertext-box {
+	position: relative;
+}
+
+.hovertext {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 70px;
+	height: 20px;
+}
+
+.hovertext-box:before {
+	content: attr(data-hover);
+	visibility: hidden;
+	opacity: 0;
+	width: max-content;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 5px;
+	padding: 5px 5px;
+	transition: opacity 0.5s ease-in-out;
+	position: absolute;
+	z-index: 100;
+	left: 0;
+	top: 110%;
+}
+
+.hovertext-box:hover:before {
+	opacity: 1;
+	visibility: visible;
+}
+
+.pagination {
+	z-index: 1;
+}
+
+.side-category {
+	border: 1px solid #aaa;
+	box-sizing: border-box;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 1px;
+}
+
+.side-category ul {
+	margin: 0;
+	text-decoration: none;
+	box-sizing: border-box;
+}
+
+.side-category ul:first-child {
+	border-bottom: 1px solid #ccc;
+}
+
+.side-category li {
+	line-height: 50px;
+	border-bottom: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+.side-category li:last-child {
+	border-bottom: none;
+}
+
+.side-category li:hover {
+	box-sizing: border-box;
+	padding: 0px;
+	background-color: #ddd;
+	cursor: pointer;
+}
+
+.dropdown-menu {
+	border: 2px solid #bbb;
+	box-sizing: border-box;
+}
+
+.profile-box {
+	padding: 5px
+}
+
+.cafe-info-box {
+	padding: 5px
+}
 </style>
 
 <div>
@@ -159,14 +166,14 @@
 		</ul>
 		<div class="side-tab-contents">
 			<div class="side-tab-content active">
-		    	<div class="cafe-info-box">
-		    	
-		    	</div>
-		    </div>
-		    <div class="side-tab-content" >
-	    		<c:if test="${user == null}">
+				<div class="cafe-info-box"></div>
+			</div>
+			<div class="side-tab-content">
+				<c:if test="${user == null}">
 					<div class="login-box text-center">
-						<a href="<c:url value='/login'/>" class="btn btn-outline-success login-btn col-8" style="margin-top: 60px">로그인</a>
+						<a href="<c:url value='/login'/>"
+							class="btn btn-outline-success login-btn col-8"
+							style="margin-top: 60px">로그인</a>
 						<div style="width: 100%; font-size: small;" class="mt-4">
 							<a href="<c:url value="/find/id"/>" style="color: gray;">아이디찾기</a>
 							<span style="color: gray; opacity: 60%">|</span> <a
@@ -177,55 +184,60 @@
 					</div>
 				</c:if>
 				<c:if test="${user != null}">
-					<div class="login-box text-center">
-						
-					</div>
+					<div class="login-box text-center"></div>
 				</c:if>
-	    	</div>
+			</div>
 		</div>
-		
+
 	</div>
-	<div class="side-category" style="width: 100%; min-height: calc(100% - 276px); margin-top: 1px">
-		
+	<div class="side-category"
+		style="width: 100%; min-height: calc(100% - 276px); margin-top: 1px">
+
 	</div>
 	<c:if test="${user.me_mr_num < 2 }">
-			<div class="dropup mb-3" style="width: 100%; height: 35px">
-			    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" style="width: 100%;">
-			      관리자 메뉴
-			    </button>
-				<div class="dropdown-menu" style="width: 100%;">
-					<a style="width: 100%;"  href="<c:url value="/grade/list"/>" class="dropdown-item">등급 관리</a>
-					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#adminModal" class="adminModal dropdown-item">게시판 관리</a>
-					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#reportModal" class="reportModal dropdown-item">신고 관리</a>
-					<a style="width: 100%;" href="#" data-toggle="modal" data-target="#userModal" class="userModal dropdown-item">회원 관리</a>
-				</div>
+		<div class="dropup mb-3" style="width: 100%; height: 35px">
+			<button type="button"
+				class="btn btn-outline-secondary dropdown-toggle"
+				data-toggle="dropdown" style="width: 100%;">관리자 메뉴</button>
+			<div class="dropdown-menu" style="width: 100%;">
+				<a style="width: 100%;" href="<c:url value="/grade/list"/>"
+					class="dropdown-item">등급 관리</a> <a style="width: 100%;" href="#"
+					data-toggle="modal" data-target="#adminModal"
+					class="adminModal dropdown-item">게시판 관리</a> <a style="width: 100%;"
+					href="#" data-toggle="modal" data-target="#reportModal"
+					class="reportModal dropdown-item">신고 관리</a> <a style="width: 100%;"
+					href="#" data-toggle="modal" data-target="#userModal"
+					class="userModal dropdown-item">회원 관리</a>
 			</div>
-		</c:if>
+		</div>
+	</c:if>
 </div>
 
-	
+
 
 <!-- 커뮤니티 관리 Modal -->
 <div class="modal fade" id="adminModal">
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
 		<div class="modal-content">
-   
+
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<h4 class="modal-title">게시판 관리</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			
+
 			<!-- Modal body -->
 			<div class="modal-body">
 				<div class="category-container"></div>
-			
+
 				<div class="input-group category-input-box" hidden>
 					<input type="text" class="form-control">
-					<button type="button" class="btn btn-primary category-input-btn col-2">입력</button>
+					<button type="button"
+						class="btn btn-primary category-input-btn col-2">입력</button>
 				</div>
-				
-				<button type="button" class="btn btn-primary form-control" id="category-add">추가</button>
+
+				<button type="button" class="btn btn-primary form-control"
+					id="category-add">추가</button>
 			</div>
 
 			<!-- Modal footer -->
@@ -241,23 +253,21 @@
 <div class="modal fade" id="reportModal">
 	<div class="modal-dialog modal-xl modal-dialog-scrollable">
 		<div class="modal-content">
-   
+
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<h4 class="modal-title">신고 관리</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			
+
 			<!-- Modal body -->
 			<div class="modal-body">
-				<div class="report-container">
-				
-				</div>
-				
+				<div class="report-container"></div>
+
 				<!-- 신고글 페이지네이션 박스 -->
 				<div class="report-pagination">
 					<ul class="pagination justify-content-center">
-					
+
 					</ul>
 				</div>
 			</div>
@@ -275,62 +285,53 @@
 <div class="modal fade" id="userModal">
 	<div class="modal-dialog modal-xl modal-dialog-scrollable">
 		<div class="modal-content">
-   
+
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<h4 class="modal-title">회원 관리</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			
+
 			<!-- Modal body -->
 			<div class="modal-body">
 				<div class="container col-12">
 					<div class="d-flex">
 						<!-- Nav tabs -->
 						<ul class="nav flex-column nav-pills text-center" role="tablist">
-							<li class="nav-item">
-								<a class="nav-link active member-tab" data-toggle="tab" href="#all" data-type="all">회원</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link member-tab" data-toggle="tab" href="#prison" data-type="prisoner">수감소</a>
-							</li>
+							<li class="nav-item"><a class="nav-link active member-tab"
+								data-toggle="tab" href="#all" data-type="all">회원</a></li>
+							<li class="nav-item"><a class="nav-link member-tab"
+								data-toggle="tab" href="#prison" data-type="prisoner">수감소</a></li>
 							<c:if test="${user.me_mr_num == 0}">
-								<li class="nav-item">
-									<a class="nav-link member-tab" data-toggle="tab" href="#master" data-type="admin">운영진</a>
-								</li>
+								<li class="nav-item"><a class="nav-link member-tab"
+									data-toggle="tab" href="#master" data-type="admin">운영진</a></li>
 							</c:if>
 						</ul>
 
 						<!-- Tab panes -->
 						<div class="tab-content" style="min-height: 300px; width: 90%">
-							<div id="all" class="container tab-pane active" >
+							<div id="all" class="container tab-pane active">
 								<h3>이용중인 회원</h3>
-								<div class="all-container">
-								
-								</div>
-								
+								<div class="all-container"></div>
+
 							</div>
 							<div id="prison" class="container tab-pane fade">
 								<h3>정지된 회원</h3>
-								<div class="prisoner-container">
-								
-								</div>
-								
+								<div class="prisoner-container"></div>
+
 							</div>
 							<c:if test="${user.me_mr_num == 0}">
 								<div id="master" class="container tab-pane fade">
-						 			<h3>운영진 관리</h3>
-						 			<div class="admin-container">
-								
-									</div>
-									
+									<h3>운영진 관리</h3>
+									<div class="admin-container"></div>
+
 								</div>
 							</c:if>
 						</div>
 					</div>
 					<div class="member-pagination">
 						<ul class="pagination justify-content-center">
-						
+
 						</ul>
 					</div>
 				</div>
@@ -349,24 +350,23 @@
 <div class="modal fade" id="reportDetailModal">
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
 		<div class="modal-content">
-   
+
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<h4 class="modal-title">신고 상세</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			
+
 			<!-- Modal body -->
 			<div class="modal-body">
-				<div class="report-detail-container">
-					
-				</div>
-			
+				<div class="report-detail-container"></div>
+
 			</div>
 
 			<!-- Modal footer -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success mr-auto complete-report-btn">처리완료</button>
+				<button type="button"
+					class="btn btn-success mr-auto complete-report-btn">처리완료</button>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
 
