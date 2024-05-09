@@ -475,4 +475,11 @@
 	<select id="totalCountBookNum" resultType="int">
 		select count(*) from book
 	</select>
+	
+	<update id="updateLoanBlock">
+		update member set
+			me_loan_block = date_add(#{user.me_loan_block}, interval #{day} day)
+		where
+			me_id = #{user.me_id}
+	</update>
 </mapper>

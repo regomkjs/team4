@@ -140,6 +140,7 @@
 											</li>
 											<li>저자: \${book.bo_au_name}</li>
 											<li>출판사: \${book.bo_publisher}</li>
+											<li>평점: <sapn style="color:font-weight: bold; font-size: 20px; color: #eb217c;">\${book.avgScore}<span></li>
 										</ul>
 									</div>
 							</div>
