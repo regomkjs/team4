@@ -46,7 +46,7 @@
  				po_me_id like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
- 				po_me_id like concat("%",#{cri.search},"%")
+ 				member.me_nick like concat("%",#{cri.search},"%")
  			</if>
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
@@ -74,6 +74,8 @@
  			count(*)
 		from 
 			post
+				join
+			member on po_me_id = me_id
 				join 
 			category on po_ca_num = ca_num
 		where
@@ -83,7 +85,7 @@
  				po_me_id like concat("%",#{cri.search},"%"))
  			</if>
  			<if test='cri.type == "writer"'>
- 				po_me_id like concat("%",#{cri.search},"%")
+ 				member.me_nick like concat("%",#{cri.search},"%")
  			</if>
  			<if test='cri.type == "text"'>
  				(po_content like concat("%",#{cri.search},"%") or
@@ -571,4 +573,81 @@
  	<select id="totalCountPostNum" resultType="int">
  		select count(*) from post 
  	</select>
+ 	
+ 	<select id="selectPopularPostList" resultType="PostVO">
+ 		select 
+ 			post.*, category.*, member.me_nick, member.me_mr_num, member.me_gr_num,
+				(select 
+					count(*) 
+				from 
+					comment 
+				where 
+					comment.co_po_num = post.po_num and 
+					comment.co_state = 1) 
+			as po_co_count,
+	 			(select
+	 				count(*)
+				from
+					heart
+				where 
+					heart.he_po_num = post.po_num) 
+			as po_totalHeart,
+				(select
+					count(*)
+				from
+					vote
+				where
+					vote.vo_po_num = post.po_num and vote.vo_state = 1)
+			as po_votePost
+		from 
+			post
+				join
+			member on po_me_id = me_id
+				join 
+			category on po_ca_num = ca_num
+				
+		where
+			(po_title like concat("%",#{cri.search},"%") or
+			po_content like concat("%",#{cri.search},"%")) and 
+			(case 
+				when datediff(now(), po_datetime) &lt; 1 then 1
+				when datediff(now(), po_datetime) &lt; 3 then 2
+				when datediff(now(), po_datetime) &lt; 7 then 3
+				when datediff(now(), po_datetime) &lt; 15 then 4
+				when datediff(now(), po_datetime) &lt; 30 then 5 end) &lt;= (select
+	 				count(*)
+				from
+					heart
+				where 
+					heart.he_po_num = post.po_num)
+			
+ 		limit #{cri.pageStart} , #{cri.perPageNum}
+ 	</select>
+ 	
+ 	<select id="totalCountPopularPost" resultType="int">
+ 		select 
+ 			count(*)
+		from 
+			post
+				join
+			member on po_me_id = me_id
+				join 
+			category on po_ca_num = ca_num
+				
+		where
+			(po_title like concat("%",#{cri.search},"%") or
+			po_content like concat("%",#{cri.search},"%")) and 
+			(case 
+				when datediff(now(), po_datetime) &lt; 1 then 1
+				when datediff(now(), po_datetime) &lt; 3 then 2
+				when datediff(now(), po_datetime) &lt; 7 then 3
+				when datediff(now(), po_datetime) &lt; 15 then 4
+				when datediff(now(), po_datetime) &lt; 30 then 5 end) &lt;= (select
+	 				count(*)
+				from
+					heart
+				where 
+					heart.he_po_num = post.po_num)
+ 	</select>
+ 	
 </mapper>

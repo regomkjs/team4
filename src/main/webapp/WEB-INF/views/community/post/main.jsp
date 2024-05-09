@@ -6,7 +6,7 @@
 	<title>메인</title>
 </head>
 <body>
-<div class="container">
+<div>
 	<h1>
 		커뮤니티 메인
 	</h1>
