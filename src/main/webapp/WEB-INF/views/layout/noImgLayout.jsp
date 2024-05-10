@@ -37,31 +37,24 @@ integrity="sha256-5slxYrL5Ct3mhMAp/dgnb5JSnTYMtkr4dHby34N10qw=" crossorigin="ano
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/lang/summernote-ko-KR.min.js"
 integrity="sha256-y2bkXLA0VKwUx5hwbBKnaboRThcu7YOFyuYarJbCnoQ=" crossorigin="anonymous"></script>
 
+
+
+<!-- 부트스트랩 -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- 폰트어썸 -->
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
 <link href="${path}/resources/css/bookCss/test.css" rel="stylesheet"/> 
-<style type="text/css">
-	.main-img-container{
-		width: 100%;
-		height: 360px;
-		display: flex;
-	}
-	.main-img-content{
-		margin: 0 auto;
-		
-	}
-</style>
 
 </head>
 <body>
     <tiles:insertAttribute name="header"/>
-    <div class="main-img-container">
-	   	<a class="main-img-content" href="<c:url value="/"/>">
-    		<img src="http://localhost:8080/team4/resources/img/main.png" alt="2" style="width: 720px; height: 360px;">
-	    </a>
-   	</div>
-    <div style="min-height: 100vh">
+    <div style="min-height:calc(100vh - 290px);">
     	<tiles:insertAttribute name="body" />
     </div>
     <tiles:insertAttribute name="footer" />

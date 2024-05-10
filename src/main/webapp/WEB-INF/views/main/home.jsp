@@ -218,10 +218,7 @@ a:hover{text-decoration: none; color: #000;}
 </style>
 <body>
 	<div class="container">
-		<div class="title mt-5">
-			<h1>책책책</h1>
-		</div>
-		<div class="main mt-5">
+		<div class="main">
 			<div class="nav-box">
 				<ul class="nav-list">
 					<li class="nav-item">도서관</li>

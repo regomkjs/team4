@@ -27,7 +27,7 @@
 </style>
 </head>
 <body>
-<div class="container col-5 p-5 mt-3 card-1" style="padding: 50px;">
+<div class="container col-5 p-5 mt-3 card-1" style="padding: 50px; margin-bottom: 50px">
 	<form action="<c:url value="/signup"/>" method="post">
 		<h2 style="margin-bottom: 50px; font-weight: bold">회원가입</h2>
 		<div class="form-group" style="margin-bottom: 10px">

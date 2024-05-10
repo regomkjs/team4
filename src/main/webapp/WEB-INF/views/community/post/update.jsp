@@ -7,9 +7,6 @@
 </head>
 <body>
 <div>
-	<h1>
-		게시글 수정
-	</h1>
 	<div class="mt-3 mb-3">
 		<form action='<c:url value="/post/update"/>' method="post">
 			<input readonly style="display: none;" value="${post.po_num}" name="po_num">

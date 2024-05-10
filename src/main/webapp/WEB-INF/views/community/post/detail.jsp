@@ -12,15 +12,16 @@
 	<style type="text/css">
 		.line-hr{
 			border: 2px solid;
-			border-color: #dcdcdc;
+			border-color: #555;
 		}
 		.reply-a{
 			cursor: pointer; 
-			color: black; 
+			color: #555; 
 			text-decoration: none;
 		}
 		.reply-a:hover {
-			text-decoration: underline;
+			font-weight: bold;
+			color: black;
 		}
 	</style>
 	
@@ -36,9 +37,6 @@
 <input value="${today}" id="today" readonly style="display: none;">
 <input value="${time}" id="time" readonly style="display: none;">
 <div>
-	<h1>
-		게시글 상세
-	</h1>
 	<div class="container mt-3 mb-3">
 		
 		<div class="mb-3 mt-3">
@@ -464,8 +462,8 @@ function getCommentList(cri, today) {
 					else{
 						str +=
 						`
-							<i class="bi bi-arrow-return-right ml-2 mr-2" style="font-size:2.5rem; color: gray; float:left"></i>
-							<div class="comment-container" style="margin-left: 100px;">
+							<i class="bi bi-arrow-return-right ms-2" style="font-size:2.5rem; color: #555; float:left"></i>
+							<div class="comment-container" style="margin-left: 80px;">
 								<div class="input-group mb-3 box-comment">
 									<div class="col-2 d-flex"><h5 class="me-2">
 						`

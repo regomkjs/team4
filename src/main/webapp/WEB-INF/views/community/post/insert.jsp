@@ -3,14 +3,10 @@
     pageEncoding="UTF-8"%>
 <html>
 <head>
-	
 	<title>게시글 작성</title>
 </head>
 <body>
 <div>
-	<h1>
-		게시글 작성
-	</h1>
 	<div class="container mt-3 mb-3">
 		<form action='<c:url value="/post/insert"/>' method="post" >
 			<div class="mb-3 mt-3">
