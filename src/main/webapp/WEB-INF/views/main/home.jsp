@@ -23,9 +23,10 @@ ul{padding: 0;}
 	position: relative;
 }
 
-.banner-box img {
-	width: 100%;
-	height: 350px;
+.carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
 }
 
 .login-box {
@@ -278,7 +279,7 @@ a:hover{text-decoration: none; color: #000;}
 					data-bs-ride="carousel">
 					<div class="carousel-inner">
 						<div class="carousel-item active">
-							<img src="<c:url value="resources/img/오픈.jpg"/>" alt="1" class="d-block">
+							<a href="<c:url value="/library/book/list"/>"><img src="<c:url value="resources/img/오픈.jpg"/>" alt="1" class="d-block"></a>
 						</div>
 						<div class="carousel-item">
 							<img
