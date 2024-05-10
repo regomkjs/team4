@@ -37,9 +37,6 @@
 <input value="${today}" id="today" readonly style="display: none;">
 <input value="${time}" id="time" readonly style="display: none;">
 <div>
-	<h1>
-		게시글 상세
-	</h1>
 	<div class="container mt-3 mb-3">
 		
 		<div class="mb-3 mt-3">

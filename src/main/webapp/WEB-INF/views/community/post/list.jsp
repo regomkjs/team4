@@ -50,12 +50,8 @@
 	
 </head>
 <body>
-<div>
-	<h1>
-		<c:if test='${pm.cri.type == "target"}'>${pm.cri.search} 작성글 목록</c:if>
-		<c:if test='${pm.cri.type != "target"}'>게시글 목록</c:if>
-	</h1>
-	
+<div class="mt-4">
+	<c:if test='${pm.cri.type == "target"}'><h1>${pm.cri.search} 작성글 목록</h1></c:if>
 	<form action="<c:url value="/post/list"/>" method="get" class="input-group" id="searchForm">
 		<input name="ca" style="display: none;" value="${pm.cri.ca}">
 		<div class="input-group mb-1 w-75 ms-auto"  <c:if test='${pm.cri.type == "target"}'>hidden</c:if>>

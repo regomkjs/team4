@@ -51,10 +51,7 @@
 </head>
 <body>
 <div>
-	<h1>
-		인기글 목록
-	</h1>
-	
+	<h1>인기글 목록</h1>
 	<form action="<c:url value="/post/popular"/>" method="get" class="input-group" id="searchForm">
 		<div class="input-group mb-1 w-50 ms-auto">
 			
