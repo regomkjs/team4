@@ -3,9 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <style type="text/css">
 ul{padding: 0;}
 .main-box {
@@ -23,10 +20,10 @@ ul{padding: 0;}
 	position: relative;
 }
 
-.carousel-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
+.carousel-inner img {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
 }
 
 .login-box {
