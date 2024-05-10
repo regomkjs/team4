@@ -23,7 +23,7 @@
 				<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
 			</li>
 		</c:if>
-		<c:if test="${user.me_mr_num >= 0}">  
+		<c:if test="${user.me_mr_num >= 0}"> 
 			<li class="nav-item dropdown">
 			  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">마이페이지</a>
 			  <ul class="dropdown-menu">

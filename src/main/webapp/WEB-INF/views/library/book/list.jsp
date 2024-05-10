@@ -48,6 +48,9 @@
 			</div>
 			<div class="book-main right w-75">
 				<div class="book-list">
+					<c:if test="${bookList == null }">
+						<p>등록된 책이 없습니다.</p>
+					</c:if>
 				</div>
 				<div class="pagination-box mt-3">
 					<ul class="pagination justify-content-center pagination-sm""></ul>
