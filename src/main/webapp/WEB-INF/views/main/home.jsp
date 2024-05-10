@@ -3,9 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <style type="text/css">
 ul{padding: 0;}
 .main-box {
@@ -23,9 +20,10 @@ ul{padding: 0;}
 	position: relative;
 }
 
-.banner-box img {
+.carousel-inner img {
 	width: 100%;
-	height: 350px;
+	height: 100%;
+	overflow: auto;
 }
 
 .login-box {
@@ -275,7 +273,7 @@ a:hover{text-decoration: none; color: #000;}
 					data-bs-ride="carousel">
 					<div class="carousel-inner">
 						<div class="carousel-item active">
-							<img src="<c:url value="resources/img/오픈.jpg"/>" alt="1" class="d-block">
+							<a href="<c:url value="/library/book/list"/>"><img src="<c:url value="resources/img/오픈.jpg"/>" alt="1" class="d-block"></a>
 						</div>
 						<div class="carousel-item">
 							<img
