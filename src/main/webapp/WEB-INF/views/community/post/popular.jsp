@@ -65,7 +65,7 @@
 	</form>
 
 	<table class="table table-hover text-center">
-		<thead>
+		<thead class="table-secondary">
 			<tr>
 				<th class="col-2">게시판</th>
 				<th>제목</th>

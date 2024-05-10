@@ -3,7 +3,7 @@
 <style>
 .category-list{line-height:30px; font-weight:500;}
 .side-bar>.frame{ border: 1px solid #aaa; margin: 10px; padding: 10px; border-radius: 10px;} 
-
+.book-list ul{padding: 0;}
 .book-main .book-list{margin: 10px}
 .book-main{border: 1px solid #aaa; border-radius: 10px; margin-top: 10px}
 .book-item{height:130px; margin-top: 15px;  }

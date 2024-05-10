@@ -3,25 +3,40 @@
 	pageEncoding="UTF-8"%>
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<style>
+.order table thead tr{background-color:#ccc;}
+.order table tr{text-align: center; line-height: 30px;}
+.order table tbody tr td:nth-child(2)  a{
+	color: #66c; cursor: pointer;
+}
+.modal table th{background-color:#eee;}
+.modal-body:nth-child(2) table {text-align: center;}
+.modal-body:nth-child(2) table tbody tr td{vertical-align: middle;  padding: 20px 0;}
+.modal-body:nth-child(2) table tbody tr:last-of-type{line-height: 50px;}
+.modal-body:nth-child(2) table tbody tr td img{height: 60px;}
+.modal-body:nth-child(2) table tbody tr:last-child td{padding: 0;}
 
+.table-order tr{line-height: 30px;}
+.day{width: 40px; line-height: 30px; box-sizing: border-box; padding: 10px;}
+</style>
 <body>
 	<div class="container mt-5">
 		<div class="input-group">
 			<select class="form-control" name="year">
 				
 			</select>
-			년 
+			<div class="day">년</div> 
 			<select class="form-control" name="month">
 				<option value="all">전체</option>
 			</select> 
-			월
+			<div class="day">월</div> 
 			<div class="input-group-append">
 				<button class="btn btn-success search-btn" type="button">검색</button>
 			</div>
 		</div>
-		<div class="Order">
+		<div class="order mt-5">
 			<table class="table table-bordered">
-				<thead>
+				<thead class="table-dark">
 					<tr>
 						<th>주문일</th>
 						<th>주문번호</th>
@@ -47,7 +62,7 @@
         	<!-- Modal Header -->
         		<div class="modal-header">
           			<h4 class="modal-title">주문 상세 내용</h4>
-          			<button type="button" class="close" data-dismiss="modal">×</button>
+          			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         		</div>
         		<!-- Modal body -->
         		<div class="modal-body">
@@ -115,7 +130,7 @@
 					str+=`</select>`;
 					$('tr[data-uid='+merchant_uid+']>.event-box').html(str);
 					str=`
-						<button type="button" class="complate-btn">수정완료</button>
+						<button type="button" class="complate-btn btn btn-success">수정완료</button>
 					`;
 					$('tr[data-uid='+merchant_uid+']>td:last').html(str);
 				}, 
@@ -203,7 +218,7 @@
 						str+=`
 							<tr data-uid="\${data.list[i].sa_merchant_uid}">
 								<td>\${toStringFormatting(data.list[i].sa_date)}</td>
-								<td><a herf="#" data-toggle="modal" data-target="#myModal"
+								<td><a herf="#" data-bs-toggle="modal" data-bs-target="#myModal"
 									class="receipt-btn"
 								>\${data.list[i].sa_merchant_uid}</a></td>
 								<td>\${data.list[i].sa_nick}</td>
@@ -214,14 +229,14 @@
 							str+=`<td></td>`;
 						}else{
 							str+=`<td>
-								<button type="button" class="update-btn">수정</button>
+								<button type="button" class="update-btn btn btn-success">수정</button>
 							</td>`;
 						}
 						str+=`
 							</tr>
 						`;
 					}
-					$(".Order>.table>tbody").html(str);
+					$(".order>.table>tbody").html(str);
 					
 					let pm = data.pm;
 					let pmStr = "";

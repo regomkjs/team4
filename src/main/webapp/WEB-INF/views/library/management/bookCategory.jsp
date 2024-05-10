@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>	
 	
 <style>
+.main ul{padding: 0;}
 .nav .nav-item{border: 1px solid #000; width: 19% ; margin-top: 10px;}
 .nav .nav-item>a{line-height: 50px; text-align: center; color:#000; text-decoration: none;}
 .nav{display: flex;justify-content :space-between;}
