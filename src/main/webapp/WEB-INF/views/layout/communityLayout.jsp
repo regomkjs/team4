@@ -36,12 +36,7 @@ integrity="sha256-5slxYrL5Ct3mhMAp/dgnb5JSnTYMtkr4dHby34N10qw=" crossorigin="ano
 integrity="sha256-y2bkXLA0VKwUx5hwbBKnaboRThcu7YOFyuYarJbCnoQ=" crossorigin="anonymous"></script>
 
 <style type="text/css">
-	.header-box{
-		min-width: 1196px;
-	}
-	.footer-box{
-		min-width: 1196px;
-	}
+	
 	.community-box-container{
 		display: flex;
 		flex-direction: row;
@@ -55,14 +50,25 @@ integrity="sha256-y2bkXLA0VKwUx5hwbBKnaboRThcu7YOFyuYarJbCnoQ=" crossorigin="ano
 		flex-grow: 1;
 		min-width: 0;
 	}
+	.main-img-container{
+		width: 100%;
+		height: 360px;
+		display: flex;
+	}
+	.main-img-content{
+		margin: 0 auto;
+	}
 </style>
 
 </head>
 <body>
-	<div class="header-box">
-	    <tiles:insertAttribute name="header"/>
-	</div>
-    <div style="min-height: calc(100vh - 290px); min-width: 1446px;" class="community-box-container container">
+    <tiles:insertAttribute name="header"/>
+    <div class="main-img-container">
+	   	<a class="main-img-content" href="<c:url value="/"/>">
+    		<img src="http://localhost:8080/team4/resources/img/main.png" alt="2" style="width: 720px; height: 360px;">
+	    </a>
+   	</div>
+    <div style="min-height: calc(100vh - 290px); min-width: 1200px;" class="community-box-container container">
     	<div class="box-sidebar" style="min-height: calc(100vh - 290px);">
 	    	<tiles:insertAttribute name="sidebar" />
     	</div>
@@ -70,8 +76,6 @@ integrity="sha256-y2bkXLA0VKwUx5hwbBKnaboRThcu7YOFyuYarJbCnoQ=" crossorigin="ano
 	    	<tiles:insertAttribute name="body" />
     	</div>
     </div>
-    <div class="footer-box">
-    	<tiles:insertAttribute name="footer" />
-    </div>
+   	<tiles:insertAttribute name="footer" />
 </body>
 </html>

@@ -50,9 +50,26 @@ integrity="sha256-y2bkXLA0VKwUx5hwbBKnaboRThcu7YOFyuYarJbCnoQ=" crossorigin="ano
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
 <link href="${path}/resources/css/bookCss/test.css" rel="stylesheet"/> 
+<style type="text/css">
+	.main-img-container{
+		width: 100%;
+		height: 360px;
+		display: flex;
+	}
+	.main-img-content{
+		margin: 0 auto;
+		
+	}
+</style>
+
 </head>
 <body>
     <tiles:insertAttribute name="header"/>
+    <div class="main-img-container">
+	   	<a class="main-img-content" href="<c:url value="/"/>">
+    		<img src="http://localhost:8080/team4/resources/img/main.png" alt="2" style="width: 720px; height: 360px;">
+	    </a>
+   	</div>
     <div style="min-height: 100vh">
     	<tiles:insertAttribute name="body" />
     </div>

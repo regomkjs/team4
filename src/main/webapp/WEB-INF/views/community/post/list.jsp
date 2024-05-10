@@ -69,7 +69,7 @@
 					<option value="writer" <c:if test='${pm.cri.type == "writer"}'>selected</c:if>>작성자</option>
 				</c:if>
 			</select>
-			<input type="text" name="search" class="form-control" value="${pm.cri.search}">
+			<input type="text" name="search" class="form-control" style="border-left-color: #777; border-top-color: #777; border-bottom-color: #777; " value="${pm.cri.search}">
 			<button type="submit" class="input-group-append btn btn-success search-btn"><i class="fa-solid fa-magnifying-glass mr-1 mt-1"  style="--fa-animation-duration: 1.5s;"></i>검색</button>
 		</div>
 	 	<select class="col-sm-4 ms-auto mt-1 mb-2" name="order">

@@ -29,6 +29,7 @@
 	
 	.side-tab-navi li {
 	  width: 100%;
+	  background-color: white;
 	  cursor: pointer;
 	  border-right: 1px solid #aaa;
 	  border-bottom: 3px solid rgb(250, 208, 203);
@@ -51,6 +52,7 @@
 	}
 	
 	.side-tab-contents {
+		margin-top: -3px;
 	  width: 250px;
 	  height: 200px;
 	  border: 1px solid #aaa;
