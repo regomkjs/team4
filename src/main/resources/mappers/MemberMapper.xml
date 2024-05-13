@@ -313,4 +313,8 @@
 	<select id="totalCountMemberNum" resultType="int">
 		select count(*) from member where me_ms_num > 1
 	</select>
+	
+	<update id="updateResetLoanBlock">
+		update member set me_loan_block = null where me_id = #{user.me_id}
+	</update>
 </mapper>

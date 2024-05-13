@@ -124,6 +124,12 @@ public class HomeController {
 			}
 			
 			Date date = new Date();
+			Date blockDate = user.getMe_loan_block();
+			if(user.getMe_loan_block() != null && blockDate.before(date)) {
+				memberService.updateResetLoanBlock(user);
+			}
+			
+			
 			for (LoanVO loan : loanList) {
 			    for (ReserveVO reserve : reserveList) {
 			        if (reserve.getRe_bo_num() == loan.getLo_bo_num()) {

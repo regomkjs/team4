@@ -364,7 +364,7 @@ public class BookServiceImp implements BookService {
 			if(result) {
 				int diffDay = bookDao.selectDiffDay(loan);
 				int loanCount = bookDao.selectTotalCountLoan(user);
-				int blockDay =  diffDay * loanCount;
+				int blockDay =  diffDay * (loanCount + 1);
 				if(user.getMe_loan_block() == null) {
 					bookDao.addLoanBlock(user, blockDay);
 				}else {

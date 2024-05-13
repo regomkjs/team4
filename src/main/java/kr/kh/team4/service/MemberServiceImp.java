@@ -579,4 +579,9 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.totalCountMemberNum();
 	}
 
+	@Override
+	public void updateResetLoanBlock(MemberVO user) {
+		memberDao.updateResetLoanBlock(user);
+	}
+
 }
