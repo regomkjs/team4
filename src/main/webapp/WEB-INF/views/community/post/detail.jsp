@@ -168,14 +168,15 @@
 									</c:if>
 									<c:forEach items="${itemList}" var="item">
 										<c:if test="${vote.vo_num == item.it_vo_num}">
-											<div class="d-flex">
-												<div class="mr-1 col-2">
-													<label>${item.it_name} :</label>
-												</div>
-												<div class="flex-grow-1">
-													<div class="progress mt-1" style="height:25px;">
-														<div class="progress-bar bg-success" style="width: ${item.it_count / vote.vo_totalMember * 100}%; height: 100%; font-size: large;">${item.it_count}</div>
-													</div>
+											<div class="input-group">
+												<span class="input-group-text">${item.it_name}</span>
+												<div class="progress form-control" style="height:40px; background-color: white;">
+													<c:if test="${item.it_count == 0}">
+														<div class="progress-bar bg-success form-control" style="width: 0%; height: 100%; font-size: large;"></div>
+													</c:if>
+													<c:if test="${item.it_count != 0}">
+														<div class="progress-bar bg-success form-control" style="width: ${item.it_count / vote.vo_totalMember * 100}%; height: 100%; font-size: large;">${item.it_count}표</div>
+													</c:if>
 												</div>
 											</div>
 										</c:if>
