@@ -387,6 +387,7 @@ function initCategory(){
 
 // 게시판 불러오기
 function getCategoryList() {
+	let admin_right = '${user.me_mr_num}';
 	$.ajax({
 		url : '<c:url value="/category/list"/>',
 		method : "post",
@@ -395,13 +396,23 @@ function getCategoryList() {
 			let str ="";
 			for(category of categoryList){
 				if(category.ca_num == 1){
-					str +=
-					`
-						<div class="category-box input-group mb-1">
-							<input class="form-control input-category-name" value="\${category.ca_name}" readonly>
-							<button class="btn btn-success category-btn category-update-btn col-2" data-num="\${category.ca_num}">수정</button>
-						</div>
-					`
+					if(admin_right == 0){
+						str +=
+						`
+							<div class="category-box input-group mb-1">
+								<input class="form-control input-category-name" value="\${category.ca_name}" readonly>
+								<button class="btn btn-success category-btn category-update-btn col-2" data-num="\${category.ca_num}">수정</button>
+							</div>
+						`
+					}
+					else{
+						str +=
+						`
+							<div class="category-box input-group mb-1">
+								<input class="form-control input-category-name" value="\${category.ca_name}" readonly>
+							</div>
+						`
+					}
 				}
 				else{
 					str +=

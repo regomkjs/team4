@@ -146,7 +146,7 @@ ul{padding: 0;}
   cursor: pointer;
 }
 
-.row{padding: 30px 0; border-bottom: 1px solid #000; border-top:1px solid #000; width: 100%; margin-left: 0px;}
+.community-container{padding: 30px 0; border-bottom: 1px solid #000; border-top:1px solid #000; width: 100%; margin-left: 0px;}
 .community-box{ width: 50%;  max-height:500px;}
 
 .book-tap {
@@ -298,8 +298,8 @@ a:hover{text-decoration: none; color: #000;}
 				<c:if test="${user == null}">
 					<div class="login-box text-center">
 						<a href="<c:url value='/login'/>"
-							class="btn btn-outline-success login-btn col-8 mt-2">로그인</a>
-						<div style="width: 100%;" class="mt-5">
+							class="btn btn-outline-success login-btn col-8 mt-5">로그인</a>
+						<div style="width: 100%;" class="mt-2">
 							<a href="<c:url value="/find/id"/>" style="color: gray;">아이디찾기</a>
 							<span style="color: gray; opacity: 60%">|</span> <a
 								href="<c:url value="/find/pw"/>" style="color: gray;">비밀번호찾기</a>
@@ -421,7 +421,7 @@ a:hover{text-decoration: none; color: #000;}
 		</table>
 			  </div>
 			</div>
-				<div class="row justify-content-center">
+				<div class="row justify-content-center community-container">
 					<div class="community-box">
 						<table class="table table-hover table-bordered">
 							<thead>
