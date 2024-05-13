@@ -271,7 +271,15 @@
 	</select>
 	
 	<select id="selectMyReportList" resultType="ReportVO">
-		select * from report 
+		select *,
+			(select 
+				member.me_nick 
+			from 
+				member
+			where 
+				member.me_id = report.rp_writer)as rp_writer_nick 
+		from 
+			report 
 		where
 			rp_me_id = #{user.me_id}
 			<if test='cri.type=="all"'>
