@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,6 +36,7 @@
 				<th class="col-2">도서코드</th>
 				<th class="col-1">대출일</th>
 				<th class="col-1">만기일</th>
+				<th>D-day</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -70,6 +71,17 @@
 			  			</td>
 				  		<td>
 				  			<fmt:formatDate value="${loan.lo_limit}" pattern="yy/MM/dd"/><br/>
+				  		</td>
+				  		<td style="color: red;">
+				  			<c:if test="${loan.lo_day == 0 }">
+				  				d-day
+				  			</c:if>
+				  			<c:if test="${loan.lo_day < 0 }">
+				  				만기일 지남
+				  			</c:if>
+				  			<c:if test="${loan.lo_day > 0 }">
+					  			${loan.lo_day}일
+				  			</c:if>
 				  		</td>
 					</tr>
 				</c:if>
@@ -114,4 +126,7 @@
 	</ul>
 </div>
 </body>
+<script type="text/javascript">
+
+</script>
 </html>

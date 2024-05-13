@@ -93,4 +93,6 @@ public interface MemberDAO {
 
 	int totalCountMemberNum();
 
+	void updateResetLoanBlock(@Param("user")MemberVO user);
+
 }

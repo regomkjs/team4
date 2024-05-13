@@ -3,6 +3,7 @@ package kr.kh.team4.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.mail.internet.MimeMessage;
@@ -21,13 +22,10 @@ import kr.kh.team4.model.vo.member.GradeVO;
 import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.pagination.Criteria;
-
+import kr.kh.team4.pagination.MemberCriteria;
+import lombok.extern.log4j.Log4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
-
-import kr.kh.team4.pagination.MemberCriteria;
-import kr.kh.team4.pagination.MyReportCriteria;
-import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service
@@ -577,6 +575,11 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public int totalCountMemberNum() {
 		return memberDao.totalCountMemberNum();
+	}
+
+	@Override
+	public void updateResetLoanBlock(MemberVO user) {
+		memberDao.updateResetLoanBlock(user);
 	}
 
 }

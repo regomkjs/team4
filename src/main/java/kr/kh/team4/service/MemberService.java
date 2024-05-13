@@ -96,4 +96,6 @@ public interface MemberService {
 
 	int totalCountMemberNum();
 
+	void updateResetLoanBlock(MemberVO user);
+
 }
