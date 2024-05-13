@@ -110,7 +110,7 @@ $("form").validate({
 		},
 		me_email : {
 			required : true,
-			email : true
+			regex : /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,6}$/
 		},
 		me_phone : {
 			required : true,
@@ -139,7 +139,7 @@ $("form").validate({
 		},
 		me_email : {
 			required : "필수 항목입니다.",
-			email : "이메일 형식이 아닙니다."
+			regex : "이메일 형식이 아닙니다."
 		},
 		me_phone : {
 			required : "필수 항목입니다.",
@@ -291,6 +291,7 @@ $(".complete-phone").click(function() {
 		success : function (data){
 			if(data.result){
 				alert("인증 성공")
+				$('[name=me_phone]').attr('readonly', true);
 				$('[name=code]').attr('readonly', true);
 			}
 			else{

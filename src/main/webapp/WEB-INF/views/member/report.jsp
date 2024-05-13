@@ -41,7 +41,7 @@
 				  		<td>${pm.totalCount - vs.index - pm.cri.pageStart}</td>
 				  		<td>${report.rp_type}</td>
 				  		<td>${report.rp_note}</td>
-				  		<td>${report.rp_writer}</td>
+				  		<td>${report.rp_writer_nick}</td>
 				  		<td>
 					  		<c:choose>
 						  		<c:when test="${report.rp_state == 0}">

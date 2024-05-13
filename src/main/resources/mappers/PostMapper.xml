@@ -61,14 +61,16 @@
  		
  		order by 
  			<if test='cri.order == "new"'>
-	 			po_num desc
+	 			po_datetime
  			</if>
 			<if test='cri.order == "view"'>
-	 			po_view desc , po_num desc
+	 			po_view
  			</if>
  			<if test='cri.order == "heart"'>
-	 			po_totalHeart desc , po_num desc
+	 			po_totalHeart
  			</if>
+ 			<if test='cri.role == "asc"'>asc</if>
+			<if test='cri.role == "desc"'>desc</if>, po_num desc
  		limit #{cri.pageStart} , #{cri.perPageNum}
  	</select>
  	
@@ -666,7 +668,18 @@
 					heart
 				where 
 					heart.he_po_num = post.po_num)
-		order by po_view desc
+		order by 
+ 			<if test='cri.order == "new"'>
+	 			po_datetime
+ 			</if>
+			<if test='cri.order == "view"'>
+	 			po_view
+ 			</if>
+ 			<if test='cri.order == "heart"'>
+	 			po_totalHeart
+ 			</if>
+ 			<if test='cri.role == "asc"'>asc</if>
+			<if test='cri.role == "desc"'>desc</if>, po_num desc
  		limit #{cri.pageStart} , #{cri.perPageNum}
  	</select>
  	

@@ -75,7 +75,10 @@ img{ width: 220px;}
 
 .main { background-color: #F7F7F7;}
 
-.media{ position: relative;}
+.media{ position: relative;
+  display: flex;
+  align-items: flex-start;
+  }
 
 .text-group{ margin: 10px; padding: 10px;}
 
@@ -386,7 +389,7 @@ function displayReviewList(list){
         if('${user.me_id}' == item.rv_me_id){
             boxBtns += updateBtn;
         }
-        if('${user.me_mr_num}' <= 1 || '${user.me_id}' == item.rv_me_id){
+        if(('${user.me_mr_num}' <= 1 || '${user.me_id}' == item.rv_me_id) && ${user != null}){
             boxBtns += deleteBtn;
         }
         boxBtns += `</span>`;
@@ -462,11 +465,29 @@ $(".btn-review-insert").click(function () {
 		return;
 	}
 	
+    const currentUserNick = '${user.me_nick}';
+    
+    let isNickExists = false;
+    $(".box-review-list .box-review").each(function() {
+        const nick = $(this).find(".review-section div:first-child").text().trim();
+        if(nick === currentUserNick) {
+            isNickExists = true;
+            return false;
+        }
+    });
+    
+    if(isNickExists) {
+        alert('이미 리뷰를 작성하셨습니다.');
+        return;
+    }
+	
+	
 	let review = {
 			rv_content : $('.textarea-review').val(),
 			rv_score : $('input[name="reviewStar"]:checked').val(),
 			rv_bo_num : '${book.bo_num}'
 	}
+	
 	if(review.rv_content.length == 0){
 		alert('리뷰 내용을 작성하세요.');
 		return;

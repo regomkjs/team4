@@ -182,6 +182,8 @@ public class LibraryAjaxController {
 			}else {
 				res = true;
 				bookService.updateLoanCount(book.getBo_loan_count(),book.getBo_num());
+				MemberVO renewalUser = memberService.getMember(user.getMe_id());
+				session.setAttribute("user", renewalUser);
 			}
 			map.put("result", res);
 			return map;
@@ -252,6 +254,10 @@ public class LibraryAjaxController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		boolean res = bookService.returnBook(user, book);
+		if(res) {
+			MemberVO renewalUser = memberService.getMember(user.getMe_id());
+			session.setAttribute("user", renewalUser);
+		}
 		map.put("result", res);
 		return map;
 	}

@@ -37,6 +37,7 @@
 				<th class="col-2">도서코드</th>
 				<th class="col-1">대출일</th>
 				<th class="col-1">만기일</th>
+				<th class="col-1">D-day</th>
 				<th class="col-1">닉네임</th>
 			</tr>
 		</thead>
@@ -65,6 +66,17 @@
 				  		<td>
 				  			<fmt:formatDate value="${loan.lo_limit}" pattern="yy/MM/dd"/><br/>
 				  		</td>
+				  		<td style="color: red;">
+				  			<c:if test="${loan.lo_day == 0 }">
+				  				d-day
+				  			</c:if>
+				  			<c:if test="${loan.lo_day < 0 }">
+				  				만기일 지남
+				  			</c:if>
+				  			<c:if test="${loan.lo_day > 0 }">
+					  			${loan.lo_day}일
+				  			</c:if>
+				  		</td>
 				  		<td>${loan.me_nick}</td>
 					</tr>
 				</c:if>
@@ -73,32 +85,33 @@
 		<c:if test="${pm.totalCount == 0}">
 			<h1 class="text-center">대출한 책이 없습니다.</h1>
 		</c:if>
-		<!-- The Modal -->
-		<div class="modal" id="myModal">
-			<div class="modal-dialog">
-				<div class="modal-content">
-				
-					<!-- Modal Header -->
-					<div class="modal-header">
-					  <h4 class="modal-title">문자 전송</h4>
-					  <button type="button" class="btn-close" data-dismiss="modal"></button>
-					</div>
-				
-					<!-- Modal body -->
-					<div class="modal-body">
-						<textarea rows="20" cols="60" id="mail-content" name="content">반납 만기일까지 X일 남은 책이 있습니다. 연장해주시거나 반납해주시길 바랍니다.</textarea>
-					</div>
-				
-				    <!-- Modal footer -->
-			      	<div class="modal-footer">
-			        	<button type="button" class="btn btn-success btn-send">전송</button>
-		   	 		</div>
-				</div>
-			</div>
-		</div>
 	</table>
 	<div class="text-right">
-   		<button class="btn btn-outline-primary mail-btn" data-toggle="modal" data-target="#myModal">문자 전송</button>
+   		<button class="btn btn-primary mail-btn" data-bs-toggle="modal" data-bs-target="#myModal">문자 전송</button>
+	</div>
+	<!-- The Modal -->
+	<div class="modal" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header">
+				  <h4 class="modal-title">문자 전송</h4>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+			
+				<!-- Modal body -->
+				<div class="modal-body">
+					<textarea rows="20" cols="60" id="mail-content" name="content">반납 만기일까지 X일 남은 책이 있습니다. 연장해주시거나 반납해주시길 바랍니다.</textarea>
+				</div>
+			
+			    <!-- Modal footer -->
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-success btn-send">전송</button>
+		        	<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+	   	 		</div>
+			</div>
+		</div>
 	</div>
 	<ul class="pagination justify-content-center">
 		<c:if test="${pm.prev}">

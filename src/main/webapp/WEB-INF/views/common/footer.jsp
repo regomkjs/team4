@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style type="text/css">
 .footer{ background: #d5d5d5;}
+.footer-row{padding: 30px 0}
+.footer-row a{text-decoration: none; color: black;}
 </style>
 <div class="main" style="margin:0">
   <!-- Section: Social media -->
@@ -12,7 +14,7 @@
   <section class="footer">
     <div class="container text-center text-md-start mt-3">
       <!-- Grid row -->
-      <div class="row mt-3">
+      <div class="row mt-3 footer-row">
         <!-- Grid column -->
         <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
           <!-- Content -->

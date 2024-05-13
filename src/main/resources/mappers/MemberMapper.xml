@@ -80,7 +80,7 @@
 	</select>
 	
 	<select id="selectMyLoanBook" resultType="BookVO">
-		select * from book 
+		select *,datediff(loan.lo_limit, now()) as lo_day from book 
 		join 
 			loan on lo_bo_num = bo_num
 		where
@@ -271,7 +271,15 @@
 	</select>
 	
 	<select id="selectMyReportList" resultType="ReportVO">
-		select * from report 
+		select *,
+			(select 
+				member.me_nick 
+			from 
+				member
+			where 
+				member.me_id = report.rp_writer)as rp_writer_nick 
+		from 
+			report 
 		where
 			rp_me_id = #{user.me_id}
 			<if test='cri.type=="all"'>
@@ -305,4 +313,8 @@
 	<select id="totalCountMemberNum" resultType="int">
 		select count(*) from member where me_ms_num > 1
 	</select>
+	
+	<update id="updateResetLoanBlock">
+		update member set me_loan_block = null where me_id = #{user.me_id}
+	</update>
 </mapper>

@@ -112,7 +112,7 @@
 		<div class="mb-3">
 			<div style="min-height: 250px; display: block; border: 1px solid; padding: 10px; border-radius: 5px">
 				<c:if test="${voteList.size() != 0 && voteList != null}">
-					<div class="vote-container d-flex flex-wrap">
+					<div class="vote-container d-flex flex-wrap align-items-end">
 						<c:forEach items="${voteList}" var="vote">
 							<c:if test="${vote.vo_state == 1}">
 								<div class="vote-box mb-3" style="margin: 0 auto; height: 100%; width: 30%; min-width: 300px" data-num="${vote.vo_num}" data-date="${vote.vo_date}">
@@ -168,14 +168,15 @@
 									</c:if>
 									<c:forEach items="${itemList}" var="item">
 										<c:if test="${vote.vo_num == item.it_vo_num}">
-											<div class="d-flex">
-												<div class="mr-1 col-2">
-													<label>${item.it_name} :</label>
-												</div>
-												<div class="flex-grow-1">
-													<div class="progress mt-1" style="height:25px;">
-														<div class="progress-bar bg-success" style="width: ${item.it_count / vote.vo_totalMember * 100}%; height: 100%; font-size: large;">${item.it_count}</div>
-													</div>
+											<div class="input-group">
+												<span class="input-group-text">${item.it_name}</span>
+												<div class="progress form-control" style="height:40px; background-color: white;">
+													<c:if test="${item.it_count == 0}">
+														<div class="progress-bar bg-success form-control" style="width: 0%; height: 100%; font-size: large;"></div>
+													</c:if>
+													<c:if test="${item.it_count != 0}">
+														<div class="progress-bar bg-success form-control" style="width: ${item.it_count / vote.vo_totalMember * 100}%; height: 100%; font-size: large;">${item.it_count}표</div>
+													</c:if>
 												</div>
 											</div>
 										</c:if>
@@ -225,7 +226,7 @@
 			<!-- 댓글 입력 박스 -->
 			<div class="comment-input-box">
 				<div class="input-group">
-					<textarea rows="4" class="form-control comment-content" style="border-left-color: #777; border-top-color: #777; border-bottom-color: #777; "></textarea>
+					<textarea rows="4" class="form-control comment-content" style="border-left-color: #777; border-top-color: #777; border-bottom-color: #777; resize: none;"></textarea>
 					<button type="button" class="btn btn-outline-success col-2 btn-comment-insert">등록</button>
 				</div>
 			</div>
@@ -666,7 +667,7 @@ $(document).on("click",".btn-comment-update",function(){
 	let comment = $(this).parents(".box-comment").find(".co_content").text();
 	let textarea =
 	`
-	<textarea rows="3" class="form-control com-input">\${comment}</textarea>
+	<textarea rows="3" class="form-control com-input" style="resize: none;">\${comment}</textarea>
 	`
 	$(this).parents(".box-comment").find(".co_content").after(textarea);
 	// 수정 삭제 버튼 대신 수정 완료 버튼으로 변경
@@ -1065,7 +1066,7 @@ $(document).on("click",".btn-report",function(){
 				</select>
 			</div>
 			<label>신고 내용:</label>
-			<textarea class="form-control report-note mb-2" placeholder="신고 이유를 자세하게 적어주세요."></textarea>
+			<textarea class="form-control report-note mb-2" placeholder="신고 이유를 자세하게 적어주세요." style="resize: none;"></textarea>
 			
 		</div>
 	`

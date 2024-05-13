@@ -373,7 +373,7 @@ public class BookServiceImp implements BookService {
 			if(result) {
 				int diffDay = bookDao.selectDiffDay(loan);
 				int loanCount = bookDao.selectTotalCountLoan(user);
-				int blockDay =  diffDay * loanCount;
+				int blockDay =  diffDay * (loanCount + 1);
 				if(user.getMe_loan_block() == null) {
 					bookDao.addLoanBlock(user, blockDay);
 				}else {
@@ -430,13 +430,11 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean insertReview(ReviewVO review, MemberVO user) {
-		if (review == null) {
-			return false;
-		}
-		if (user == null) {
+		if (review == null || user == null) {
 			return false;
 		}
 		review.setRv_me_id(user.getMe_id());
+		
 		return bookDao.insertReview(review);
 	}
 
