@@ -102,7 +102,7 @@
 			
 				<!-- Modal body -->
 				<div class="modal-body">
-					<textarea rows="20" cols="60" id="mail-content" name="content">반납 만기일까지 X일 남은 책이 있습니다. 연장해주시거나 반납해주시길 바랍니다.</textarea>
+					<textarea rows="20" cols="60" id="mail-content" name="content">반납 만기일까지 3일 남은 책이 있습니다. 연장해주시거나 반납해주시길 바랍니다.</textarea>
 				</div>
 			
 			    <!-- Modal footer -->
@@ -171,25 +171,28 @@ $(".btn-send").click(function(){
             phones.push(phone);
         }
     });
+	 
+	let requests = []; 
+	 
 	$(phones).each(function(index, phone) {
-		
-		$.ajax({
-			async : false,
-			url : '<c:url value="/mail/send"/>',
-			method : "post",
-			data : {
-				phone : phone,
-				content : content
-			},
-			dataType : "json", 
-			success : function (data) {
-				alert('문자 메시지가 성공적으로 전송되었습니다.');
-			},
-			error : function (a,b,c) {
-				alert('문자 메시지 전송에 실패하였습니다');
-			}
-		});
+		let request = $.ajax({
+            url: '<c:url value="/mail/send"/>',
+            method: "post",
+            data: {
+                phone: phone,
+                content: content
+            },
+            dataType: "json"
+        });
+
+        requests.push(request);
 	});
+	
+	Promise.all(requests).then(function(results) {
+        alert('문자 메시지가 성공적으로 전송되었습니다.');
+    }).catch(function(error) {
+        alert('하나 이상의 문자 메시지 전송에 실패하였습니다');
+    });
 });
 </script>
 </html>
