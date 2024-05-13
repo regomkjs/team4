@@ -135,6 +135,8 @@ public class PostController {
 		post.setPo_me_id(user.getMe_id());
 		boolean res = postService.insertPost(post, votes, items);
 		if(res) {
+			MemberVO renewalUser = memberService.getMember(user.getMe_id());
+			session.setAttribute("user", renewalUser);
 			model.addAttribute("msg", "게시글을 등록했습니다.");
 			model.addAttribute("url", "/post/list?ca=" + post.getPo_ca_num());
 		}
