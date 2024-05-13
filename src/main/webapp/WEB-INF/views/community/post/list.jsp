@@ -383,53 +383,53 @@ $(document).on("click",".btn-reporting",function(){
 </script>
 
 <script type="text/javascript">
-	let li_cri = {
-		order : $("[name=order]").val(),
-		role : $("[name=role]").val()
-	}
-	
-	function toggleListRole(li_cri) {
-		if(li_cri.role == "asc"){
-			$("[name=role]").val("desc");
-			li_cri.role = "desc";
-		}else{
-			$("[name=role]").val("asc");
-			li_cri.role = "asc";
-		}
-	}
-	$(document).ready(function () {
-		let text = $('.order-'+li_cri.order).text();
-		markCaret(text, li_cri)
-	})
-	
-	
-	function markCaret(text, li_cri) {
-		$(".li-order-icon").remove();
-		let caret = "";
-		if(li_cri.role == "asc"){
-			caret += text + `<i class="fa-solid fa-caret-up li-order-icon ms-1"></i>` 
-		}
-		else{
-			caret += text + `<i class="fa-solid fa-caret-down li-order-icon ms-1"></i>` 
-		}
-		$('.order-'+li_cri.order).html(caret);
-	}
+let li_cri = {
+	order : $("[name=order]").val(),
+	role : $("[name=role]").val()
+}
 
-	$(document).on("click",".btn-list-order", function () {
-		let order = $(this).data("order");
-		let text = $(this).text();
-		if(order == li_cri.order){
-			toggleListRole(li_cri);
-			$("[name=role]").val(li_cri.role);
-		}else{
-			$("[name=order]").val(order);
-			li_cri.order = order;
-			$("[name=role]").val("desc");
-			li_cri.role = "desc";
-		}
-		
-		$("#searchForm").submit();
-	})
+function toggleListRole(li_cri) {
+	if(li_cri.role == "asc"){
+		$("[name=role]").val("desc");
+		li_cri.role = "desc";
+	}else{
+		$("[name=role]").val("asc");
+		li_cri.role = "asc";
+	}
+}
+$(document).ready(function () {
+	let text = $('.order-'+li_cri.order).text();
+	markCaret(text, li_cri)
+})
+
+
+function markCaret(text, li_cri) {
+	$(".li-order-icon").remove();
+	let caret = "";
+	if(li_cri.role == "asc"){
+		caret += text + `<i class="fa-solid fa-caret-up li-order-icon ms-1"></i>` 
+	}
+	else{
+		caret += text + `<i class="fa-solid fa-caret-down li-order-icon ms-1"></i>` 
+	}
+	$('.order-'+li_cri.order).html(caret);
+}
+
+$(document).on("click",".btn-list-order", function () {
+	let order = $(this).data("order");
+	let text = $(this).text();
+	if(order == li_cri.order){
+		toggleListRole(li_cri);
+		$("[name=role]").val(li_cri.role);
+	}else{
+		$("[name=order]").val(order);
+		li_cri.order = order;
+		$("[name=role]").val("desc");
+		li_cri.role = "desc";
+	}
+	
+	$("#searchForm").submit();
+})
 </script>
 
 
