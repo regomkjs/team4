@@ -49,8 +49,9 @@
 
 </style>
 <body>
-	<div class="container mt-5">
-		<form class="search input-group" method="get" action="<c:url value="/library/bookSale/search"/>">
+	<div class="container ">
+		<div id="nav"></div>
+		<form class="search input-group mt-5" method="get" action="<c:url value="/library/bookSale/search"/>">
 		  	<select  class="form-control" name="type">
 		  		<option value="Keyword">제목+저자</option>
 		  		<option value="Title">도서명</option>

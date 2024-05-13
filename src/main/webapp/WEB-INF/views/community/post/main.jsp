@@ -20,6 +20,11 @@
 			height: 150px;
 			object-fit: contain;
 		}
+		.carousel-item>a>img{
+			width: 100%;
+			height: 150px;
+			object-fit: contain;
+		}
 		.carousel-control-prev-icon, .carousel-control-next-icon {
 			filter: invert(35%) sepia(100%) saturate(7500%) hue-rotate(5deg)
 				brightness(0%) contrast(101%);
@@ -34,7 +39,7 @@
 		data-bs-ride="carousel">
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img src="<c:url value="resources/img/오픈.jpg"/>" alt="1" class="d-block">
+				<a href="<c:url value="/library/book/list"/>"><img src="<c:url value="resources/img/오픈.jpg"/>" alt="1" class="d-block"></a>
 			</div>
 			<div class="carousel-item">
 				<img
@@ -64,6 +69,8 @@
 	</div>
 	
 </div>
+
+
 
 </body>
 </html>

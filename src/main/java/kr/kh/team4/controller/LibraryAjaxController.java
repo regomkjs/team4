@@ -136,7 +136,15 @@ public class LibraryAjaxController {
 		map.put("res", res);
 		return map;
 	}
-
+	
+	@PostMapping("/management/manager/LoanCheck")
+	public Map<String, Object> bookLoanCheck(int num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res=bookService.bookLoanCheck(num);
+		map.put("res", res);
+		return map;
+	}
+	
 	@PostMapping("/management/manager/delete")
 	public Map<String, Object> bookDelete(int num) {
 		Map<String, Object> map = new HashMap<String, Object>();

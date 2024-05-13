@@ -8,14 +8,14 @@
 .side-bar>.frame .click{line-height: 50px; border-bottom: 1px solid #ccc;} 
 .side-bar>.frame ul{margin: 0;} 
 .sub-menu li:hover{background-color:#ddd;}
-.sub-menu{display: none; border: 2px solid #557; box-sizing: border-box; padding: 5px; border-radius: 10px;}
-.main-menu:nth-child(1):hover .sub-menu{display: block;}
-.main-menu:nth-child(2):hover .sub-menu{display: block;}
-.main-menu:nth-child(3):hover .sub-menu{display: block;}
-.main-menu:nth-child(4):hover .sub-menu{display: block;}
-.main-menu:nth-child(5):hover .sub-menu{display: block;}
-.main-menu:nth-child(6):hover .sub-menu{display: block;}
-.main-menu:nth-child(7):hover .sub-menu{display: block;}
+.sub-menu{border: 2px solid #557; box-sizing: border-box; padding: 5px; border-radius: 10px;}
+.main-menu:nth-child(1):hover .dis-none{display: block;}
+.main-menu:nth-child(2):hover .dis-none{display: block;}
+.main-menu:nth-child(3):hover .dis-none{display: block;}
+.main-menu:nth-child(4):hover .dis-none{display: block;}
+.main-menu:nth-child(5):hover .dis-none{display: block;}
+.main-menu:nth-child(6):hover .dis-none{display: block;}
+.main-menu:nth-child(7):hover .dis-none{display: block;}
 
 .book-main .book-list{margin: 10px}
 .book-main{border: 1px solid #aaa; border-radius: 10px; margin-top: 10px}
@@ -32,10 +32,13 @@
 .content-btn button{margin: 5px;}
 .title{font-weight:500; font-size: 16px; }
 
+.accent{font-weight: bold; background-color: #ececec;}
+.dis-none{display: none;}
 </style>
 <body>
-	<div class="container mt-5">
-		<form class="search input-group" method="get"
+	<div class="container">
+		<div id="nav"></div>
+		<form class="search input-group  mt-5" method="get"
 			action="<c:url value="/library/bookSale/search"/>">
 			<select class="form-control" name="type">
 				<option value="Keyword">제목+저자</option>
@@ -53,8 +56,11 @@
 			<div class="side-bar w-25 left cf">
 				<div class="frame">
 					<ul class="main-menu">
+						<li data-num="0" class="click">전체</li>
+					</ul>
+					<ul class="main-menu">
 						<li data-num="55890" class="click">건강/취미</li>
-						<li class="sub-menu">
+						<li class="sub-menu dis-none">
 							<div>		
 								<ul>
 									<li data-num="53521" class="click">건강정보</li>
@@ -67,8 +73,8 @@
 						</li>
 					</ul>
 					<ul class="main-menu">
-						<li data-num="170" class="  click">경제경영</li>
-						<li class="sub-menu">
+						<li data-num="170" class="click">경제경영</li>
+						<li class="sub-menu dis-none">
 							<div>
 								<ul>
 									<li data-num="3057" class="click">경제학/경제일반</li>
@@ -81,8 +87,8 @@
 						</li>
 					</ul>
 					<ul class="main-menu">
-						<li data-num="987" class=" click">과학</li>
-						<li class="sub-menu">
+						<li data-num="987" class="click">과학</li>
+						<li class="sub-menu dis-none">
 							<div>
 								<ul>
 									<li data-num="51002" class="click">기초과학/교양과학</li>
@@ -96,7 +102,7 @@
 					</ul>
 					<ul class="main-menu">
 						<li data-num="2551" class="click">만화</li>
-						<li class="sub-menu">
+						<li class="sub-menu dis-none">
 							<div>
 								<ul>
 									<li data-num="4668" class="click">교양만화</li>
@@ -110,7 +116,7 @@
 					</ul>
 					<ul class="main-menu">
 						<li data-num="1" class="click">소설/시/희곡</li>
-						<li class="sub-menu">
+						<li class="sub-menu dis-none">
 							<div>
 								<ul>
 									<li data-num="50927" class="click">라이트 노벨</li>
@@ -124,7 +130,7 @@
 					</ul>
 					<ul class="main-menu">
 						<li data-num="74" class="click">역사</li>
-						<li class="sub-menu">
+						<li class="sub-menu dis-none">
 							<div>
 								<ul>
 									<li data-num="2177" class="click">문화/역사기행</li>
@@ -137,7 +143,7 @@
 					</ul>
 					<ul class="main-menu">
 						<li data-num="656" class="click">인문학</li>
-						<li class="sub-menu">
+						<li class="sub-menu dis-none">
 							<div>
 								<ul>
 									<li data-num="51378" class="click">교양 인문학</li>
@@ -182,6 +188,11 @@
 		APIdata.Start=1;
 		bookListCri.startPage=1;
 		bookListCri.perPage=10;
+		$(".click").removeClass('accent');
+		$(".sub-menu").addClass('dis-none');
+		$(this).parent().parent().parent('.sub-menu').removeClass('dis-none');
+		$(".click").removeClass('accent');
+		$(this).addClass('accent');
 		BookList()
 	});
 	
@@ -282,5 +293,7 @@
 		}
 		$(".pagination").html(pm);
 	}
+	
+	$(document).ready(function(){ $("#nav").load("/../team4/nav.html");});
 	</script>
 </body>

@@ -173,7 +173,12 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean deleteUpper(int caNum) {
-		return bookDao.deleteUpper(caNum);
+		ArrayList<UnderVO> list=bookDao.selectUnderUpper(caNum);
+		if(list.size()==0) {			
+			return bookDao.deleteUpper(caNum);	
+		}
+		return false;
+		
 	}
 
 	@Override
@@ -192,7 +197,11 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean deleteUnder(int num) {
-		return bookDao.deleteUnder(num);
+		ArrayList<BookVO> list=bookDao.selectBookUnder(num);
+		if(list.size()==0) {			
+			return bookDao.deleteUnder(num);	
+		}
+		return false;
 	}
 
 	@Override
@@ -669,6 +678,16 @@ public class BookServiceImp implements BookService {
 			cri = new Criteria();
 		}
 		return bookDao.getReTotalCount(cri);
+	}
+
+	@Override
+	public boolean bookLoanCheck(int num) {
+		int count=bookDao.bookLoanCheck(num);
+		if(count==0) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }

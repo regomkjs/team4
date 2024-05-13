@@ -65,6 +65,12 @@ public class HomeController {
 		return "/main/home";
 	}
 	
+	@GetMapping("/nav")
+	public String nav(Model model) {
+		
+		return "/nav";
+	}
+	
 	@GetMapping("/signup")
 	public String signup(Model model) {
 		model.addAttribute("title", "회원가입");

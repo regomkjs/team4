@@ -34,8 +34,9 @@ margin-bottom: 10px;}
 .fa-solid{margin-left:5px; }
 </style>
 <body>
-<div class="container mt-5">
-	<div class="search input-group ">
+<div class="container ">
+	<div id="nav"></div>
+	<div class="search input-group  mt-5">
 	  	<select  class="form-control" name="type">
 	  		<option value="all">전체</option>
 	  		<option value="title">도서명</option>
@@ -549,18 +550,24 @@ $(document).on("click",".updateBook",function(){
 <script type="text/javascript">
 $(document).on("click",".deleteBook-btn",function(){
 	if(confirm("삭제 하시겠습니까?")){
+		let num=$(this).data("num");
 		$.ajax({
 			async : true,
-			url : '<c:url value="/management/manager/delete"/>', 
+			url : '<c:url value="/management/manager/LoanCheck"/>', 
 			type : 'post', 
-			data : {num:$(this).data("num")},
+			data : {num},
 			dataType : "json", 
 			success : function (data){
-				if(data){
-					alert("삭제가 되었습니다");
-					displayBookView(cri);
+				console.log(data);
+				if(data.res){
+					deleteBook(num);
 				}else{
-					alert("삭제가 실패됬습니다");
+					let check = confirm("대출 내역이 있습니다. 삭제하시겠습니까?");
+					if(check){
+						deleteBook(num);
+					}else{
+						alert("취소했습니다");
+					}
 				}
 			},error : function(jqXHR, textStatus, errorThrown){
 
@@ -568,5 +575,25 @@ $(document).on("click",".deleteBook-btn",function(){
 		});
 	}
 });
+
+function deleteBook(num) {
+	$.ajax({
+		async : true,
+		url : '<c:url value="/management/manager/delete"/>', 
+		type : 'post', 
+		data : {num},
+		dataType : "json", 
+		success : function (data){
+			if(data){
+				alert("삭제가 되었습니다");
+				displayBookView(cri);
+			}else{
+				alert("삭제가 실패됬습니다");
+			}
+		},error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+}
 </script>
 </body>

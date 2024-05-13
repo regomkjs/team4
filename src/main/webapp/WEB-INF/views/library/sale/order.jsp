@@ -19,8 +19,9 @@
 .day{width: 40px; line-height: 30px; box-sizing: border-box; padding: 10px;}
 </style>
 <body>
-	<div class="container mt-5">
-		<div class="input-group">
+	<div class="container">
+		<div id="nav"></div>
+		<div class="input-group mt-5">
 			<select class="form-control" name="year">
 				
 			</select>
@@ -34,6 +35,7 @@
 			</div>
 		</div>
 		<div class="order mt-4">
+			<div></div>
 			<table class="table table-bordered">
 				<thead class="table-dark">
 					<tr>
