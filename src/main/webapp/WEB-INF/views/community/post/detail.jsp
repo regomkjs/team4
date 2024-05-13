@@ -225,7 +225,7 @@
 			<!-- 댓글 입력 박스 -->
 			<div class="comment-input-box">
 				<div class="input-group">
-					<textarea rows="4" class="form-control comment-content"></textarea>
+					<textarea rows="4" class="form-control comment-content" style="border-left-color: #777; border-top-color: #777; border-bottom-color: #777; "></textarea>
 					<button type="button" class="btn btn-outline-success col-2 btn-comment-insert">등록</button>
 				</div>
 			</div>

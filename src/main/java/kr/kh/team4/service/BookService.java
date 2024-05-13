@@ -119,4 +119,6 @@ public interface BookService {
 
 	ArrayList<BookVO> getReBookList(Criteria cri);
 
+	int getReTotalCount(Criteria cri);
+
 }

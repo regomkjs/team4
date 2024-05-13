@@ -495,9 +495,9 @@
 		where
 		<choose>
 			<when test='cri.type=="all"'>
-				bo_title like concat('%', #{cri.search}, '%') or
+				(bo_title like concat('%', #{cri.search}, '%') or
 				bo_publisher like concat('%', #{cri.search}, '%') or
-				au_name like concat('%', #{cri.search}, '%')
+				au_name like concat('%', #{cri.search}, '%'))
 			</when>
 			<when test='cri.type=="title"'>
 				bo_title like concat('%', #{cri.search}, '%') 
@@ -512,6 +512,7 @@
 				bo_publisher like concat('%', #{cri.search}, '%') 
 			</otherwise>
 		</choose>
+			and bo_code != '미정'
 		<if test='cri.bo_code==1'>
 			GROUP BY bo_title
 			order by bo_title, bo_code
@@ -529,5 +530,52 @@
 			order by bo_num desc
 		</if>
 		LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getReTotalCount" resultType="int">
+		select 
+		
+		<choose>
+			<when test='cri.bo_code==2'>
+				count(DISTINCT bo_isbn)
+			</when>
+			<otherwise>
+				count(*) 
+			</otherwise>
+		</choose>
+		from book 
+		join authors 
+			on bo_num=au_bo_num 
+		join translators 
+			on bo_num=tr_bo_num
+		where
+		<choose>
+			<when test='cri.type=="all"'>
+				(bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%') or
+				au_name like concat('%', #{cri.search}, '%'))
+			</when>
+			<when test='cri.type=="title"'>
+				bo_title like concat('%', #{cri.search}, '%') 
+			</when>
+			<when test='cri.type=="authors"'>
+				au_name like concat('%', #{cri.search}, '%')
+			</when>
+			<when test='cri.type=="code"'>
+				bo_un_num = #{cri.search}
+			</when>
+			<otherwise>
+				bo_publisher like concat('%', #{cri.search}, '%') 
+			</otherwise>
+		</choose>
+			and bo_code != '미정'
+		<choose>
+			<when test='cri.bo_code==2'>
+				order by bo_title, bo_code
+			</when>
+			<otherwise>
+				order by case bo_code when "미정" then 1 else 2 end
+			</otherwise>
+		</choose>
 	</select>
 </mapper>

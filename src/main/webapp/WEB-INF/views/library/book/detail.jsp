@@ -110,7 +110,7 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 						역자: <span>${book.bo_tr_name}</span>
 					</p>
 					<p>
-						출판일: <span><fmt:formatDate value="${book.bo_date}" pattern="yy년 MM월 dd일"/></span>
+						출판일: <span><fmt:formatDate value="${book.bo_date}" pattern="yyyy년 MM월 dd일"/></span>
 					</p>
 					<p>
 						ISBN: <span>${book.bo_isbn}</span>
@@ -219,6 +219,7 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 			success : function(data) {
 				if (data.result) {
 					alert("${book.bo_title}책을 대출했습니다.");
+					location.href = location.href;
 				} else {
 					alert(data.message);
 				}
@@ -257,6 +258,7 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 			success : function(data) {
 				if (data.result) {
 					alert("1주일 연장되었습니다.")
+					location.href = location.href;
 				} else {
 					alert("예약돼 있거나 만기일까지 3일 넘게 남았습니다.")
 				}
@@ -287,6 +289,7 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 			success : function(data) {
 				if (data.result) {
 					alert("${book.bo_title}책을 예약했습니다.");
+					location.href = location.href;
 				} else {
 					alert(data.message);
 				}
@@ -325,7 +328,7 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 			success : function(data) {
 				if (data.result) {
 					alert("${book.bo_title}책을 반납했습니다.");
-
+					location.href = location.href;
 				} else {
 					alert("반납 실패.")
 				}
