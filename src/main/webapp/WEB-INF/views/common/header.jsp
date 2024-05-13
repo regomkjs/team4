@@ -43,3 +43,6 @@
 		</c:if>
 	</ul>
 </nav>
+<script type="text/javascript">
+$(document).ready(function(){ $("#nav").load("/../team4/nav.html");});
+</script>

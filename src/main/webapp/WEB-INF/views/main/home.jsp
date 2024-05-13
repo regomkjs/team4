@@ -171,102 +171,12 @@ ul{padding: 0;}
 .book-item img{ width:100%; height: 270px;}
 .book-item ul li:nth-child(2){font-weight: 700;}
 
-a{text-decoration: none; color: #000;}
-a:hover{text-decoration: none; color: #000;}
 
-.nav-box {height: 60px; background-color: #212529;}
-.nav-box ul,li{padding: 0; margin: 0; text-align: center;}
-.nav-list{width: 20%; position: relative;}
-.nav-box .nav-item{display: block;  border-right: 1px solid #a5a5a5;}
-.nav-list li{ background-color: #fff; z-index:5; position:absolute;
- line-height: 60px; width: 100%; background-color: #212529; color:#a5a5a5;}
-.nav-list li a{color:#a5a5a5;}
-.nav-option div ul li{ padding: 0 1px; display: none;}
-.nav-list:hover .nav-option div ul li{display: block;}
-
-.nav-list li:after{
-  position: absolute;
-  top: 100%;
-  left: 20%;
-  width: 60%;
-  height: 3px;
-  background-color:#fafafa ;
-  content: '';
-  opacity: 0;
-  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
-  -moz-transition: opacity 0.3s, -moz-transform 0.3s;
-  transition: opacity 0.3s, transform 0.3s;
-  -webkit-transform: translateY(0px);
-  -moz-transform: translateY(0px);
-  transform: translateY(0);
-}
-.nav-list li:hover:after{
-   opacity: 1;
-  -webkit-transform: translateY(-10px);
-  -moz-transform: translateY(-10px);
-  transform: translateY(-10px);
-}
-
-.nav-list:nth-of-type(1) {left: 0;}
-.nav-list:nth-of-type(2) {left: 20%;}
-.nav-list:nth-of-type(3) {left: 40%;}
-.nav-list:nth-of-type(4) {left: 60%;}
-.nav-list li:nth-of-type(1){top: 0;}
-.nav-list li:nth-of-type(2){top: 60px;}
-.nav-list li:nth-of-type(3){top: 120px;}
-.nav-list li:nth-of-type(4){top: 180px;}
 </style>
 <body>
 	<div class="container">
 		<div class="main">
-			<div class="nav-box">
-				<ul class="nav-list">
-					<li class="nav-item">도서관</li>
-					<li class="nav-option">
-						<div>
-							<ul>							
-								<li><a href="<c:url value="/library/book/list"/>">도서 목록</a></li>
-							</ul>
-						</div>
-					</li>
-				</ul>
-				<ul class="nav-list">
-					<li class="nav-item"><a href="<c:url value="/post"/>">커뮤니티</a></li>
-					<li class="nav-option">
-						<div>
-							<ul>							
-								<li><a href="<c:url value="/post/list"/>">전체 게시글</a></li>
-								<li><a href="<c:url value="/post/popular?ca=-1"/>">인기 게시글</a></li>
-								<li><a href="<c:url value="/post/list?ca=1"/>">공지 게시판</a></li>
-							</ul>
-						</div>
-					</li>
-				</ul>
-				<ul class="nav-list">
-					<li class="nav-item"><a href="<c:url value="/library/bookSale/list"/>">도서 판매</a></li>
-					<li class="nav-option">
-						<div>
-							<ul>							
-								<li></li>
-							</ul>
-						</div>
-					</li>
-				</ul>
-				<c:if test="${user.me_mr_num<1}">
-					<ul class="nav-list">
-						<li class="nav-item">관리자</li>
-						<li class="nav-option">
-							<div>
-								<ul>							
-									<li><a href="<c:url value="/library/management/manager"/>">도서 관리</a></li>
-									<li><a href="<c:url value="/library/management/bookCategory"/>">도서 카테고리 관리</a></li>
-									<li><a href="<c:url value="/library/management/order"/>">주문 관리</a></li>
-									<li><a href="<c:url value="/library/management/loan"/>">대출 관리</a></li>
-								</ul>
-							</div>
-						</li>
-					</ul>
-				</c:if>
+			<div id="nav">
 			</div>
 			<div class="main-box">
 				<div id="demo" class="carousel slide banner-box"
@@ -680,4 +590,7 @@ function toStringFormatting(source){
 		}
 		return "0" + value;
 	}
+	
+	$(document).ready(function(){ $("#nav").load("/../team4/nav.html");});
+	
 </script>

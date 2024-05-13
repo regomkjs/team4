@@ -14,8 +14,9 @@
 .btn-box #money-btn{position:absolute; left: 30%; }
 </style>
 <body>
-	<div class="container mt-5">
-		<div class="list">
+	<div class="container">
+		<div id="nav"></div>
+		<div class="list mt-5">
 			<table class="table table-bordered">
 				<thead class="table-dark">
 					<tr>

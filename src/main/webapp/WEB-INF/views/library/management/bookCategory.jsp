@@ -13,18 +13,15 @@
 .add-box{text-align: right;}
 .management-add-type{display: inline;}
 
-.select .nav-item:nth-of-type(1){
-	background: #fdfdfd url(../../resources/img/k_icon09.png) no-repeat 40px 20px ;
-}
-
 .type-del-btn{
 	float:right; width:14px; height: 14px; padding: 0; margin:7px 5px 0 0; 
 }
 .fa-regular{ margin-right: 5px;}
 </style>
 <body>
-	<div class="container mt-5">
-		<div class="main">
+	<div class="container">
+		<div id="nav"></div>
+		<div class="main  mt-5">
 			<div class="select">
 				<ul class="nav">
 					<c:forEach items="${upList}" var="category">
@@ -56,7 +53,8 @@
       		<div class="modal-content modal-dialog modal-xl">
         	<!-- Modal Header -->
         		<div class="modal-header">
-          			
+          			<h4 class="modal-title"></h4>
+          			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         		</div>
         		<!-- Modal body -->
         		<div class="modal-body">
@@ -225,7 +223,7 @@
 			<input type="text" class="form-control" placeholder="장르코드" name="code">
 			<input type="text" class="form-control" placeholder="장르명" name="tyName">
 		</div>`;
-		$(".modal-body>.event-box").html(str);
+		$(".modal-body").html(str);
 		str=`<button type="button" class="btn btn-danger type-add-btn" data-bs-dismiss="modal">등록</button>`;
 		$(".modal-footer").html(str);
 	});
