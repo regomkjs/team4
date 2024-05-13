@@ -46,6 +46,9 @@
 		.title-box:hover {
 			cursor: pointer;
 		}
+		.btn-list-order{
+			cursor: pointer;
+		}
 	</style>
 	
 </head>
