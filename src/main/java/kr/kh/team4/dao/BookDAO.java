@@ -149,4 +149,6 @@ public interface BookDAO {
 
 	ArrayList<BookVO> getReBookList(@Param("cri")Criteria cri);
 
+	int getReTotalCount(@Param("cri")Criteria cri);
+
 }

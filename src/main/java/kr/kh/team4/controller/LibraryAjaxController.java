@@ -114,7 +114,7 @@ public class LibraryAjaxController {
 		cri.setPerPageNum(10);
 		System.out.println(cri);
 		ArrayList<BookVO> bookList = bookService.getReBookList(cri);
-		int totalCount = bookService.getTotalCount(cri);
+		int totalCount = bookService.getReTotalCount(cri);
 		PageMaker pm = new PageMaker(5, cri, totalCount);
 		map.put("pm", pm);
 		map.put("bookList", bookList);
@@ -174,6 +174,8 @@ public class LibraryAjaxController {
 			}else {
 				res = true;
 				bookService.updateLoanCount(book.getBo_loan_count(),book.getBo_num());
+				MemberVO renewalUser = memberService.getMember(user.getMe_id());
+				session.setAttribute("user", renewalUser);
 			}
 			map.put("result", res);
 			return map;
@@ -244,6 +246,10 @@ public class LibraryAjaxController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		boolean res = bookService.returnBook(user, book);
+		if(res) {
+			MemberVO renewalUser = memberService.getMember(user.getMe_id());
+			session.setAttribute("user", renewalUser);
+		}
 		map.put("result", res);
 		return map;
 	}

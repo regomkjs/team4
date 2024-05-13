@@ -934,7 +934,7 @@ $(document).on("click",".reportDetailModal",function(){
 	`			
 			</div>
 			<div class="input-group">
-				<div class="input-group-prepend"><span class="input-group-text">신고유형</span></div>
+				<div class="input-group-text"><span class="input-group-text">신고유형</span></div>
 				<input class="input-group form-control" readonly value="\${type}" style="background-color: white;">
 			</div>
 			<div class="input-group">
