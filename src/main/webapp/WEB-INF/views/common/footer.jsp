@@ -5,6 +5,7 @@
 <style type="text/css">
 .footer{ background: #d5d5d5;}
 .footer-row{padding: 30px 0}
+.footer-row a{text-decoration: none; color: black;}
 </style>
 <div class="main" style="margin:0">
   <!-- Section: Social media -->
