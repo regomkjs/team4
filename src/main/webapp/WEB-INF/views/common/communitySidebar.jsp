@@ -46,6 +46,7 @@
 	}
 	
 	.side-tab-navi li.active {
+		font-weight: bolder;
 		background-color: #f5f5f5;
 		border-bottom: 3px solid salmon;
 		box-sizing: border-box;
@@ -1701,7 +1702,7 @@ function getEverything() {
 			caStr += 
 			`
 				<ul style="padding: 0">
-					<li class="category-item"><a class="category-link" href='<c:url value="/post"/>' style="text-decoration: none; color: black;">카페 메인</a></li>
+					<li class="category-item"><a class="category-link" href='<c:url value="/post"/>' style="text-decoration: none; color: black;">커뮤니티 홈 <i class="fa-solid fa-house fa-sm"></i></a></li>
 				</ul>
 				<div class="mt-4" style="font-size: small; color: gray"><i class="fa-solid fa-list"></i> 게시글</div>
 				<ul style="padding: 0">
