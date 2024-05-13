@@ -37,6 +37,7 @@
 				<th class="col-2">도서코드</th>
 				<th class="col-1">대출일</th>
 				<th class="col-1">만기일</th>
+				<th class="col-1">D-day</th>
 				<th class="col-1">닉네임</th>
 			</tr>
 		</thead>
@@ -64,6 +65,17 @@
 			  			</td>
 				  		<td>
 				  			<fmt:formatDate value="${loan.lo_limit}" pattern="yy/MM/dd"/><br/>
+				  		</td>
+				  		<td style="color: red;">
+				  			<c:if test="${loan.lo_day == 0 }">
+				  				d-day
+				  			</c:if>
+				  			<c:if test="${loan.lo_day < 0 }">
+				  				만기일 지남
+				  			</c:if>
+				  			<c:if test="${loan.lo_day > 0 }">
+					  			${loan.lo_day}일
+				  			</c:if>
 				  		</td>
 				  		<td>${loan.me_nick}</td>
 					</tr>

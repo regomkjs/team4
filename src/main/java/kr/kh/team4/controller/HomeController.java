@@ -271,7 +271,6 @@ public class HomeController {
 	public String myLoanBook(Model model, MyBookCriteria cri, HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		ArrayList<BookVO> list = memberService.getMyLoanBookList(cri, user);
-		
 		int totalCount = memberService.totalCountMyLoanBook(cri, user);
 		PageMaker pm = new PageMaker(5, cri, totalCount);
 		model.addAttribute("loanList", list);

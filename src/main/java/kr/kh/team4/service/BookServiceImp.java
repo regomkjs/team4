@@ -421,13 +421,11 @@ public class BookServiceImp implements BookService {
 
 	@Override
 	public boolean insertReview(ReviewVO review, MemberVO user) {
-		if (review == null) {
-			return false;
-		}
-		if (user == null) {
+		if (review == null || user == null) {
 			return false;
 		}
 		review.setRv_me_id(user.getMe_id());
+		
 		return bookDao.insertReview(review);
 	}
 

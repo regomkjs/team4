@@ -80,7 +80,7 @@
 	</select>
 	
 	<select id="selectMyLoanBook" resultType="BookVO">
-		select * from book 
+		select *,datediff(loan.lo_limit, now()) as lo_day from book 
 		join 
 			loan on lo_bo_num = bo_num
 		where
