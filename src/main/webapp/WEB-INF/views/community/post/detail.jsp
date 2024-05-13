@@ -225,7 +225,7 @@
 			<!-- 댓글 입력 박스 -->
 			<div class="comment-input-box">
 				<div class="input-group">
-					<textarea rows="4" class="form-control comment-content" style="border-left-color: #777; border-top-color: #777; border-bottom-color: #777; "></textarea>
+					<textarea rows="4" class="form-control comment-content" style="border-left-color: #777; border-top-color: #777; border-bottom-color: #777; resize: none;"></textarea>
 					<button type="button" class="btn btn-outline-success col-2 btn-comment-insert">등록</button>
 				</div>
 			</div>
@@ -666,7 +666,7 @@ $(document).on("click",".btn-comment-update",function(){
 	let comment = $(this).parents(".box-comment").find(".co_content").text();
 	let textarea =
 	`
-	<textarea rows="3" class="form-control com-input">\${comment}</textarea>
+	<textarea rows="3" class="form-control com-input" style="resize: none;">\${comment}</textarea>
 	`
 	$(this).parents(".box-comment").find(".co_content").after(textarea);
 	// 수정 삭제 버튼 대신 수정 완료 버튼으로 변경
@@ -1065,7 +1065,7 @@ $(document).on("click",".btn-report",function(){
 				</select>
 			</div>
 			<label>신고 내용:</label>
-			<textarea class="form-control report-note mb-2" placeholder="신고 이유를 자세하게 적어주세요."></textarea>
+			<textarea class="form-control report-note mb-2" placeholder="신고 이유를 자세하게 적어주세요." style="resize: none;"></textarea>
 			
 		</div>
 	`

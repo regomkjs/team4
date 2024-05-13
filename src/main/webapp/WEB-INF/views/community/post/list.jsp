@@ -74,7 +74,7 @@
 	 		<option value="heart" <c:if test='${pm.cri.order == "heart"}'>selected</c:if>>좋아요순</option>
 	 	</select>
 	</form>
-
+	<span class="ms-3" style="font-size: small; color: gray">※ <i class="fa-solid fa-check-to-slot" style="color: #ee9953;"></i> : 투표중인 게시글</span>
 	<table class="table table-hover text-center">
 		<thead class="table-secondary">
 			<tr>
@@ -328,7 +328,7 @@ $(document).on("click",".btn-report",function(){
 				</select>
 			</div>
 			<label>신고 내용:</label>
-			<textarea class="form-control report-note mb-2" placeholder="신고 이유를 자세하게 적어주세요."></textarea>
+			<textarea class="form-control report-note mb-2" placeholder="신고 이유를 자세하게 적어주세요." style="resize: none;"></textarea>
 			
 		</div>
 	`
