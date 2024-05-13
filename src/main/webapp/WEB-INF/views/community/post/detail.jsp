@@ -112,7 +112,7 @@
 		<div class="mb-3">
 			<div style="min-height: 250px; display: block; border: 1px solid; padding: 10px; border-radius: 5px">
 				<c:if test="${voteList.size() != 0 && voteList != null}">
-					<div class="vote-container d-flex flex-wrap">
+					<div class="vote-container d-flex flex-wrap align-items-end">
 						<c:forEach items="${voteList}" var="vote">
 							<c:if test="${vote.vo_state == 1}">
 								<div class="vote-box mb-3" style="margin: 0 auto; height: 100%; width: 30%; min-width: 300px" data-num="${vote.vo_num}" data-date="${vote.vo_date}">
