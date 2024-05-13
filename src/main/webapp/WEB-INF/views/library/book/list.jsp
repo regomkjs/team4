@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>	
 <style>
 .category-list{line-height:30px; font-weight:500;}
+
 .side-bar>.frame{ border: 1px solid #aaa; margin: 10px; padding: 10px; border-radius: 10px;} 
 .book-list ul{padding: 0;}
 .book-main .book-list{margin: 10px}
@@ -13,12 +14,16 @@
 .book-img img{ height:100%; }
 .book-content{width: 60%; height:100%; font-size: 16px;}
 
-
 .title{font-weight:500; font-size: 18px; }
+
+.accent{font-weight: bold; background-color: #ececec;}
 </style>
 <body>
-	<div class="container mt-5 cf">
-		<div class="input-group">
+	<div class="container cf">
+		<div id="nav">
+			
+		</div>
+		<div class="input-group mt-5">
 			<select class="form-control" name="type">
 				<option value="all">전체</option>
 				<option value="title">도서명</option>
@@ -36,8 +41,10 @@
 				<div class="frame">
 					<c:forEach items="${upList}" var="category">
 						<c:if test="${category.up_num != 100 }">
-							<div class="category-list click"  data-num="${category.up_num}">
-							    <i class="fa-regular fa-square-plus"></i> ${category.up_name} 
+							<div class="category-list"  >
+							  <div class="category-name click" data-num="${category.up_num}">
+							  <i class="fa-regular fa-square-plus"></i>
+							  ${category.up_name}</div>
 							  <div class="genre-list">
 							   
 							  </div>
@@ -73,16 +80,16 @@
 		})
 		
 		//카테고리에 맞는 장르를 추가함
-		$(".category-list").click(function() {
-			$(".category-list").addClass("click");
-			$(".category-list>i").addClass("fa-square-plus");
-			$(".category-list>i").removeClass("fa-square-minus");
+		$(".category-name").click(function() {
+			$(".category-name").addClass("click");
+			$(".category-name>i").addClass("fa-square-plus");
+			$(".category-name>i").removeClass("fa-square-minus");
 			$(this).removeClass("click");
 			
 			let num=$(this).data("num");
 			
-			$('.category-list[data-num='+num+']>i').removeClass("fa-square-plus");
-			$('.category-list[data-num='+num+']>i').addClass("fa-square-minus");
+			$('.category-name[data-num='+num+']>i').removeClass("fa-square-plus");
+			$('.category-name[data-num='+num+']>i').addClass("fa-square-minus");
 			$.ajax({
 				async : true,
 				url : '<c:url value="/management/manager/category" />', 
@@ -97,7 +104,7 @@
 					}
 					$(".genre-list>li").removeClass("display-block");
 					$(".genre-list>li").addClass("display-none");
-					$('.category-list[data-num='+num+']>.genre-list').html(str);
+					$('.category-name[data-num='+num+']').next().html(str);
 					
 				}, 
 				error : function(jqXHR, textStatus, errorThrown){
@@ -108,7 +115,9 @@
 		
 		$(document).on("click",".select-btn",function() {
 			cri.type="code";
-			cri.search=$(this).attr('value');	
+			cri.search=$(this).attr('value');
+			$(".select-btn").removeClass('accent');
+			$(this).addClass('accent');
 			displayBookView(cri);
 		});
 		

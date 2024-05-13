@@ -151,4 +151,10 @@ public interface BookDAO {
 
 	int getReTotalCount(@Param("cri")Criteria cri);
 
+	int bookLoanCheck(@Param("num")int num);
+
+	ArrayList<BookVO> selectBookUnder(@Param("un_num")int un_num);
+
+	ArrayList<UnderVO> selectUnderUpper(@Param("up_num")int up_num);
+
 }
