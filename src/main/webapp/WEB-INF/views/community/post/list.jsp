@@ -53,6 +53,8 @@
 <div class="mt-4">
 	<c:if test='${pm.cri.type == "target"}'><h1>${pm.cri.search} 작성글 목록</h1></c:if>
 	<form action="<c:url value="/post/list"/>" method="get" class="input-group" id="searchForm">
+		<input name="order" style="display: none;" value="${pm.cri.order}">
+		<input name="role" style="display: none;" value="${pm.cri.role}">
 		<input name="ca" style="display: none;" value="${pm.cri.ca}">
 		<div class="input-group mb-1 w-75 ms-auto"  <c:if test='${pm.cri.type == "target"}'>hidden</c:if>>
 			<select name="type" class="input-group-prepend" >
@@ -68,11 +70,7 @@
 			<input type="text" name="search" class="form-control" style="border-left-color: #777; border-top-color: #777; border-bottom-color: #777; " value="${pm.cri.search}">
 			<button type="submit" class="input-group-append btn btn-success search-btn"><i class="fa-solid fa-magnifying-glass mr-1 mt-1"  style="--fa-animation-duration: 1.5s;"></i>검색</button>
 		</div>
-	 	<select class="col-sm-4 ms-auto mt-1 mb-2" name="order">
-	 		<option value="new" <c:if test='${pm.cri.order == "new"}'>selected</c:if>>최신순</option>
-	 		<option value="view" <c:if test='${pm.cri.order == "view"}'>selected</c:if>>조회수순</option>
-	 		<option value="heart" <c:if test='${pm.cri.order == "heart"}'>selected</c:if>>좋아요순</option>
-	 	</select>
+	 	
 	</form>
 	<span class="ms-3" style="font-size: small; color: gray">※ <i class="fa-solid fa-check-to-slot" style="color: #ee9953;"></i> : 투표중인 게시글</span>
 	<table class="table table-hover text-center">
@@ -82,9 +80,9 @@
 				<th class="col-2">게시판</th>
 				<th>제목</th>
 				<th class="col-2">작성자</th>
-				<th class="col-1.5">작성일</th>
-				<th>조회수</th>
-				<th>좋아요</th>
+				<th class="col-1.5 btn-list-order order-new" data-order="new">작성일</th>
+				<th class="btn-list-order order-view" data-order="view">조회수</th>
+				<th class="btn-list-order order-heart" data-order="heart">좋아요</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -383,6 +381,57 @@ $(document).on("click",".btn-reporting",function(){
 })
 
 </script>
+
+<script type="text/javascript">
+	let li_cri = {
+		order : $("[name=order]").val(),
+		role : $("[name=role]").val()
+	}
+	
+	function toggleListRole(li_cri) {
+		if(li_cri.role == "asc"){
+			$("[name=role]").val("desc");
+			li_cri.role = "desc";
+		}else{
+			$("[name=role]").val("asc");
+			li_cri.role = "asc";
+		}
+	}
+	$(document).ready(function () {
+		let text = $('.order-'+li_cri.order).text();
+		markCaret(text, li_cri)
+	})
+	
+	
+	function markCaret(text, li_cri) {
+		$(".li-order-icon").remove();
+		let caret = "";
+		if(li_cri.role == "asc"){
+			caret += text + `<i class="fa-solid fa-caret-up li-order-icon ms-1"></i>` 
+		}
+		else{
+			caret += text + `<i class="fa-solid fa-caret-down li-order-icon ms-1"></i>` 
+		}
+		$('.order-'+li_cri.order).html(caret);
+	}
+
+	$(document).on("click",".btn-list-order", function () {
+		let order = $(this).data("order");
+		let text = $(this).text();
+		if(order == li_cri.order){
+			toggleListRole(li_cri);
+			$("[name=role]").val(li_cri.role);
+		}else{
+			$("[name=order]").val(order);
+			li_cri.order = order;
+			$("[name=role]").val("desc");
+			li_cri.role = "desc";
+		}
+		
+		$("#searchForm").submit();
+	})
+</script>
+
 
 </body>
 </html>

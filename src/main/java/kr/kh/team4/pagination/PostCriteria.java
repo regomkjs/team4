@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 public class PostCriteria extends Criteria{
 	private int ca;
 	private String order = "new";
+	private String role = "desc";
+	
 	public PostCriteria(int ca) {
 		super();
 		this.ca = ca;
@@ -19,11 +21,17 @@ public class PostCriteria extends Criteria{
 		this.order = order;
 	}
 	
+	public PostCriteria (String order, String role) {
+		super();
+		this.order = order;
+		this.role = role;
+	}
 	
-	public PostCriteria(int ca, String order) {
+	public PostCriteria(int ca, String order, String role) {
 		super();
 		this.ca = ca;
 		this.order = order;
+		this.role = role;
 	}
 	
 }
