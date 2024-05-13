@@ -121,4 +121,6 @@ public interface BookService {
 
 	int getReTotalCount(Criteria cri);
 
+	boolean bookLoanCheck(int num);
+
 }

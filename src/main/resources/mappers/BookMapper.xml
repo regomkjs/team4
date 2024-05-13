@@ -578,4 +578,13 @@
 			</otherwise>
 		</choose>
 	</select>
+	<select id="bookLoanCheck" resultType="int">
+		SELECT count(*) FROM loan where lo_state=1 and lo_bo_num=#{num}
+	</select>
+	<select id="selectBookUnder" resultType="BookVO">
+		select * from book where bo_un_num=#{un_num}
+	</select>
+	<select id="selectUnderUpper" resultType="kr.kh.team4.model.vo.book.UnderVO">
+		select * from under where un_up_num=#{up_num}
+	</select>
 </mapper>
