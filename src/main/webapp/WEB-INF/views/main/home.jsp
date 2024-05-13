@@ -147,7 +147,7 @@ ul{padding: 0;}
   cursor: pointer;
 }
 
-.row{padding: 30px 0; border-bottom: 1px solid #000; border-top:1px solid #000; width: 100%; margin-left: 0px;}
+.community-container{padding: 30px 0; border-bottom: 1px solid #000; border-top:1px solid #000; width: 100%; margin-left: 0px;}
 .community-box{ width: 50%;  max-height:500px;}
 
 .book-tap {
@@ -408,7 +408,7 @@ a:hover{text-decoration: none; color: #000;}
 		</table>
 			  </div>
 			</div>
-				<div class="row justify-content-center">
+				<div class="row justify-content-center community-container">
 					<div class="community-box">
 						<table class="table table-hover table-bordered">
 							<thead>
