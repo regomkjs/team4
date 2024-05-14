@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <html>
@@ -107,8 +108,19 @@
 										href="<c:url value="/post/detail?ca=0&num=${post.po_num}"/>">${post.po_title}</a>
 									</span>
 									<span class="ms-auto">
-								 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
-               							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
+										<c:set var="now" value="<%=new java.util.Date()%>" />
+										<c:set var="today">
+											<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
+										</c:set>
+										<c:set var="postdate" value="${post.po_datetime}"/>
+										<c:choose>
+											<c:when test="${fn:substring(postdate,0,10) == today}">
+												${fn:substring(postdate,11,16)}
+											</c:when>
+											<c:otherwise>
+												${fn:substring(postdate,0,10)}
+											</c:otherwise>
+										</c:choose>
 									</span>
 								</td>
 							</tr>
@@ -142,8 +154,19 @@
 										</span>
 										<span style="color: #FA5858; font-weight: bold;" class="ms-1">${post.po_totalHeart}</span>
 										<span class="ms-auto">
-									 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
-	               							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
+									 		<c:set var="now" value="<%=new java.util.Date()%>" />
+											<c:set var="today">
+												<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
+											</c:set>
+											<c:set var="postdate" value="${post.po_datetime}"/>
+											<c:choose>
+												<c:when test="${fn:substring(postdate,0,10) == today}">
+													${fn:substring(postdate,11,16)}
+												</c:when>
+												<c:otherwise>
+													${fn:substring(postdate,0,10)}
+												</c:otherwise>
+											</c:choose>
 										</span>
 									</td>
 								</tr>
@@ -178,8 +201,19 @@
 									</span>
 									<span style="color: #FA5858; font-weight: bold;" class="ms-1">${post.po_totalHeart}</span>
 									<span class="ms-auto">
-								 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
-               							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
+								 		<c:set var="now" value="<%=new java.util.Date()%>" />
+										<c:set var="today">
+											<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
+										</c:set>
+										<c:set var="postdate" value="${post.po_datetime}"/>
+										<c:choose>
+											<c:when test="${fn:substring(postdate,0,10) == today}">
+												${fn:substring(postdate,11,16)}
+											</c:when>
+											<c:otherwise>
+												${fn:substring(postdate,0,10)}
+											</c:otherwise>
+										</c:choose>
 									</span>
 								</td>
 							</tr>
@@ -213,8 +247,19 @@
 									</span>
 									<span style="color: #FA5858; font-weight: bold;" class="ms-1">${post.po_totalHeart}</span>
 									<span class="ms-auto">
-								 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
-               							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
+								 		<c:set var="now" value="<%=new java.util.Date()%>" />
+										<c:set var="today">
+											<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
+										</c:set>
+										<c:set var="postdate" value="${post.po_datetime}"/>
+										<c:choose>
+											<c:when test="${fn:substring(postdate,0,10) == today}">
+												${fn:substring(postdate,11,16)}
+											</c:when>
+											<c:otherwise>
+												${fn:substring(postdate,0,10)}
+											</c:otherwise>
+										</c:choose>
 									</span>
 								</td>
 							</tr>
