@@ -690,4 +690,12 @@ public class BookServiceImp implements BookService {
 		}
 	}
 
+	@Override
+	public boolean updateUnder(int unNum, String name) {
+		if(checkString(name)) {
+			return false;
+		}
+		return bookDao.updateUnder(unNum,name);
+	}
+
 }

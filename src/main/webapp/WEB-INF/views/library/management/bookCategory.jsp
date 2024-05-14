@@ -9,10 +9,11 @@
 .nav{display: flex;justify-content :space-between;}
 .category-list{border-bottom: 2px solid #ccc; border-top: 2px solid #ccc; }
 .genre-list{display:block; width: 20%;}
-.genre-list>li{line-height:30px; border-bottom: 1px solid #ccc; margin: 5px;}
+.genre-list>li{line-height:30px; border-bottom: 1px solid #ccc; margin: 5px; position: relative;}
 .add-box{text-align: right;}
 .management-add-type{display: inline;}
 
+.fa-solid{position: absolute; font-size:14px; top: 7px; right: 27px; cursor: pointer;}
 .type-del-btn{
 	float:right; width:14px; height: 14px; padding: 0; margin:7px 5px 0 0; 
 }
@@ -108,6 +109,8 @@
 						}
 						str+=`
 					        <li>[\${un.un_up_num}\${un.un_code<10?'0'+un.un_code:un.un_code}] \${un.un_name}
+					        <i class="fa-solid fa-wrench" data-bs-toggle="modal" data-bs-target="#myModal"
+					        	data-num="\${un.un_num}"></i>
 					        <button type="button" class="btn-close type-del-btn" data-num="\${un.un_num}"></button></li>
 						`; 
 						if(un.un_code/10>=num){
@@ -286,6 +289,42 @@
 		}else{
 			alert("취소했습니다");
 		}
+	});
+	
+	let unNum;
+	$(document).on("click",".fa-solid",function(){
+		unNum=$(this).data('num');
+		$(".modal-title").text("장르 수정");
+		$(".ca-menu").hide();
+		let str=`
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="장르명" name="tyName">
+		</div>`;
+		$(".modal-body").html(str);
+		str=`<button type="button" class="btn btn-danger type-update-btn" data-bs-dismiss="modal">등록</button>`;
+		$(".modal-footer").html(str);
+	});
+	
+	$(document).on("click",".type-update-btn",function(){
+			$.ajax({
+				async : true,
+				url : '<c:url value="/management/bookType/update"/>', 
+				type : 'post', 
+				data : {unNum,
+					name:$('input[name=tyName]').val()
+					}, 
+				success : function (data){
+					if(data.res){
+						alert("수정 되었습니다");
+					}else{
+						alert("수정에 실패했습니다");
+					}
+					displayTypeView(upNum);
+				}, 
+				error : function(jqXHR, textStatus, errorThrown){
+	
+				}
+			});
 	});
 	</script>
 </body>

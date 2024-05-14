@@ -157,4 +157,6 @@ public interface BookDAO {
 
 	ArrayList<UnderVO> selectUnderUpper(@Param("up_num")int up_num);
 
+	boolean updateUnder(@Param("un_num")int unNum,@Param("name") String name);
+
 }
