@@ -724,4 +724,14 @@ public class PostServiceImp implements PostService {
 		return postDAO.totalCountPopularPost(cri);
 	}
 
+	@Override
+	public ArrayList<PostVO> getNewPostList() {
+		return postDAO.selectNewPostList();
+	}
+
+	@Override
+	public ArrayList<PostVO> getVotePostList() {
+		return postDAO.selectVotePostList();
+	}
+
 }

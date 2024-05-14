@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <html>
@@ -29,6 +30,25 @@
 			filter: invert(35%) sepia(100%) saturate(7500%) hue-rotate(5deg)
 				brightness(0%) contrast(101%);
 		}
+		.community-container{padding: 30px 0; width: 100%; margin-left: 0px;}
+		.community-box{ width: 50%; max-height:500px; }
+		.boardname {
+			color: #046582;
+			text-decoration: none;
+		}
+		
+		.aTag-home {
+		
+			text-decoration: none;
+			color: #046582;
+		}
+		
+		.aTag-home:hover {
+			text-decoration: underline;
+			color: #848484;
+		}
+			
+	
 	</style>
 	
 </head>
@@ -67,7 +87,150 @@
 			<span class="carousel-control-next-icon"></span>
 		</button>
 	</div>
-	
+	<div class="container">
+		<div class="row justify-content-between community-container">
+			<div class="community-box">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th style="text-align: left;"><a
+								href="<c:url value="/post/list?ca=1"/>" class="boardname">공지사항</a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${noticeList}" var="post">
+							<tr>
+								<td style="text-align: left;" class="d-flex">
+									<span style="max-width: 275px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+										<a class="aTag-home"
+										href="<c:url value="/post/detail?ca=0&num=${post.po_num}"/>">${post.po_title}</a>
+									</span>
+									<span class="ms-auto">
+								 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
+               							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
+									</span>
+								</td>
+							</tr>
+						</c:forEach>
+						<c:if test="${noticeList.size() == 0}">
+							<tr>
+								<td>등록된 공지가 없습니다.</td>
+							</tr>
+						</c:if>
+					</tbody>
+				</table>
+				<hr class="d-sm-none">
+			</div>
+			<div class="community-box">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th style="text-align: left;"><a
+								href="<c:url value="/post/popular?ca=-1" />" class="boardname">인기게시글</a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${hotList}" var="post">
+							<c:if test="${post.po_totalHeart >= 1}">
+								<tr>
+									<td style="text-align: left; " class="d-flex">
+										<span style="max-width: 275px; overflow:hidden; text-overflow:ellipsis;">
+										<a class="aTag-home"
+										href="<c:url value="/post/detail?ca=0&num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
+										</span>
+										<span style="color: #FA5858; font-weight: bold;" class="ms-1">${post.po_totalHeart}</span>
+										<span class="ms-auto">
+									 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
+	               							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
+										</span>
+									</td>
+								</tr>
+							</c:if>
+						</c:forEach>
+
+						<c:if test="${hotList.size() == 0}">
+							<tr>
+								<td>등록된 인기글이 없습니다.</td>
+							</tr>
+						</c:if>
+					</tbody>
+				</table>
+				<hr class="d-sm-none">
+			</div>
+			<div class="community-box">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th style="text-align: left;"><a
+								href="<c:url value="/post/list?ca=0" />" class="boardname">최신게시글</a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${newPostList}" var="post">
+							<tr>
+								<td style="text-align: left; " class="d-flex">
+									<span style="max-width: 275px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+									<a class="aTag-home"
+									href="<c:url value="/post/detail?ca=0&num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
+									</span>
+									<span style="color: #FA5858; font-weight: bold;" class="ms-1">${post.po_totalHeart}</span>
+									<span class="ms-auto">
+								 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
+               							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
+									</span>
+								</td>
+							</tr>
+						</c:forEach>
+
+						<c:if test="${newPostList.size() == 0}">
+							<tr>
+								<td>등록된 글이 없습니다.</td>
+							</tr>
+						</c:if>
+					</tbody>
+				</table>
+				<hr class="d-sm-none">
+			</div>
+			<div class="community-box">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th style="text-align: left;">
+								<span class="boardname">진행중인 투표게시글</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${votePostList}" var="post">
+							<tr>
+								<td style="text-align: left; " class="d-flex">
+									<span style="max-width: 275px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+										<a class="aTag-home"
+										href="<c:url value="/post/detail?ca=0&num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
+									</span>
+									<span style="color: #FA5858; font-weight: bold;" class="ms-1">${post.po_totalHeart}</span>
+									<span class="ms-auto">
+								 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
+               							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
+									</span>
+								</td>
+							</tr>
+						</c:forEach>
+
+						<c:if test="${votePostList.size() == 0}">
+							<tr>
+								<td>진행중인 투표글이 없습니다.</td>
+							</tr>
+						</c:if>
+					</tbody>
+				</table>
+				<hr class="d-sm-none">
+			</div>
+		</div>
+	</div>
 </div>
 
 
