@@ -89,6 +89,8 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 .info{ background: #e72900; color: #fff; width: 150px; border-radius: 5px; text-align: center;}
 
 .loan-group{ border: 1px solid black; border-radius: 5px; background: white; margin: 10px; padding: 10px;}
+
+.book-info{ margin: 10px; padding: 10px;}
 </style>
 <meta charset="UTF-8">
 <body>
@@ -124,7 +126,7 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 				</div>
 			</div>
 			<hr class="bar">
-			<div>
+			<div class="book-info">
 			<h5>책 소개</h5>
 			${book.bo_contents}
 			</div>
