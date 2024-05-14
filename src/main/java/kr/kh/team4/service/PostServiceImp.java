@@ -663,6 +663,9 @@ public class PostServiceImp implements PostService {
 		CommentVO comment = postDAO.selectComment(num);
 		String rp_target = "co_"+comment.getCo_num();
 		ArrayList<ReportVO> reportList = postDAO.selectReportListByTarget(rp_target);
+		if(reportList.size() == 0 || reportList == null) {
+			return postDAO.deleteCommentAdmin(num);
+		}
 		for(ReportVO report : reportList) {
 			postDAO.decreaseReportCount(report.getRp_writer());
 		}
