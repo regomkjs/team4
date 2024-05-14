@@ -109,7 +109,7 @@ public class PostAjaxController {
 			map.put("message", message);
 			return map;
 		}
-		if(user.getMe_id().equals(comment.getCo_me_id())) {
+		else if(user.getMe_id().equals(comment.getCo_me_id())) {
 			res = postService.deleteComment(num, user);
 			if(!res) {
 				message = "댓글 삭제에 실패했습니다.";
@@ -118,8 +118,8 @@ public class PostAjaxController {
 			map.put("result", res);
 			return map;
 		}
-		if(user.getMe_mr_num() == 0) {
-			res = postService.deleteComment(num, user);
+		else if(user.getMe_mr_num() == 0) {
+			res = postService.deleteCommentAdmin(num);
 			if(!res) {
 				message = "댓글 삭제에 실패했습니다.";
 				map.put("message", message);
@@ -136,7 +136,7 @@ public class PostAjaxController {
 				return map;
 			}
 			else {
-				res = postService.deleteComment(num, user);
+				res = postService.deleteCommentAdmin(num);
 				if(!res) {
 					message = "댓글 삭제에 실패했습니다.";
 					map.put("message", message);
@@ -145,11 +145,13 @@ public class PostAjaxController {
 				return map;
 			}
 		}
-		res = false;
-		message = "댓글 삭제에 실패했습니다.";
-		map.put("result", res);
-		map.put("message", message);
-		return map;
+		else {
+			res = false;
+			message = "댓글 삭제에 실패했습니다.";
+			map.put("result", res);
+			map.put("message", message);
+			return map;
+		}
 	}
 	
 	@ResponseBody
