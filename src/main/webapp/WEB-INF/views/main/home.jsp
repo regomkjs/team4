@@ -93,6 +93,8 @@ ul{padding: 0;}
 .aTag-home {
 	text-decoration: none;
 	color: #046582;
+	max-width: 300px;
+	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 
 .aTag-home:hover {
@@ -334,9 +336,12 @@ ul{padding: 0;}
 							<tbody>
 								<c:forEach items="${noticeList}" var="post">
 									<tr>
-										<td style="text-align: left;"><a class="aTag-home"
-											href="<c:url value="/post/detail?ca=1&num=${post.po_num}"/>">${post.po_title}</a> 
-											<span style="float: right">
+										<td style="text-align: left;" class="d-flex">
+											<span style="max-width: 300px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+												<a class="aTag-home"
+												href="<c:url value="/post/detail?ca=1&num=${post.po_num}"/>">${post.po_title}</a> 
+											</span>
+											<span class="ms-auto">
 										 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
 	                							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
 											</span>
@@ -365,10 +370,13 @@ ul{padding: 0;}
 								<c:forEach items="${hotList}" var="post">
 									<c:if test="${post.po_totalHeart >= 1}">
 										<tr>
-											<td style="text-align: left;"><a class="aTag-home"
-												href="<c:url value="/post/detail?ca=-1&num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
-												<span style="color: #FA5858; font-weight: bold;">${post.po_totalHeart}</span>
-												<span style="float: right">
+											<td style="text-align: left;" class="d-flex">
+												<span style="max-width: 300px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+													<a class="aTag-home"
+													href="<c:url value="/post/detail?ca=-1&num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
+												</span>
+												<span style="color: #FA5858; font-weight: bold;" class="ms-1">${post.po_totalHeart}</span>
+												<span class="ms-auto">
 											 		<fmt:parseDate value="${post.po_datetime}" pattern="yyyy-MM-dd HH:mm:ss" var="parsedDate"/>
 		                							<fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd"/>
 												</span>

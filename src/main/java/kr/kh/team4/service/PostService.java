@@ -122,4 +122,8 @@ public interface PostService {
 
 	int totalCountPopularPost(Criteria cri);
 
+	ArrayList<PostVO> getNewPostList();
+
+	ArrayList<PostVO> getVotePostList();
+
 }
