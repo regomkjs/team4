@@ -663,6 +663,9 @@ public class PostServiceImp implements PostService {
 		CommentVO comment = postDAO.selectComment(num);
 		String rp_target = "co_"+comment.getCo_num();
 		ArrayList<ReportVO> reportList = postDAO.selectReportListByTarget(rp_target);
+		if(reportList.size() == 0 || reportList == null) {
+			return postDAO.deleteCommentAdmin(num);
+		}
 		for(ReportVO report : reportList) {
 			postDAO.decreaseReportCount(report.getRp_writer());
 		}
@@ -719,6 +722,16 @@ public class PostServiceImp implements PostService {
 		}
 		
 		return postDAO.totalCountPopularPost(cri);
+	}
+
+	@Override
+	public ArrayList<PostVO> getNewPostList() {
+		return postDAO.selectNewPostList();
+	}
+
+	@Override
+	public ArrayList<PostVO> getVotePostList() {
+		return postDAO.selectVotePostList();
 	}
 
 }

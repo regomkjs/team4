@@ -122,6 +122,13 @@ public class MemberServiceImp implements MemberService {
 		if(user == null || !passwordEncoder.matches(loginDto.getPw(), user.getMe_pw())) {
 			return null;
 		}
+		ArrayList<GradeVO> gradeList = memberDao.selectGradeList();
+		//등급 변경
+		for(GradeVO grade : gradeList) {
+			if(user.getMe_loan_count() >= grade.getGr_loan_condition() && user.getMe_post_count() >= grade.getGr_post_condition()) {
+				memberDao.updateUserGrade(user.getMe_id(), grade.getGr_num());
+			}
+		}
 		return user;
 	}
 	

@@ -49,8 +49,16 @@ public class PostController {
 		PostCriteria tmp = new PostCriteria(-2);
 		PageMaker pm = new PageMaker(5, tmp, 5);
 		ArrayList<CategoryVO> list = postService.getCategoryList();
+		ArrayList<PostVO> noticeList = postService.getNoticeList();
+		ArrayList<PostVO> hotList = postService.getHotList();
+		ArrayList<PostVO> newPostList = postService.getNewPostList();
+		ArrayList<PostVO> votePostList = postService.getVotePostList();
 		model.addAttribute("pm", pm);
 		model.addAttribute("categoryList", list);
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("hotList", hotList);
+		model.addAttribute("newPostList", newPostList);
+		model.addAttribute("votePostList", votePostList);
 		model.addAttribute("title", "커뮤니티");
 		return "/community/post/main";
 	}
