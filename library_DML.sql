@@ -12,5 +12,6 @@ SET GLOBAL sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_
 */
 
 insert into `member_right` values (0,'마스터'),(1,'운영진'),(2,'회원');
-insert into `member_state` values (2,'유저'),(3,'정지');
-
+insert into `member_state` values (1,'영구정지'),(2,'유저'),(3,'정지');
+insert into `grade` values (1,'임시', 0, 0, 0),(2, '신규회원', 0, 0, 0);
+insert into `category` values (1, '공지사항'), (2, '가입인사'), (3, '토론게시판'), (4, '도서추천');
