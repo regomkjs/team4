@@ -18,14 +18,9 @@ public class BaskatLoginInterceptor extends HandlerInterceptorAdapter{
 		MemberVO user = (MemberVO) request.getSession().getAttribute("user");
 	
 		if(user==null) {
+			request.getSession().setAttribute("chGuest","gues");
 			response.sendRedirect(request.getContextPath() + "/login");
 			return false;
-		}
-		String url = (String)request.getSession().getAttribute("prevUrl");
-		//되돌아갈 url이 있으면 해당 url로 돌아감
-		if(url != null) {
-			response.sendRedirect(url);
-			request.getSession().removeAttribute("prevUrl");
 		}
 		return true;
 	}

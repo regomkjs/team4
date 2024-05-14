@@ -208,6 +208,7 @@ public class HomeController {
 		memberService.updateMemberCookie(user);
 		
 		session.removeAttribute("user");
+		session.removeAttribute("chGuest");
 		model.addAttribute("msg", "로그아웃 했습니다.");
 		model.addAttribute("url", "/");
 		return "message";

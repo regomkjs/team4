@@ -34,6 +34,7 @@
         <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/member/mypage.jsp" />
     </definition>
+    
 	
 	<!-- 팝업 레이아웃 -->
 	<definition name="/popup/*/*" template="/WEB-INF/views/layout/popupLayout.jsp">

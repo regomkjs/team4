@@ -43,8 +43,14 @@
 	<beans:bean id="guestInterceptor" class="kr.kh.team4.interceptor.GuestInterceptor"/>
 	<!-- AutoLoginInterceptor -->
 	<beans:bean id="autoLoginInterceptor" class="kr.kh.team4.interceptor.AutoLoginInterceptor"/>
+	<!-- 장바구니 -->
+	<beans:bean id="BaskatLoginInterceptor" class="kr.kh.team4.interceptor.BaskatLoginInterceptor"/>
 	<!-- 인터셉터 맵핑 -->
 	<interceptors>
+		<interceptor>
+			<mapping path="/library/book/sale"/>
+			<beans:ref bean="BaskatLoginInterceptor"/>
+		</interceptor>
 		<interceptor>
 			<mapping path="/login"/>
 			<beans:ref bean="loginInterceptor"/>
