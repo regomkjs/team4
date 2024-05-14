@@ -16,14 +16,14 @@ ul{padding: 0;}
 	margin-top: 20px;
 	width: 60%;
 	height: 350px;
-	overflow: hidden;
 }
 
 .carousel-item img {
 	width: 100%;
-	height: 100%:
+	height: 100%;
 	object-fit: cover;
 }
+
 .login-box {
 	margin-top: 60px;
 	border: 1px solid black;
@@ -49,14 +49,6 @@ ul{padding: 0;}
 	display: flex;
 	justify-content: space-around;
 	margin-bottom: 20px;
-}
-
-.notice, .hot-post {
-	width: 45%;
-	height: 150px;
-	background: #f2f2f2;
-	text-align: center;
-	line-height: 150px;
 }
 
 .book-tab {

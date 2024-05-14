@@ -105,7 +105,6 @@ public class HomeController {
 	@PostMapping("/login")
 	public String loginPost(Model model, LoginDTO loginDto) {
 		MemberVO user = memberService.login(loginDto);
-		ArrayList<GradeVO> gradeList = memberService.getGradeList();
 		ArrayList<ReserveVO> reserveList = bookService.getReList(user);
 		ArrayList<LoanVO> loanList = bookService.getLoan();
 		if(user != null) {
