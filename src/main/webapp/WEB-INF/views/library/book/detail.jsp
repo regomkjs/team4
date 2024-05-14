@@ -75,29 +75,34 @@ img{ width: 220px;}
 
 .main { background-color: #F7F7F7;}
 
-.media{ position: relative;
-  display: flex;
-  align-items: flex-start;
+.media{ 
+	padding: 10px;
+	margin: 10px;
+	position: relative;
+  	display: flex;
+  	align-items: flex-start;
   }
 
 .text-group{ margin: 10px; padding: 10px;}
 
 hr{ margin-top: 45px; margin-bottom: 40px;}
 
-.btn-group{ padding: 5px}
+.btn-group{ margin: 10px;}
 
 .info{ background: #e72900; color: #fff; width: 150px; border-radius: 5px; text-align: center;}
 
 .loan-group{ border: 1px solid black; border-radius: 5px; background: white; margin: 10px; padding: 10px;}
 
 .book-info{ margin: 10px; padding: 10px;}
+
+.main-info{ margin-left: 10px; padding-left: 10px;}
 </style>
 <meta charset="UTF-8">
 <body>
 	<div class="container">
 		<div id="nav"></div>
 		<div class="main">
-			<h3>상세정보</h3>
+			<h3 class="main-info">상세정보</h3>
 			<hr class="bar">
 			<div class="media">
 				<img alt="${book.bo_title}" src="${book.bo_thumbnail}" />
@@ -174,7 +179,7 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 			</div>
 			<hr class="bar">
 			<div class="container-review mt-3 mb-3">
-				<h3>
+				<h3 class="main-info">
 					리뷰(<span class="review-total">2</span>)
 				</h3>
 				<div class="box-review-list">
@@ -417,7 +422,7 @@ function displayReviewList(list){
      
 		str += 
 		`
-	 		<div class="box-review d-flex justify-content-between align-items-center">
+	 		<div class="box-review d-flex justify-content-between align-items-center" style="margin:10px; padding:10px;">
                 <div class="review-section">
                     <div style="font-size: 20px">\${item.me_nick} \${userImage}</div>
                     <div style="font-size: 15px">\${stars}</div>
@@ -426,8 +431,8 @@ function displayReviewList(list){
                 </div>
                 \${boxBtns}
             </div>
-            <i class="bi bi-hand-thumbs-up btn-up" style="font-size : 20px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}"><span class="text-up">\${item.rv_up}</span></i>
-            <i class="bi bi-hand-thumbs-down btn-down" style="font-size : 20px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}"><span class="text-down">\${item.rv_down}</span></i>
+            <i class="bi bi-hand-thumbs-up btn-up" style="font-size : 20px; cursor:pointer; margin:10px; padding:10px;" data-state="1" data-num="\${item.rv_num}"><span class="text-up">\${item.rv_up}</span></i>
+            <i class="bi bi-hand-thumbs-down btn-down" style="font-size : 20px; cursor:pointer; margin:10px; padding:3px;" data-state="-1" data-num="\${item.rv_num}"><span class="text-down">\${item.rv_down}</span></i>
             <hr>
             <div style="clear: both;"></div>
 		`
@@ -720,5 +725,4 @@ function displayOpinion(state, rv_num) {
         $(`.btn-down[data-num=\${rv_num}]`).removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
     }
 }
-getOpinion(rv_num)
 </script>

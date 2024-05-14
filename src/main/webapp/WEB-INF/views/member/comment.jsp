@@ -9,6 +9,8 @@
 </head>
 <body>
 <div class="container">
+	<div id="nav">
+	</div>
 	<h1>
 	내가 쓴 댓글
 	</h1>
