@@ -17,12 +17,11 @@ ul{padding: 0;}
 	margin-top: 20px;
 	width: 60%;
 	height: 350px;
-	position: relative;
 }
 
-.carousel-inner img {
+.carousel-item img {
 	width: 100%;
-	height: 100%;
+	height: 100%:
 	overflow: auto;
 }
 
