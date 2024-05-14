@@ -166,12 +166,6 @@ public class HomeController {
 				model.addAttribute("url", "/");
 				return "message";
 			}
-			//등급 변경
-			for(GradeVO grade : gradeList) {
-				if(user.getMe_loan_count() >= grade.getGr_loan_condition() && user.getMe_post_count() >= grade.getGr_post_condition()) {
-					memberService.updateMemberGrade(user.getMe_id(), grade);
-				}
-			}
 			user.setAutoLogin(loginDto.isAutoLogin());
 			model.addAttribute("user", user);
 			model.addAttribute("msg", "로그인 성공");
