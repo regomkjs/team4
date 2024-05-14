@@ -33,7 +33,9 @@ ul{padding: 0;}
 	position: relative;
 	background-color:#fff;
 }
-
+.login-btn{
+	margin-top:30px; margin-bottom: 10px; 
+}
 .profile-box {
 	margin-top: 60px;
 	border: 1px solid black;
@@ -200,7 +202,7 @@ ul{padding: 0;}
 				<c:if test="${user == null}">
 					<div class="login-box text-center">
 						<a href="<c:url value='/login'/>"
-							class="btn btn-outline-success login-btn col-8 mt-5">로그인</a>
+							class="btn btn-outline-success login-btn col-8">로그인</a>
 						<div style="width: 100%;" class="mt-2">
 							<a href="<c:url value="/find/id"/>" style="color: gray;">아이디찾기</a>
 							<span style="color: gray; opacity: 60%">|</span> <a

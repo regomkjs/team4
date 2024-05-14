@@ -56,7 +56,7 @@
 			<div class="side-bar w-25 left cf">
 				<div class="frame">
 					<ul class="main-menu">
-						<li data-num="0" class="click">전체</li>
+						<li data-num="0" class="click accent">전체</li>
 					</ul>
 					<ul class="main-menu">
 						<li data-num="55890" class="click">건강/취미</li>

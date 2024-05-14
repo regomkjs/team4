@@ -123,4 +123,6 @@ public interface BookService {
 
 	boolean bookLoanCheck(int num);
 
+	boolean updateUnder(int unNum, String name);
+
 }

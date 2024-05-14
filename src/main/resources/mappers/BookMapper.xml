@@ -389,6 +389,7 @@
 				where sa_me_id=#{me_id}	
 			</otherwise>
 		</choose>	
+		and sa_date>=date_add(sysdate(),interval -10 year)
 		order by sa_date desc	
 		LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
@@ -408,6 +409,7 @@
 				where sa_me_id=#{me_id}	
 			</otherwise>
 		</choose>	
+		and sa_date>=date_add(sysdate(),interval -10 year)
 	</select>
 	
 	<select id="getSale" resultType="SaleVO">
@@ -438,12 +440,17 @@
 		join member on me_id=sa_me_id 
 		<choose>
 			<when test='cri.year!="all" and cri.month!="all"'>
-				where sa_date like concat( #{cri.year},'-',#{cri.month},'%')
+				where sa_date like concat( #{cri.year},'-',#{cri.month},'%') and
+				sa_date>=date_add(sysdate(),interval -10 year)
 			</when>
 			<when test='cri.year!="all" and cri.month=="all"'>
-				where sa_date like concat( #{cri.year},'%')	
+				where sa_date like concat( #{cri.year},'%')	and
+				sa_date>=date_add(sysdate(),interval -10 year)
 			</when>
-		</choose>	
+			<otherwise>
+			 	where sa_date>=date_add(sysdate(),interval -10 year)
+			</otherwise>
+		</choose>	 
 		order by sa_date desc	
 		LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
@@ -452,11 +459,16 @@
 		select count(*) from sale 
 		<choose>
 			<when test='cri.year!="all" and cri.month!="all"'>
-				where sa_date like concat( #{cri.year},'-',#{cri.month},'%')
+				where sa_date like concat( #{cri.year},'-',#{cri.month},'%')	and
+				sa_date>=date_add(sysdate(),interval -10 year)
 			</when>
 			<when test='cri.year!="all" and cri.month=="all"'>
-				where sa_date like concat( #{cri.year},'%')	
+				where sa_date like concat( #{cri.year},'%')		and
+				sa_date>=date_add(sysdate(),interval -10 year)
 			</when>
+			<otherwise>
+			 	where sa_date>=date_add(sysdate(),interval -10 year)
+			</otherwise>
 		</choose>	
 	</select>
 	
@@ -587,4 +599,7 @@
 	<select id="selectUnderUpper" resultType="kr.kh.team4.model.vo.book.UnderVO">
 		select * from under where un_up_num=#{up_num}
 	</select>
+	<update id="updateUnder">
+		update under set un_name=#{name} where un_num=#{un_num}
+	</update>
 </mapper>

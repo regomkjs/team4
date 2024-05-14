@@ -65,8 +65,41 @@ height: 30px;}
 <!-- 구매,장바구니 -->
 <script type="text/javascript">
 	let basket=[];
+	let res="${chGuest}";
 	let nick=${user.me_nick!=null}?"${user.me_nick}":"guest";
 	let data=JSON.parse(localStorage.getItem(nick));
+	if(res!=""){
+		let guest=JSON.parse(localStorage.getItem("guest"));
+		for(cData of data){
+			for(let i=0;i<guest.length;i++){
+				if(cData.isbn13==guest[i].isbn13){
+					guest.splice(i, 1);
+				}
+			}
+		}
+		if(data==null){
+			data=guest;
+			localStorage.setItem(nick,JSON.stringify(data));
+			localStorage.removeItem("guest");
+			displayBasketView();
+		}else{
+			 let integrated=confirm("기존의 장바구나와 합치겠습니까?");
+			 if(integrated){
+				 for(tmp of guest){
+					 data.push(tmp);
+				 }
+				 localStorage.setItem(nick,JSON.stringify(data));
+				 localStorage.removeItem("guest");
+				 alert("장바구니가 합쳐졌습니다.");
+				 resRemove();
+				 displayBasketView();
+			 }else{
+				 resRemove();
+				 alert("장바구니 합치기를 취소했습니다.");
+				 displayBasketView();
+			 }
+		}		
+	}
 	if(data!=null){
 		basket=data;
 		console.log(basket);
@@ -108,7 +141,6 @@ height: 30px;}
 		location.href = '<c:url value="/library/book/sale" />';	
 	});
 	
-	
 	function displayBasketView() {
 		let i=0;
 		let str=`
@@ -143,6 +175,21 @@ height: 30px;}
 		let basketJson=JSON.stringify(basket);
 		localStorage.setItem(nick,basketJson);
 	});
+	
+	function resRemove() {
+		$.ajax({
+			async : true,
+			url : '<c:url value="/resRemove"/>', 
+			type : 'post', 
+			data :{}, 
+			dataType : "json", 
+			success : function (data){
+				
+			}, error : function(jqXHR, textStatus, errorThrown){
+
+			}
+		});
+	}
 </script>
 <!-- 가격 표시 -->
 <script type="text/javascript">

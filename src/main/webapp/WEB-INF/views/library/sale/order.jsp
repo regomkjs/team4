@@ -17,6 +17,11 @@
 
 .table-order tr{line-height: 30px;}
 .day{width: 40px; line-height: 30px; box-sizing: border-box; padding: 10px;}
+
+.caution{position: relative; color: #666;}
+.caution-text{position: absolute; background-color:#ededed; z-index: 10; padding: 10px; display:none;
+border: 1px solid #666; width: 220px;}
+.caution:hover .caution-text{display: block;}
 </style>
 <body>
 	<div class="container">
@@ -35,7 +40,10 @@
 			</div>
 		</div>
 		<div class="order mt-4">
-			<div></div>
+			<div class="caution">
+				<i class="fa-solid fa-circle-exclamation"></i>주의사항
+				<div class="caution-text">정보 관리를 위해 해당 년도로 부터 10년 전 까지의 기록만 조회가 가능합니다 이점을 주의하시길 바랍니다.</div>
+			</div>
 			<table class="table table-bordered">
 				<thead class="table-dark">
 					<tr>
