@@ -10,6 +10,8 @@
 </head>
 <body>
 <div class="container">
+	<div id="nav">
+	</div>
 	<h1>
 	내가 신고한 내역
 	</h1>

@@ -13,6 +13,7 @@
 }
 
 .book-info-horizontal {
+	padding: 10px; margin: 10px;
     display: flex;
     flex-wrap: wrap;
     list-style: none;
@@ -23,9 +24,11 @@
     margin-right: 20px;
 }
 
-.media{ position: relative;
-  display: flex;
-  align-items: flex-start;
+.media{
+	padding: 10px; margin: 10px; 
+	position: relative;
+  	display: flex;
+  	align-items: flex-start;
   }
 
 .text-group{ margin: 10px; padding: 10px;}
@@ -47,6 +50,7 @@
 
 .main{ background-color: #F7F7F7;}
 
+.book-description{ margin: 10px; padding: 10px;}
 </style>
 <body>
 	<div class="container ">
@@ -111,7 +115,7 @@
 							</ul>
 						</div>
 						<div>
-							<h5 style="font-weight: bold;">주제분류</h5>
+							<h5 style="font-weight: bold; margin: 10px; padding: 10px;">주제분류</h5>
 							<ul>
 								<li>분류:${book.item[0].categoryName}</li>
 							</ul>
@@ -122,9 +126,6 @@
 				<div class="book-description">
 					<h4>책 소개</h4>
 					<p>${book.item[0].description}</p>
-					<c:if test="${book.item[0].description == null}">
-						<p>없음</p>
-					</c:if>
 				</div>
 			</div>
 		</div>
