@@ -311,7 +311,7 @@
 									<li>ISBN: \${datas.isbn}</li>
 									<li>ISBN13: \${datas.isbn13}</li></td>
 								<td>\${datas.count}</td>
-								<td>\${datas.priceStandard}</td>
+								<td>\${priceToString(datas.priceStandard)}</td>
 							</tr>
 						`;
 						price+=parseInt(`\${datas.priceStandard*datas.count}`);
@@ -319,7 +319,7 @@
 					str+=`
 						<tr>
 							<td colspan="2">총결제액</td>
-							<td colspan="2">\${price}</td>
+							<td colspan="2">\${priceToString(price)}</td>
 						</tr>
 					`;
 					$(".table-book>tbody").html(str);
@@ -327,7 +327,7 @@
 					str=`
 						<tr>
 							<th>실 결제 금액</th>
-							<td>\${data.info.amount}</td>
+							<td>\${priceToString(data.info.amount)}</td>
 						</tr>
 						<tr>
 							<th>결제수단</th>

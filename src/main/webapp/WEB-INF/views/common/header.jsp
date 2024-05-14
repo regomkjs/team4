@@ -44,5 +44,9 @@
 	</ul>
 </nav>
 <script type="text/javascript">
+function priceToString(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+"원";
+}
+
 $(document).ready(function(){ $("#nav").load("/../team4/nav.html");});
 </script>

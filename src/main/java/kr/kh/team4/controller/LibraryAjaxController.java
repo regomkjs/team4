@@ -223,7 +223,15 @@ public class LibraryAjaxController {
 		map.put("res", res);
 		return map;
 	}
-
+	
+	@PostMapping("/management/bookType/update")
+	public Map<String, Object> TypeUpdate(int unNum,String name) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = bookService.updateUnder(unNum,name);
+		map.put("res", res);
+		return map;
+	}
+	
 	@ResponseBody
 	@PostMapping("/reserve/book")
 	public Map<String, Object> reserveBook(@RequestBody BookVO book, HttpSession session) {
