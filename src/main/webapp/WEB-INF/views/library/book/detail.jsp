@@ -87,6 +87,8 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 .btn-group{ padding: 5px}
 
 .info{ background: #e72900; color: #fff; width: 150px; border-radius: 5px; text-align: center;}
+
+.loan-group{ border: 1px solid black; border-radius: 5px; background: white; margin: 10px; padding: 10px;}
 </style>
 <meta charset="UTF-8">
 <body>
@@ -127,44 +129,46 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 			${book.bo_contents}
 			</div>
 			<hr class="bar">
-			<div>
-				<ul>
-					<c:forEach items="${code}" var="co">
-						<li style="display: flex; align-items: center; justify-content: space-between;">
-		               		<div style="display: flex; align-items: center;">
-					            <span>${co.bo_code}</span>
-					            <c:forEach items="${loanList}" var="loan">
-					                <c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}">
-					                    <span style="color:red; margin-left: 10px;">대출 중</span>
-					                </c:if>
-					            </c:forEach>
-					        </div>
-			                <div class="btn-group">
-			                    <button class="btn btn-outline-primary loan-btn" data-bo-num="${co.bo_num}">대출</button>
-			                    <c:forEach items="${loanList}" var="loan">
-			                        <c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}">
-			                            <button class="btn btn-outline-warning reserve-btn" data-bo-num="${co.bo_num}">예약</button>
-			                        </c:if>
-			                        <c:if test="${loan.lo_state == 1 && loan.lo_me_id == user.me_id && loan.lo_bo_num == co.bo_num}">
-			                            <button class="btn btn-outline-primary extend-btn" data-bo-num="${co.bo_num}">대출 연장</button>
-			                            <button class="btn btn-outline-dark return-btn" data-bo-num="${co.bo_num}">반납</button>
-			                        </c:if>
-			                    </c:forEach>
-			                </div>
-			            </li>
-					</c:forEach>
-				</ul>
-			</div>
-			<div>
-				<ol class="colorlist">
-					<h5 class="info">이용안내</h5>
-					<li>책을 대출할 시 만기일은 대출한 날로부터 1주일 후로 지정됩니다.</li>
-					<li>연장은 만기일까지 3일 남았을 때부터 누를 수 있습니다.</li>
-					<li>책이 예약된 경우 연장을 할 수 없습니다.</li>
-					<li>연체일시 대출권 수 X 연체일 수 만큼 대출,예약에 제한이 생깁니다.</li>
-					<li style="color:black; font-weight: bold;">반납 기한이 얼마 안 남았거나 예약된 책이 반납된 경우 안내 문자를 드리오니 확인 부탁드립니다.</li>
-					<li style="color:red; font-weight: bold;">※ 예약은 약속입니다. : 필요한 도서만 예약하고, 예약도서는 꼭 대출해 주시기 바랍니다.</li>
-				</ol>
+			<div class="loan-group">
+				<div>
+					<ul>
+						<c:forEach items="${code}" var="co">
+							<li style="display: flex; align-items: center; justify-content: space-between;">
+			               		<div style="display: flex; align-items: center;">
+						            <span>${co.bo_code}</span>
+						            <c:forEach items="${loanList}" var="loan">
+						                <c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}">
+						                    <span style="color:red; margin-left: 10px;">대출 중</span>
+						                </c:if>
+						            </c:forEach>
+						        </div>
+				                <div class="btn-group">
+				                    <button class="btn btn-outline-primary loan-btn" data-bo-num="${co.bo_num}">대출</button>
+				                    <c:forEach items="${loanList}" var="loan">
+				                        <c:if test="${loan.lo_state == 1 && loan.lo_bo_num == co.bo_num}">
+				                            <button class="btn btn-outline-warning reserve-btn" data-bo-num="${co.bo_num}">예약</button>
+				                        </c:if>
+				                        <c:if test="${loan.lo_state == 1 && loan.lo_me_id == user.me_id && loan.lo_bo_num == co.bo_num}">
+				                            <button class="btn btn-outline-primary extend-btn" data-bo-num="${co.bo_num}">대출 연장</button>
+				                            <button class="btn btn-outline-dark return-btn" data-bo-num="${co.bo_num}">반납</button>
+				                        </c:if>
+				                    </c:forEach>
+				                </div>
+				            </li>
+						</c:forEach>
+					</ul>
+				</div>
+				<div>
+					<ol class="colorlist">
+						<h5 class="info">이용안내</h5>
+						<li>책을 대출할 시 만기일은 대출한 날로부터 1주일 후로 지정됩니다.</li>
+						<li>연장은 만기일까지 3일 남았을 때부터 누를 수 있습니다.</li>
+						<li>책이 예약된 경우 연장을 할 수 없습니다.</li>
+						<li>연체일시 대출권 수 X 연체일 수 만큼 대출,예약에 제한이 생깁니다.</li>
+						<li style="color:black; font-weight: bold;">반납 기한이 얼마 안 남았거나 예약된 책이 반납된 경우 안내 문자를 드리오니 확인 부탁드립니다.</li>
+						<li style="color:red; font-weight: bold;">※ 예약은 약속입니다. : 필요한 도서만 예약하고, 예약도서는 꼭 대출해 주시기 바랍니다.</li>
+					</ol>
+				</div>
 			</div>
 			<hr class="bar">
 			<div class="container-review mt-3 mb-3">

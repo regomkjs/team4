@@ -171,10 +171,12 @@ $(".btn-send").click(function(){
             phones.push(phone);
         }
     });
+	
+	let uniquePhones = [...new Set(phones)]; 
 	 
-	let requests = []; 
+	let requests = [];
 	 
-	$(phones).each(function(index, phone) {
+	$(uniquePhones).each(function(index, phone) {
 		let request = $.ajax({
             url: '<c:url value="/mail/send"/>',
             method: "post",
