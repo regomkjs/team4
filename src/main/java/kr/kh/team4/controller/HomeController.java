@@ -105,7 +105,6 @@ public class HomeController {
 	@PostMapping("/login")
 	public String loginPost(Model model, LoginDTO loginDto) {
 		MemberVO user = memberService.login(loginDto);
-		ArrayList<GradeVO> gradeList = memberService.getGradeList();
 		ArrayList<ReserveVO> reserveList = bookService.getReList(user);
 		ArrayList<LoanVO> loanList = bookService.getLoan();
 		if(user != null) {
@@ -165,12 +164,6 @@ public class HomeController {
 				model.addAttribute("msg", "예약 후 2회 이상 대출 안 했으므로 1번 더 안 할 때 대출/예약이 정지됩니다.");
 				model.addAttribute("url", "/");
 				return "message";
-			}
-			//등급 변경
-			for(GradeVO grade : gradeList) {
-				if(user.getMe_loan_count() >= grade.getGr_loan_condition() && user.getMe_post_count() >= grade.getGr_post_condition()) {
-					memberService.updateMemberGrade(user.getMe_id(), grade);
-				}
 			}
 			user.setAutoLogin(loginDto.isAutoLogin());
 			model.addAttribute("user", user);

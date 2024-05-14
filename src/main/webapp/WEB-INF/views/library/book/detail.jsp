@@ -426,8 +426,8 @@ function displayReviewList(list){
                 </div>
                 \${boxBtns}
             </div>
-            <i class="bi bi-hand-thumbs-up btn-up" style="font-size : 15px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}"><span class="text-up">\${item.rv_up}</span></i>
-            <i class="bi bi-hand-thumbs-down btn-down" style="font-size : 15px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}"><span class="text-down">\${item.rv_down}</span></i>
+            <i class="bi bi-hand-thumbs-up btn-up" style="font-size : 20px; cursor:pointer;" data-state="1" data-num="\${item.rv_num}"><span class="text-up">\${item.rv_up}</span></i>
+            <i class="bi bi-hand-thumbs-down btn-down" style="font-size : 20px; cursor:pointer;" data-state="-1" data-num="\${item.rv_num}"><span class="text-down">\${item.rv_down}</span></i>
             <hr>
             <div style="clear: both;"></div>
 		`
@@ -720,4 +720,5 @@ function displayOpinion(state, rv_num) {
         $(`.btn-down[data-num=\${rv_num}]`).removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
     }
 }
+getOpinion(rv_num)
 </script>
