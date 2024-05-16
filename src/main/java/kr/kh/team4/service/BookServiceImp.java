@@ -234,6 +234,7 @@ public class BookServiceImp implements BookService {
 		if(list.size() != 0) {
 			if(list.get(0).getRe_me_id().equals(user.getMe_id())) {
 				boolean res = bookDao.insertLoan(user.getMe_id(), book.getBo_num());
+				memberDao.updateLoanCount(user);
 				if(res) {
 					bookDao.deleteReserve(user.getMe_id(), book.getBo_num());
 					bookDao.updateReserveList(book.getBo_num(), user.getMe_id());
