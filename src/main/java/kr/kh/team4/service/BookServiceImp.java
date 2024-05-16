@@ -599,25 +599,25 @@ public class BookServiceImp implements BookService {
 			ReserveVO re2 = bookDao.selectReserve(reserve.getRe_bo_num());
 			if(re2 != null) {
 				bookDao.updateRe(re2.getRe_bo_num(), re2.getRe_me_id());
-			}
-			String api_key = "NCSJAUZLM1DHEWEW";
-			String api_secret = "RM7CHJOAGAI3S9CBNC92JDBHOPO8LTFV";
-			Message coolsms = new Message(api_key, api_secret);
-			
-			// 4 params(to, from, type, text) are mandatory. must be filled
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("to", re.getMe_phone());	// 수신전화번호
-			params.put("from", "01050602154");	// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
-			params.put("type", "SMS");	// 타입
-			params.put("text", "예약하신 책이 반납되었습니다. 대출하러 와 주세요."); //내용
-			params.put("app_version", "test app 1.2"); // application name and version
-			
-			try {
-				JSONObject obj = (JSONObject) coolsms.send(params);
-				System.out.println(obj.toString());
-			} catch (CoolsmsException e) {
-				System.out.println(e.getMessage());
-				System.out.println(e.getCode());
+				String api_key = "NCSJAUZLM1DHEWEW";
+				String api_secret = "RM7CHJOAGAI3S9CBNC92JDBHOPO8LTFV";
+				Message coolsms = new Message(api_key, api_secret);
+				
+				// 4 params(to, from, type, text) are mandatory. must be filled
+				HashMap<String, String> params = new HashMap<String, String>();
+				params.put("to", re.getMe_phone());	// 수신전화번호
+				params.put("from", "01050602154");	// 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+				params.put("type", "SMS");	// 타입
+				params.put("text", "예약하신 책이 반납되었습니다. 대출하러 와 주세요."); //내용
+				params.put("app_version", "test app 1.2"); // application name and version
+				
+				try {
+					JSONObject obj = (JSONObject) coolsms.send(params);
+					System.out.println(obj.toString());
+				} catch (CoolsmsException e) {
+					System.out.println(e.getMessage());
+					System.out.println(e.getCode());
+				}
 			}
 		}
 	}
