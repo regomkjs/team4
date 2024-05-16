@@ -56,7 +56,7 @@ border: 1px solid #666; width: 220px;}
 					</tr>
 				</thead>
 				<tbody>
-				
+					
 				</tbody>
 			</table>
 			<div class="pagination-box">
@@ -195,24 +195,30 @@ border: 1px solid #666; width: 220px;}
 					console.log(data);
 					//toStringFormatting(source)
 					let str="";
-					for(let i=0;i<data.order.length;i++){
-						str+=`
-							<tr data-uid="\${data.order[i].sa_merchant_uid}">
-								<td>\${toStringFormatting(data.order[i].sa_date)}</td>
-								<td><a herf="#" data-bs-toggle="modal" data-bs-target="#myModal"
-									class="receipt-btn"
-								>\${data.order[i].sa_merchant_uid}</a></td>
-								<td>\${data.order[i].sa_nick}</td>
-								<td>\${data.order[i].sa_name}</td>
-								<td>\${data.order[i].sa_state}</td>
-								`;
-								if(data.order[i].sa_state == "준비"){
-									str+=`<td><button type="button" class="del-btn btn btn-danger"
-									>주문취소</button></td>`;
-								}else{
-									str+=`<td></td>`;
-								}
-							str+=`</tr>`;
+					if(data.order.length==0){
+						str=`<tr>
+							<th colspan="6">주문내역이 없습니다</th>
+							</tr>`;
+					}else{
+						for(let i=0;i<data.order.length;i++){
+							str+=`
+								<tr data-uid="\${data.order[i].sa_merchant_uid}">
+									<td>\${toStringFormatting(data.order[i].sa_date)}</td>
+									<td><a herf="#" data-bs-toggle="modal" data-bs-target="#myModal"
+										class="receipt-btn"
+									>\${data.order[i].sa_merchant_uid}</a></td>
+									<td>\${data.order[i].sa_nick}</td>
+									<td>\${data.order[i].sa_name}</td>
+									<td>\${data.order[i].sa_state}</td>
+									`;
+									if(data.order[i].sa_state == "준비"){
+										str+=`<td><button type="button" class="del-btn btn btn-danger"
+										>주문취소</button></td>`;
+									}else{
+										str+=`<td></td>`;
+									}
+								str+=`</tr>`;
+						}
 					}
 					$(".order>.table>tbody").html(str);
 					

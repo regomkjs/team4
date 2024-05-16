@@ -9,13 +9,16 @@
 .nav{display: flex;justify-content :space-between;}
 .category-list{border-bottom: 2px solid #ccc; border-top: 2px solid #ccc; }
 .genre-list{display:block; width: 20%;}
-.genre-list>li{line-height:30px; border-bottom: 1px solid #ccc; margin: 5px; position: relative;}
+.genre-list>li{line-height:30px; border-bottom: 1px solid #ccc; margin: 5px; position: relative;
+ height: 30px;}
+ .genre-list>li>span{ display:block; width:70%;
+ overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .add-box{text-align: right;}
 .management-add-type{display: inline;}
 
-.fa-solid{position: absolute; font-size:14px; top: 7px; right: 27px; cursor: pointer;}
+.fa-solid{position: absolute; font-size:14px; top: 7px; right: 25px; cursor: pointer;}
 .type-del-btn{
-	float:right; width:14px; height: 14px; padding: 0; margin:7px 5px 0 0; 
+	position: absolute; font-size:14px; top: 3px; right: 0px;
 }
 .fa-regular{ margin-right: 5px;}
 </style>
@@ -108,7 +111,10 @@
 							num++;
 						}
 						str+=`
-					        <li>[\${un.un_up_num}\${un.un_code<10?'0'+un.un_code:un.un_code}] \${un.un_name}
+					        <li>
+								<span>
+								[\${un.un_up_num}\${un.un_code<10?'0'+un.un_code:un.un_code}] \${un.un_name}
+								</span>
 					        <i class="fa-solid fa-wrench" data-bs-toggle="modal" data-bs-target="#myModal"
 					        	data-num="\${un.un_num}"></i>
 					        <button type="button" class="btn-close type-del-btn" data-num="\${un.un_num}"></button></li>
@@ -325,6 +331,11 @@
 	
 				}
 			});
+	});
+	
+	$('.nav-link').click(function(e)
+	{
+		e.preventDefault();   
 	});
 	</script>
 </body>
