@@ -95,4 +95,8 @@ public interface MemberDAO {
 
 	void updateResetLoanBlock(@Param("user")MemberVO user);
 
+	ArrayList<BookVO> selectMyReserveBookList(@Param("cri")Criteria cri, @Param("user")MemberVO user);
+
+	int selectTotalCountMyReserveBook(@Param("cri")Criteria cri, @Param("user")MemberVO user);
+
 }

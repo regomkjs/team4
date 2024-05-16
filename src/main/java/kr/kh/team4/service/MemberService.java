@@ -9,6 +9,7 @@ import kr.kh.team4.model.vo.member.MemberVO;
 import kr.kh.team4.model.vo.member.ReportVO;
 import kr.kh.team4.pagination.Criteria;
 import kr.kh.team4.pagination.MemberCriteria;
+import kr.kh.team4.pagination.MyBookCriteria;
 import kr.kh.team4.pagination.MyReportCriteria;
 
 public interface MemberService {
@@ -97,5 +98,9 @@ public interface MemberService {
 	int totalCountMemberNum();
 
 	void updateResetLoanBlock(MemberVO user);
+
+	ArrayList<BookVO> getMyReserveBookList(Criteria cri, MemberVO user);
+
+	int totalCountMyReserveBook(Criteria cri, MemberVO user);
 
 }

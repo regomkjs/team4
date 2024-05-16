@@ -306,4 +306,16 @@ public class HomeController {
 		model.addAttribute("title", "내가 대출한 도서");
 		return "/member/report";
 	}
+	
+	@GetMapping("/mypage/reserve")
+	public String myReserveBook(Model model, MyBookCriteria cri, HttpSession session) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<BookVO> list = memberService.getMyReserveBookList(cri, user);
+		int totalCount = memberService.totalCountMyReserveBook(cri, user);
+		PageMaker pm = new PageMaker(5, cri, totalCount);
+		model.addAttribute("reserveList", list);
+		model.addAttribute("pm", pm);
+		model.addAttribute("title", "내가 예약한 도서");
+		return "/member/reserve";
+	}
 }
