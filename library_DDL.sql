@@ -21,7 +21,6 @@ CREATE TABLE `member_state` (
   PRIMARY KEY (`ms_num`)
 ) ;
 
-insert into `member_state` values (2,'유저'),(3,'정지');
 
 DROP TABLE IF EXISTS `grade`;
 
