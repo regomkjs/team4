@@ -25,7 +25,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	    ModelAndView modelAndView)
 	    throws Exception {
 		MemberVO user = (MemberVO)modelAndView.getModel().get("user");
-		
 		if(user != null) {
 			request.getSession().setAttribute("user", user);
 			//자동로그인을 체크했으면
@@ -49,7 +48,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			String url = (String)request.getSession().getAttribute("prevUrl");
 			//되돌아갈 url이 있으면 해당 url로 돌아감
 			if(url != null) {
-				response.sendRedirect(url);
+				String tmp = request.getContextPath();
+				int index = url.indexOf(tmp);
+				url= url.substring(index).replace(tmp, "");
+				// url = url.replaceFirst("/", "");
+				System.out.println(tmp);
+				modelAndView.getModel().put("url", url);
+				// response.sendRedirect(url);
 				request.getSession().removeAttribute("prevUrl");
 			}
 		}
