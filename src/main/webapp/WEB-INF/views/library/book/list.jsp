@@ -17,6 +17,9 @@
 .title{font-weight:500; font-size: 18px; }
 
 .accent{font-weight: bold; background-color: #ececec;}
+.genre-list{margin-left: 15px; display: none;}
+.genre-sub-list{display: none;}
+.active{display: block;}
 </style>
 <body>
 	<div class="container cf">
@@ -42,7 +45,7 @@
 					<c:forEach items="${upList}" var="category">
 						<c:if test="${category.up_num != 100 }">
 							<div class="category-list"  >
-							  <div class="category-name click" data-num="${category.up_num}">
+							  <div class="category-name click" data-num="${category.up_num}" data-toggle="0">
 							  <i class="fa-regular fa-square-plus"></i>
 							  ${category.up_name}</div>
 							  <div class="genre-list">
@@ -81,15 +84,24 @@
 		
 		//카테고리에 맞는 장르를 추가함
 		$(".category-name").click(function() {
-			$(".category-name").addClass("click");
-			$(".category-name>i").addClass("fa-square-plus");
-			$(".category-name>i").removeClass("fa-square-minus");
-			$(this).removeClass("click");
+			let res=$(this).data('toggle');
+			if(res==0){
+				$(this).children("i").removeClass("fa-square-plus");
+				$(this).children("i").addClass("fa-square-minus");
+				$(".category-name").removeClass("accent");
+				$(this).addClass("accent");
+				$(this).next().addClass("active");
+				res=1;
+			}else{
+				$(this).children("i").addClass("fa-square-plus");
+				$(this).children("i").removeClass("fa-square-minus");
+				$(this).removeClass("accent");
+				$(this).next().removeClass("active");
+				res=0;
+			}
+			$(this).data('toggle',res);
 			
 			let num=$(this).data("num");
-			
-			$('.category-name[data-num='+num+']>i').removeClass("fa-square-plus");
-			$('.category-name[data-num='+num+']>i').addClass("fa-square-minus");
 			$.ajax({
 				async : true,
 				url : '<c:url value="/management/manager/category" />', 
@@ -97,13 +109,27 @@
 				data : {num}, 
 				success : function (data){
 					let str="";
+					let i=true;
 					for(un of data.list){
-					str+=`
-				    	<li value='\${un.un_num}' class="select-btn display-block click">[\${un.un_code}] \${un.un_name}</li>
-					`;
+						if(un.un_code!=0&&un.un_code%10==0){
+							str+=`</div></div>`;
+							i=true;
+						}
+						if(i){
+							str+=`
+								<div class="genre-item">
+									<div class="genre-title click" data-toggle="0">
+							    		<li class="display-block"><i class="fa-regular fa-square-plus"></i> \${un.un_name}</li>
+							    	</div>
+							    	<div class="genre-sub-list">
+							`;
+							i=false;
+						}	
+						str+=`
+							<li value='\${un.un_num}' class="select-btn display-block click">[\${un.un_code}] \${un.un_name}</li>
+						`;										
 					}
-					$(".genre-list>li").removeClass("display-block");
-					$(".genre-list>li").addClass("display-none");
+					str+=`</div></div>`;
 					$('.category-name[data-num='+num+']').next().html(str);
 					
 				}, 
@@ -118,9 +144,26 @@
 			cri.search=$(this).attr('value');
 			$(".select-btn").removeClass('accent');
 			$(this).addClass('accent');
+			$(".category-name").removeClass('accent');
+			$(this).parent().parent().parent().prev().addClass('accent');
 			displayBookView(cri);
 		});
 		
+		$(document).on("click",".genre-title",function(){
+			let res=$(this).data('toggle');
+			if(res==1){
+				$(this).next().removeClass("active");
+				$(this).children("li").children("i").addClass("fa-square-plus");
+				$(this).children("li").children("i").removeClass("fa-square-minus");
+				res=0;
+			}else{
+				$(this).next().addClass("active");
+				$(this).children("li").children("i").removeClass("fa-square-plus");
+				$(this).children("li").children("i").addClass("fa-square-minus");
+				res=1;
+			}
+			$(this).data('toggle', res);
+		});
 	
 	</script>
 	<!--책 목록을 출력-->

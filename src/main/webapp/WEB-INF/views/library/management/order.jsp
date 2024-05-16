@@ -215,27 +215,33 @@
 					console.log(data);
 					//toStringFormatting(source)
 					let str="";
-					for(let i=0;i<data.list.length;i++){
-						str+=`
-							<tr data-uid="\${data.list[i].sa_merchant_uid}">
-								<td>\${toStringFormatting(data.list[i].sa_date)}</td>
-								<td><a herf="#" data-bs-toggle="modal" data-bs-target="#myModal"
-									class="receipt-btn"
-								>\${data.list[i].sa_merchant_uid}</a></td>
-								<td>\${data.list[i].sa_nick}</td>
-								<td>\${data.list[i].sa_name}</td>
-								<td class="event-box">\${data.list[i].sa_state}</td>
+					if(data.list.length==0){
+						str=`<tr>
+							<th colspan="6">주문내역이 없습니다</th>
+							</tr>`;
+					}else{
+						for(let i=0;i<data.list.length;i++){
+							str+=`
+								<tr data-uid="\${data.list[i].sa_merchant_uid}">
+									<td>\${toStringFormatting(data.list[i].sa_date)}</td>
+									<td><a herf="#" data-bs-toggle="modal" data-bs-target="#myModal"
+										class="receipt-btn"
+									>\${data.list[i].sa_merchant_uid}</a></td>
+									<td>\${data.list[i].sa_nick}</td>
+									<td>\${data.list[i].sa_name}</td>
+									<td class="event-box">\${data.list[i].sa_state}</td>
+								`;
+							if(data.list[i].sa_state=="취소" || data.list[i].sa_state=="수령"){
+								str+=`<td></td>`;
+							}else{
+								str+=`<td>
+									<button type="button" class="update-btn btn btn-success">수정</button>
+								</td>`;
+							}
+							str+=`
+								</tr>
 							`;
-						if(data.list[i].sa_state=="취소" || data.list[i].sa_state=="수령"){
-							str+=`<td></td>`;
-						}else{
-							str+=`<td>
-								<button type="button" class="update-btn btn btn-success">수정</button>
-							</td>`;
 						}
-						str+=`
-							</tr>
-						`;
 					}
 					$(".order>.table>tbody").html(str);
 					

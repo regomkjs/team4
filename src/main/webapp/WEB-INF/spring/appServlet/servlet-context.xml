@@ -45,12 +45,10 @@
 	<beans:bean id="autoLoginInterceptor" class="kr.kh.team4.interceptor.AutoLoginInterceptor"/>
 	<!-- 장바구니 -->
 	<beans:bean id="BaskatLoginInterceptor" class="kr.kh.team4.interceptor.BaskatLoginInterceptor"/>
+	<!-- 관리자페이지 접근방지 -->
+	<beans:bean id="ManagerInterceptor" class="kr.kh.team4.interceptor.ManagerInterceptor"/>
 	<!-- 인터셉터 맵핑 -->
 	<interceptors>
-		<interceptor>
-			<mapping path="/library/book/sale"/>
-			<beans:ref bean="BaskatLoginInterceptor"/>
-		</interceptor>
 		<interceptor>
 			<mapping path="/login"/>
 			<beans:ref bean="loginInterceptor"/>
@@ -67,6 +65,20 @@
 		<interceptor>
 			<mapping path="/*"/>
 			<beans:ref bean="autoLoginInterceptor"/>
+		</interceptor>
+		<!-- 장바구니 -->
+		<interceptor>
+			<mapping path="/library/book/sale"/>
+			<beans:ref bean="BaskatLoginInterceptor"/>
+		</interceptor>
+		<!-- 관리자페이지 -->
+		<interceptor>
+			<mapping path="/library/management/manager"/>
+			<mapping path="/library/management/bookCategory"/>
+			<mapping path="/library/management/order"/>
+			<mapping path="/library/management/loan"/>
+			<mapping path="/grade/list"/>
+			<beans:ref bean="ManagerInterceptor"/>
 		</interceptor>
 	</interceptors>
 </beans:beans>
