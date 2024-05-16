@@ -151,24 +151,40 @@ public class HomeController {
 			        }
 			    }
 			}
-			
-			if(user.getMe_count() > 2) {
+			if(user.getMe_report_count() > 4 && user.getMe_count() > 2) {
+				memberService.updateMemberLoanBlock(user);
+				memberService.updateMemberCount(user, 0);
+				model.addAttribute("user", user);
+				model.addAttribute("msg", "예약 후 3회 이상 대출 안 했으므로 대출/예약이 정지됩니다.\\n신고당한 횟수가 " + user.getMe_report_count()+ "회 입니다. 커뮤니티 이용에 주의하세요.");
+				model.addAttribute("url", "");
+				return "message";
+			}else if(user.getMe_report_count() > 4 && user.getMe_count() == 2) {
+				model.addAttribute("user", user);
+				model.addAttribute("msg", "예약 후 2회 이상 대출 안 했으므로 1번 더 안 할 때 대출/예약이 정지됩니다.\\n신고당한 횟수가 " + user.getMe_report_count()+ "회 입니다. 커뮤니티 이용에 주의하세요.");
+				model.addAttribute("url", "");
+				return "message";
+			}else if(user.getMe_count() > 2) {
 				memberService.updateMemberLoanBlock(user);
 				memberService.updateMemberCount(user, 0);
 				model.addAttribute("user", user);
 				model.addAttribute("msg", "예약 후 3회 이상 대출 안 했으므로 대출/예약이 정지됩니다.");
-				model.addAttribute("url", "/");
+				model.addAttribute("url", "");
 				return "message";
 			}else if(user.getMe_count() == 2) {
 				model.addAttribute("user", user);
 				model.addAttribute("msg", "예약 후 2회 이상 대출 안 했으므로 1번 더 안 할 때 대출/예약이 정지됩니다.");
-				model.addAttribute("url", "/");
+				model.addAttribute("url", "");
+				return "message";
+			}else if(user.getMe_report_count() > 4) {
+				model.addAttribute("user", user);
+				model.addAttribute("msg", "신고당한 횟수가 " + user.getMe_report_count()+ "회 입니다. 커뮤니티 이용에 주의하세요.");
+				model.addAttribute("url", "");
 				return "message";
 			}
 			user.setAutoLogin(loginDto.isAutoLogin());
 			model.addAttribute("user", user);
 			model.addAttribute("msg", "로그인 성공");
-			model.addAttribute("url", "/");
+			model.addAttribute("url", "");
 		}else {
 			MemberVO failUser = memberService.getMember(loginDto.getId());
 			int failCount;
