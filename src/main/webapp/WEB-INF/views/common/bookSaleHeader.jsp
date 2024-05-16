@@ -48,6 +48,7 @@ height: 30px;}
 			    <li><a class="dropdown-item" href="<c:url value="/mypage/report"/>">내가 신고한 내역</a></li>
 			    <li><a class="dropdown-item" href="<c:url value="/library/order/list"/>">내 주문내역</a></li>
 			    <li><a class="dropdown-item" href="<c:url value="/mypage/loan"/>">내가 대출한 도서</a></li>
+			    <li><a class="dropdown-item" href="<c:url value="/mypage/reserve"/>">내가 예약한 도서</a></li>
 			  </ul>
 			</li>
 		</c:if>

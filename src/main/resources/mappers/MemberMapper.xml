@@ -317,4 +317,49 @@
 	<update id="updateResetLoanBlock">
 		update member set me_loan_block = null where me_id = #{user.me_id}
 	</update>
+	
+	<select id="selectMyReserveBookList" resultType="BookVO">
+		select * from book 
+		join 
+			loan on lo_bo_num = bo_num
+		join 
+			reserve on re_bo_num = bo_num
+		where
+			re_me_id = #{user.me_id} and re_state = 1
+			<if test='cri.type=="all"'>
+				and (bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%'))
+			</if>
+			<if test='cri.type=="title"'>
+				and bo_title like concat('%', #{cri.search}, '%') 
+			</if>
+			<if test='cri.type=="publisher"'>
+				and bo_publisher like concat('%', #{cri.search}, '%') 
+			</if>
+			group by
+				bo_num
+			order by
+				re_date asc
+			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="selectTotalCountMyReserveBook" resultType="int">
+		select count(*) from book 
+		join 
+			loan on lo_bo_num = bo_num
+		join 
+			reserve on re_bo_num = bo_num
+		where
+			re_me_id = #{user.me_id} and re_state = 1
+			<if test='cri.type=="all"'>
+				and (bo_title like concat('%', #{cri.search}, '%') or
+				bo_publisher like concat('%', #{cri.search}, '%'))
+			</if>
+			<if test='cri.type=="title"'>
+				and bo_title like concat('%', #{cri.search}, '%') 
+			</if>
+			<if test='cri.type=="publisher"'>
+				and bo_publisher like concat('%', #{cri.search}, '%') 
+			</if>
+	</select>
 </mapper>
