@@ -1,5 +1,6 @@
 package kr.kh.team4.interceptor;
 
+import java.net.URL;
 import java.util.Date;
 
 import javax.servlet.http.Cookie;
@@ -48,7 +49,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			String url = (String)request.getSession().getAttribute("prevUrl");
 			//되돌아갈 url이 있으면 해당 url로 돌아감
 			if(url != null) {
-				String tmp = request.getContextPath();
+				URL tmpUrl = new URL(url);
+				String auth = tmpUrl.getAuthority();
+				String contextPath = request.getContextPath();
+				String tmp = auth + contextPath;
+				System.out.println(url);
 				int index = url.indexOf(tmp);
 				url= url.substring(index).replace(tmp, "");
 				// url = url.replaceFirst("/", "");

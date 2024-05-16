@@ -27,17 +27,15 @@ height: 30px;}
 	<!-- Links -->
 	<div class="collapse navbar-collapse justify-content-end me-3">
 	<ul class="navbar-nav">
+		<li class="nav-item basket">
+			<a class="nav-link" href="<c:url value="/library/book/sale"/>">장바구니</a>
+		</li>
 		<c:if test="${user == null}" >
 			<li class="nav-item">
 				<a class="nav-link" href="<c:url value="/signup"/>">회원가입</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="<c:url value="/login"/>">로그인</a>
-			</li>
-		</c:if>
-		<c:if test="${user != null}">
-			<li class="nav-item">
-				<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
 			</li>
 		</c:if>
 		<c:if test="${user.me_mr_num >= 0}"> 
@@ -58,9 +56,11 @@ height: 30px;}
 				<a class="nav-link" href="<c:url value="/grade/list"/>">등급 관리</a>
 			</li>
 		</c:if>
-		<li class="nav-item basket">
-			<a class="nav-link" href="<c:url value="/library/book/sale"/>">장바구니</a>
-		</li>
+		<c:if test="${user != null}">
+			<li class="nav-item">
+				<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
+			</li>
+		</c:if>
 	</ul>
 	</div>
 </nav>
