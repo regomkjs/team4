@@ -326,5 +326,10 @@
 				}
 			});
 	});
+	
+	$('a').click(function(e)
+	{
+		e.preventDefault();   
+	});
 	</script>
 </body>
