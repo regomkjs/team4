@@ -338,6 +338,7 @@ $(document).ready(function() {
 					            	</tr>
 						            `;
 		             $(".grade-container tbody").append(newGrade);
+		             location.href = location.href;
 					}else{
 						alert('등급은 5개까지 추가할 수 있습니다.');
 					}

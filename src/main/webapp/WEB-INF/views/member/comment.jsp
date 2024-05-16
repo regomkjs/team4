@@ -19,7 +19,7 @@
 	</form>
 	<table class="table table-hover text-center">
 		<thead>
-			<tr>
+			<trs>
 				<th class="col-2">번호</th>
 				<th class="col-4">게시글</th>
 				<th class="col-3">댓글 내용</th>
