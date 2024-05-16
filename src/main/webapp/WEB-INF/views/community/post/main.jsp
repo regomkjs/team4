@@ -193,7 +193,7 @@
 							<c:if test="${post.po_totalHeart >= 1}">
 								<tr>
 									<td style="text-align: left; " class="d-flex">
-										<span style="max-width: 275px; overflow:hidden; text-overflow:ellipsis;">
+										<span style="max-width: 275px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
 										<a class="aTag-home"
 										href="<c:url value="/post/detail?ca=0&num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
 										</span>
