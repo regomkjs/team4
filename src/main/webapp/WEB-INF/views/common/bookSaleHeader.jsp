@@ -4,7 +4,7 @@
 
 <style>
 .basket{position: relative;}
-.basket-box{position:absolute; background-color: #fff; width: 250px; min-height: 100px; font-size: 14px; z-index: 10;
+.basket-box{position:absolute; background-color: #fff; width: 250px; min-height: 100px; font-size: 14px; z-index: 10; right:0;
 display: none; border: 2px solid #333;}
 .basket-box li{ box-sizing: border-box; padding: 0px 5px; line-height: 30px;}
 .basket-box .bbn{display: inline-block; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -70,23 +70,23 @@ height: 30px;}
 	let res="${chGuest}";
 	let nick=${user.me_nick!=null}?"${user.me_nick}":"guest";
 	let data=JSON.parse(localStorage.getItem(nick));
-	if(res!=""){
-		let guest=JSON.parse(localStorage.getItem("guest"));
-		for(cData of data){
-			for(let i=0;i<guest.length;i++){
-				if(cData.isbn13==guest[i].isbn13){
-					guest.splice(i, 1);
-				}
-			}
-		}
+	let guest=JSON.parse(localStorage.getItem("guest"));
+	if(res!="" && guest!=null){
 		if(data==null){
 			data=guest;
 			localStorage.setItem(nick,JSON.stringify(data));
 			localStorage.removeItem("guest");
 			displayBasketView();
 		}else{
-			 let integrated=confirm("기존의 장바구나와 합치겠습니까?");
+			 let integrated=confirm("기존의 장바구니와 합치겠습니까?");
 			 if(integrated){
+				 for(cData of data){
+						for(let i=0;i<guest.length;i++){
+							if(cData.isbn13==guest[i].isbn13){
+								guest.splice(i, 1);
+						}
+					}
+				}
 				 for(tmp of guest){
 					 data.push(tmp);
 				 }
