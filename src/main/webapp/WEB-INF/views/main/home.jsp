@@ -20,8 +20,8 @@ ul{padding: 0;}
 
 .carousel-item img {
 	width: 100%;
-	height: 100%;
-	object-fit: cover;
+	height: 350px;
+	overflow: auto;
 }
 
 .login-box {

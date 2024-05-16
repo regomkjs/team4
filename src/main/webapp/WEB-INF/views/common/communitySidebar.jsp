@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
@@ -1269,6 +1271,16 @@ function addCaret(text, me_cri) {
 	$('.order-'+me_cri.order).html(caret);
 }
 
+//밀리초 날짜 변환 함수
+function convertDate(milliSecond) {
+	const data = new Date(milliSecond);  //Date객체 생성
+
+	const year = data.getFullYear();    //0000년 가져오기
+	const month = data.getMonth() + 1;  //월은 0부터 시작하니 +1하기
+	const date = data.getDate();        //일자 가져오기
+
+	return `\${year}-\${month}-\${date}`;
+}
 
 function getMemberList(me_cri, where){
 	$.ajax({
@@ -1308,8 +1320,11 @@ function getMemberList(me_cri, where){
 			else{
 				
 				for(member of memberList){
+					
 					let punishUrl = '<c:url value="/popup/member/punish?nick='+ member.me_nick + '" />';
 					let forgiveUrl = '<c:url value="/popup/member/forgive?nick='+ member.me_nick + '" />';
+					
+				
 					str += 
 					`
 						<tr>
@@ -1323,9 +1338,10 @@ function getMemberList(me_cri, where){
 							<td>\${member.me_ms_name}</td>
 					`
 					if(member.me_loan_block != null){
+						let me_loan_block = convertDate(member.me_loan_block);
 						str +=
 						`
-							<td class="small">\${member.me_loan_block}</td>
+							<td class="small">\${me_loan_block}</td>
 						`
 					}
 					else{

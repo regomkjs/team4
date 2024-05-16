@@ -139,6 +139,51 @@
 					<thead>
 						<tr>
 							<th style="text-align: left;"><a
+								href="<c:url value="/post/list?ca=0" />" class="boardname">최신게시글</a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${newPostList}" var="post">
+							<tr>
+								<td style="text-align: left; " class="d-flex">
+									<span style="max-width: 275px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+									<a class="aTag-home"
+									href="<c:url value="/post/detail?ca=0&num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
+									</span>
+									<span style="color: #FA5858; font-weight: bold;" class="ms-1">${post.po_totalHeart}</span>
+									<span class="ms-auto">
+								 		<c:set var="now" value="<%=new java.util.Date()%>" />
+										<c:set var="today">
+											<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
+										</c:set>
+										<c:set var="postdate" value="${post.po_datetime}"/>
+										<c:choose>
+											<c:when test="${fn:substring(postdate,0,10) == today}">
+												${fn:substring(postdate,11,16)}
+											</c:when>
+											<c:otherwise>
+												${fn:substring(postdate,0,10)}
+											</c:otherwise>
+										</c:choose>
+									</span>
+								</td>
+							</tr>
+						</c:forEach>
+						<c:if test="${newPostList.size() == 0}">
+							<tr>
+								<td>등록된 글이 없습니다.</td>
+							</tr>
+						</c:if>
+					</tbody>
+				</table>
+				<hr class="d-sm-none">
+			</div>
+			<div class="community-box">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th style="text-align: left;"><a
 								href="<c:url value="/post/popular?ca=-1" />" class="boardname">인기게시글</a>
 							</th>
 						</tr>
@@ -172,56 +217,9 @@
 								</tr>
 							</c:if>
 						</c:forEach>
-
 						<c:if test="${hotList.size() == 0}">
 							<tr>
 								<td>등록된 인기글이 없습니다.</td>
-							</tr>
-						</c:if>
-					</tbody>
-				</table>
-				<hr class="d-sm-none">
-			</div>
-			<div class="community-box">
-				<table class="table table-hover table-bordered">
-					<thead>
-						<tr>
-							<th style="text-align: left;"><a
-								href="<c:url value="/post/list?ca=0" />" class="boardname">최신게시글</a>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${newPostList}" var="post">
-							<tr>
-								<td style="text-align: left; " class="d-flex">
-									<span style="max-width: 275px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-									<a class="aTag-home"
-									href="<c:url value="/post/detail?ca=0&num=${post.po_num}"/>">[${post.ca_name}] ${post.po_title}</a>
-									</span>
-									<span style="color: #FA5858; font-weight: bold;" class="ms-1">${post.po_totalHeart}</span>
-									<span class="ms-auto">
-								 		<c:set var="now" value="<%=new java.util.Date()%>" />
-										<c:set var="today">
-											<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
-										</c:set>
-										<c:set var="postdate" value="${post.po_datetime}"/>
-										<c:choose>
-											<c:when test="${fn:substring(postdate,0,10) == today}">
-												${fn:substring(postdate,11,16)}
-											</c:when>
-											<c:otherwise>
-												${fn:substring(postdate,0,10)}
-											</c:otherwise>
-										</c:choose>
-									</span>
-								</td>
-							</tr>
-						</c:forEach>
-
-						<c:if test="${newPostList.size() == 0}">
-							<tr>
-								<td>등록된 글이 없습니다.</td>
 							</tr>
 						</c:if>
 					</tbody>
@@ -264,7 +262,6 @@
 								</td>
 							</tr>
 						</c:forEach>
-
 						<c:if test="${votePostList.size() == 0}">
 							<tr>
 								<td>진행중인 투표글이 없습니다.</td>
