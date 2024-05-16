@@ -88,7 +88,7 @@ DROP TABLE IF EXISTS `upper`;
 
 CREATE TABLE `upper` (
   `up_num` int NOT NULL,
-  `up_name` varchar(10) NOT NULL,
+  `up_name` varchar(30) NOT NULL,
   PRIMARY KEY (`up_num`)
 ) ;
 
@@ -97,7 +97,7 @@ DROP TABLE IF EXISTS `under`;
 
 CREATE TABLE `under` (
   `un_num` int NOT NULL  auto_increment,
-  `un_name` varchar(10) NOT NULL,
+  `un_name` varchar(30) NOT NULL,
   `un_code` int NOT NULL,
   `un_up_num` int NOT NULL,
   PRIMARY KEY (`un_num`),
