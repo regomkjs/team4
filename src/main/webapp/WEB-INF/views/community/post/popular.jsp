@@ -65,7 +65,7 @@
 		</div>
 	 	
 	</form>
-
+	<span class="ms-3" style="font-size: small; color: gray">※ <i class="fa-solid fa-check-to-slot" style="color: #ee9953;"></i> : 투표중인 게시글</span>
 	<table class="table table-hover text-center">
 		<thead class="table-secondary">
 			<tr>
@@ -176,6 +176,7 @@
     			<c:param name="type" value="${pm.cri.type}" />
 	    		<c:param name="search" value="${pm.cri.search}" />
 	    		<c:param name="order" value="${pm.cri.order}"/>
+	    		<c:param name="role" value="${pm.cri.role}"/>
 	    		<c:param name="page" value="${i}"/>
 	    	</c:url>
 	    	<c:set var="active" value="${pm.cri.page == i ? 'active' : '' }"/>
