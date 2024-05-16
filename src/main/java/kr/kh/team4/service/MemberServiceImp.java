@@ -589,4 +589,26 @@ public class MemberServiceImp implements MemberService {
 		memberDao.updateResetLoanBlock(user);
 	}
 
+	@Override
+	public ArrayList<BookVO> getMyReserveBookList(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return null;
+		}
+		return memberDao.selectMyReserveBookList(cri, user);
+	}
+
+	@Override
+	public int totalCountMyReserveBook(Criteria cri, MemberVO user) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		if(user == null) {
+			return 0;
+		}
+		return memberDao.selectTotalCountMyReserveBook(cri, user);
+	}
+
 }
