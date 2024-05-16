@@ -34,7 +34,7 @@
 		    transition: opacity 0.5s ease-in-out;
 		
 		    position: absolute;
-		    z-index: 3;
+		    z-index: 100;
 		    left: 0;
 		    top: 110%;
 		}
@@ -189,6 +189,7 @@
 		    		<c:param name="type" value="${pm.cri.type}" />
 		    		<c:param name="search" value="${pm.cri.search}" />
 		    		<c:param name="order" value="${pm.cri.order}"/>
+		    		<c:param name="role" value="${pm.cri.role}"/>
 		    		<c:param name="page" value="${pm.startPage - 1}"/>
 		    	</c:url>
 		    	<a class="page-link" href="${prev}">이전</a>
@@ -200,6 +201,7 @@
     			<c:param name="type" value="${pm.cri.type}" />
 	    		<c:param name="search" value="${pm.cri.search}" />
 	    		<c:param name="order" value="${pm.cri.order}"/>
+	    		<c:param name="role" value="${pm.cri.role}"/>
 	    		<c:param name="page" value="${i}"/>
 	    	</c:url>
 	    	<c:set var="active" value="${pm.cri.page == i ? 'active' : '' }"/>
@@ -214,6 +216,7 @@
 		    		<c:param name="type" value="${pm.cri.type}" />
 		    		<c:param name="search" value="${pm.cri.search}" />
 		    		<c:param name="order" value="${pm.cri.order}"/>
+		    		<c:param name="role" value="${pm.cri.role}"/>
 		    		<c:param name="page" value="${pm.endPage + 1}"/>
 		    	</c:url>
 		    	<a class="page-link" href="${next}">다음</a>
