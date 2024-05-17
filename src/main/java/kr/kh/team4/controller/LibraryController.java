@@ -178,6 +178,7 @@ public class LibraryController {
 			urlBuilder.append("?" + URLEncoder.encode("ttbkey", "UTF-8") + "="+aladinAPI); /* Service Key */		
 			urlBuilder.append("&" + URLEncoder.encode("ItemIdType", "UTF-8") + "=" + URLEncoder.encode("ISBN13", "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("ItemId", "UTF-8") + "=" + isbn);
+			urlBuilder.append("&" + URLEncoder.encode("Cover", "UTF-8") + "=" + URLEncoder.encode("MidBig", "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("Output", "UTF-8") + "=" + URLEncoder.encode("js", "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("OptResult", "UTF-8") + "=" + URLEncoder.encode("ratingInfo", "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("Version", "UTF-8") + "=" + 20131101);

@@ -5,12 +5,13 @@
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <style>
 *{margin: 0; padding: 0;}
+.container{position: relative;}
 .table{text-align: center;}
 .table thead th{color:#a5a5a5;}
 .list .table thead th:nth-of-type(1){width: 40px;}
 .table tbody tr{vertical-align: middle;}
 .total-sale{margin: 0 auto;}
-.btn-box{position: relative; width: 100%;margin-top: 30px;}
+.btn-box{position: relative; width: 100%;margin-top: 30px; height: 100px;}
 .btn-box #money-btn{position:absolute; left: 30%; }
 </style>
 <body>
@@ -195,10 +196,11 @@
 		window.localStorage.setItem(nick, JSON.stringify(data));
 		displayView();
 		displaySeleView();
-		$(".close").click();
+		$(".btn-close").click();
+		$(".allChkBtn").click();
 	});
 	
-	$(document).on("click",".close",function(){
+	$(document).on("click",".btn-close",function(){
 		displayView();
 		displaySeleView();
 	});
