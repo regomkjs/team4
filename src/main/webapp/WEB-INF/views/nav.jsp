@@ -12,7 +12,7 @@ a:hover{text-decoration: none; color: #000;}
 .nav-box ul{padding: 0; margin: 0; text-align: center;}
 .nav-list{width: 20%; position: relative;}
 .nav-box .nav-item{display: block;  border-right: 1px solid #a5a5a5;}
-.nav-list li{ background-color: #fff; z-index:50; position:absolute;
+.nav-list li{ background-color: #fff; z-index:7; position:absolute;
  line-height: 60px; width: 100%; background-color: #212529; color:#a5a5a5;}
 .nav-list li a{color:#a5a5a5;}
 .nav-option div ul li{ padding: 0 1px; display: none;}
