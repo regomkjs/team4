@@ -104,6 +104,7 @@
 		});
 		
 		$(".search-btn").click(function(){
+			cri.page=1;
 			displayViewOrder();
 		});
 		

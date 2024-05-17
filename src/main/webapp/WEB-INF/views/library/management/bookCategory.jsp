@@ -8,7 +8,7 @@
 .nav .nav-item>a{line-height: 50px; text-align: center; color:#000; text-decoration: none;}
 .nav{display: flex;justify-content :space-between;}
 .category-list{border-bottom: 2px solid #ccc; border-top: 2px solid #ccc; }
-.genre-list{display:block; width: 20%;}
+.genre-list{display:block; width: 20%; height: 360px;}
 .genre-list>li{line-height:30px; border-bottom: 1px solid #ccc; margin: 5px; position: relative;
  height: 30px;}
  .genre-list>li>span{ display:block; width:70%;
@@ -333,7 +333,7 @@
 			});
 	});
 	
-	$('.nav-link').click(function(e)
+	$('.category-btn').click(function(e)
 	{
 		e.preventDefault();   
 	});

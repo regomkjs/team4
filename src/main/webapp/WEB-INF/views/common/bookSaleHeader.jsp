@@ -105,7 +105,6 @@ height: 30px;}
 	}
 	if(data!=null){
 		basket=data;
-		console.log(basket);
 	}
 	$(document).on("click",".basket-btn",function(){
 		let isbn=$(this).data("isbn");
