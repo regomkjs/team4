@@ -431,9 +431,11 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public boolean emailCheck(String email) {
-		MemberVO member = memberDao.selectEmail(email);
-		return member == null;
-
+		ArrayList<MemberVO> memberList = memberDao.selectEmail(email);
+		if(memberList == null || memberList.size() == 0) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

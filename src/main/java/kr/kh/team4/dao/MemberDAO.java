@@ -69,7 +69,7 @@ public interface MemberDAO {
 
 	void updatePostCount(@Param("user")MemberVO user);
 
-	MemberVO selectEmail(@Param("email")String email);
+	ArrayList<MemberVO> selectEmail(@Param("email")String email);
 
 	void updateMemberCount(@Param("user")MemberVO user, @Param("count")int count);
 
