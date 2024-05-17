@@ -549,7 +549,6 @@ $(document).on('click', '.btn-review-del', function(){
 	let review = {
 			rv_num : $(this).data('num')
 	}
-	console.log(review)
 	//서버로 데이터를 전송
 	$.ajax({
 		async : true,

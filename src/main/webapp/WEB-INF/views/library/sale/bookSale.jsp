@@ -136,7 +136,7 @@
 		        		alert("결제 완료");
 		        		//화면 불러오기,장바구니내용 삭제
 		        		window.localStorage.removeItem(nick);
-		        		displayView();
+		        		location.reload(true);
 	        		} else {
 	        			alert("결제 실패");
 	        		}
@@ -193,20 +193,22 @@
 		    }
 		}
 		data.splice(value, 1);
+		basket=data;
 		window.localStorage.setItem(nick, JSON.stringify(data));
+		$('input:checkbox').prop('checked',false);
+		selectedBook=[];
 		displayView();
 		displaySeleView();
-		$(".btn-close").click();
-		$(".allChkBtn").click();
+		displayBasketView();
 	});
 	
-	$(document).on("click",".btn-close",function(){
-		displayView();
-		displaySeleView();
-	});
 	</script>
 	<!-- 판매 계산 -->
 	<script type="text/javascript">
+	$(document).on("change",".sale-count",function(){
+		displaySeleView();
+	});
+	
 	function displaySeleView() {
 		let price=0;
 		let count=0;

@@ -431,6 +431,7 @@ $(document).on("click",".updateBook",function(){
 		cri.type=$(this).val();
 	});
 	$(".list-btn").click(function() {
+		cri.page=1;
 		displayBookView(cri);
 	});
 	$(document).on("keypress","[name=search]",function(key){
@@ -448,6 +449,7 @@ $(document).on("click",".updateBook",function(){
 			$(this).html(str);
 			cri.bo_code=3
 		}
+		cri.page=1;
 		displayBookView(cri);
 	});
 	

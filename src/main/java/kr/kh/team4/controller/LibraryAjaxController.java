@@ -395,7 +395,7 @@ public class LibraryAjaxController {
 		ArrayList<SaleStateVO> state=bookService.getSaleStateList();
 		ArrayList<SaleStateVO> del=new ArrayList<SaleStateVO>();
 		for(SaleStateVO itme:state) {
-			if(itme.getSs_num()<=order.getSa_ss_num()) {
+			if(itme.getSs_num()<order.getSa_ss_num()) {
 				del.add(itme);
 			}
 		}

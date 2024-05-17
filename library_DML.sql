@@ -47,7 +47,7 @@ insert into under(un_name,un_code,un_up_num) values
 ('시',21,8),('희곡',22,8),('소설',23,8),('수필',24,8),('연설,웅변',25,8),('일기, 서간, 기행',26,8),('일본문학',30,8),
 ('시',31,8),('희곡',32,8),('소설',33,8),('수필',34,8),('연설,웅변',35,8),('일기, 서간, 기행',36,8);
 
-insert into sale_state values (1,'취소'),(2,'준비'),(3,'배송'),(4,'도착'),(5,'수령');
+insert into sale_state values (1,'준비'),(2,'배송'),(3,'도착'),(4,'수령'),(5,'취소');
 /*group by 에러 발생시
 SET GLOBAL sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 */

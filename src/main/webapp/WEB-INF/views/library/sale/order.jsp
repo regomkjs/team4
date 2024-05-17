@@ -140,6 +140,7 @@ border: 1px solid #666; width: 220px;}
 		});
 		
 		$(".search-btn").click(function(){
+			cri.page=1;
 			displayViewOrder();
 		});
 		
