@@ -253,7 +253,7 @@ function snsLogin(sns, id){
 		dataType : "json", 
 		success : function (data){
 			if(data.result){
-				alert("로그인 되었습니다.");
+				alert(data.message);
 			}
 			else{
 				alert(data.message);

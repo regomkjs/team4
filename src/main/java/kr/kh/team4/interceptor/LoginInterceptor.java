@@ -53,11 +53,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 				String auth = tmpUrl.getAuthority();
 				String contextPath = request.getContextPath();
 				String tmp = auth + contextPath;
-				System.out.println(url);
 				int index = url.indexOf(tmp);
 				url= url.substring(index).replace(tmp, "");
 				// url = url.replaceFirst("/", "");
-				System.out.println(tmp);
 				modelAndView.getModel().put("url", url);
 				// response.sendRedirect(url);
 				request.getSession().removeAttribute("prevUrl");
