@@ -278,6 +278,7 @@ public class BookServiceImp implements BookService {
 		if (user == null || book == null) {
 			return false;
 		}
+
 		LoanVO loan = bookDao.selectLoan(book.getBo_num(),user.getMe_id());
 		if (loan == null) {
 			return false;
@@ -291,17 +292,19 @@ public class BookServiceImp implements BookService {
 		Date limit = loan.getLo_limit();
 		long difference = Math.abs(limit.getTime() - today.getTime());
 		long differenceDays = difference / (24 * 60 * 60 * 1000) + 1;
+		boolean res = loan.getLo_date().after(limit);
 		// 반납만기일까지 3일이 넘는 경우
 		if (differenceDays > 3) {
 			return false;
-		}
-
-		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
-		// 예약 된 경우
-		if (list != null) {
+		}else if(res){
 			return false;
 		}
-
+		ArrayList<ReserveVO> list = bookDao.selectReserveList(book.getBo_num());
+		// 예약 된 경우
+		if (list.size() != 0) {
+			return false;
+		}
+		
 		return bookDao.updateLoan(user.getMe_id(), book.getBo_num());
 	}
 
