@@ -79,6 +79,9 @@
 		$(".search-btn").click(function() {
 			cri.search=$("input[name=search]").val();
 			cri.type=$("select[name=type]").val();
+			cri.page=1;
+			$(".category-name").removeClass("accent");
+			$(".select-btn").removeClass("accent");
 			displayBookView(cri);
 		})
 		
@@ -142,6 +145,7 @@
 		$(document).on("click",".select-btn",function() {
 			cri.type="code";
 			cri.search=$(this).attr('value');
+			cri.page=1;
 			$(".select-btn").removeClass('accent');
 			$(this).addClass('accent');
 			$(".category-name").removeClass('accent');
