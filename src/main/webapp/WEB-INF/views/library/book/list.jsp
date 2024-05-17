@@ -173,7 +173,6 @@
 	<!--책 목록을 출력-->
 	<script type="text/javascript">
 		function displayBookView(cri){
-			console.log(cri);
 			$.ajax({
 				async : true,
 				url : '<c:url value="/management/manager/bookList"/>', 
