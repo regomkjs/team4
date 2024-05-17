@@ -58,7 +58,7 @@ integrity="sha256-y2bkXLA0VKwUx5hwbBKnaboRThcu7YOFyuYarJbCnoQ=" crossorigin="ano
     <tiles:insertAttribute name="header"/>
     <div class="main-img-container">
 	   	<a class="main-img-content" href="<c:url value="/"/>">
-    		<img src="<c:url value="resources/img/main.png"/>" alt="2" style="width: 720px; height: 360px;">
+    		<img src="<c:url value="/resources/img/main.png"/>" alt="2" style="width: 720px; height: 360px;">
 	    </a>
    	</div>
     <div style="min-height: 100vh">
