@@ -249,7 +249,6 @@
 			return;
 		}
 		$(".ca-menu").show();
-		console.log(tydata);
 		$.ajax({
 			async : true,
 			url : '<c:url value="/management/bookType/insert "/>', 

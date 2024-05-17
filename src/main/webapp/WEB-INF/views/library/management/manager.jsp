@@ -1,105 +1,182 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <style>
-.book-list thead{background-color: #ddd;}
-.book-list thead  th:nth-child(1){width: 10%;}
-.book-list thead  th:nth-child(2){width: 20%;}
-.book-list thead  th:nth-child(3){width: 20%;}
-.book-list thead  th:nth-child(4){width: 10%;}
-.book-list thead  th:nth-child(5){width: 10%;}
-.book-list thead  th:nth-child(6){width: 10%;}
-.book-list thead  th:nth-child(7){width: 10%;}
-.book-list img{height: 100px; max-width: 100px}
-table{text-align: center;}
-.book-list tbody td{  display: table-cell;
-    vertical-align: middle}
+.book-list thead {
+	background-color: #ddd;
+}
 
-.modal-body table thead th:nth-child(1){width: 30px;}
-.modal-body table thead th:nth-child(2){width: 30%-30px;}
-.modal-body table thead th:nth-child(3){width: 20%;}
-.modal-body table thead th:nth-child(4){width: 10%;}
-.modal-body table thead th:nth-child(5){width: 10%;}
-.modal-body table thead th:nth-child(6){width: 10%;}
-.modal-body table thead th:nth-child(7){width: 10%;}
-.modal-body table tbody td{display: table-cell;
-    vertical-align: middle}
-    
-.updateBook-btn{border: 2px solid #83c67a; border-radius: 5px; box-sizing: border-box; 
-margin-bottom: 10px;}
-.updateBook-btn:hover{color: #fff; background-color: #cae39a; font-weight: bold;}
-.deleteBook-btn{border: 2px solid #e18393; border-radius: 5px; box-sizing: border-box;}
-.deleteBook-btn:hover{color: #fff; background-color: #e594a1; font-weight: bold;}
+.book-list thead  th:nth-child(1) {
+	width: 10%;
+}
 
-.fa-solid{margin-left:5px; }
+.book-list thead  th:nth-child(2) {
+	width: 20%;
+}
+
+.book-list thead  th:nth-child(3) {
+	width: 20%;
+}
+
+.book-list thead  th:nth-child(4) {
+	width: 10%;
+}
+
+.book-list thead  th:nth-child(5) {
+	width: 10%;
+}
+
+.book-list thead  th:nth-child(6) {
+	width: 10%;
+}
+
+.book-list thead  th:nth-child(7) {
+	width: 10%;
+}
+
+.book-list img {
+	height: 100px;
+	max-width: 100px
+}
+
+table {
+	text-align: center;
+}
+
+.book-list tbody td {
+	display: table-cell;
+	vertical-align: middle
+}
+
+.modal-body table thead th:nth-child(1) {
+	width: 30px;
+}
+
+.modal-body table thead th:nth-child(2) {
+	width: 30% -30px;
+}
+
+.modal-body table thead th:nth-child(3) {
+	width: 20%;
+}
+
+.modal-body table thead th:nth-child(4) {
+	width: 10%;
+}
+
+.modal-body table thead th:nth-child(5) {
+	width: 10%;
+}
+
+.modal-body table thead th:nth-child(6) {
+	width: 10%;
+}
+
+.modal-body table thead th:nth-child(7) {
+	width: 10%;
+}
+
+.modal-body table tbody td {
+	display: table-cell;
+	vertical-align: middle
+}
+
+.updateBook-btn {
+	border: 2px solid #83c67a;
+	border-radius: 5px;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+}
+
+.updateBook-btn:hover {
+	color: #fff;
+	background-color: #cae39a;
+	font-weight: bold;
+}
+
+.deleteBook-btn {
+	border: 2px solid #e18393;
+	border-radius: 5px;
+	box-sizing: border-box;
+}
+
+.deleteBook-btn:hover {
+	color: #fff;
+	background-color: #e594a1;
+	font-weight: bold;
+}
+
+.fa-solid {
+	margin-left: 5px;
+}
 </style>
 <body>
-<div class="container ">
-	<div id="nav"></div>
-	<div class="search input-group  mt-5">
-	  	<select  class="form-control" name="type">
-	  		<option value="all">전체</option>
-	  		<option value="title">도서명</option>
-	  		<option value="authors">저자</option>
-	  		<option value="publisher">출판사</option>
-	  	</select>
-	    <input type="text" class="form-control w-75" placeholder="도서 검색"
-	    name="search">
-	    <div class="input-group-append ">
-	      <button class="btn btn-success list-btn" type="button">검색</button>
-	    </div>
-	</div>
-	<div class="insert mt-4 right">
-	    <a class="btn-addBook" data-bs-toggle="modal" data-bs-target="#myModal">
-	    <i class="fa-regular fa-square-plus"></i> 도서 추가</a>
-	</div>
-	<div class="main">
-		<div class="book-list">
-		    <table class="table table-bordered">
-		    	<thead>
-		        	<tr>
-			          	<th>이미지</th>
-			          	<th>도서명</th>
-			          	<th class="order-by click">도서코드<i class="fa-solid fa-book"></i></th>
-			          	<th>표준번호</th>
-			          	<th>출판사</th>
-			          	<th>저자</th>
-			          	<th>역자</th>
-			          	<th></th>
-		        	</tr>
-		      	</thead>
-		      	<tbody>
-		        	
-		   	  	</tbody>
-		    </table>
+	<div class="container ">
+		<div id="nav"></div>
+		<div class="search input-group  mt-5">
+			<select class="form-control" name="type">
+				<option value="all">전체</option>
+				<option value="title">도서명</option>
+				<option value="authors">저자</option>
+				<option value="publisher">출판사</option>
+			</select> <input type="text" class="form-control w-75" placeholder="도서 검색"
+				name="search">
+			<div class="input-group-append ">
+				<button class="btn btn-success list-btn" type="button">검색</button>
+			</div>
 		</div>
-		<div class="pagination-box">
-		  	<ul class="pagination justify-content-center pagination-sm"></ul>
+		<div class="insert mt-4 right">
+			<a class="btn-addBook" data-bs-toggle="modal"
+				data-bs-target="#myModal"> <i class="fa-regular fa-square-plus"></i>
+				도서 추가
+			</a>
 		</div>
-	</div>
-  	<!-- The Modal -->
-	<div class="modal fade " id="myModal">
-		<div class="modal-dialog modal-xl ">
-      		<div class="modal-content modal-dialog modal-xl">
-        	<!-- Modal Header -->
-        		<div class="modal-header">
-          			<h4 class="modal-title"></h4>
-          			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        		</div>
-        		<!-- Modal body -->
-        		<div class="modal-body">
+		<div class="main">
+			<div class="book-list">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>이미지</th>
+							<th>도서명</th>
+							<th class="order-by click">도서코드<i class="fa-solid fa-book"></i></th>
+							<th>표준번호</th>
+							<th>출판사</th>
+							<th>저자</th>
+							<th>역자</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
 
-		        </div>
-        		<!-- Modal footer -->
-        		<div class="modal-footer">
-          			<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-        		</div>
-      		</div>
-    	</div>
+					</tbody>
+				</table>
+			</div>
+			<div class="pagination-box">
+				<ul class="pagination justify-content-center pagination-sm"></ul>
+			</div>
+		</div>
+		<!-- The Modal -->
+		<div class="modal fade " id="myModal">
+			<div class="modal-dialog modal-xl ">
+				<div class="modal-content modal-dialog modal-xl">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title"></h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body"></div>
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger"
+							data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
-<!-- 모달 창 변경, 책 수정 -->
-<script type="text/javascript">
+	<!-- 모달 창 변경, 책 수정 -->
+	<script type="text/javascript">
 
 //추가버튼 클릭시
 $(".btn-addBook").click(function() {
@@ -227,8 +304,8 @@ $(document).on("click",".updateBook",function(){
 });
 </script>
 
-<!-- 책 추가 검색 -->
-<script type="text/javascript">
+	<!-- 책 추가 검색 -->
+	<script type="text/javascript">
 	let book=new Array();
 	let selectedBook= [];
 
@@ -272,8 +349,6 @@ $(document).on("click",".updateBook",function(){
 			selectBook.push(book[value]);
 		});
 		
-		console.log(selectBook);
-		console.log(selectedBook);
 		if(selectBook.length==0){
 			alert("선택된 책이 없습니다");
 			return;
@@ -340,7 +415,6 @@ $(document).on("click",".updateBook",function(){
 	});
 	
 	function searchBook(bookSearch) {
-		console.log(bookSearch);
 		$.ajax({
 			async : true,
 			url : "https://dapi.kakao.com/v3/search/book", 
@@ -353,7 +427,6 @@ $(document).on("click",".updateBook",function(){
 			headers: { "Authorization":"KakaoAK ${api}" },
 			dataType :"json", 
 			success : function (data){
-				console.log(data);//
 				let str="";
 				book=[]
 				for(let i=0;i<data.documents.length;i++){
@@ -373,7 +446,6 @@ $(document).on("click",".updateBook",function(){
 					    </tr>	
 					`;
 				}
-				console.log(book);//
 				$(".modal-body>.list>table>tbody").html(str);
 				$('input:checkbox').prop('checked',false);
 				selectedBook=[];
@@ -463,7 +535,6 @@ $(document).on("click",".updateBook",function(){
 			contentType : "application/json; charset=utf-8",
 			dataType : "json", 
 			success : function (data){
-				console.log(data);//
 				let str="";
 				for(book of data.bookList){
 					str+=`
@@ -548,8 +619,8 @@ $(document).on("click",".updateBook",function(){
 	}
 </script>
 
-<!-- 책 삭제 -->
-<script type="text/javascript">
+	<!-- 책 삭제 -->
+	<script type="text/javascript">
 $(document).on("click",".deleteBook-btn",function(){
 	if(confirm("삭제 하시겠습니까?")){
 		let num=$(this).data("num");
@@ -560,7 +631,6 @@ $(document).on("click",".deleteBook-btn",function(){
 			data : {num},
 			dataType : "json", 
 			success : function (data){
-				console.log(data);
 				if(data.res){
 					deleteBook(num);
 				}else{

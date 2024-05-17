@@ -4,36 +4,81 @@
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <style>
-.order table thead tr{background-color:#ccc;}
-.order table tr{text-align: center; line-height: 30px;}
-.order table tbody tr td:nth-child(2)  a{
-	color: #66c; cursor: pointer;
+.order table thead tr {
+	background-color: #ccc;
 }
-.modal table th{background-color:#eee;}
-.modal-body:nth-child(2) table {text-align: center;}
-.modal-body:nth-child(2) table tbody tr td{line-height: 60px;}
-.modal-body:nth-child(2) table tbody tr td img{height: 60px;}
-.modal-body:nth-child(2) table tbody tr:last-child td{padding: 0;}
 
-.table-order tr{line-height: 30px;}
-.day{width: 40px; line-height: 30px; box-sizing: border-box; padding: 10px;}
+.order table tr {
+	text-align: center;
+	line-height: 30px;
+}
 
-.caution{position: relative; color: #666;}
-.caution-text{position: absolute; background-color:#ededed; z-index: 10; padding: 10px; display:none;
-border: 1px solid #666; width: 220px;}
-.caution:hover .caution-text{display: block;}
+.order table tbody tr td:nth-child(2)  a {
+	color: #66c;
+	cursor: pointer;
+}
+
+.modal table th {
+	background-color: #eee;
+}
+
+.modal-body:nth-child(2) table {
+	text-align: center;
+}
+
+.modal-body:nth-child(2) table tbody tr td {
+	line-height: 60px;
+}
+
+.modal-body:nth-child(2) table tbody tr td img {
+	height: 60px;
+}
+
+.modal-body:nth-child(2) table tbody tr:last-child td {
+	padding: 0;
+}
+
+.table-order tr {
+	line-height: 30px;
+}
+
+.day {
+	width: 40px;
+	line-height: 30px;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+.caution {
+	position: relative;
+	color: #666;
+}
+
+.caution-text {
+	position: absolute;
+	background-color: #ededed;
+	z-index: 10;
+	padding: 10px;
+	display: none;
+	border: 1px solid #666;
+	width: 220px;
+}
+
+.caution:hover .caution-text {
+	display: block;
+}
 </style>
 <body>
 	<div class="container">
 		<div id="nav"></div>
 		<div class="input-group mt-5">
 			<select class="form-control" name="year">
-				
+
 			</select>
-			<div class="day">년</div> 
+			<div class="day">년</div>
 			<select class="form-control" name="month">
 				<option value="all">전체</option>
-			</select> 
+			</select>
 			<div class="day">월</div>
 			<div class="input-group-append">
 				<button class="btn btn-success search-btn" type="button">검색</button>
@@ -42,7 +87,8 @@ border: 1px solid #666; width: 220px;}
 		<div class="order mt-4">
 			<div class="caution">
 				<i class="fa-solid fa-circle-exclamation"></i>주의사항
-				<div class="caution-text">정보 관리를 위해 해당 년도로 부터 10년 전 까지의 기록만 조회가 가능합니다 이점을 주의하시길 바랍니다.</div>
+				<div class="caution-text">정보 관리를 위해 해당 년도로 부터 10년 전 까지의 기록만
+					조회가 가능합니다 이점을 주의하시길 바랍니다.</div>
 			</div>
 			<table class="table table-bordered">
 				<thead class="table-dark">
@@ -56,7 +102,7 @@ border: 1px solid #666; width: 220px;}
 					</tr>
 				</thead>
 				<tbody>
-					
+
 				</tbody>
 			</table>
 			<div class="pagination-box">
@@ -67,21 +113,21 @@ border: 1px solid #666; width: 220px;}
 	<!-- The Modal -->
 	<div class="modal fade " id="myModal">
 		<div class="modal-dialog modal-xl ">
-      		<div class="modal-content modal-dialog modal-xl">
-        	<!-- Modal Header -->
-        		<div class="modal-header">
-          			<h4 class="modal-title">주문 상세 내용</h4>
-          			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        		</div>
-        		<!-- Modal body -->
-        		<div class="modal-body">
-        			<table class="table table-bordered table-order">
-						
+			<div class="modal-content modal-dialog modal-xl">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">주문 상세 내용</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table table-bordered table-order">
+
 					</table>
-					<h4> 주문 상품 정보</h4>
+					<h4>주문 상품 정보</h4>
 					<table class="table table-bordered table-book">
 						<thead>
-							<tr>								
+							<tr>
 								<th></th>
 								<th>상품명</th>
 								<th>수량</th>
@@ -89,20 +135,18 @@ border: 1px solid #666; width: 220px;}
 							</tr>
 						</thead>
 						<tbody>
-							
+
 						</tbody>
 					</table>
 					<h4>결제 정보</h4>
 					<table class="table table-bordered table-sale">
-						
+
 					</table>
-		        </div>
-        		<!-- Modal footer -->
-        		<div class="modal-footer">
-        		
-        		</div>
-      		</div>
-    	</div>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer"></div>
+			</div>
+		</div>
 	</div>
 	<script type="text/javascript">
 		//판매 상세 조회
@@ -193,8 +237,6 @@ border: 1px solid #666; width: 220px;}
 				data : cri, 
 				dataType : "json", 
 				success : function (data){
-					console.log(data);
-					//toStringFormatting(source)
 					let str="";
 					if(data.order.length==0){
 						str=`<tr>
@@ -266,8 +308,6 @@ border: 1px solid #666; width: 220px;}
 				}, 
 				dataType : "json", 
 				success : function (data){
-					console.log(data);
-					//toStringFormatting(source)
 					let str=`
 						<tr>
 							<th>주문번호</th>
@@ -292,7 +332,6 @@ border: 1px solid #666; width: 220px;}
 					str="";
 					let customsData=JSON.parse(data.info.custom_data);
 					let price=0;
-					console.log(customsData);
 					for(datas of customsData){
 						str+=`
 							<tr>

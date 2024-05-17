@@ -4,15 +4,46 @@
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <style>
-*{margin: 0; padding: 0;}
-.container{position: relative;}
-.table{text-align: center;}
-.table thead th{color:#a5a5a5;}
-.list .table thead th:nth-of-type(1){width: 40px;}
-.table tbody tr{vertical-align: middle;}
-.total-sale{margin: 0 auto;}
-.btn-box{position: relative; width: 100%;margin-top: 30px; height: 100px;}
-.btn-box #money-btn{position:absolute; left: 30%; }
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	position: relative;
+}
+
+.table {
+	text-align: center;
+}
+
+.table thead th {
+	color: #a5a5a5;
+}
+
+.list .table thead th:nth-of-type(1) {
+	width: 40px;
+}
+
+.table tbody tr {
+	vertical-align: middle;
+}
+
+.total-sale {
+	margin: 0 auto;
+}
+
+.btn-box {
+	position: relative;
+	width: 100%;
+	margin-top: 30px;
+	height: 100px;
+}
+
+.btn-box #money-btn {
+	position: absolute;
+	left: 30%;
+}
 </style>
 <body>
 	<div class="container">
@@ -118,7 +149,6 @@
    				//buyer_postcode: "01181"
    				custom_data:custom
 			}, function(rsp) {
-				console.log(rsp);
 				$.ajax({
 					async : true,
 					url : '<c:url value="/library/sale/insert"/>' ,
@@ -131,7 +161,6 @@
 						}, 
 					dataType : "json", 
 				}).done(function(data){
-					console.log(data);
 					if(data.res){
 		        		alert("결제 완료");
 		        		//화면 불러오기,장바구니내용 삭제

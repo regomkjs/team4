@@ -4,33 +4,68 @@
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <style>
-.order table thead tr{background-color:#ccc;}
-.order table tr{text-align: center; line-height: 30px;}
-.order table tbody tr td:nth-child(2)  a{
-	color: #66c; cursor: pointer;
+.order table thead tr {
+	background-color: #ccc;
 }
-.modal table th{background-color:#eee;}
-.modal-body:nth-child(2) table {text-align: center;}
-.modal-body:nth-child(2) table tbody tr td{vertical-align: middle;  padding: 20px 0;}
-.modal-body:nth-child(2) table tbody tr:last-of-type{line-height: 50px;}
-.modal-body:nth-child(2) table tbody tr td img{height: 60px;}
-.modal-body:nth-child(2) table tbody tr:last-child td{padding: 0;}
 
-.table-order tr{line-height: 30px;}
-.day{width: 40px; line-height: 30px; box-sizing: border-box; padding: 10px;}
+.order table tr {
+	text-align: center;
+	line-height: 30px;
+}
+
+.order table tbody tr td:nth-child(2)  a {
+	color: #66c;
+	cursor: pointer;
+}
+
+.modal table th {
+	background-color: #eee;
+}
+
+.modal-body:nth-child(2) table {
+	text-align: center;
+}
+
+.modal-body:nth-child(2) table tbody tr td {
+	vertical-align: middle;
+	padding: 20px 0;
+}
+
+.modal-body:nth-child(2) table tbody tr:last-of-type {
+	line-height: 50px;
+}
+
+.modal-body:nth-child(2) table tbody tr td img {
+	height: 60px;
+}
+
+.modal-body:nth-child(2) table tbody tr:last-child td {
+	padding: 0;
+}
+
+.table-order tr {
+	line-height: 30px;
+}
+
+.day {
+	width: 40px;
+	line-height: 30px;
+	box-sizing: border-box;
+	padding: 10px;
+}
 </style>
 <body>
 	<div class="container">
 		<div id="nav"></div>
 		<div class="input-group mt-5">
 			<select class="form-control" name="year">
-				
+
 			</select>
-			<div class="day">년</div> 
+			<div class="day">년</div>
 			<select class="form-control" name="month">
 				<option value="all">전체</option>
-			</select> 
-			<div class="day">월</div> 
+			</select>
+			<div class="day">월</div>
 			<div class="input-group-append">
 				<button class="btn btn-success search-btn" type="button">검색</button>
 			</div>
@@ -48,7 +83,7 @@
 					</tr>
 				</thead>
 				<tbody>
-				
+
 				</tbody>
 			</table>
 			<div class="pagination-box">
@@ -59,21 +94,21 @@
 	<!-- The Modal -->
 	<div class="modal fade " id="myModal">
 		<div class="modal-dialog modal-xl ">
-      		<div class="modal-content modal-dialog modal-xl">
-        	<!-- Modal Header -->
-        		<div class="modal-header">
-          			<h4 class="modal-title">주문 상세 내용</h4>
-          			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        		</div>
-        		<!-- Modal body -->
-        		<div class="modal-body">
-        			<table class="table table-bordered table-order">
-						
+			<div class="modal-content modal-dialog modal-xl">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">주문 상세 내용</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<table class="table table-bordered table-order">
+
 					</table>
-					<h4> 주문 상품 정보</h4>
+					<h4>주문 상품 정보</h4>
 					<table class="table table-bordered table-book">
 						<thead>
-							<tr>								
+							<tr>
 								<th></th>
 								<th>상품정보</th>
 								<th>수량</th>
@@ -81,20 +116,18 @@
 							</tr>
 						</thead>
 						<tbody>
-							
+
 						</tbody>
 					</table>
 					<h4>결제 정보</h4>
 					<table class="table table-bordered table-sale">
-						
+
 					</table>
-		        </div>
-        		<!-- Modal footer -->
-        		<div class="modal-footer">
-        		
-        		</div>
-      		</div>
-    	</div>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer"></div>
+			</div>
+		</div>
 	</div>
 	<script type="text/javascript">
 		//판매 상세 조회
@@ -213,8 +246,6 @@
 				data : cri, 
 				dataType : "json", 
 				success : function (data){
-					console.log(data);
-					//toStringFormatting(source)
 					let str="";
 					if(data.list.length==0){
 						str=`<tr>
@@ -289,8 +320,6 @@
 				}, 
 				dataType : "json", 
 				success : function (data){
-					console.log(data);
-					//toStringFormatting(source)
 					let str=`
 						<tr>
 							<th>주문 접수일</th>
@@ -309,7 +338,6 @@
 					str="";
 					let customsData=JSON.parse(data.info.custom_data);
 					let price=0;
-					console.log(customsData);
 					for(datas of customsData){
 						str+=`
 							<tr>
@@ -359,7 +387,6 @@
 	      return year+"-"+month+"-"+day;
 		}
 		
-	
 		function leftPad(value){
 			if (Number(value) >= 10) {
 				return value;

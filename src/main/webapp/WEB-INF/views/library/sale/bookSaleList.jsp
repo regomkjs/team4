@@ -2,38 +2,146 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <style>
-*{margin: 0; padding: 0;}
-.main ul{padding: 0;}
-.side-bar>.frame{ border: 1px solid #aaa; margin: 10px; padding: 10px; border-radius: 10px; height: 100%;} 
-.side-bar>.frame .click{line-height: 50px; border-bottom: 1px solid #ccc;} 
-.side-bar>.frame ul{margin: 0;} 
-.sub-menu li:hover{background-color:#ddd;}
-.sub-menu{border: 2px solid #557; box-sizing: border-box; padding: 5px; border-radius: 10px;}
-.main-menu:nth-child(1):hover .dis-none{display: block;}
-.main-menu:nth-child(2):hover .dis-none{display: block;}
-.main-menu:nth-child(3):hover .dis-none{display: block;}
-.main-menu:nth-child(4):hover .dis-none{display: block;}
-.main-menu:nth-child(5):hover .dis-none{display: block;}
-.main-menu:nth-child(6):hover .dis-none{display: block;}
-.main-menu:nth-child(7):hover .dis-none{display: block;}
+* {
+	margin: 0;
+	padding: 0;
+}
 
-.book-main .book-list{margin: 10px}
-.book-main{border: 1px solid #aaa; border-radius: 10px; margin-top: 10px}
-.book-item{height:130px; margin-top: 15px;  }
-.book-item:after{padding-bottom:5px; border-bottom: 1px solid #ccc; }
+.main ul {
+	padding: 0;
+}
 
-.book-img{width: 15%; height:100%;}
-.book-img img{max-width:80%; height:100%;}
-.book-content{width: 85%; height:100%; font-size: 12px;}
-.content-text{width:80%; height:100%;  padding: 5px 0; box-sizing: border-box;}
-.content-text ul{margin: 0;}
-.content-text li{margin-top: 5px}
-.content-btn{width: 20%; height:100%; padding: 10px 0; box-sizing: border-box;}
-.content-btn button{margin: 5px;}
-.title{font-weight:500; font-size: 16px; }
+.side-bar>.frame {
+	border: 1px solid #aaa;
+	margin: 10px;
+	padding: 10px;
+	border-radius: 10px;
+	height: 100%;
+}
 
-.accent{font-weight: bold; background-color: #ececec;}
-.dis-none{display: none;}
+.side-bar>.frame .click {
+	line-height: 50px;
+	border-bottom: 1px solid #ccc;
+}
+
+.side-bar>.frame ul {
+	margin: 0;
+}
+
+.sub-menu li:hover {
+	background-color: #ddd;
+}
+
+.sub-menu {
+	border: 2px solid #557;
+	box-sizing: border-box;
+	padding: 5px;
+	border-radius: 10px;
+}
+
+.main-menu:nth-child(1):hover .dis-none {
+	display: block;
+}
+
+.main-menu:nth-child(2):hover .dis-none {
+	display: block;
+}
+
+.main-menu:nth-child(3):hover .dis-none {
+	display: block;
+}
+
+.main-menu:nth-child(4):hover .dis-none {
+	display: block;
+}
+
+.main-menu:nth-child(5):hover .dis-none {
+	display: block;
+}
+
+.main-menu:nth-child(6):hover .dis-none {
+	display: block;
+}
+
+.main-menu:nth-child(7):hover .dis-none {
+	display: block;
+}
+
+.book-main .book-list {
+	margin: 10px
+}
+
+.book-main {
+	border: 1px solid #aaa;
+	border-radius: 10px;
+	margin-top: 10px
+}
+
+.book-item {
+	height: 130px;
+	margin-top: 15px;
+}
+
+.book-item:after {
+	padding-bottom: 5px;
+	border-bottom: 1px solid #ccc;
+}
+
+.book-img {
+	width: 15%;
+	height: 100%;
+}
+
+.book-img img {
+	max-width: 80%;
+	height: 100%;
+}
+
+.book-content {
+	width: 85%;
+	height: 100%;
+	font-size: 12px;
+}
+
+.content-text {
+	width: 80%;
+	height: 100%;
+	padding: 5px 0;
+	box-sizing: border-box;
+}
+
+.content-text ul {
+	margin: 0;
+}
+
+.content-text li {
+	margin-top: 5px
+}
+
+.content-btn {
+	width: 20%;
+	height: 100%;
+	padding: 10px 0;
+	box-sizing: border-box;
+}
+
+.content-btn button {
+	margin: 5px;
+}
+
+.title {
+	font-weight: 500;
+	font-size: 16px;
+}
+
+.accent {
+	font-weight: bold;
+	background-color: #ececec;
+}
+
+.dis-none {
+	display: none;
+}
 </style>
 <body>
 	<div class="container">
@@ -61,7 +169,7 @@
 					<ul class="main-menu">
 						<li data-num="55890" class="click">건강/취미</li>
 						<li class="sub-menu dis-none">
-							<div>		
+							<div>
 								<ul>
 									<li data-num="53521" class="click">건강정보</li>
 									<li data-num="53471" class="click">건강요리</li>
@@ -157,9 +265,7 @@
 				</div>
 			</div>
 			<div class="book-main right w-75">
-				<div class="book-list">
-				
-				</div>
+				<div class="book-list"></div>
 				<div class="pagination-box mt-3">
 					<ul class="pagination justify-content-center pagination-sm""></ul>
 				</div>
@@ -210,7 +316,6 @@
 		    	withCredentials: true // 클라이언트와 서버가 통신할때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
 		    },
 			success : function (data,testStatus,jqXHR){
-				console.log(data);//
 				displayView(data.item);
 				displayPage(APIdata,bookListCri,data.totalResults);
 			}, 
