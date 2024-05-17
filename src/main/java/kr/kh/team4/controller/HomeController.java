@@ -104,10 +104,17 @@ public class HomeController {
 	
 	@PostMapping("/login")
 	public String loginPost(Model model, LoginDTO loginDto) {
+		if(loginDto.getId().indexOf('!') != -1) {
+			model.addAttribute("msg", loginDto.getId().substring(0, loginDto.getId().indexOf('!')) +"를(을) 통해 가입된 회원입니다.\\n"+ loginDto.getId().substring(0, loginDto.getId().indexOf('!'))+"로그인을 이용해 주세요");
+			model.addAttribute("url", "/login");
+			return "message";
+		}
+		
 		MemberVO user = memberService.login(loginDto);
 		ArrayList<ReserveVO> reserveList = bookService.getReList(user);
 		ArrayList<LoanVO> loanList = bookService.getLoan();
 		if(user != null) {
+			
 			if(user.getMe_ms_num() == 3) {
 				model.addAttribute("msg", "현재 계정이 [정지] 상태라서 로그인이 불가능합니다.");
 				model.addAttribute("url", "/login");

@@ -170,7 +170,6 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public boolean updateMember(MemberVO member, MemberVO user) {
 		if( member == null || user == null ||
-			!checkString(member.getMe_id()) ||
 			!checkString(member.getMe_email()) ||
 			!checkString(member.getMe_nick()) ||
 			!checkString(member.getMe_phone())) {
