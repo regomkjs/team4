@@ -1,62 +1,125 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>	
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <style>
-.category-list{line-height:30px; font-weight:500;}
-
-.side-bar>.frame{ border: 1px solid #aaa; margin: 10px; padding: 10px; border-radius: 10px;} 
-.book-list ul{padding: 0;}
-.book-main .book-list{margin: 10px}
-.book-main{border: 1px solid #aaa; border-radius: 10px; margin-top: 10px}
-.book-item{height:130px; margin-top: 15px;  }
-.book-item:after{padding-bottom:5px; border-bottom: 1px solid #ccc; }
-
-.book-img{width: 15%; height:100%; margin-left: 20px;}
-.book-img img{ height:100%; }
-.book-content{width: 60%; height:100%; font-size: 16px;}
-
-.title{font-weight:500; font-size: 18px; }
-
-.accent{font-weight: bold; background-color: #ececec;}
-.genre-list{margin-left: 15px; display: none;}
-.genre-sub-list{display: none;}
-.active{display: block;}
-#type{width: 150px; flex:none;}
-.form-control{position: relative;}
-.search-box{
-	border: 1px solid #ccc; position: absolute; 
-	border-top:0px solid;
-	background-color: #fff;
-    width: calc(100% - 210px);
-    top: 38px;
-    left: 150px;
-    box-sizing: border-box;
-    z-index: 5;
-    padding-top: 10px;
-    }
-.search-item {
-    line-height: 30px;
-    width: 60%;
+.category-list {
+	line-height: 30px;
+	font-weight: 500;
 }
+
+.side-bar>.frame {
+	border: 1px solid #aaa;
+	margin: 10px;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.book-list ul {
+	padding: 0;
+}
+
+.book-main .book-list {
+	margin: 10px
+}
+
+.book-main {
+	border: 1px solid #aaa;
+	border-radius: 10px;
+	margin-top: 10px
+}
+
+.book-item {
+	height: 130px;
+	margin-top: 15px;
+}
+
+.book-item:after {
+	padding-bottom: 5px;
+	border-bottom: 1px solid #ccc;
+}
+
+.book-img {
+	width: 15%;
+	height: 100%;
+	margin-left: 20px;
+}
+
+.book-img img {
+	height: 100%;
+}
+
+.book-content {
+	width: 60%;
+	height: 100%;
+	font-size: 16px;
+}
+
+.title {
+	font-weight: 500;
+	font-size: 18px;
+}
+
+.accent {
+	font-weight: bold;
+	background-color: #ececec;
+}
+
+.genre-list {
+	margin-left: 15px;
+	display: none;
+}
+
+.genre-sub-list {
+	display: none;
+}
+
+.active {
+	display: block;
+}
+
+#type {
+	width: 150px;
+	flex: none;
+}
+
+.form-control {
+	position: relative;
+}
+
+.search-box {
+	border: 1px solid #ccc;
+	position: absolute;
+	border-top: 0px solid;
+	background-color: #fff;
+	width: calc(100% - 210px);
+	top: 38px;
+	left: 150px;
+	box-sizing: border-box;
+	z-index: 5;
+	padding-top: 10px;
+}
+
+.search-item {
+	line-height: 30px;
+	width: 60%;
+}
+
 .search-item:hover {
-	background-color: #ececec; 
+	background-color: #ececec;
 }
 </style>
 <body>
 	<div class="container cf">
-		<div id="nav">
-			
-		</div>
+		<div id="nav"></div>
 		<div class="input-group mt-5">
 			<select class="form-control" name="type" id="type">
 				<option value="all">전체</option>
 				<option value="title">도서명</option>
 				<option value="authors">저자</option>
 				<option value="publisher">출판사</option>
-			</select> 
-			<input type="text" class="form-control" placeholder="검색" name="search">
-			<div class="search-box display-none">
-				
-			</div>
+			</select> <input type="text" class="form-control" placeholder="검색"
+				name="search">
+			<div class="search-box display-none"></div>
 			<div class="input-group-append">
 				<button class="btn btn-success search-btn" type="button">검색</button>
 			</div>
@@ -65,20 +128,17 @@
 		<div class="main mt-3">
 			<div class="side-bar left w-25">
 				<div class="frame">
-					<div class="all-category click accent">
-					전체
-					</div>
+					<div class="all-category click accent">전체</div>
 					<c:forEach items="${upList}" var="category">
 						<c:if test="${category.up_num != 100 }">
-							<div class="category-list"  >
-							  <div class="category-name click" data-num="${category.up_num}" data-toggle="0">
-							  <i class="fa-regular fa-square-plus"></i>
-							  ${category.up_name}</div>
-							  <div class="genre-list">
-							   
-							  </div>
+							<div class="category-list">
+								<div class="category-name click" data-num="${category.up_num}"
+									data-toggle="0">
+									<i class="fa-regular fa-square-plus"></i> ${category.up_name}
+								</div>
+								<div class="genre-list"></div>
 							</div>
-						</c:if>	
+						</c:if>
 					</c:forEach>
 				</div>
 			</div>
@@ -101,8 +161,7 @@
 			page:1,
 			bo_code:2	
 		};
-		
-		
+			
 		$(".search-btn").click(function() {
 			cri.search=$("input[name=search]").val();
 			cri.type=$("select[name=type]").val();
