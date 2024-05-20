@@ -20,6 +20,26 @@
 .genre-list{margin-left: 15px; display: none;}
 .genre-sub-list{display: none;}
 .active{display: block;}
+#type{width: 150px; flex:none;}
+.form-control{position: relative;}
+.search-box{
+	border: 1px solid #ccc; position: absolute; 
+	border-top:0px solid;
+	background-color: #fff;
+    width: calc(100% - 210px);
+    top: 38px;
+    left: 150px;
+    box-sizing: border-box;
+    z-index: 5;
+    padding-top: 10px;
+    }
+.search-item {
+    line-height: 30px;
+    width: 60%;
+}
+.search-item:hover {
+	background-color: #ececec; 
+}
 </style>
 <body>
 	<div class="container cf">
@@ -27,13 +47,16 @@
 			
 		</div>
 		<div class="input-group mt-5">
-			<select class="form-control" name="type">
+			<select class="form-control" name="type" id="type">
 				<option value="all">전체</option>
 				<option value="title">도서명</option>
 				<option value="authors">저자</option>
 				<option value="publisher">출판사</option>
 			</select> 
 			<input type="text" class="form-control" placeholder="검색" name="search">
+			<div class="search-box display-none">
+				
+			</div>
 			<div class="input-group-append">
 				<button class="btn btn-success search-btn" type="button">검색</button>
 			</div>
@@ -42,6 +65,9 @@
 		<div class="main mt-3">
 			<div class="side-bar left w-25">
 				<div class="frame">
+					<div class="all-category click accent">
+					전체
+					</div>
 					<c:forEach items="${upList}" var="category">
 						<c:if test="${category.up_num != 100 }">
 							<div class="category-list"  >
@@ -70,11 +96,12 @@
 	</div>
 	<script type="text/javascript">
 		let cri={
-			search:null,
+			search:"",
 			type:'all',
 			page:1,
 			bo_code:2	
 		};
+		
 		
 		$(".search-btn").click(function() {
 			cri.search=$("input[name=search]").val();
@@ -82,6 +109,7 @@
 			cri.page=1;
 			$(".category-name").removeClass("accent");
 			$(".select-btn").removeClass("accent");
+			$(".search-box").addClass('display-none');
 			displayBookView(cri);
 		})
 		
@@ -146,6 +174,7 @@
 			cri.type="code";
 			cri.search=$(this).attr('value');
 			cri.page=1;
+			$(".all-category").removeClass('accent');
 			$(".select-btn").removeClass('accent');
 			$(this).addClass('accent');
 			$(".category-name").removeClass('accent');
@@ -239,6 +268,71 @@
 		$(document).on('click',".page-link",function(){
 			cri.page = $(this).data('page');
 			displayBookView(cri);
+		});
+		
+		$(".all-category").click(function(){
+			cri.search="";
+			cri.type="all";
+			cri.page=1;
+			$(this).addClass('accent');
+			$(".category-name").removeClass('accent');
+			$(".select-btn").removeClass('accent');
+			displayBookView(cri);
+		});
+		
+		displayBookView(cri);
+	</script>
+	<!-- test -->
+	<script type="text/javascript">
+		$("input[name=search]").keyup(function(key) {
+			let rcri={
+					search:"",
+					type:"",
+					page:1,
+					bo_code:2
+				};
+			if(key.keyCode==13){	
+				$('.search-btn').click();
+				return;
+			}
+			$(".search-box").removeClass('display-none');
+			rcri.search=$("input[name=search]").val();
+			rcri.type=$("select[name=type]").val();
+			rcri.page=1;
+			$(".category-name").removeClass("accent");
+			$(".select-btn").removeClass("accent");
+			if(rcri.search==""){
+				return;	
+			}
+			$.ajax({
+				async : true,
+				url : '<c:url value="/management/manager/bookList"/>', 
+				type : 'post', 
+				data : JSON.stringify(rcri),
+				contentType : "application/json; charset=utf-8",
+				dataType : "json", 
+				success : function (data){
+					let str=`<ul>`;
+					let count=0;
+					for(book of data.bookList){
+						if(count<5){
+							str+=`<li class="search-item click">
+							<a href='<c:url value="/library/book/detail?num=\${book.bo_num}"/>'>
+							\${book.bo_title}</a></li>`;
+						}
+						count++;
+					}
+					str+=`</ul>`;
+					$(".search-box").html(str);
+				}, 
+				error : function(jqXHR, textStatus, errorThrown){
+
+				}
+			});
+		});
+		
+		$("body").click(function() {
+			$(".search-box").addClass('display-none');
 		});
 	</script>
 </body>

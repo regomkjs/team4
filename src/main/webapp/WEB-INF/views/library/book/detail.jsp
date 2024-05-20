@@ -95,7 +95,7 @@ hr{ margin-top: 45px; margin-bottom: 40px;}
 
 .book-info{ margin: 10px; padding: 10px;}
 
-.main-info{ margin-left: 10px; padding-left: 10px;}
+.main-info{ margin-left: 10px; padding-left: 10px; margin-top: 20px;}
 </style>
 <meta charset="UTF-8">
 <body>
