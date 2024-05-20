@@ -42,6 +42,9 @@
 		<div class="main mt-3">
 			<div class="side-bar left w-25">
 				<div class="frame">
+					<div class="all-category click accent">
+					전체
+					</div>
 					<c:forEach items="${upList}" var="category">
 						<c:if test="${category.up_num != 100 }">
 							<div class="category-list"  >
@@ -70,7 +73,7 @@
 	</div>
 	<script type="text/javascript">
 		let cri={
-			search:null,
+			search:"",
 			type:'all',
 			page:1,
 			bo_code:2	
@@ -146,6 +149,7 @@
 			cri.type="code";
 			cri.search=$(this).attr('value');
 			cri.page=1;
+			$(".all-category").removeClass('accent');
 			$(".select-btn").removeClass('accent');
 			$(this).addClass('accent');
 			$(".category-name").removeClass('accent');
@@ -240,5 +244,17 @@
 			cri.page = $(this).data('page');
 			displayBookView(cri);
 		});
+		
+		$(".all-category").click(function(){
+			cri.search="";
+			cri.type="all";
+			cri.page=1;
+			$(this).addClass('accent');
+			$(".category-name").removeClass('accent');
+			$(".select-btn").removeClass('accent');
+			displayBookView(cri);
+		});
+		
+		displayBookView(cri);
 	</script>
 </body>
