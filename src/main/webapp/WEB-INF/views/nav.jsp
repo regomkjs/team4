@@ -85,7 +85,7 @@ a:hover{text-decoration: none; color: #000;}
 			</div>
 		</li>
 	</ul>
-	<c:if test="${user.me_mr_num<1}">
+	<c:if test="${user.me_mr_num<2}">
 		<ul class="nav-list">
 			<li class="nav-item">관리자</li>
 			<li class="nav-option">

@@ -197,6 +197,7 @@ public class HomeController {
 			}else {
 				model.addAttribute("msg", "로그인 실패");
 				model.addAttribute("url", "/login");
+				return "message";
 			}
 			if(failUser.getMe_fail_count() >= 5) {
 				int num = 3;

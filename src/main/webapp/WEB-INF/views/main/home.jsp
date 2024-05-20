@@ -204,6 +204,9 @@ ul {
 .book-item ul li:nth-child(2) {
 	font-weight: 700;
 }
+.modal{
+z-index: 500;
+}
 </style>
 <body>
 	<div class="container">

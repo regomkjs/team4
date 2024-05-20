@@ -244,7 +244,7 @@
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<h4 class="modal-title">신고</h4>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			
 			<!-- Modal body -->
@@ -524,7 +524,7 @@ function getCommentList(cri, today) {
 					if(comment.co_me_id != '${user.me_id}' && comment.me_mr_num == 2 && '${user.me_mr_num}' == 2){
 						str +=
 						`
-							<a href="#" style="height: 20px; margin-top: 5px; margin-left: 20px" class="badge bg-danger btn-report" data-bs-toggle="modal" data-bs-target="#reportingModal" class="reportingModal" data-writer="\${comment.me_nick}" data-what="co" data-num="\${comment.co_num}"><i class="fa-solid fa-handcuffs" style="color: #fffff;"></i></a>						
+							<a href="#" style="height: 20px; margin-top: 5px; margin-left: 10px" class="badge bg-danger btn-report" data-bs-toggle="modal" data-bs-target="#reportingModal" class="reportingModal" data-writer="\${comment.me_nick}" data-what="co" data-num="\${comment.co_num}"><i class="fa-solid fa-handcuffs" style="color: #fffff;"></i></a>						
 						`
 					}
 					str +=
