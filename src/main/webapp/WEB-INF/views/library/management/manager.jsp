@@ -119,7 +119,8 @@ table {
 				<option value="title">도서명</option>
 				<option value="authors">저자</option>
 				<option value="publisher">출판사</option>
-			</select> <input type="text" class="form-control w-75" placeholder="도서 검색"
+			</select> 
+			<input type="text" class="form-control w-75" placeholder="도서 검색"
 				name="search">
 			<div class="input-group-append ">
 				<button class="btn btn-success list-btn" type="button">검색</button>
