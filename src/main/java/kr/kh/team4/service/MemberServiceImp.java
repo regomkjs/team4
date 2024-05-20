@@ -519,10 +519,10 @@ public class MemberServiceImp implements MemberService {
 			else {
 				String countStr = ""+ (count - 1);
 				if(nick.endsWith(countStr)) {
-					++count;
 					countStr = "" + count;
 					String tmpNick = nick.substring(0, (nick.length() - countStr.length()));
 					nick = tmpNick + countStr;
+					count++;
 				}
 				else {
 					countStr = "" + count;
