@@ -3,9 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style type="text/css">
-.footer{ background: #d5d5d5;}
+.footer{ background: #212529; color: #ffffff8c}
 .footer-row{padding: 30px 0}
-.footer-row a{text-decoration: none; color: black;}
+.footer-row a{text-decoration: none; color: #ffffff8c}
+.footer-row p{ color: #ffffff8c}
 </style>
 <div class="main" style="margin:0">
   <!-- Section: Social media -->
