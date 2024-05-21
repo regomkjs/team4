@@ -67,8 +67,9 @@
 .content-btn {
 	width: 20%;
 	height: 100%;
-	padding: 10px 0;
+	padding: 10px;
 	box-sizing: border-box;
+	text-align: right;
 }
 
 .content-btn button {

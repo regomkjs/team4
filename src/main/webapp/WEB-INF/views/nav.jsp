@@ -15,7 +15,8 @@ a:hover{text-decoration: none; color: #000;}
 .nav-list li{ background-color: #fff; z-index:7; position:absolute;
  line-height: 60px; width: 100%; background-color: #212529; color:#a5a5a5;}
 .nav-list li a{color:#a5a5a5;}
-.nav-option div ul li{ padding: 0 1px; display: none;}
+.nav-option div ul li{ padding: 0 1px; display: none; border-left: 1px solid #fff;
+    border-right: 1px solid #fff;}
 .nav-list:hover .nav-option div ul li{display: block;}
 
 .nav-list li:after{

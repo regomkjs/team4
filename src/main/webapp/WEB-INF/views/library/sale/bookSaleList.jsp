@@ -123,6 +123,7 @@
 	height: 100%;
 	padding: 10px 0;
 	box-sizing: border-box;
+	text-align: center;
 }
 
 .content-btn button {
