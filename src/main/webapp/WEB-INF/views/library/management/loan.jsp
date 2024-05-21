@@ -14,7 +14,7 @@
 <body>
 <div class="container">
 	<h1>대출한 도서</h1>
-	
+	<button class="btn btn-outline-primary book" onclick="toggleBooks()">만기 도서</button>
 	<form action="<c:url value="/library/management/loan"/>" method="get" class="input-group" id="searchForm">
 		<div class="input-group mb-1">
 			<select name="type" class="input-group-prepend" >
@@ -150,11 +150,11 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
-    $("#allCheck").click(function(){
+ 	$("#allCheck").click(function(){
         if($(this).is(":checked")){
-            $("input[name='check']").prop("checked", true);
+            $("input[name='check']:visible").prop("checked", true);
         }else{
-            $("input[name='check']").prop("checked", false);
+            $("input[name='check']:visible").prop("checked", false);
         }
     });
 });
@@ -165,7 +165,7 @@ $(".btn-send").click(function(){
 	
 	let content = $('#mail-content').val();
 	let phones = [];
-	 $("input[name='check']:checked").each(function() {
+ 	$("input[name='check']:checked:visible").each(function() {
         let phone = $(this).data("phone");
         if(phone) {
             phones.push(phone);
@@ -196,5 +196,29 @@ $(".btn-send").click(function(){
         alert('하나 이상의 문자 메시지 전송에 실패하였습니다');
     });
 });
+</script>
+<script type="text/javascript">
+function toggleBooks() {
+    document.querySelectorAll('tbody tr').forEach(function(row) {
+        const dDayCell = row.querySelector('td:nth-child(8)');
+        if (dDayCell) {
+            let dDayText = dDayCell.innerText.trim();
+            let isVisible = row.getAttribute('data-visible') !== 'false';
+
+            if (dDayText !== 'd-day' && dDayText !== '만기일 지남' && parseInt(dDayText.replace('일', '')) > 3) {
+                if (isVisible) {
+                    row.style.display = 'none';
+                    row.setAttribute('data-visible', 'false');
+                } else {
+                    row.style.display = '';
+                    row.setAttribute('data-visible', 'true');
+                }
+            } else {
+                row.style.display = '';
+                row.setAttribute('data-visible', 'true');
+            }
+        }
+    });
+}
 </script>
 </html>
