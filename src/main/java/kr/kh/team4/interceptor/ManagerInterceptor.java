@@ -17,7 +17,7 @@ public class ManagerInterceptor extends HandlerInterceptorAdapter{
 		Object handler)
 	    throws Exception {
 		MemberVO user = (MemberVO) request.getSession().getAttribute("user");
-		if(user==null||user.getMe_mr_num() < 1) {
+		if(user==null||user.getMe_mr_num() > 1) {
 			response.sendRedirect(request.getContextPath() + "/");
 			return false;
 		}
