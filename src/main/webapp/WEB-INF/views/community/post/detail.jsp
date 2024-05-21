@@ -147,7 +147,7 @@
 										<button class="btn btn-outline-success form-control mt-2 mb-2 btn-close-vote" type="button">투표 마감</button>
 									</c:if>
 									<div class="d-flex mt-1" style="margin-bottom: 0">
-										<label class="ml-auto mr-2 member-count-label" style="font-size: small;">${vote.vo_totalMember}명 참여중</label>
+										<label class="ms-auto mr-2 member-count-label" style="font-size: small;">${vote.vo_totalMember}명 참여중</label>
 									</div>	
 								</div>
 							</c:if>
@@ -168,21 +168,21 @@
 									</c:if>
 									<c:forEach items="${itemList}" var="item">
 										<c:if test="${vote.vo_num == item.it_vo_num}">
-											<div class="input-group">
-												<span class="input-group-text">${item.it_name}</span>
-												<div class="progress form-control" style="height:40px; background-color: white;">
-													<c:if test="${item.it_count == 0}">
-														<div class="progress-bar bg-success form-control" style="width: 0%; height: 100%; font-size: large;"></div>
-													</c:if>
-													<c:if test="${item.it_count != 0}">
-														<div class="progress-bar bg-success form-control" style="width: ${item.it_count / vote.vo_totalMember * 100}%; height: 100%; font-size: large;">${item.it_count}표</div>
-													</c:if>
-												</div>
+											<div class="item-group" style="margin-bottom: 3px; border: 1px solid #dadada;">
+												<div >${item.it_name}:</div>
+												<c:if test="${item.it_count == 0}">
+													<div class="ms-1">0표</div>
+												</c:if>
+												<c:if test="${item.it_count != 0}">
+													<div class="progress" style="height:30px; background-color: white;">
+														<div class="progress-bar bg-success" style="width: ${item.it_count / vote.vo_totalMember * 100}%; height: 100%; font-size: large;">${item.it_count}표</div>
+													</div>
+												</c:if>
 											</div>
 										</c:if>
 									</c:forEach>
 									<div class="d-flex mt-1" style="margin-bottom: 0">
-										<label class="ml-auto mr-2" style="font-size: small;">총 ${vote.vo_totalMember}명 참여</label>
+										<label class="ms-auto mr-2" style="font-size: small;">총 ${vote.vo_totalMember}명 참여</label>
 									</div>	
 								</div>
 							</c:if>
@@ -917,11 +917,13 @@ $(document).on("click",".select-item", function(){
 				alert("투표 실패");
 				break;
 			case 1:
+				alert("투표 성공");
 				break;
 			case 2:
 				alert("투표 취소");
 				break;
 			case 3:
+				alert("투표 수정");
 				break;
 			}
 			getChooseByPost();
@@ -977,7 +979,7 @@ $(document).on("click",".btn-close-vote",function(){
 					str +=
 					`
 						<div class="d-flex mt-1" >
-							<label class="ml-auto" style="font-size: small; color: gray;">다중선택 허용</label>
+							<label class="ms-auto" style="font-size: small; color: gray;">다중선택 허용</label>
 						</div>
 					`
 				}
@@ -995,13 +997,13 @@ $(document).on("click",".btn-close-vote",function(){
 				for(item of itemList){
 					str +=
 					`
-						<div class="d-flex">
+						<div class="item-group">
 							<div class="mr-1 col-2">
 								<label>\${item.it_name} :</label>
 							</div>
 							<div class="flex-grow-1">
 								<div class="progress mt-1" style="height:25px">
-									<div class="progress-bar bg-success" style="width: \${item.it_count / vote.vo_totalMember * 100}%; height: 100%">\${item.it_count}</div>
+									<div class="progress-bar bg-success" style="width: \${item.it_count / vote.vo_totalMember * 100}%; height: 100%">\${item.it_count}표</div>
 								</div>
 							</div>
 						</div>
@@ -1010,7 +1012,7 @@ $(document).on("click",".btn-close-vote",function(){
 				str +=
 				`
 					<div class="d-flex mt-1" style="margin-bottom: 0">
-						<label class="ml-auto mr-2" style="font-size: small;">총 \${vote.vo_totalMember}명 참여</label>
+						<label class="ms-auto mr-2" style="font-size: small;">총 \${vote.vo_totalMember}명 참여</label>
 					</div>	
 				`
 				vote_box.html(str);
