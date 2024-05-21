@@ -148,7 +148,7 @@
 		<div id="nav"></div>
 		<form class="search input-group  mt-5" method="get"
 			action="<c:url value="/library/bookSale/search"/>">
-			<select class="form-control" name="type">
+			<select class="form-control" name="type" id="type">
 				<option value="Keyword">제목+저자</option>
 				<option value="Title">도서명</option>
 				<option value="Author">저자</option>

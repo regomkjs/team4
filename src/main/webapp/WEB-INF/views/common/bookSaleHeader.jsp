@@ -17,6 +17,9 @@ height: 30px;}
 .basket-box ul{padding: 0;}
 
 .btn-close{padding: 0;}
+#type{
+	flex: none; width: 150px;
+}
 </style><nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 	<!-- Brand/logo -->
 	<a class="navbar-brand ms-3" href="<c:url value="/"/>">
