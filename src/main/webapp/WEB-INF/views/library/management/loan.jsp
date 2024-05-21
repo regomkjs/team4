@@ -150,11 +150,11 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
-    $("#allCheck").click(function(){
+ 	$("#allCheck").click(function(){
         if($(this).is(":checked")){
-            $("input[name='check']").prop("checked", true);
+            $("input[name='check']:visible").prop("checked", true);
         }else{
-            $("input[name='check']").prop("checked", false);
+            $("input[name='check']:visible").prop("checked", false);
         }
     });
 });
@@ -165,7 +165,7 @@ $(".btn-send").click(function(){
 	
 	let content = $('#mail-content').val();
 	let phones = [];
-	 $("input[name='check']:checked").each(function() {
+ 	$("input[name='check']:checked:visible").each(function() {
         let phone = $(this).data("phone");
         if(phone) {
             phones.push(phone);
