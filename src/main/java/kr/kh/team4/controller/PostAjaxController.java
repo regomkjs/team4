@@ -65,6 +65,13 @@ public class PostAjaxController {
 		ArrayList<CommentVO> list = postService.getCommentList(cri);
 		int totalCount = postService.getTotalCountComment(cri);
 		PageMaker pm = new PageMaker(5,cri, totalCount);
+		PostVO post = postService.getPost(cri.getPoNum());
+		if(post == null) {
+			map.put("result", false);
+		}
+		else {
+			map.put("result", true);
+		}
 		map.put("list", list);
 		map.put("pm", pm);
 		return map;

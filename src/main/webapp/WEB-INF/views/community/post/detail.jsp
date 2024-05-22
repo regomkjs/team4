@@ -393,6 +393,10 @@ function getCommentList(cri, today) {
 		contentType : "application/json; charset=utf-8",
 		dataType : "json", 
 		success : function(data){
+			if(!data.result){
+				location.reload(true);
+				return;
+			}
 			let commentList = data.list;
 			let str = '';
 			if(commentList == null || commentList.length == 0){

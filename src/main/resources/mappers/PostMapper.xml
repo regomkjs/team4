@@ -183,7 +183,7 @@
  	</select>
  	
 	<select id="selectTotalCountComment" resultType="int">
- 		select count(*) from comment where co_po_num = #{cri.poNum} and co_state = 1
+ 		select count(*) from comment where co_po_num = #{cri.poNum}
  	</select>
  	
  	<insert id="insertComment">
