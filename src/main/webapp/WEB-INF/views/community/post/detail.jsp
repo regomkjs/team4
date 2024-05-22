@@ -399,11 +399,13 @@ function getCommentList(cri, today) {
 			}
 			let commentList = data.list;
 			let str = '';
+			let count = 0;
 			if(commentList == null || commentList.length == 0){
 				str = '<div class="container text-center mb-3 mt-3">아직 등록된 댓글이 없습니다.</div>';
 			}
 			for(comment of commentList){
 				if(comment.co_state == 0 && comment.co_num == comment.co_ori_num){
+					count++;
 					str +=
 						`
 						<div class="comment-container text-center" style="min-height: 70px; ">
@@ -413,6 +415,7 @@ function getCommentList(cri, today) {
 						`
 				}
 				else if(comment.co_state == -1 && comment.co_num == comment.co_ori_num){
+					count++;
 					str +=
 						`
 						<div class="comment-container text-center" style="min-height: 70px; ">
@@ -422,6 +425,7 @@ function getCommentList(cri, today) {
 						`
 				}
 				else if(comment.co_state == -1 && comment.co_num != comment.co_ori_num){
+					count++;
 					str +=
 						`
 						<i class="bi bi-arrow-return-right ml-2 mr-2" style="font-size:2.5rem; color: gray; float:left"></i>
@@ -594,7 +598,7 @@ function getCommentList(cri, today) {
 				`
 			}
 			$(".comment-pagination>ul").html(pmStr);
-			$('.comment-total').text(pm.totalCount);
+			$('.comment-total').text(pm.totalCount - count);
 		},
 		error : function (a,b,c) {
 			alert("댓글을 불러오는데 실패했습니다.")
