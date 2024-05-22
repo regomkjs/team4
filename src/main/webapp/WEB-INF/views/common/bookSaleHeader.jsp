@@ -124,6 +124,7 @@
 			data=guest;
 			localStorage.setItem(nick,JSON.stringify(data));
 			localStorage.removeItem("guest");
+			resRemove();
 			displayBasketView();
 		}else{
 			 let integrated=confirm("기존의 장바구니와 합치겠습니까?");
@@ -153,6 +154,7 @@
 	if(data!=null){
 		basket=data;
 	}
+	
 	$(document).on("click",".basket-btn",function(){
 		let isbn=$(this).data("isbn");
 		for(let i=0;i<basket.length;i++){
@@ -197,7 +199,6 @@
 			<div class="basket-box"><ul>
 			`;
 			if(basket.length==0){
-				localStorage.removeItem(nick);
 				str+=`
 					<li class="center">장바구니에 담은 상품이 없습니다</li>
 				`;
@@ -221,9 +222,13 @@
 	$(document).on("click",".btn-close",function(){
 		let index=$(this).data("index");
 		basket.splice(index,1);
+		if(basket.length==0){
+			localStorage.removeItem(nick);
+		}else{
+			let basketJson=JSON.stringify(basket);
+			localStorage.setItem(nick,basketJson);
+		}
 		displayBasketView();
-		let basketJson=JSON.stringify(basket);
-		localStorage.setItem(nick,basketJson);
 	});
 	
 	function resRemove() {
