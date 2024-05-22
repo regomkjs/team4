@@ -188,6 +188,9 @@ function idCheckDup(){
 			if(!result){
 				$("#id-error2").text("이미 사용중인 아이디입니다.");
 				$("#id-error2").show();
+				$(".btn-submit").prop('disabled', true);
+			}else{
+				$(".btn-submit").prop('disabled', false);
 			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown){
@@ -225,6 +228,9 @@ function nickNameCheckDup(){
 			if(!result){
 				$("#nickName-error2").text("이미 사용중인 닉네임입니다.");
 				$("#nickName-error2").show();
+				$(".btn-submit").prop('disabled', true);
+			}else{
+				$(".btn-submit").prop('disabled', false);
 			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown){
@@ -235,6 +241,46 @@ function nickNameCheckDup(){
 }
 $('[name=me_nick]').on('input',function(){
 	nickNameCheckDup();
+})
+</script>
+<!-- 이메일 중복 확인 -->
+<script type="text/javascript">
+function emailCheckDup(){
+	$("#email-error2").text("");
+	$("#email-error2").hide();
+	let email = $('[name=me_email]').val();
+	let obj = {
+		email : email
+	}
+	let emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,6}$/;
+	if(!emailRegex.test(email)){
+		return false;
+	}
+	let result = false;
+	$.ajax({
+		async : false,
+		url : '<c:url value="/email/check/dup"/>', 
+		type : 'get', 
+		data : obj, 
+		dataType : "json", 
+		success : function (data){
+			result = data.result;
+			if(!result){
+				$("#email-error2").text("이미 사용중인 이메일입니다.");
+				$("#email-error2").show();
+				$(".btn-submit").prop('disabled', true);
+			}else{
+				$(".btn-submit").prop('disabled', false);
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+			
+		}
+	});
+	return result;
+}
+$('[name=me_email]').on('input',function(){
+	emailCheckDup();
 })
 </script>
 <!-- 전화번호 인증 -->
@@ -314,43 +360,6 @@ $(document).on("click", ".btn-submit", function() {
          alert('인증을 완료해주세요.');
          return false;
      }
-})
-</script>
-<!-- 이메일 중복 확인 -->
-<script type="text/javascript">
-function emailCheckDup(){
-	$("#email-error2").text("");
-	$("#email-error2").hide();
-	let email = $('[name=me_email]').val();
-	let obj = {
-		email : email
-	}
-	let emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,6}$/;
-	if(!emailRegex.test(email)){
-		return false;
-	}
-	let result = false;
-	$.ajax({
-		async : false,
-		url : '<c:url value="/email/check/dup"/>', 
-		type : 'get', 
-		data : obj, 
-		dataType : "json", 
-		success : function (data){
-			result = data.result;
-			if(!result){
-				$("#email-error2").text("이미 사용중인 이메일입니다.");
-				$("#email-error2").show();
-			}
-		}, 
-		error : function(jqXHR, textStatus, errorThrown){
-			
-		}
-	});
-	return result;
-}
-$('[name=me_email]').on('input',function(){
-	emailCheckDup();
 })
 </script>
 </body>

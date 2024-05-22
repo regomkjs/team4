@@ -200,7 +200,7 @@ $(".btn-send").click(function(){
 <script type="text/javascript">
 function toggleBooks() {
     document.querySelectorAll('tbody tr').forEach(function(row) {
-        const dDayCell = row.querySelector('td:nth-child(8)');
+        let dDayCell = row.querySelector('td:nth-child(8)');
         if (dDayCell) {
             let dDayText = dDayCell.innerText.trim();
             let isVisible = row.getAttribute('data-visible') !== 'false';

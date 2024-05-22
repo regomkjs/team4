@@ -126,4 +126,6 @@ public interface PostService {
 
 	ArrayList<PostVO> getVotePostList();
 
+	boolean targetState(String target);
+
 }

@@ -399,11 +399,13 @@ function getCommentList(cri, today) {
 			}
 			let commentList = data.list;
 			let str = '';
+			let count = 0;
 			if(commentList == null || commentList.length == 0){
 				str = '<div class="container text-center mb-3 mt-3">아직 등록된 댓글이 없습니다.</div>';
 			}
 			for(comment of commentList){
 				if(comment.co_state == 0 && comment.co_num == comment.co_ori_num){
+					count++;
 					str +=
 						`
 						<div class="comment-container text-center" style="min-height: 70px; ">
@@ -413,6 +415,7 @@ function getCommentList(cri, today) {
 						`
 				}
 				else if(comment.co_state == -1 && comment.co_num == comment.co_ori_num){
+					count++;
 					str +=
 						`
 						<div class="comment-container text-center" style="min-height: 70px; ">
@@ -422,6 +425,7 @@ function getCommentList(cri, today) {
 						`
 				}
 				else if(comment.co_state == -1 && comment.co_num != comment.co_ori_num){
+					count++;
 					str +=
 						`
 						<i class="bi bi-arrow-return-right ml-2 mr-2" style="font-size:2.5rem; color: gray; float:left"></i>
@@ -438,8 +442,8 @@ function getCommentList(cri, today) {
 						btns += 
 						`
 						<div class="btn-comment-group ml-auto">
-							<button class="btn btn-outline-warning btn-comment-update me-2" data-num="\${comment.co_num}">수정</button>
-							<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
+							<button class="btn btn-outline-warning btn-sm btn-comment-update me-2" data-num="\${comment.co_num}">수정</button>
+							<button class="btn btn-outline-danger btn-sm btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
 						</div>
 						`
 					}
@@ -447,7 +451,7 @@ function getCommentList(cri, today) {
 						btns += 
 						`
 						<div class="btn-comment-group ml-auto ">
-							<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
+							<button class="btn btn-outline-danger btn-sm btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
 						</div>
 						`
 					}
@@ -594,7 +598,7 @@ function getCommentList(cri, today) {
 				`
 			}
 			$(".comment-pagination>ul").html(pmStr);
-			$('.comment-total').text(pm.totalCount);
+			$('.comment-total').text(pm.totalCount - count);
 		},
 		error : function (a,b,c) {
 			alert("댓글을 불러오는데 실패했습니다.")
@@ -647,7 +651,8 @@ $(".btn-comment-insert").click(function () {
 				getCommentList(cri, today);
 				$(".comment-content").val("");
 			}else{
-				alert("댓글 등록에 실패했습니다.")
+				alert("댓글 등록에 실패했습니다.");
+				location.reload(true);
 			}
 		},
 		error : function (a,b,c) {
@@ -710,6 +715,7 @@ $(document).on("click",".btn-complete",function(){
 			}
 			else{
 				alert("댓글 수정에 실패했습니다.");
+				location.reload(true);
 			}
 		},
 		error : function (a, b, c) {
@@ -769,6 +775,7 @@ $(document).on("click",".btn-comment-delete",function(){
 			}
 			else{
 				alert(data.message);
+				location.reload(true);
 			}
 		},
 		error : function (a,b,c) {
@@ -839,7 +846,8 @@ $(document).on("click",".btn-reply-insert",function(){
 				initComment();
 				getCommentList(cri, today);
 			}else{
-				alert("댓글 등록에 실패했습니다.")
+				alert("댓글 등록에 실패했습니다.");
+				location.reload(true);
 			}
 		},
 		error : function (a,b,c) {
@@ -925,6 +933,7 @@ $(document).on("click",".select-item", function(){
 			switch (data.result) {
 			case 0:
 				alert("투표 실패");
+				location.reload(true);
 				break;
 			case 1:
 				alert("투표 성공");
@@ -1126,6 +1135,9 @@ $(document).on("click",".btn-reporting",function(){
 			let result = data.result;
 			let message = data.message;
 			alert(message);
+			if(result){
+				location.reload(true);
+			}
 		},
 		error : function (a,b,c) {
 			alert("이미 삭제되어 신고할 수 없습니다.");
