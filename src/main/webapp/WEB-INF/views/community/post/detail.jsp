@@ -442,8 +442,8 @@ function getCommentList(cri, today) {
 						btns += 
 						`
 						<div class="btn-comment-group ml-auto">
-							<button class="btn btn-outline-warning btn-comment-update me-2" data-num="\${comment.co_num}">수정</button>
-							<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
+							<button class="btn btn-outline-warning btn-sm btn-comment-update me-2" data-num="\${comment.co_num}">수정</button>
+							<button class="btn btn-outline-danger btn-sm btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
 						</div>
 						`
 					}
@@ -451,7 +451,7 @@ function getCommentList(cri, today) {
 						btns += 
 						`
 						<div class="btn-comment-group ml-auto ">
-							<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
+							<button class="btn btn-outline-danger btn-sm btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
 						</div>
 						`
 					}
@@ -651,7 +651,8 @@ $(".btn-comment-insert").click(function () {
 				getCommentList(cri, today);
 				$(".comment-content").val("");
 			}else{
-				alert("댓글 등록에 실패했습니다.")
+				alert("댓글 등록에 실패했습니다.");
+				location.reload(true);
 			}
 		},
 		error : function (a,b,c) {
@@ -714,6 +715,7 @@ $(document).on("click",".btn-complete",function(){
 			}
 			else{
 				alert("댓글 수정에 실패했습니다.");
+				location.reload(true);
 			}
 		},
 		error : function (a, b, c) {
@@ -773,6 +775,7 @@ $(document).on("click",".btn-comment-delete",function(){
 			}
 			else{
 				alert(data.message);
+				location.reload(true);
 			}
 		},
 		error : function (a,b,c) {
@@ -843,7 +846,8 @@ $(document).on("click",".btn-reply-insert",function(){
 				initComment();
 				getCommentList(cri, today);
 			}else{
-				alert("댓글 등록에 실패했습니다.")
+				alert("댓글 등록에 실패했습니다.");
+				location.reload(true);
 			}
 		},
 		error : function (a,b,c) {
@@ -929,6 +933,7 @@ $(document).on("click",".select-item", function(){
 			switch (data.result) {
 			case 0:
 				alert("투표 실패");
+				location.reload(true);
 				break;
 			case 1:
 				alert("투표 성공");

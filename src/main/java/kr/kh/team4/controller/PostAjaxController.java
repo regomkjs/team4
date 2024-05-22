@@ -1,5 +1,7 @@
 package kr.kh.team4.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,19 +31,38 @@ import lombok.extern.log4j.Log4j;
 @Controller
 public class PostAjaxController {
 	
-	
 	@Autowired
 	PostService postService;
 	
 	@Autowired
 	MemberService memberService;
 	
+	//유저의 커뮤이용 정지기한 비교를 위한 오늘 날짜
+	LocalDate now = LocalDate.now();
+	DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	String formatedNow = now.format(format);
+		
+	
 	@ResponseBody
 	@PostMapping("/post/heart")
 	public Map<String, Object> postHeartPost(@RequestParam("po_num")int po_num, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		int res = postService.toggleHeart(user, po_num);
+		int res = -1;
+		user = memberService.getMember(user.getMe_id());
+		if(user.getMe_ms_num() == 1) {
+			session.removeAttribute("user");
+			res = -1;
+			map.put("result", res);
+			return map;
+		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			session.setAttribute("user", user);
+			res = -1;
+			map.put("result", res);
+			return map;
+		}
+		res = postService.toggleHeart(user, po_num);
 		map.put("result", res);
 		return map;
 	}
@@ -83,8 +104,22 @@ public class PostAjaxController {
 				@RequestParam("content")String content, HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res;
+		user = memberService.getMember(user.getMe_id());
+		if(user.getMe_ms_num() == 1) {
+			session.removeAttribute("user");
+			res = false;
+			map.put("result", res);
+			return map;
+		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			session.setAttribute("user", user);
+			res = false;
+			map.put("result", res);
+			return map;
+		}
 		CommentVO comment = new CommentVO(0, content, user.getMe_id(), po_num);
-		boolean res = postService.insertComment(comment);
+		res = postService.insertComment(comment);
 		map.put("result", res);
 		return map;
 	}
@@ -95,7 +130,21 @@ public class PostAjaxController {
 				@RequestParam("content")String content, HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		boolean res = postService.updateComment(num, content, user);
+		boolean res;
+		user = memberService.getMember(user.getMe_id());
+		if(user.getMe_ms_num() == 1) {
+			session.removeAttribute("user");
+			res = false;
+			map.put("result", res);
+			return map;
+		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			session.setAttribute("user", user);
+			res = false;
+			map.put("result", res);
+			return map;
+		}
+		res = postService.updateComment(num, content, user);
 		map.put("result", res);
 		return map;
 	}
@@ -112,6 +161,23 @@ public class PostAjaxController {
 		if(user == null) {
 			res = false;
 			message = "세션이 만료되어 댓글 삭제에 실패했습니다.";
+			map.put("result", res);
+			map.put("message", message);
+			return map;
+		}
+		user = memberService.getMember(user.getMe_id());
+		if(user.getMe_ms_num() == 1) {
+			session.removeAttribute("user");
+			res = false;
+			message = "커뮤니티 이용이 정지됐습니다.";
+			map.put("result", res);
+			map.put("message", message);
+			return map;
+		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			session.setAttribute("user", user);
+			res = false;
+			message = "커뮤니티 이용이 정지됐습니다.";
 			map.put("result", res);
 			map.put("message", message);
 			return map;
@@ -168,8 +234,22 @@ public class PostAjaxController {
 				@RequestParam("po_num")int po_num, HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res;
+		user = memberService.getMember(user.getMe_id());
+		if(user.getMe_ms_num() == 1) {
+			session.removeAttribute("user");
+			res = false;
+			map.put("result", res);
+			return map;
+		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			session.setAttribute("user", user);
+			res = false;
+			map.put("result", res);
+			return map;
+		}
 		CommentVO comment = new CommentVO(ori, content, user.getMe_id(), po_num);
-		boolean res = postService.insertComment(comment);
+		res = postService.insertComment(comment);
 		map.put("result", res);
 		return map;
 	}
@@ -192,7 +272,22 @@ public class PostAjaxController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		int res; //오류: 0, 생성:1, 삭제:2, 수정(삭제후 생성):3
+		
 		if(user == null || user.getMe_id() == null || user.getMe_id().length() == 0) {
+			res = 0;
+			map.put("result", res);
+			return map;
+		}
+		
+		user = memberService.getMember(user.getMe_id());
+		if(user.getMe_ms_num() == 1) {
+			session.removeAttribute("user");
+			res = 0;
+			map.put("result", res);
+			return map;
+		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			session.setAttribute("user", user);
 			res = 0;
 			map.put("result", res);
 			return map;
@@ -255,6 +350,19 @@ public class PostAjaxController {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		PostVO post = postService.getPost(vote.getVo_po_num());
 		boolean res;
+		user = memberService.getMember(user.getMe_id());
+		if(user.getMe_ms_num() == 1) {
+			session.removeAttribute("user");
+			res = false;
+			map.put("result", res);
+			return map;
+		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			session.setAttribute("user", user);
+			res = false;
+			map.put("result", res);
+			return map;
+		}
 		if(!post.getPo_me_id().equals(user.getMe_id())) {
 			res = false;
 		}
@@ -304,6 +412,21 @@ public class PostAjaxController {
 		if(user == null) {
 			message = "세션이 만료되었습니다.";
 			map.put("message", message);
+			return map;
+		}
+		user = memberService.getMember(user.getMe_id());
+		if(user.getMe_ms_num() == 1) {
+			session.removeAttribute("user");
+			message = "커뮤니티 이용이 정지됐습니다.";
+			map.put("message", message);
+			map.put("result", true);
+			return map;
+		}
+		if(user.getMe_block() != null && user.getMe_block().compareTo(formatedNow) >= 0) {
+			session.setAttribute("user", user);
+			message = "커뮤니티 이용이 정지됐습니다.";
+			map.put("message", message);
+			map.put("result", true);
 			return map;
 		}
 		MemberVO member = memberService.getMemberByNick(writer);
