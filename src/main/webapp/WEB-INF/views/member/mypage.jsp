@@ -170,6 +170,7 @@
 			<label for="email">이메일</label>
 			<input type="text" class="form-control" id="email" name="me_email" value="${user.me_email }">
 			<label id="email-error" class="error text-danger" for="email"></label>
+			<label id="email-error2" class="error text-danger"></label>
 		</div>
 		<div class="form-group phone-group">
 		    <label for="phone">전화번호</label>
@@ -214,7 +215,7 @@ $("form").validate({
 		},
 		me_email : {
 			required : true,
-			email : true
+			regex : /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,6}$/
 		},
 		me_phone : {
 			required : true,
@@ -238,7 +239,7 @@ $("form").validate({
 		},
 		me_email : {
 			required : "필수 항목입니다.",
-			email : "이메일 형식이 아닙니다."
+			regex : "이메일 형식이 아닙니다."
 		},
 		me_phone : {
 			required : "필수 항목입니다.",
@@ -285,6 +286,9 @@ function nickNameCheckDup(){
 			if(!result){
 				$("#nickName-error2").text("이미 사용중인 닉네임입니다.");
 				$("#nickName-error2").show();
+				$(".btn-submit").prop('disabled', true);
+			}else{
+				$(".btn-submit").prop('disabled', false);
 			}
 		}, 
 		error : function(jqXHR, textStatus, errorThrown){
@@ -391,6 +395,47 @@ $(".complete-phone").click(function() {
         }
     });
 });
+</script>
+<!-- 이메일 중복 확인 -->
+<script type="text/javascript">
+function emailCheckDup(){
+	$("#email-error2").text("");
+	$("#email-error2").hide();
+	let email = $('[name=me_email]').val();
+	let obj = {
+		email : email
+	}
+	let emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,6}$/;
+	if(!emailRegex.test(email)){
+		return false;
+	}
+	let result = false;
+	$.ajax({
+		async : false,
+		url : '<c:url value="/email/check/dup"/>', 
+		type : 'get', 
+		data : obj, 
+		dataType : "json", 
+		success : function (data){
+			result = data.result;
+			if(!result){
+				$("#email-error2").text("이미 사용중인 이메일입니다.");
+				$("#email-error2").show();
+				$(".btn-submit").prop('disabled', true);
+			}
+			else{
+				$(".btn-submit").prop('disabled', false);
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+			
+		}
+	});
+	return result;
+}
+$('[name=me_email]').on('input',function(){
+	emailCheckDup();
+})
 </script>
 </body>
 </html>
