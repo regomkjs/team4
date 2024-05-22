@@ -1130,6 +1130,9 @@ $(document).on("click",".btn-reporting",function(){
 			let result = data.result;
 			let message = data.message;
 			alert(message);
+			if(result){
+				location.reload(true);
+			}
 		},
 		error : function (a,b,c) {
 			alert("이미 삭제되어 신고할 수 없습니다.");

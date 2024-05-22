@@ -317,6 +317,12 @@ public class PostAjaxController {
 			map.put("message", message);
 			return map;
 		}
+		if(postService.targetState(target)) {
+			message = "게시물이 삭제되어 신고에 실패했습니다.";
+			map.put("message", message);
+			map.put("result", true);
+			return map;
+		}
 		writer = member.getMe_id();
 		boolean res = postService.insertReport(note, type, target, writer, user.getMe_id());
 		if(res) {
@@ -327,7 +333,7 @@ public class PostAjaxController {
 			message = "신고하지 못했습니다.";
 			map.put("message", message);
 		}
-		map.put("result", res);
+		map.put("result", false);
 		return map;
 	}
 	
