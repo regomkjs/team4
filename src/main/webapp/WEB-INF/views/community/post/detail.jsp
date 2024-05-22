@@ -442,8 +442,8 @@ function getCommentList(cri, today) {
 						btns += 
 						`
 						<div class="btn-comment-group ml-auto">
-							<button class="btn btn-outline-warning btn-comment-update me-2" data-num="\${comment.co_num}">수정</button>
-							<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
+							<button class="btn btn-outline-warning btn-sm btn-comment-update me-2" data-num="\${comment.co_num}">수정</button>
+							<button class="btn btn-outline-danger btn-sm btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
 						</div>
 						`
 					}
@@ -451,7 +451,7 @@ function getCommentList(cri, today) {
 						btns += 
 						`
 						<div class="btn-comment-group ml-auto ">
-							<button class="btn btn-outline-danger btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
+							<button class="btn btn-outline-danger btn-sm btn-comment-delete " data-num="\${comment.co_num}">삭제</button>
 						</div>
 						`
 					}
