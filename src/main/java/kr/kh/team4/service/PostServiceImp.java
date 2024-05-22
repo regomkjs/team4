@@ -734,4 +734,24 @@ public class PostServiceImp implements PostService {
 		return postDAO.selectVotePostList();
 	}
 
+	@Override
+	public boolean targetState(String target) {
+		String[] tmp = target.split("_");
+		if(tmp[0].equals("po")) {
+			PostVO post = getPost(Integer.parseInt(tmp[1]));
+			if(post == null) {
+				return true;
+			}
+		} else {
+			CommentVO comment = getComment(Integer.parseInt(tmp[1]));
+			if(comment == null) {
+				return true;
+			}
+			if(comment.getCo_state() != 1) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
