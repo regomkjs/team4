@@ -1029,7 +1029,7 @@ $(document).on("click",".btn-close-vote",function(){
 			}
 		},
 		error : function (a,b,c) {
-			alert("관리자에게 삭제된 글입니다.");
+			alert("투표를 찾을 수 없습니다.");
 			location.reload(true);
 		}
 	});
