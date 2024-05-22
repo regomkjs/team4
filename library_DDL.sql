@@ -218,7 +218,7 @@ CREATE TABLE `review` (
   PRIMARY KEY (`rv_num`),
   KEY `FK_member_TO_review_1` (`rv_me_id`),
   KEY `FK_book_TO_review_1` (`rv_bo_num`),
-  CONSTRAINT `FK_book_TO_review_1` FOREIGN KEY (`rv_bo_num`) REFERENCES `book` (`bo_num`),
+  CONSTRAINT `FK_book_TO_review_1` FOREIGN KEY (`rv_bo_num`) REFERENCES `book` (`bo_num`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_member_TO_review_1` FOREIGN KEY (`rv_me_id`) REFERENCES `member` (`me_id`)
 ) ;
 
