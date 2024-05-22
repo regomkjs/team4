@@ -214,17 +214,11 @@ public class HomeController {
 	public String logout(Model model, HttpSession session) {
 		//DB에서 쿠키정보 삭제
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		if(user == null) {
-			session.removeAttribute("user");
-			session.removeAttribute("chGuest");
-			model.addAttribute("msg", "로그아웃 했습니다.");
-			model.addAttribute("url", "/");
-			return "message";
+		if(user != null) {
+			user.setMe_cookie(null);
+			user.setMe_cookie_limit(null);
+			memberService.updateMemberCookie(user);
 		}
-		user.setMe_cookie(null);
-		user.setMe_cookie_limit(null);
-		memberService.updateMemberCookie(user);
-		
 		session.removeAttribute("user");
 		session.removeAttribute("chGuest");
 		model.addAttribute("msg", "로그아웃 했습니다.");
