@@ -50,6 +50,9 @@
 			<when test='cri.type=="code"'>
 				bo_un_num=#{cri.search}
 			</when>
+			<when test='cri.type=="boCode"'>
+				bo_code like concat(#{cri.search},'%')
+			</when>
 			<otherwise>
 				bo_publisher like concat('%', #{cri.search}, '%') 
 			</otherwise>

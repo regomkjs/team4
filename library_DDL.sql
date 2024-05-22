@@ -116,7 +116,7 @@ CREATE TABLE `book` (
   `bo_price` int NOT NULL,
   `bo_sale_price` int NOT NULL,
   `bo_thumbnail` longtext NOT NULL,
-  `bo_isbn` varchar(13) NOT NULL,
+  `bo_isbn` varchar(15) NOT NULL,
   `bo_code` varchar(30) default null,
   `bo_loan_count` int NOT NULL default 0,
   `bo_un_num` int NOT NULL,

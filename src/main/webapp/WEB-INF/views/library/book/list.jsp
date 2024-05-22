@@ -358,8 +358,6 @@
 			rcri.search=$("input[name=search]").val();
 			rcri.type=$("select[name=type]").val();
 			rcri.page=1;
-			$(".category-name").removeClass("accent");
-			$(".select-btn").removeClass("accent");
 			if(rcri.search==""){
 				return;	
 			}

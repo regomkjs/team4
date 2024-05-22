@@ -119,7 +119,7 @@
 	let nick=${user.me_nick!=null}?"${user.me_nick}":"guest";
 	let data=JSON.parse(localStorage.getItem(nick));
 	let guest=JSON.parse(localStorage.getItem("guest"));
-	if(res!="" && guest!=null){
+	if(res!="" && guest!=null&&nick!="guest"){
 		if(data==null){
 			data=guest;
 			localStorage.setItem(nick,JSON.stringify(data));
@@ -197,6 +197,7 @@
 			<div class="basket-box"><ul>
 			`;
 			if(basket.length==0){
+				localStorage.removeItem(nick);
 				str+=`
 					<li class="center">장바구니에 담은 상품이 없습니다</li>
 				`;
