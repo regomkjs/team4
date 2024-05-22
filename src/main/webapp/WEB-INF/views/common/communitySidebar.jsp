@@ -964,7 +964,7 @@ $(document).on("click",".reportDetailModal",function(){
 
 $(document).on("click",".btn-detail-post", function(){
 	let url = $(this).data("url");
-	const options = 'width=1000, height=1000, top=0, left=0, scrollbars=yes'
+	const options = 'width=1200, height=1000, top=0, left=0, scrollbars=yes'
 	
 	window.open(url,'_blank',options)
 })

@@ -49,7 +49,7 @@
 						</c:url>
 						<a href="${updateUrl}" class="btn btn-sm btn-success me-2">수정</a>
 					</c:if>
-					<c:if test="${user.me_ms_num < 2 || user.me_id == post.po_me_id}">					
+					<c:if test="${user.me_mr_num < 2 || user.me_id == post.po_me_id}">					
 						<c:url value="/post/delete" var="deleteUrl">
 							<c:param name="num"  value="${post.po_num}"/>
 						</c:url>
@@ -325,13 +325,14 @@ $(".btn-heart").on("click", function(){
 				alert("추천을 취소했습니다.");
 				break;
 			case -1:
-				alert("에러 발생")
+				alert("추천에 실패했습니다.");
 				break;
 			}
 			getHeart();
 		},
 		error : function (a,b,c) {
-			console.error("에러 발생2");
+			alert("추천에 실패했습니다.");
+			location.reload(true);
 		}
 	});
 	
@@ -592,7 +593,8 @@ function getCommentList(cri, today) {
 			$('.comment-total').text(pm.totalCount);
 		},
 		error : function (a,b,c) {
-			console.error("에러 발생");
+			alert("댓글을 불러오는데 실패했습니다.")
+			location.reload(true);
 		}
 	});
 }
@@ -641,11 +643,12 @@ $(".btn-comment-insert").click(function () {
 				getCommentList(cri, today);
 				$(".comment-content").val("");
 			}else{
-				alert("댓글 등록 실패")
+				alert("댓글 등록에 실패했습니다.")
 			}
 		},
 		error : function (a,b,c) {
-			console.error("에러 발생");
+			alert("댓글 등록에 실패했습니다.")
+			location.reload(true);
 		}
 	});		
 });
@@ -706,7 +709,8 @@ $(document).on("click",".btn-complete",function(){
 			}
 		},
 		error : function (a, b, c) {
-			console.error("에러 발생")
+			alert("댓글을 찿을 수 없습니다.")
+			location.reload(true);
 		}
 	});
 });
@@ -764,7 +768,8 @@ $(document).on("click",".btn-comment-delete",function(){
 			}
 		},
 		error : function (a,b,c) {
-			console.error("에러 발생");
+			alert("댓글을 찾을 수 없습니다.")
+			location.reload(true);
 		}
 	});
 });
@@ -830,11 +835,12 @@ $(document).on("click",".btn-reply-insert",function(){
 				initComment();
 				getCommentList(cri, today);
 			}else{
-				alert("댓글 등록 실패")
+				alert("댓글 등록에 실패했습니다.")
 			}
 		},
 		error : function (a,b,c) {
-			console.error("에러 발생");
+			alert("댓글 등록에 실패했습니다.")
+			location.reload(true);
 		}
 	});		
 	
@@ -931,7 +937,8 @@ $(document).on("click",".select-item", function(){
 			label.text(str);
 		},
 		error : function (a,b,c) {
-			console.error("에러 발생1");
+			alert("이미 없는 투표입니다.");
+			location.reload(true);
 		}
 	})
 })
@@ -1022,7 +1029,8 @@ $(document).on("click",".btn-close-vote",function(){
 			}
 		},
 		error : function (a,b,c) {
-			console.error("에러 발생");
+			alert("관리자에게 삭제된 글입니다.");
+			location.reload(true);
 		}
 	});
 })
@@ -1116,7 +1124,8 @@ $(document).on("click",".btn-reporting",function(){
 			alert(message);
 		},
 		error : function (a,b,c) {
-			console.error("에러 발생2");
+			alert("이미 삭제되어 신고할 수 없습니다.");
+			location.reload(true);
 		}
 	});
 	
