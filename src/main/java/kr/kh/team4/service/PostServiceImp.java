@@ -680,13 +680,15 @@ public class PostServiceImp implements PostService {
 
 	@Override
 	public boolean blockReporter(int rp_num) {
-		
+		ReportVO tmp = postDAO.selectReport(rp_num);
+		postDAO.decreaseReportCount(tmp.getRp_writer());
 		return postDAO.updateReportBlockReporter(rp_num);
 	}
 
 	@Override
 	public boolean blockWriter(int rp_num) {
-		
+		ReportVO tmp = postDAO.selectReport(rp_num);
+		postDAO.decreaseReportCount(tmp.getRp_writer());
 		return postDAO.updateReportBlockWriter(rp_num);
 	}
 
