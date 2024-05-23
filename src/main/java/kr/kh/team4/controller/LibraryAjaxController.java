@@ -64,7 +64,7 @@ public class LibraryAjaxController {
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.iamport.kr/users/getToken"))
 				.header("Content-Type", "application/json")
 				.method("POST", HttpRequest.BodyPublishers.ofString(
-						"{\"imp_key\":\"4625415628107468\",\"imp_secret\":\"JzR8w8KQn6BsCSMUVRc4UEuR1bSfMaFTJwLJgMAw1IIpUWLkaPs1tlZqdCeObKQ4Ln7RrV69zCzlGeck\"}"))
+						"{\"imp_key\":\"포트원 키\",\"imp_secret\":\"포트원 키\"}"))
 				.build();
 		HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 		JSONParser parser = new JSONParser();

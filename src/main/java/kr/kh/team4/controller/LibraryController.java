@@ -37,9 +37,9 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @Controller
 public class LibraryController {
-	private static String kakaoAPI="431afaf3fc91157f82c7d1868604f275";
-	private static String aladinAPI="ttbquddjcho1722001";
-	private static String imp="imp20747315";
+	private static String kakaoAPI="카카오 api키";
+	private static String aladinAPI="알라딘도서 api키";
+	private static String imp="포트원 api키";
 	
 	@Autowired
 	BookService bookService;
