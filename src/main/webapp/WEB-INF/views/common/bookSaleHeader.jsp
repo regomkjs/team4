@@ -193,6 +193,8 @@
 	});
 	
 	function displayBasketView() {
+		console.log(basket);
+		console.log(books);
 		let i=0;
 		let str=`
 			<a class="nav-link" href="<c:url value="/library/book/sale"/>">장바구니(\${basket.length})</a>

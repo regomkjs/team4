@@ -344,6 +344,7 @@
 	<script type="text/javascript">
 	function displayView(data) {
 		let str="";
+		books=[];
 		for(book of data){
 			books.push(book);
 			str+=`

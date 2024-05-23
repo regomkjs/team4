@@ -165,7 +165,7 @@
 		        		alert("결제 완료");
 		        		//화면 불러오기,장바구니내용 삭제
 		        		window.localStorage.removeItem(nick);
-		        		location.reload(true);
+		        		location.href = '<c:url value="/library/bookSale/list" />';	
 	        		} else {
 	        			alert("결제 실패");
 	        		}
